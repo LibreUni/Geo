@@ -246,27 +246,6 @@ button {
   stroke-width: 1.2;
 }
 
-.flag-marker {
-  pointer-events: none;
-}
-
-.flag-marker circle {
-  fill: #ffffff;
-  stroke: #273b4c;
-  stroke-width: 0.8;
-  opacity: 0.88;
-}
-
-.flag-marker text {
-  font-size: 15px;
-  pointer-events: none;
-}
-
-.flag-marker.selected circle {
-  fill: #fff1d6;
-  stroke-width: 1.8;
-}
-
 .quiz-target-marker {
   cursor: pointer;
   pointer-events: auto;

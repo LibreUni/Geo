@@ -27,7 +27,7 @@ import {
 
 type ViewMode = "practice" | "quiz";
 type QuizMode = "locate" | "flag" | "facts";
-type MapView = "borders" | "markers" | "flagFills";
+type MapView = "borders" | "flagFills";
 type ResultState = "idle" | "correct" | "wrong";
 
 type Country = {
@@ -270,7 +270,6 @@ function App() {
           options={[
             { value: "borders", label: "Borders" },
             { value: "flagFills", label: "Flag fills" },
-            { value: "markers", label: "Flag markers" },
           ]}
           onChange={(value) => setMapView(value as MapView)}
         />
@@ -343,11 +342,7 @@ function WorldMap({
   const wasDraggingRef = useRef(false);
   const [mapTransform, setMapTransform] = useState({ scale: 1, x: 0, y: 0 });
   const filteredCodes = useMemo(() => new Set(filteredCountries.map((country) => country.cca3)), [filteredCountries]);
-  const showMapFlags = mapView === "markers" && mapTransform.scale < 1.2;
   const showFlagFills = mapView === "flagFills";
-  const markerCountries = showMapFlags
-    ? filteredCountries.filter((country) => getMarkerPoint(country)).slice(0, filteredCountries.length > 80 ? 80 : 260)
-    : [];
   const smallCountryHitboxes = useMemo(
     () =>
       mapGeographies
@@ -552,24 +547,6 @@ function WorldMap({
               <title>{country.name}</title>
             </circle>
           ))}
-          {markerCountries.map((country) => {
-            const point = getMarkerPoint(country);
-            if (!point) return null;
-            const selected = selectedCountry?.cca3 === country.cca3;
-            return (
-              <g
-                key={country.cca3}
-                className={`flag-marker ${selected ? "selected" : ""}`}
-                transform={`translate(${point[0]} ${point[1]})`}
-                onClick={() => selectCountry(country)}
-              >
-                <circle r={selected ? 16 : 12} />
-                <text y="6" textAnchor="middle" aria-label={`${country.name} flag`}>
-                  {country.emoji}
-                </text>
-              </g>
-            );
-          })}
           {quizCountry && quizMarkerPoint && (
             <g
               className="quiz-target-marker"
