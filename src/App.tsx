@@ -24,6 +24,11 @@ import {
   X,
   ZoomIn,
   ZoomOut,
+  Clock,
+  Trophy,
+  Play,
+  Award,
+  ArrowRight,
 } from "lucide-react";
 
 type ViewMode = "practice" | "quiz";
@@ -784,7 +789,19 @@ function App() {
   const [choices, setChoices] = useState<Country[]>([]);
   const [result, setResult] = useState<ResultState>("idle");
   const [lastGuess, setLastGuess] = useState<Country | null>(null);
-  const [score, setScore] = useState({ correct: 0, total: 0, streak: 0 });
+
+  // Advanced Immersive Quiz States
+  const [quizStatus, setQuizStatus] = useState<"config" | "playing" | "summary">("config");
+  const [quizRegion, setQuizRegion] = useState("All");
+  const [quizRemaining, setQuizRemaining] = useState<Country[]>([]);
+  const [quizCurrentIndex, setQuizCurrentIndex] = useState(0);
+  const [quizHistory, setQuizHistory] = useState<Record<string, "first-try" | "second-try" | "third-try" | "failed">>({});
+  const [quizAttempts, setQuizAttempts] = useState(0);
+  const [wrongGuesses, setWrongGuesses] = useState<string[]>([]);
+  const [revealingTarget, setRevealingTarget] = useState(false);
+  const [quizTime, setQuizTime] = useState(0);
+  const [timerActive, setTimerActive] = useState(false);
+  const [savedScores, setSavedScores] = useState<any[]>([]);
 
   const countryByNumeric = useMemo(
     () => new Map(countries.map((country) => [country.ccn3, country])),
@@ -811,82 +828,362 @@ function App() {
   }, [countries, query, selectedRegion]);
 
   const selectedCountry = selectedCode ? countryByCode.get(selectedCode) ?? null : null;
-  const selectedRelationships = useMemo(
-    () => (selectedCountry ? relationshipSummary(selectedCountry, countries) : null),
-    [countries, selectedCountry],
-  );
-  const quizPool = useMemo(
-    () => countries.filter((country) => Boolean(country.alpha2) && (selectedRegion === "All" || country.region === selectedRegion)),
-    [countries, selectedRegion],
-  );
+  
+  const selectedRelationships = useMemo(() => {
+    if (view === "quiz" && quizStatus === "playing") return null;
+    return selectedCountry ? relationshipSummary(selectedCountry, countries) : null;
+  }, [countries, selectedCountry, view, quizStatus]);
 
-  function nextQuestion(mode = quizMode) {
-    if (quizPool.length < 4) return;
-    const target = pickRandom(quizPool, quizCountry ?? undefined);
-    const distractors = shuffled(quizPool.filter((country) => country.cca3 !== target.cca3)).slice(0, 3);
-    setQuizCountry(target);
-    setChoices(shuffled([target, ...distractors]));
+  const currentQuizPool = useMemo(() => {
+    return countries.filter(
+      (country) => Boolean(country.alpha2) && (quizRegion === "All" || country.region === quizRegion)
+    );
+  }, [countries, quizRegion]);
+
+  const quizPoolCodes = useMemo(() => {
+    return new Set(currentQuizPool.map((c) => c.cca3));
+  }, [currentQuizPool]);
+
+  // Load saved scores on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_quiz_scores");
+      if (saved) {
+        setSavedScores(JSON.parse(saved));
+      }
+    } catch (e) {
+      console.error("Failed to load quiz scores", e);
+    }
+  }, []);
+
+  // Reset quiz states when switching back to practice mode
+  useEffect(() => {
+    if (view === "practice") {
+      setQuizCountry(null);
+      setQuizHistory({});
+      setWrongGuesses([]);
+      setRevealingTarget(false);
+      setQuizRemaining([]);
+      setQuizStatus("config");
+      setTimerActive(false);
+    }
+  }, [view]);
+
+  // Timer Effect
+  useEffect(() => {
+    let interval: any = null;
+    if (timerActive) {
+      interval = setInterval(() => {
+        setQuizTime((t) => t + 1);
+      }, 1000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [timerActive]);
+
+  function saveQuizScore(accuracy: number, correctFirst: number, total: number, timeSpent: number, history: any) {
+    const newScore = {
+      id: Math.random().toString(36).substring(2, 9),
+      date: new Date().toLocaleDateString(),
+      region: quizRegion,
+      mode: quizMode,
+      correct: correctFirst,
+      total: total,
+      time: timeSpent,
+      breakdown: {
+        firstTry: Object.values(history).filter((v) => v === "first-try").length,
+        secondTry: Object.values(history).filter((v) => v === "second-try").length,
+        thirdTry: Object.values(history).filter((v) => v === "third-try").length,
+        failed: Object.values(history).filter((v) => v === "failed").length,
+      },
+    };
+    const updated = [newScore, ...savedScores].slice(0, 50);
+    setSavedScores(updated);
+    try {
+      localStorage.setItem("geolearn_quiz_scores", JSON.stringify(updated));
+    } catch (e) {
+      console.error("Failed to save quiz scores", e);
+    }
+  }
+
+  function clearScoresHistory() {
+    setSavedScores([]);
+    try {
+      localStorage.removeItem("geolearn_quiz_scores");
+    } catch (e) {
+      console.error("Failed to clear quiz scores", e);
+    }
+  }
+
+  function formatQuizTime(sec: number) {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  }
+
+  function startQuiz() {
+    if (currentQuizPool.length < 4) {
+      alert("Selected region must have at least 4 countries to play.");
+      return;
+    }
+    const shuffledPool = shuffled(currentQuizPool);
+    setQuizRemaining(shuffledPool);
+    setQuizCurrentIndex(0);
+    setQuizCountry(shuffledPool[0]);
+    setQuizAttempts(0);
+    setWrongGuesses([]);
+    setQuizHistory({});
     setResult("idle");
     setLastGuess(null);
-    setQuizMode(mode);
+    setRevealingTarget(false);
+    setQuizTime(0);
+    setTimerActive(true);
+    setQuizStatus("playing");
     setSelectedCode(null);
-  }
 
-  useEffect(() => {
-    if (view === "quiz" && quizPool.length >= 4 && !quizCountry) {
-      nextQuestion(quizMode);
+    if (quizMode !== "locate") {
+      const target = shuffledPool[0];
+      const distractors = shuffled(currentQuizPool.filter((c) => c.cca3 !== target.cca3)).slice(0, 3);
+      setChoices(shuffled([target, ...distractors]));
     }
-  }, [view, quizPool.length]);
-
-  function checkAnswer(country: Country) {
-    if (!quizCountry || result !== "idle") return;
-    const correct = country.cca3 === quizCountry.cca3;
-    setResult(correct ? "correct" : "wrong");
-    setLastGuess(country);
-    setSelectedCode(country.cca3);
-    setScore((current) => ({
-      correct: current.correct + (correct ? 1 : 0),
-      total: current.total + 1,
-      streak: correct ? current.streak + 1 : 0,
-    }));
   }
 
-  function changeQuizMode(mode: QuizMode) {
-    setQuizMode(mode);
-    setScore({ correct: 0, total: 0, streak: 0 });
+  function exitQuiz() {
+    setTimerActive(false);
+    setQuizStatus("config");
+    setQuizRemaining([]);
     setQuizCountry(null);
-    setTimeout(() => nextQuestion(mode), 0);
+    setQuizAttempts(0);
+    setWrongGuesses([]);
+    setResult("idle");
+    setLastGuess(null);
+    setRevealingTarget(false);
+  }
+
+  // Keyboard Escape Handler
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        if (view === "quiz") {
+          if (quizStatus === "playing") {
+            exitQuiz();
+          } else {
+            setView("practice");
+          }
+        }
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [view, quizStatus]);
+
+  function advanceQuiz(history: Record<string, "first-try" | "second-try" | "third-try" | "failed">) {
+    const nextIndex = quizCurrentIndex + 1;
+    if (nextIndex < quizRemaining.length) {
+      setQuizCurrentIndex(nextIndex);
+      const nextCountry = quizRemaining[nextIndex];
+      setQuizCountry(nextCountry);
+      setQuizAttempts(0);
+      setWrongGuesses([]);
+      setResult("idle");
+      setLastGuess(null);
+
+      if (quizMode !== "locate") {
+        const distractors = shuffled(currentQuizPool.filter((c) => c.cca3 !== nextCountry.cca3)).slice(0, 3);
+        setChoices(shuffled([nextCountry, ...distractors]));
+      }
+    } else {
+      setTimerActive(false);
+      setQuizStatus("summary");
+      const total = quizRemaining.length;
+      const correctFirst = Object.values(history).filter((v) => v === "first-try").length;
+      const pct = Math.round((correctFirst / total) * 100);
+      saveQuizScore(pct, correctFirst, total, quizTime, history);
+    }
   }
 
   function selectFromMap(country: Country) {
-    if (view === "quiz" && quizMode === "locate" && quizCountry) {
-      checkAnswer(country);
+    if (view === "quiz") {
+      if (quizStatus !== "playing" || revealingTarget || result !== "idle") return;
+      if (quizMode === "locate" && quizCountry) {
+        if (country.cca3 === quizCountry.cca3) {
+          const grade: "first-try" | "second-try" | "third-try" =
+            quizAttempts === 0
+              ? "first-try"
+              : quizAttempts === 1
+              ? "second-try"
+              : "third-try";
+          const newHistory = { ...quizHistory, [quizCountry.cca3]: grade };
+          setQuizHistory(newHistory);
+          advanceQuiz(newHistory);
+        } else {
+          const nextAttempts = quizAttempts + 1;
+          setWrongGuesses((prev) => [...prev, country.cca3]);
+          
+          if (nextAttempts >= 3) {
+            const newHistory = { ...quizHistory, [quizCountry.cca3]: "failed" as const };
+            setQuizHistory(newHistory);
+            setRevealingTarget(true);
+            setTimeout(() => {
+              setRevealingTarget(false);
+              advanceQuiz(newHistory);
+            }, 1500);
+          } else {
+            setQuizAttempts(nextAttempts);
+          }
+        }
+      }
       return;
     }
     setSelectedCode(country.cca3);
   }
 
+  function checkMultipleChoice(choice: Country) {
+    if (quizStatus !== "playing" || revealingTarget || result !== "idle" || !quizCountry) return;
+
+    if (choice.cca3 === quizCountry.cca3) {
+      setResult("correct");
+      const grade: "first-try" | "second-try" | "third-try" =
+        quizAttempts === 0
+          ? "first-try"
+          : quizAttempts === 1
+          ? "second-try"
+          : "third-try";
+      const newHistory = { ...quizHistory, [quizCountry.cca3]: grade };
+      setQuizHistory(newHistory);
+      setTimeout(() => {
+        advanceQuiz(newHistory);
+      }, 1000);
+    } else {
+      const nextAttempts = quizAttempts + 1;
+      setWrongGuesses((prev) => [...prev, choice.cca3]);
+      
+      if (nextAttempts >= 3) {
+        setResult("wrong");
+        const newHistory = { ...quizHistory, [quizCountry.cca3]: "failed" as const };
+        setQuizHistory(newHistory);
+        setTimeout(() => {
+          advanceQuiz(newHistory);
+        }, 1500);
+      } else {
+        setQuizAttempts(nextAttempts);
+      }
+    }
+  }
+
   return (
     <main className="shell">
-      <header className="topbar">
-        <div className="brand">
-          <Globe2 size={30} aria-hidden="true" />
-          <div>
-            <h1>GeoLearn</h1>
-            <p>{countries.length ? `${countries.length} countries loaded` : "World countries, flags, facts, and map practice"}</p>
+      {view === "quiz" && quizStatus !== "playing" && (
+        <button
+          className="icon-button"
+          onClick={() => setView("practice")}
+          style={{
+            position: "fixed",
+            top: "24px",
+            right: "24px",
+            zIndex: 35,
+            background: "rgba(255, 255, 255, 0.9)",
+            borderRadius: "50%",
+            boxShadow: "0 8px 24px rgba(22, 38, 52, 0.12)",
+            border: "1px solid rgba(255, 255, 255, 0.8)",
+            cursor: "pointer",
+            width: "42px",
+            height: "42px",
+            display: "grid",
+            placeItems: "center"
+          }}
+          aria-label="Exit Quiz and return to Practice"
+        >
+          <X size={20} />
+        </button>
+      )}
+
+      {view === "quiz" && quizStatus === "playing" ? (
+        <div className="quiz-active-hud">
+          <div className="quiz-hud-prompt">
+            {quizMode === "locate" && (
+              <>
+                <span>Locate on Map</span>
+                <h2 className="quiz-hud-target-name">{quizCountry?.name}</h2>
+              </>
+            )}
+            {quizMode === "flag" && (
+              <>
+                <span>Flag Quiz</span>
+                <h2 className="quiz-hud-target-name">Which country uses this flag?</h2>
+              </>
+            )}
+            {quizMode === "facts" && (
+              <>
+                <span>Facts Quiz</span>
+                <h2 className="quiz-hud-target-name">Which country matches?</h2>
+              </>
+            )}
+          </div>
+          <div className="quiz-hud-progress-container">
+            <div className="quiz-hud-stats-label">
+              <span>Progress</span>
+              <span>
+                {quizCurrentIndex}/{quizRemaining.length}
+              </span>
+            </div>
+            <div className="quiz-hud-progress-track">
+              <div
+                className="quiz-hud-progress-fill"
+                style={{
+                  width: `${quizRemaining.length ? (quizCurrentIndex / quizRemaining.length) * 100 : 0}%`,
+                }}
+              />
+            </div>
+          </div>
+          <div className="quiz-hud-actions">
+            <span className="quiz-hud-timer" title="Elapsed Time">
+              <Clock size={16} />
+              {formatQuizTime(quizTime)}
+            </span>
+            <button className="exit-quiz-btn" onClick={exitQuiz}>
+              <X size={15} />
+              Exit
+            </button>
           </div>
         </div>
-        <nav className="mode-switch" aria-label="Mode">
-          <button className={view === "practice" ? "active" : ""} onClick={() => setView("practice")}>
-            <MapPinned size={18} />
-            <span>Practice</span>
-          </button>
-          <button className={view === "quiz" ? "active" : ""} onClick={() => setView("quiz")}>
-            <HelpCircle size={18} />
-            <span>Quizzes</span>
-          </button>
-        </nav>
-      </header>
+      ) : (
+        <header className="topbar">
+          <div className="brand">
+            <Globe2 size={30} aria-hidden="true" />
+            <div>
+              <h1>GeoLearn</h1>
+              <p>
+                {countries.length
+                  ? `${countries.length} countries loaded`
+                  : "World countries, flags, facts, and map practice"}
+              </p>
+            </div>
+          </div>
+          <nav className="mode-switch" aria-label="Mode">
+            <button
+              className={view === "practice" ? "active" : ""}
+              onClick={() => setView("practice")}
+            >
+              <MapPinned size={18} />
+              <span>Practice</span>
+            </button>
+            <button
+              className={view === "quiz" ? "active" : ""}
+              onClick={() => {
+                setView("quiz");
+                setQuizStatus("config");
+              }}
+            >
+              <HelpCircle size={18} />
+              <span>Quizzes</span>
+            </button>
+          </nav>
+        </header>
+      )}
 
       <WorldMap
         countries={countries}
@@ -894,30 +1191,42 @@ function App() {
         filteredCountries={filteredCountries}
         selectedCountry={selectedCountry}
         selectedRelationships={selectedRelationships}
-        quizCountry={view === "quiz" && quizMode === "locate" ? quizCountry : null}
+        quizCountry={quizCountry}
         result={result}
         mapView={mapView}
         onCountrySelect={selectFromMap}
         onMapClear={() => setSelectedCode(null)}
+        isQuizMode={view === "quiz"}
+        quizStatus={quizStatus}
+        quizHistory={quizHistory}
+        quizPoolCodes={quizPoolCodes}
+        wrongGuesses={wrongGuesses}
+        revealingTarget={revealingTarget}
       />
 
-      <section className="floating-controls" aria-label="Map and country controls">
-        <button className="control-button primary" type="button" onClick={() => setCountryBrowserOpen(true)}>
-          <Menu size={18} aria-hidden="true" />
-          Countries
-          <span>{filteredCountries.length}</span>
-        </button>
-        <AppSelect
-          ariaLabel="Map style"
-          icon={<Layers size={18} aria-hidden="true" />}
-          value={mapView}
-          options={[
-            { value: "borders", label: "Borders" },
-            { value: "flagFills", label: "Flag fills" },
-          ]}
-          onChange={(value) => setMapView(value as MapView)}
-        />
-      </section>
+      {!(view === "quiz" && quizStatus === "playing") && (
+        <section className="floating-controls" aria-label="Map and country controls">
+          <button
+            className="control-button primary"
+            type="button"
+            onClick={() => setCountryBrowserOpen(true)}
+          >
+            <Menu size={18} aria-hidden="true" />
+            Countries
+            <span>{filteredCountries.length}</span>
+          </button>
+          <AppSelect
+            ariaLabel="Map style"
+            icon={<Layers size={18} aria-hidden="true" />}
+            value={mapView}
+            options={[
+              { value: "borders", label: "Borders" },
+              { value: "flagFills", label: "Flag fills" },
+            ]}
+            onChange={(value) => setMapView(value as MapView)}
+          />
+        </section>
+      )}
 
       <CountryBrowser
         countries={filteredCountries}
@@ -935,20 +1244,280 @@ function App() {
       />
 
       {view === "practice" && selectedCountry ? (
-        <PracticePanel selectedCountry={selectedCountry} relationships={selectedRelationships} countries={countries} />
-      ) : view === "quiz" ? (
-        <QuizPanel
-          mode={quizMode}
-          country={quizCountry}
-          choices={choices}
-          result={result}
-          lastGuess={lastGuess}
-          score={score}
-          onModeChange={changeQuizMode}
-          onChoice={checkAnswer}
-          onNext={() => nextQuestion()}
-          onReset={() => setScore({ correct: 0, total: 0, streak: 0 })}
+        <PracticePanel
+          selectedCountry={selectedCountry}
+          relationships={selectedRelationships}
+          countries={countries}
         />
+      ) : view === "quiz" && quizStatus === "config" ? (
+        <div className="quiz-dashboard-overlay">
+          <div className="quiz-dashboard-card">
+            <div className="quiz-config-section">
+              <h2>Configure Quiz</h2>
+              <p>Test your geographical knowledge with custom parameters.</p>
+
+              <div className="quiz-config-group">
+                <label>Quiz Mode</label>
+                <AppSelect
+                  ariaLabel="Quiz Mode"
+                  icon={<HelpCircle size={18} />}
+                  value={quizMode}
+                  options={[
+                    { value: "locate", label: "Map Placement (Locate)" },
+                    { value: "flag", label: "Flag Identification" },
+                    { value: "facts", label: "Country Facts Match" },
+                  ]}
+                  onChange={(v) => setQuizMode(v as QuizMode)}
+                />
+              </div>
+
+              <div className="quiz-config-group">
+                <label>Target Region</label>
+                <AppSelect
+                  ariaLabel="Target Region"
+                  icon={<ListFilter size={18} />}
+                  value={quizRegion}
+                  options={regions.map((r) => ({ value: r, label: r === "All" ? "All Countries" : r }))}
+                  onChange={setQuizRegion}
+                />
+              </div>
+
+              <div className="quiz-config-group" style={{ marginTop: "10px" }}>
+                <span style={{ fontSize: "0.9rem", color: "#5d6a75" }}>
+                  Pool Size: <strong>{currentQuizPool.length}</strong> countries
+                </span>
+              </div>
+
+              <button className="start-quiz-btn" onClick={startQuiz}>
+                <Play size={18} fill="currentColor" />
+                Start Quiz
+              </button>
+            </div>
+
+            <div className="quiz-scores-section">
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <h3>Recent Attempts & Bests</h3>
+                {savedScores.length > 0 && (
+                  <button 
+                    onClick={clearScoresHistory}
+                    style={{
+                      background: "transparent",
+                      border: 0,
+                      color: "#e74c3c",
+                      fontSize: "0.82rem",
+                      fontWeight: 600,
+                      cursor: "pointer"
+                    }}
+                  >
+                    Clear History
+                  </button>
+                )}
+              </div>
+              <div className="scores-list">
+                {savedScores.length === 0 ? (
+                  <div className="no-scores-msg">
+                    <Trophy size={32} style={{ color: "#bdc3c7", marginBottom: "8px", display: "block", margin: "0 auto" }} />
+                    No attempts recorded yet. Start a quiz to save your score!
+                  </div>
+                ) : (
+                  savedScores.map((s) => (
+                    <div key={s.id} className="score-row-item">
+                      <div className="score-row-left">
+                        <span className="score-row-region">{s.region} ({s.mode})</span>
+                        <span className="score-row-meta">
+                          {s.date} · first-try: {s.breakdown?.firstTry ?? s.correct}/{s.total}
+                        </span>
+                      </div>
+                      <div className="score-row-right">
+                        <span className="score-row-val">
+                          {Math.round((s.correct / s.total) * 100)}%
+                        </span>
+                        <span className="score-row-time">{formatQuizTime(s.time)}</span>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : view === "quiz" && quizStatus === "summary" ? (
+        <div className="quiz-dashboard-overlay">
+          <div className="quiz-summary-card">
+            <h2 className="quiz-summary-title">Quiz Complete!</h2>
+            <p className="quiz-summary-subtitle">
+              {quizRegion} region · {quizMode} mode
+            </p>
+
+            {(() => {
+              const total = quizRemaining.length;
+              const first = Object.values(quizHistory).filter((v) => v === "first-try").length;
+              const second = Object.values(quizHistory).filter((v) => v === "second-try").length;
+              const third = Object.values(quizHistory).filter((v) => v === "third-try").length;
+              const failed = Object.values(quizHistory).filter((v) => v === "failed").length;
+              const pct = total ? Math.round((first / total) * 100) : 0;
+              
+              let badgeClass = "";
+              let badgeLabel = "";
+              if (pct === 100) {
+                badgeClass = "";
+                badgeLabel = "Gold";
+              } else if (pct >= 85) {
+                badgeClass = "silver";
+                badgeLabel = "Silver";
+              } else if (pct >= 70) {
+                badgeClass = "bronze";
+                badgeLabel = "Bronze";
+              } else {
+                badgeClass = "red-badge";
+                badgeLabel = "Finished";
+              }
+
+              return (
+                <>
+                  <div className={`quiz-summary-score-badge ${badgeClass}`}>
+                    <span className="quiz-summary-score-pct">{pct}%</span>
+                    <span className="quiz-summary-score-label">{badgeLabel}</span>
+                  </div>
+
+                  <div className="quiz-summary-grid">
+                    <div className="quiz-summary-stat-box">
+                      <span className="quiz-summary-stat-val">
+                        {first}/{total}
+                      </span>
+                      <span className="quiz-summary-stat-lbl">1st Try Correct</span>
+                    </div>
+                    <div className="quiz-summary-stat-box">
+                      <span className="quiz-summary-stat-val">
+                        {formatQuizTime(quizTime)}
+                      </span>
+                      <span className="quiz-summary-stat-lbl">Time Elapsed</span>
+                    </div>
+                  </div>
+
+                  <div className="quiz-attempts-breakdown">
+                    <div className="quiz-breakdown-row">
+                      <div className="label-flex">
+                        <i className="bullet green" />
+                        First attempt
+                      </div>
+                      <span className="value">{first}</span>
+                    </div>
+                    <div className="quiz-breakdown-row">
+                      <div className="label-flex">
+                        <i className="bullet yellow" />
+                        Second attempt
+                      </div>
+                      <span className="value">{second}</span>
+                    </div>
+                    <div className="quiz-breakdown-row">
+                      <div className="label-flex">
+                        <i className="bullet orange" />
+                        Third attempt
+                      </div>
+                      <span className="value">{third}</span>
+                    </div>
+                    <div className="quiz-breakdown-row">
+                      <div className="label-flex">
+                        <i className="bullet red" />
+                        Failed / Revealed
+                      </div>
+                      <span className="value">{failed}</span>
+                    </div>
+                  </div>
+                </>
+              );
+            })()}
+
+            <div className="quiz-summary-btns">
+              <button className="quiz-summary-btn-primary" onClick={startQuiz}>
+                Play Again
+              </button>
+              <button className="quiz-summary-btn-secondary" onClick={() => setQuizStatus("config")}>
+                Configure New
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : view === "quiz" && quizStatus === "playing" && quizMode !== "locate" && quizCountry ? (
+        <aside className="quiz-layout-sidebar glass">
+          {quizMode === "flag" && (
+            <div style={{ marginBottom: "20px" }}>
+              <h2>Identify Flag</h2>
+              <div className="quiz-flag" style={{ boxShadow: "0 4px 10px rgba(0,0,0,0.06)", height: "150px" }}>
+                <FlagIcon country={quizCountry} />
+              </div>
+            </div>
+          )}
+          {quizMode === "facts" && (
+            <div style={{ marginBottom: "20px" }}>
+              <h2>Match Country Facts</h2>
+              <div className="prompt" style={{ padding: "12px", border: "1px solid rgba(0,0,0,0.06)", borderRadius: "8px", background: "rgba(255,255,255,0.5)" }}>
+                <ul className="fact-list" style={{ paddingLeft: "16px", margin: "4px 0" }}>
+                  <li style={{ marginBottom: "4px" }}>Capital: <strong>{quizCountry.capital}</strong></li>
+                  <li style={{ marginBottom: "4px" }}>Region: <strong>{quizCountry.subregion}, {quizCountry.region}</strong></li>
+                  <li style={{ marginBottom: "4px" }}>Primary Language: <strong>{quizCountry.primaryLanguages.join(", ") || "Not listed"}</strong></li>
+                  <li style={{ marginBottom: "4px" }}>Population: <strong>{formatNumber.format(quizCountry.population)}</strong></li>
+                  <li style={{ marginBottom: "4px" }}>Area: <strong>{formatArea(quizCountry.area)}</strong></li>
+                </ul>
+              </div>
+            </div>
+          )}
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <span style={{ fontSize: "0.76rem", fontWeight: 700, color: "#7f8c8d", textTransform: "uppercase", letterSpacing: "0.03em" }}>
+              Select Choice (Attempt {quizAttempts + 1}/3)
+            </span>
+            <div className="choices" style={{ marginTop: "4px" }}>
+              {choices.map((choice) => {
+                const isWrong = wrongGuesses.includes(choice.cca3);
+                const isCorrectAnswer = choice.cca3 === quizCountry.cca3;
+                const isClickedCorrect = result === "correct" && isCorrectAnswer;
+                const isFailedReveal = result === "wrong" && isCorrectAnswer;
+                
+                let btnClass = "quiz-choice-btn";
+                if (isClickedCorrect || isFailedReveal) {
+                  btnClass += " correct-choice";
+                } else if (isWrong) {
+                  btnClass += " wrong-choice";
+                }
+                
+                return (
+                  <button
+                    key={choice.cca3}
+                    className={btnClass}
+                    onClick={() => checkMultipleChoice(choice)}
+                    disabled={result !== "idle" || isWrong}
+                    style={{ width: "100%" }}
+                  >
+                    {choice.name}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          {result !== "idle" && (
+            <div 
+              className={`result ${result}`} 
+              style={{ 
+                marginTop: "16px", 
+                display: "flex", 
+                alignItems: "center", 
+                gap: "8px", 
+                padding: "10px 12px", 
+                borderRadius: "6px",
+                fontSize: "0.9rem",
+                fontWeight: 600
+              }}
+            >
+              {result === "correct" ? <CheckCircle2 size={18} /> : <XCircle size={18} />}
+              <span>
+                {result === "correct"
+                  ? "Correct!"
+                  : `Incorrect! Answer: ${quizCountry.name}`}
+              </span>
+            </div>
+          )}
+        </aside>
       ) : null}
     </main>
   );
@@ -965,6 +1534,12 @@ function WorldMap({
   mapView,
   onCountrySelect,
   onMapClear,
+  isQuizMode = false,
+  quizStatus = "config",
+  quizHistory = {},
+  quizPoolCodes = new Set(),
+  wrongGuesses = [],
+  revealingTarget = false,
 }: {
   countries: Country[];
   countryByNumeric: Map<string, Country>;
@@ -976,6 +1551,12 @@ function WorldMap({
   mapView: MapView;
   onCountrySelect: (country: Country) => void;
   onMapClear: () => void;
+  isQuizMode?: boolean;
+  quizStatus?: "config" | "playing" | "summary";
+  quizHistory?: Record<string, "first-try" | "second-try" | "third-try" | "failed">;
+  quizPoolCodes?: Set<string>;
+  wrongGuesses?: string[];
+  revealingTarget?: boolean;
 }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const dragRef = useRef<{
@@ -989,6 +1570,13 @@ function WorldMap({
   const [mapTransform, setMapTransform] = useState({ scale: 1, x: 0, y: 0 });
   const filteredCodes = useMemo(() => new Set(filteredCountries.map((country) => country.cca3)), [filteredCountries]);
   const showFlagFills = mapView === "flagFills";
+
+  const targetCodes = useMemo(() => {
+    return isQuizMode && (quizStatus === "playing" || quizStatus === "summary")
+      ? quizPoolCodes
+      : filteredCodes;
+  }, [isQuizMode, quizStatus, quizPoolCodes, filteredCodes]);
+
   const smallCountryHitboxes = useMemo(
     () =>
       mapGeographies
@@ -996,12 +1584,12 @@ function WorldMap({
         .filter(
           (item): item is { geo: MapGeometry; country: Country } =>
             Boolean(item.country) &&
-            filteredCodes.has(item.country!.cca3) &&
+            targetCodes.has(item.country!.cca3) &&
             item.geo.area > 0 &&
             item.geo.area < SMALL_COUNTRY_HIT_AREA &&
             Boolean(item.geo.centroid),
         ),
-    [countryByNumeric, filteredCodes],
+    [countryByNumeric, targetCodes],
   );
 
   function clampZoom(scale: number) {
@@ -1101,8 +1689,10 @@ function WorldMap({
     BASE_COUNTRY_STROKE_WIDTH / Math.pow(mapTransform.scale, 1.35),
   );
 
+  const isQuizPlayingActive = isQuizMode && (quizStatus === "playing" || quizStatus === "summary");
+
   return (
-    <section className="map-panel" aria-label="World map">
+    <section className={`map-panel ${isQuizPlayingActive ? "quiz-playing-mode" : ""}`} aria-label="World map">
       <div className="map-tools" aria-label="Map zoom controls">
         <button type="button" onClick={() => zoomAt(mapTransform.scale * 1.45)} aria-label="Zoom in">
           <ZoomIn size={18} />
@@ -1139,7 +1729,7 @@ function WorldMap({
               </defs>
               {mapGeographies.map((geo) => {
                 const country = countryByNumeric.get(geo.id);
-                if (!country?.alpha2 || !filteredCodes.has(country.cca3)) return null;
+                if (!country?.alpha2 || !targetCodes.has(country.cca3)) return null;
                 const [[x0, y0], [x1, y1]] = geo.bounds;
                 if (![x0, y0, x1, y1].every(Number.isFinite)) return null;
                 return (
@@ -1160,11 +1750,18 @@ function WorldMap({
           )}
           {mapGeographies.map((geo) => {
             const country = countryByNumeric.get(geo.id);
-            const isSelected = country?.cca3 === selectedCountry?.cca3;
+            const visible = country ? targetCodes.has(country.cca3) : false;
+            
+            const isSelected = !isQuizPlayingActive && country?.cca3 === selectedCountry?.cca3;
+            const relation = !isQuizPlayingActive ? relationshipKind(selectedCountry, country) : null;
+            
             const isTarget = country?.cca3 === quizCountry?.cca3;
-            const relation = relationshipKind(selectedCountry, country);
-            const visible = country ? filteredCodes.has(country.cca3) : false;
+            const quizColor = (isQuizMode && country) ? quizHistory[country.cca3] : undefined;
+            const isWrongGuess = (isQuizMode && country) ? wrongGuesses.includes(country.cca3) : false;
+            const isRevealed = isQuizMode && revealingTarget && isTarget;
+            
             const hasSaneHitArea = geo.area < MAX_COUNTRY_HIT_AREA;
+            
             const className = [
               "country",
               !hasSaneHitArea ? "no-hit" : "",
@@ -1172,43 +1769,64 @@ function WorldMap({
               visible ? "visible" : "muted",
               relation ? `relationship-${relation}` : "",
               isSelected ? "selected" : "",
-              result !== "idle" && isTarget ? "answer" : "",
+              quizColor ? `quiz-${quizColor}` : "",
+              isWrongGuess ? "quiz-wrong-guess" : "",
+              isRevealed ? "quiz-failed" : "",
             ]
               .filter(Boolean)
               .join(" ");
+            
             return (
               <path
                 key={geo.id}
                 className={className}
                 d={geo.d}
                 strokeWidth={countryStrokeWidth}
-                onClick={() => country && hasSaneHitArea && selectCountry(country)}
+                onClick={() =>
+                  country &&
+                  hasSaneHitArea &&
+                  (!isQuizPlayingActive || quizPoolCodes.has(country.cca3)) &&
+                  selectCountry(country)
+                }
               >
-                <title>{country?.name ?? geo.name}</title>
+                {!isQuizPlayingActive && <title>{country?.name ?? geo.name}</title>}
               </path>
             );
           })}
-          {smallCountryHitboxes.map(({ geo, country }) => (
-            <circle
-              key={`hit-${country.cca3}`}
-              className="island-hitbox"
-              cx={geo.centroid![0]}
-              cy={geo.centroid![1]}
-              r={smallCountryHitRadius()}
-              onClick={() => selectCountry(country)}
-            >
-              <title>{country.name}</title>
-            </circle>
-          ))}
-          {quizCountry && quizMarkerPoint && (
+          {smallCountryHitboxes.map(({ geo, country }) => {
+            const quizColor = isQuizMode ? quizHistory[country.cca3] : undefined;
+            const isWrongGuess = isQuizMode ? wrongGuesses.includes(country.cca3) : false;
+            const isRevealed = isQuizMode && revealingTarget && country.cca3 === quizCountry?.cca3;
+            
+            const className = [
+              "island-hitbox",
+              quizColor ? `quiz-${quizColor}` : "",
+              isWrongGuess ? "quiz-wrong-guess" : "",
+              isRevealed ? "quiz-failed" : "",
+            ].filter(Boolean).join(" ");
+            
+            return (
+              <circle
+                key={`hit-${country.cca3}`}
+                className={className}
+                cx={geo.centroid![0]}
+                cy={geo.centroid![1]}
+                r={smallCountryHitRadius()}
+                onClick={() => (!isQuizPlayingActive || quizPoolCodes.has(country.cca3)) && selectCountry(country)}
+              >
+                {!isQuizPlayingActive && <title>{country.name}</title>}
+              </circle>
+            );
+          })}
+          {isQuizMode && quizCountry && quizMarkerPoint && (!isQuizPlayingActive || revealingTarget) && (
             <g
               className="quiz-target-marker"
               transform={`translate(${quizMarkerPoint[0]} ${quizMarkerPoint[1]})`}
-              onClick={() => selectCountry(quizCountry)}
+              onClick={() => (!isQuizPlayingActive || quizPoolCodes.has(quizCountry.cca3)) && selectCountry(quizCountry)}
             >
               <circle r="18" />
               <path d="M0 -8v16M-8 0h16" />
-              <title>{quizCountry.name}</title>
+              {!isQuizPlayingActive && <title>{quizCountry.name}</title>}
             </g>
           )}
         </g>
@@ -1572,99 +2190,7 @@ function SovereigntyNote({ country }: { country: Country }) {
   );
 }
 
-function QuizPanel({
-  mode,
-  country,
-  choices,
-  result,
-  lastGuess,
-  score,
-  onModeChange,
-  onChoice,
-  onNext,
-  onReset,
-}: {
-  mode: QuizMode;
-  country: Country | null;
-  choices: Country[];
-  result: ResultState;
-  lastGuess: Country | null;
-  score: { correct: number; total: number; streak: number };
-  onModeChange: (mode: QuizMode) => void;
-  onChoice: (country: Country) => void;
-  onNext: () => void;
-  onReset: () => void;
-}) {
-  const accuracy = score.total ? Math.round((score.correct / score.total) * 100) : 0;
-  return (
-    <aside className="side-panel quiz-panel">
-      <div className="quiz-tabs" role="tablist" aria-label="Quiz type">
-        <button className={mode === "locate" ? "active" : ""} onClick={() => onModeChange("locate")}>Locate</button>
-        <button className={mode === "flag" ? "active" : ""} onClick={() => onModeChange("flag")}>Flag</button>
-        <button className={mode === "facts" ? "active" : ""} onClick={() => onModeChange("facts")}>Facts</button>
-      </div>
-
-      <div className="scoreboard">
-        <span>{score.correct}/{score.total}</span>
-        <span>{accuracy}%</span>
-        <span>{score.streak} streak</span>
-        <button onClick={onReset} aria-label="Reset score"><RotateCcw size={16} /></button>
-      </div>
-
-      {country && (
-        <div className="prompt">
-          {mode === "locate" && (
-            <>
-              <h2>Find {country.name}</h2>
-              <p>Click the country on the map.</p>
-            </>
-          )}
-          {mode === "flag" && (
-            <>
-              <div className="quiz-flag"><FlagIcon country={country} /></div>
-              <h2>Which country uses this flag?</h2>
-            </>
-          )}
-          {mode === "facts" && (
-            <>
-              <h2>Which country matches?</h2>
-              <ul className="fact-list">
-                <li>Capital: {country.capital}</li>
-                <li>Region: {country.subregion}, {country.region}</li>
-                <li>Primary language: {country.primaryLanguages.join(", ") || "Not listed"}</li>
-                <li>Population: {formatNumber.format(country.population)}</li>
-                <li>Area: {formatArea(country.area)}</li>
-              </ul>
-            </>
-          )}
-        </div>
-      )}
-
-      {mode !== "locate" && (
-        <div className="choices">
-          {choices.map((choice) => (
-            <button key={choice.cca3} onClick={() => onChoice(choice)} disabled={result !== "idle"}>
-              <span>{choice.emoji}</span>
-              {choice.name}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {result !== "idle" && country && (
-        <div className={`result ${result}`}>
-          {result === "correct" ? <CheckCircle2 size={20} /> : <XCircle size={20} />}
-          <span>
-            {result === "correct"
-              ? `Correct: ${country.name}`
-              : `That was ${lastGuess?.name ?? "not it"}. Answer: ${country.name}.`}
-          </span>
-          <button onClick={onNext}>Next</button>
-        </div>
-      )}
-    </aside>
-  );
-}
+// Obsolete QuizPanel has been replaced by immersive config, active HUD, choices sidebar and summary cards.
 
 export { App };
 
