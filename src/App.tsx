@@ -10,6 +10,7 @@ import {
   CheckCircle2,
   Check,
   ChevronDown,
+  ExternalLink,
   Globe2,
   HelpCircle,
   Layers,
@@ -29,6 +30,7 @@ type ViewMode = "practice" | "quiz";
 type QuizMode = "locate" | "flag" | "facts";
 type MapView = "borders" | "flagFills";
 type ResultState = "idle" | "correct" | "wrong";
+type RelationshipKind = "self" | "tension" | "mild-tension" | "ally" | "union" | "territory";
 
 type Country = {
   cca3: string;
@@ -52,6 +54,11 @@ type Country = {
     sovereignState?: string;
     disputed?: boolean;
     note?: string;
+  };
+  wikipedia?: {
+    title: string;
+    summary: string;
+    sourceUrl: string;
   };
 };
 
@@ -121,8 +128,635 @@ const formatNumber = new Intl.NumberFormat("en", { maximumFractionDigits: 0 });
 const formatArea = (area: number) => `${formatNumber.format(Math.round(area))} km2`;
 const regions = ["All", "Africa", "Americas", "Asia", "Europe", "Oceania", "Antarctic"];
 
+type Phrase = { english: string; local: string; phonetic: string };
+
+const phrasebookByLanguage: Record<string, { language: string; phrases: Phrase[] }> = {
+  Afrikaans: {
+    language: "Afrikaans",
+    phrases: [
+      { english: "Hello", local: "Hallo", phonetic: "hahl-loh" },
+      { english: "Thank you", local: "Dankie", phonetic: "dahn-kee" },
+      { english: "Please", local: "Asseblief", phonetic: "ahs-seh-bleef" },
+    ],
+  },
+  Albanian: {
+    language: "Albanian",
+    phrases: [
+      { english: "Hello", local: "Përshëndetje", phonetic: "pur-shun-det-yeh" },
+      { english: "Thank you", local: "Faleminderit", phonetic: "fah-leh-meen-deh-reet" },
+      { english: "Please", local: "Ju lutem", phonetic: "yoo loo-tem" },
+    ],
+  },
+  Amharic: {
+    language: "Amharic",
+    phrases: [
+      { english: "Hello", local: "ሰላም (Selam)", phonetic: "seh-lahm" },
+      { english: "Thank you", local: "አመሰግናለሁ (Ameseginalehu)", phonetic: "ah-meh-seh-ghee-nah-leh-hoo" },
+      { english: "Please", local: "እባክህ (Ebakeh)", phonetic: "eh-bah-kih" },
+    ],
+  },
+  Arabic: {
+    language: "Arabic",
+    phrases: [
+      { english: "Hello", local: "مرحباً (Marhaban)", phonetic: "mar-hah-bahn" },
+      { english: "Thank you", local: "شكراً (Shukran)", phonetic: "shoo-kran" },
+      { english: "Please", local: "من فضلك (Min fadlik)", phonetic: "meen fad-leek" },
+    ],
+  },
+  Armenian: {
+    language: "Armenian",
+    phrases: [
+      { english: "Hello", local: "Բարև (Barev)", phonetic: "bah-rev" },
+      { english: "Thank you", local: "Շնորհակալություն (Shnorhakalutyun)", phonetic: "shnohr-hah-kah-loo-tyoon" },
+      { english: "Please", local: "Խնդրեմ (Khndrem)", phonetic: "khuhn-drem" },
+    ],
+  },
+  Azerbaijani: {
+    language: "Azerbaijani",
+    phrases: [
+      { english: "Hello", local: "Salam", phonetic: "sah-lahm" },
+      { english: "Thank you", local: "Təşəkkür edirəm", phonetic: "tah-shah-kyur eh-dee-rahm" },
+      { english: "Please", local: "Zəhmət olmasa", phonetic: "zah-maht ohl-mah-sah" },
+    ],
+  },
+  Bengali: {
+    language: "Bengali",
+    phrases: [
+      { english: "Hello", local: "নমস্কার (Nomoskar)", phonetic: "noh-moh-shkar" },
+      { english: "Thank you", local: "ধন্যবাদ (Dhonnobad)", phonetic: "dhon-noh-bahd" },
+      { english: "Please", local: "দয়া করে (Doya kore)", phonetic: "doy-ah koh-reh" },
+    ],
+  },
+  Catalan: {
+    language: "Catalan",
+    phrases: [
+      { english: "Hello", local: "Hola", phonetic: "oh-lah" },
+      { english: "Thank you", local: "Gràcies", phonetic: "grah-syahs" },
+      { english: "Please", local: "Si us plau", phonetic: "see oos plow" },
+    ],
+  },
+  Chinese: {
+    language: "Chinese",
+    phrases: [
+      { english: "Hello", local: "你好 (Nǐ hǎo)", phonetic: "nee how" },
+      { english: "Thank you", local: "谢谢 (Xièxiè)", phonetic: "shyeh-shyeh" },
+      { english: "Please", local: "请 (Qǐng)", phonetic: "cheeng" },
+    ],
+  },
+  Croatian: {
+    language: "Croatian",
+    phrases: [
+      { english: "Hello", local: "Bok", phonetic: "bohk" },
+      { english: "Thank you", local: "Hvala", phonetic: "hvah-lah" },
+      { english: "Please", local: "Molim", phonetic: "moh-leem" },
+    ],
+  },
+  Czech: {
+    language: "Czech",
+    phrases: [
+      { english: "Hello", local: "Ahoj", phonetic: "ah-hoy" },
+      { english: "Thank you", local: "Děkuji", phonetic: "dyeh-koo-yih" },
+      { english: "Please", local: "Prosím", phonetic: "proh-seem" },
+    ],
+  },
+  Danish: {
+    language: "Danish",
+    phrases: [
+      { english: "Hello", local: "Hej", phonetic: "hie" },
+      { english: "Thank you", local: "Tak", phonetic: "tahk" },
+      { english: "Please", local: "Vær så venlig", phonetic: "vehr saw ven-lee" },
+    ],
+  },
+  Dari: {
+    language: "Dari",
+    phrases: [
+      { english: "Hello", local: "سلام (Salam)", phonetic: "sah-lahm" },
+      { english: "Thank you", local: "تشکر (Tashakur)", phonetic: "tah-shah-koor" },
+      { english: "Please", local: "لطفاً (Lotfan)", phonetic: "lot-fahn" },
+    ],
+  },
+  Dutch: {
+    language: "Dutch",
+    phrases: [
+      { english: "Hello", local: "Hallo", phonetic: "hahl-loh" },
+      { english: "Thank you", local: "Dank je", phonetic: "dahnk yeh" },
+      { english: "Please", local: "Alstublieft", phonetic: "ahl-stoo-bleeft" },
+    ],
+  },
+  English: {
+    language: "English",
+    phrases: [
+      { english: "Hello", local: "Hello", phonetic: "heh-loh" },
+      { english: "Thank you", local: "Thank you", phonetic: "thangk yoo" },
+      { english: "Please", local: "Please", phonetic: "pleez" },
+    ],
+  },
+  Estonian: {
+    language: "Estonian",
+    phrases: [
+      { english: "Hello", local: "Tere", phonetic: "teh-reh" },
+      { english: "Thank you", local: "Aitäh", phonetic: "ie-tah" },
+      { english: "Please", local: "Palun", phonetic: "pah-loon" },
+    ],
+  },
+  Finnish: {
+    language: "Finnish",
+    phrases: [
+      { english: "Hello", local: "Hei", phonetic: "hay" },
+      { english: "Thank you", local: "Kiitos", phonetic: "kee-tohs" },
+      { english: "Please", local: "Ole hyvä", phonetic: "oh-leh huu-vah" },
+    ],
+  },
+  French: {
+    language: "French",
+    phrases: [
+      { english: "Hello", local: "Bonjour", phonetic: "bohn-zhoor" },
+      { english: "Thank you", local: "Merci", phonetic: "mair-see" },
+      { english: "Please", local: "S'il vous plaît", phonetic: "seel voo pleh" },
+    ],
+  },
+  Georgian: {
+    language: "Georgian",
+    phrases: [
+      { english: "Hello", local: "გამარჯობა (Gamarjoba)", phonetic: "gah-mar-joh-bah" },
+      { english: "Thank you", local: "მადლობა (Madloba)", phonetic: "mahd-loh-bah" },
+      { english: "Please", local: "თუ შეიძლება (Tu sheidzleba)", phonetic: "too shayd-zleh-bah" },
+    ],
+  },
+  German: {
+    language: "German",
+    phrases: [
+      { english: "Hello", local: "Hallo", phonetic: "hahl-loh" },
+      { english: "Thank you", local: "Danke", phonetic: "dahn-keh" },
+      { english: "Please", local: "Bitte", phonetic: "bee-teh" },
+    ],
+  },
+  Greek: {
+    language: "Greek",
+    phrases: [
+      { english: "Hello", local: "Γεια σας (Yassas)", phonetic: "yah-sahs" },
+      { english: "Thank you", local: "Ευχαριστώ (Efcharisto)", phonetic: "ef-khah-ree-stoh" },
+      { english: "Please", local: "Παρακαλώ (Parakalo)", phonetic: "pah-rah-kah-loh" },
+    ],
+  },
+  Hebrew: {
+    language: "Hebrew",
+    phrases: [
+      { english: "Hello", local: "שלום (Shalom)", phonetic: "shah-lohm" },
+      { english: "Thank you", local: "תوده (Toda)", phonetic: "toh-dah" },
+      { english: "Please", local: "בבקשה (Bevakasha)", phonetic: "beh-vah-kah-shah" },
+    ],
+  },
+  Hindi: {
+    language: "Hindi",
+    phrases: [
+      { english: "Hello", local: "नमस्ते (Namaste)", phonetic: "nuh-mus-tay" },
+      { english: "Thank you", local: "धन्यवाद (Dhanyavaad)", phonetic: "dhun-yuh-vaad" },
+      { english: "Please", local: "कृपया (Kripya)", phonetic: "krip-yuh" },
+    ],
+  },
+  Hungarian: {
+    language: "Hungarian",
+    phrases: [
+      { english: "Hello", local: "Szia", phonetic: "see-oh" },
+      { english: "Thank you", local: "Köszönöm", phonetic: "koe-soe-noem" },
+      { english: "Please", local: "Kérem", phonetic: "kay-rem" },
+    ],
+  },
+  Icelandic: {
+    language: "Icelandic",
+    phrases: [
+      { english: "Hello", local: "Halló", phonetic: "hahl-loh" },
+      { english: "Thank you", local: "Takk", phonetic: "tahk" },
+      { english: "Please", local: "Vinsamlegast", phonetic: "veen-sahm-leh-gahst" },
+    ],
+  },
+  Indonesian: {
+    language: "Indonesian",
+    phrases: [
+      { english: "Hello", local: "Halo", phonetic: "hah-loh" },
+      { english: "Thank you", local: "Terima kasih", phonetic: "teh-ree-mah kah-seeh" },
+      { english: "Please", local: "Tolong", phonetic: "toh-lohng" },
+    ],
+  },
+  Irish: {
+    language: "Irish",
+    phrases: [
+      { english: "Hello", local: "Dia dhuit", phonetic: "dee-ah gwit" },
+      { english: "Thank you", local: "Go raibh maith agat", phonetic: "gur-uh-mah-uh-gut" },
+      { english: "Please", local: "Le do thoil", phonetic: "leh duh huh-il" },
+    ],
+  },
+  Italian: {
+    language: "Italian",
+    phrases: [
+      { english: "Hello", local: "Ciao", phonetic: "chow" },
+      { english: "Thank you", local: "Grazie", phonetic: "grah-tsyeh" },
+      { english: "Please", local: "Per favore", phonetic: "pair fah-voh-ray" },
+    ],
+  },
+  Japanese: {
+    language: "Japanese",
+    phrases: [
+      { english: "Hello", local: "こんにちは (Konnichiwa)", phonetic: "kohn-nee-chee-wah" },
+      { english: "Thank you", local: "ありがとう (Arigatou)", phonetic: "ah-ree-gah-toh" },
+      { english: "Please", local: "お願いします (Onegaishimasu)", phonetic: "oh-neh-gie-shee-mahs" },
+    ],
+  },
+  Kazakh: {
+    language: "Kazakh",
+    phrases: [
+      { english: "Hello", local: "Сәлем (Salem)", phonetic: "sah-lem" },
+      { english: "Thank you", local: "Рақмет (Raqmet)", phonetic: "rahk-met" },
+      { english: "Please", local: "Өтінемін (Otinebi)", phonetic: "oh-teen-eh-meen" },
+    ],
+  },
+  Khmer: {
+    language: "Khmer",
+    phrases: [
+      { english: "Hello", local: "ជំរាបសួរ (Choum reap sour)", phonetic: "chom-reap-soo-er" },
+      { english: "Thank you", local: "អរគុណ (Orkun)", phonetic: "awr-koon" },
+      { english: "Please", local: "សូម (Som)", phonetic: "sohm" },
+    ],
+  },
+  Korean: {
+    language: "Korean",
+    phrases: [
+      { english: "Hello", local: "안녕하세요 (Annyeonghaseyo)", phonetic: "ahn-nyung-hah-seh-yo" },
+      { english: "Thank you", local: "감사합니다 (Gamsahamnida)", phonetic: "gahm-sah-hahm-nee-dah" },
+      { english: "Please", local: "주세요 (Juseyo)", phonetic: "joo-seh-yo" },
+    ],
+  },
+  Lao: {
+    language: "Lao",
+    phrases: [
+      { english: "Hello", local: "ສະບາຍດີ (Sabaidee)", phonetic: "sah-bye-dee" },
+      { english: "Thank you", local: "ຂอบໃຈ (Khop chai)", phonetic: "khop-chie" },
+      { english: "Please", local: "ກະລຸນາ (Kaluna)", phonetic: "kah-loo-nah" },
+    ],
+  },
+  Latvian: {
+    language: "Latvian",
+    phrases: [
+      { english: "Hello", local: "Sveiki", phonetic: "svay-kee" },
+      { english: "Thank you", local: "Paldies", phonetic: "pahl-dyehs" },
+      { english: "Please", local: "Lūdzu", phonetic: "loo-dzoo" },
+    ],
+  },
+  Lithuanian: {
+    language: "Lithuanian",
+    phrases: [
+      { english: "Hello", local: "Labas", phonetic: "lah-bahs" },
+      { english: "Thank you", local: "Ačiū", phonetic: "ah-choo" },
+      { english: "Please", local: "Prašau", phonetic: "prah-show" },
+    ],
+  },
+  Malay: {
+    language: "Malay",
+    phrases: [
+      { english: "Hello", local: "Helo", phonetic: "heh-loh" },
+      { english: "Thank you", local: "Terima kasih", phonetic: "teh-ree-mah kah-seeh" },
+      { english: "Please", local: "Tolong", phonetic: "toh-lohng" },
+    ],
+  },
+  Nepali: {
+    language: "Nepali",
+    phrases: [
+      { english: "Hello", local: "नमस्ते (Namaste)", phonetic: "nuh-mus-tay" },
+      { english: "Thank you", local: "धन्यवाद (Dhanyabad)", phonetic: "dhun-yuh-baad" },
+      { english: "Please", local: "कृपया (Kripaya)", phonetic: "krip-uh-yah" },
+    ],
+  },
+  Norwegian: {
+    language: "Norwegian",
+    phrases: [
+      { english: "Hello", local: "Hei", phonetic: "hay" },
+      { english: "Thank you", local: "Takk", phonetic: "tahk" },
+      { english: "Please", local: "Vær så snill", phonetic: "vehr saw sneel" },
+    ],
+  },
+  Pashto: {
+    language: "Pashto",
+    phrases: [
+      { english: "Hello", local: "سلام (Salam)", phonetic: "sah-lahm" },
+      { english: "Thank you", local: "مننه (Manana)", phonetic: "mah-nah-nah" },
+      { english: "Please", local: "مهرباني وکړه (Mehrabani wakra)", phonetic: "meh-ruh-bah-nee wuk-ruh" },
+    ],
+  },
+  Persian: {
+    language: "Persian",
+    phrases: [
+      { english: "Hello", local: "سلام (Salam)", phonetic: "sah-lahm" },
+      { english: "Thank you", local: "ممنون (Mamnoon)", phonetic: "mahm-noon" },
+      { english: "Please", local: "لطفاً (Lotfan)", phonetic: "lot-fahn" },
+    ],
+  },
+  Polish: {
+    language: "Polish",
+    phrases: [
+      { english: "Hello", local: "Cześć", phonetic: "cheshch" },
+      { english: "Thank you", local: "Dziękuję", phonetic: "djen-koo-yeh" },
+      { english: "Please", local: "Proszę", phonetic: "proh-sheh" },
+    ],
+  },
+  Portuguese: {
+    language: "Portuguese",
+    phrases: [
+      { english: "Hello", local: "Olá", phonetic: "oh-lah" },
+      { english: "Thank you", local: "Obrigado", phonetic: "oh-bree-gah-doh" },
+      { english: "Please", local: "Por favor", phonetic: "poor fah-vohr" },
+    ],
+  },
+  Romanian: {
+    language: "Romanian",
+    phrases: [
+      { english: "Hello", local: "Salut", phonetic: "sah-loot" },
+      { english: "Thank you", local: "Mulțumesc", phonetic: "mool-tsoo-mesk" },
+      { english: "Please", local: "Vă rog", phonetic: "vuh rohg" },
+    ],
+  },
+  Russian: {
+    language: "Russian",
+    phrases: [
+      { english: "Hello", local: "Привет (Privet)", phonetic: "pree-vyet" },
+      { english: "Thank you", local: "Спасибо (Spasibo)", phonetic: "spah-see-bah" },
+      { english: "Please", local: "Пожалуйста (Pozhaluysta)", phonetic: "pah-zhahl-oo-stah" },
+    ],
+  },
+  Serbian: {
+    language: "Serbian",
+    phrases: [
+      { english: "Hello", local: "Здраво (Zdravo)", phonetic: "zdrah-voh" },
+      { english: "Thank you", local: "Хвала (Hvala)", phonetic: "hvah-lah" },
+      { english: "Please", local: "Молим (Molim)", phonetic: "moh-leem" },
+    ],
+  },
+  Slovak: {
+    language: "Slovak",
+    phrases: [
+      { english: "Hello", local: "Ahoj", phonetic: "ah-hoy" },
+      { english: "Thank you", local: "Ďakujem", phonetic: "jah-koo-yem" },
+      { english: "Please", local: "Prosím", phonetic: "proh-seem" },
+    ],
+  },
+  Slovene: {
+    language: "Slovene",
+    phrases: [
+      { english: "Hello", local: "Živjo", phonetic: "zheev-yoh" },
+      { english: "Thank you", local: "Hvala", phonetic: "hvah-lah" },
+      { english: "Please", local: "Prosim", phonetic: "proh-seem" },
+    ],
+  },
+  Somali: {
+    language: "Somali",
+    phrases: [
+      { english: "Hello", local: "Salaan", phonetic: "sah-lahn" },
+      { english: "Thank you", local: "Mahadsanid", phonetic: "mah-hahd-sah-need" },
+      { english: "Please", local: "Fadlan", phonetic: "fahd-lahn" },
+    ],
+  },
+  Spanish: {
+    language: "Spanish",
+    phrases: [
+      { english: "Hello", local: "Hola", phonetic: "oh-lah" },
+      { english: "Thank you", local: "Gracias", phonetic: "grah-syahs" },
+      { english: "Please", local: "Por favor", phonetic: "poor fah-vohr" },
+    ],
+  },
+  Swahili: {
+    language: "Swahili",
+    phrases: [
+      { english: "Hello", local: "Hujambo", phonetic: "hoo-jahm-boh" },
+      { english: "Thank you", local: "Asante", phonetic: "ah-sahn-teh" },
+      { english: "Please", local: "Tafadhali", phonetic: "tah-fah-dhah-lee" },
+    ],
+  },
+  Swedish: {
+    language: "Swedish",
+    phrases: [
+      { english: "Hello", local: "Hej", phonetic: "hey" },
+      { english: "Thank you", local: "Tack", phonetic: "tahk" },
+      { english: "Please", local: "Snälla", phonetic: "sneh-lah" },
+    ],
+  },
+  Tamil: {
+    language: "Tamil",
+    phrases: [
+      { english: "Hello", local: "வணக்கம் (Vanakkam)", phonetic: "vah-nahk-kahm" },
+      { english: "Thank you", local: "நன்றி (Nandri)", phonetic: "nahn-dree" },
+      { english: "Please", local: "தயவு செய்து (Dayavu seithu)", phonetic: "dah-yah-voo say-dhoo" },
+    ],
+  },
+  Thai: {
+    language: "Thai",
+    phrases: [
+      { english: "Hello", local: "สวัสดี (Sawatdee)", phonetic: "sah-wahd-dee" },
+      { english: "Thank you", local: "ขอบคุณ (Khop khun)", phonetic: "khop-khoon" },
+      { english: "Please", local: "กรุณา (Karuna)", phonetic: "kah-roo-nah" },
+    ],
+  },
+  Turkish: {
+    language: "Turkish",
+    phrases: [
+      { english: "Hello", local: "Merhaba", phonetic: "mair-hah-bah" },
+      { english: "Thank you", local: "Teşekkürler", phonetic: "teh-sheh-kyur-ler" },
+      { english: "Please", local: "Lütfen", phonetic: "lyoot-fen" },
+    ],
+  },
+  Ukrainian: {
+    language: "Ukrainian",
+    phrases: [
+      { english: "Hello", local: "Привіт (Pryvit)", phonetic: "pree-veet" },
+      { english: "Thank you", local: "Дякую (Dyakuyu)", phonetic: "dyah-koo-yoo" },
+      { english: "Please", local: "Будь ласка (Bud laska)", phonetic: "bood lahs-kah" },
+    ],
+  },
+  Urdu: {
+    language: "Urdu",
+    phrases: [
+      { english: "Hello", local: "اسلام علیکم (Assalam-o-alaikum)", phonetic: "uh-suh-laam-o-uh-lay-kum" },
+      { english: "Thank you", local: "شکریہ (Shukriya)", phonetic: "shoo-kree-yah" },
+      { english: "Please", local: "براہ مہربانی (Barah-e-meharbani)", phonetic: "bah-raah-ay-meh-hur-bah-nee" },
+    ],
+  },
+  Vietnamese: {
+    language: "Vietnamese",
+    phrases: [
+      { english: "Hello", local: "Xin chào", phonetic: "seen chow" },
+      { english: "Thank you", local: "Cảm ơn", phonetic: "kahm uhn" },
+      { english: "Please", local: "Làm ơn", phonetic: "lahm uhn" },
+    ],
+  },
+  Zulu: {
+    language: "Zulu",
+    phrases: [
+      { english: "Hello", local: "Sawubona", phonetic: "sah-woo-boh-nah" },
+      { english: "Thank you", local: "Ngiyabonga", phonetic: "ngee-yah-boh-ngah" },
+      { english: "Please", local: "Ngiyacela", phonetic: "ngee-yah-cheh-lah" },
+    ],
+  },
+};
+
+const unionGroups = {
+  "European Union": ["AUT", "BEL", "BGR", "HRV", "CYP", "CZE", "DNK", "EST", "FIN", "FRA", "DEU", "GRC", "HUN", "IRL", "ITA", "LVA", "LTU", "LUX", "MLT", "NLD", "POL", "PRT", "ROU", "SVK", "SVN", "ESP", "SWE"],
+  "African Union": ["DZA", "AGO", "BEN", "BWA", "BFA", "BDI", "CMR", "CPV", "CAF", "TCD", "COM", "COG", "COD", "CIV", "DJI", "EGY", "GNQ", "ERI", "SWZ", "ETH", "GAB", "GMB", "GHA", "GIN", "GNB", "KEN", "LSO", "LBR", "LBY", "MDG", "MWI", "MLI", "MRT", "MUS", "MAR", "MOZ", "NAM", "NER", "NGA", "RWA", "STP", "SEN", "SYC", "SLE", "SOM", "ZAF", "SSD", "SDN", "TZA", "TGO", "TUN", "UGA", "ZMB", "ZWE", "ESH"],
+  ASEAN: ["BRN", "KHM", "IDN", "LAO", "MYS", "MMR", "PHL", "SGP", "THA", "VNM"],
+  Mercosur: ["ARG", "BRA", "PRY", "URY", "BOL"],
+  CARICOM: ["ATG", "BHS", "BRB", "BLZ", "DMA", "GRD", "GUY", "HTI", "JAM", "MSR", "KNA", "LCA", "VCT", "SUR", "TTO"],
+  "Gulf Cooperation Council": ["BHR", "KWT", "OMN", "QAT", "SAU", "ARE"],
+};
+
+const allyGroups = {
+  NATO: ["ALB", "BEL", "BGR", "CAN", "HRV", "CZE", "DNK", "EST", "FIN", "FRA", "DEU", "GRC", "HUN", "ISL", "ITA", "LVA", "LTU", "LUX", "MNE", "NLD", "MKD", "NOR", "POL", "PRT", "ROU", "SVK", "SVN", "ESP", "SWE", "TUR", "GBR", "USA"],
+};
+
+type TensionType = "active" | "historical";
+type TensionDetail = {
+  countries: [string, string];
+  type: TensionType;
+  label: string;
+};
+
+const tensionsList: TensionDetail[] = [
+  { countries: ["RUS", "UKR"], type: "active", label: "War & Invasion" },
+  { countries: ["ISR", "PSE"], type: "active", label: "Israeli-Palestinian Conflict" },
+  { countries: ["ARM", "AZE"], type: "active", label: "Nagorno-Karabakh Conflict" },
+  { countries: ["KOR", "PRK"], type: "active", label: "Korean Division & Conflict" },
+  { countries: ["CHN", "TWN"], type: "active", label: "Cross-Strait Dispute (Taiwan)" },
+  { countries: ["SRB", "XKX"], type: "active", label: "Kosovo Sovereignty Dispute" },
+  { countries: ["IND", "PAK"], type: "active", label: "Kashmir Border Conflict" },
+  { countries: ["ARG", "GBR"], type: "historical", label: "Falkland Islands Dispute" },
+  { countries: ["ARG", "FLK"], type: "historical", label: "Falkland Islands Dispute" },
+  { countries: ["CHN", "IND"], type: "historical", label: "Sino-Indian Border Dispute" },
+  { countries: ["CYP", "NCY"], type: "historical", label: "Northern Cyprus Dispute" },
+  { countries: ["TUR", "NCY"], type: "historical", label: "Northern Cyprus Control" },
+  { countries: ["GRC", "TUR"], type: "historical", label: "Aegean & Maritime Dispute" },
+  { countries: ["GUY", "VEN"], type: "historical", label: "Guayana Esequiba Dispute" },
+  { countries: ["JPN", "RUS"], type: "historical", label: "Kuril Islands Dispute" },
+  { countries: ["MAR", "ESH"], type: "historical", label: "Western Sahara Conflict" },
+];
+
+function getTensionLabel(selectedCode: string, otherCode: string, otherName: string, detail: TensionDetail): string {
+  const pairKey = [selectedCode, otherCode].sort().join("-");
+  switch (pairKey) {
+    case "RUS-UKR":
+      return selectedCode === "RUS"
+        ? "Invasion of Ukraine / War (since 2022)"
+        : "Defending invasion by Russia / War (since 2022)";
+    case "ISR-PSE":
+      return selectedCode === "ISR" ? "Conflict with Palestine" : "Conflict with Israel";
+    case "ARM-AZE":
+      return `Nagorno-Karabakh Conflict with ${otherName}`;
+    case "KOR-PRK":
+      return `Conflict & split with ${otherName}`;
+    case "CHN-TWN":
+      return selectedCode === "CHN" ? "Sovereignty dispute over Taiwan" : "Sovereignty dispute with China";
+    case "SRB-XKX":
+      return selectedCode === "SRB" ? "Dispute over Kosovo's independence" : "Sovereignty dispute with Serbia";
+    case "IND-PAK":
+      return `Kashmir border conflict with ${otherName}`;
+    case "ARG-GBR":
+    case "ARG-FLK":
+      if (selectedCode === "FLK") return "Sovereignty dispute between Argentina and UK";
+      return `Falkland Islands dispute with ${otherName}`;
+    case "FLK-GBR":
+      return "Territory relationship (Falkland Islands & UK)";
+    case "CHN-IND":
+      return `Border dispute with ${otherName}`;
+    case "CYP-NCY":
+    case "NCY-TUR":
+      if (selectedCode === "NCY") {
+        return otherCode === "TUR" ? "Dependent on / supported by Turkey" : "Partition dispute with Cyprus";
+      }
+      if (selectedCode === "TUR") return "Military support / control of Northern Cyprus";
+      return `Partition dispute with ${otherName}`;
+    case "GRC-TUR":
+      return `Aegean maritime disputes with ${otherName}`;
+    case "GUY-VEN":
+      return `Guayana Esequiba border dispute with ${otherName}`;
+    case "JPN-RUS":
+      return `Kuril Islands dispute with ${otherName}`;
+    case "ESH-MAR":
+      return selectedCode === "MAR" ? "Western Sahara conflict / control" : "Western Sahara sovereignty dispute with Morocco";
+    default:
+      return `${detail.label} with ${otherName}`;
+  }
+}
+
+function hasActiveTension(selectedCode: string, code: string) {
+  return tensionsList.some(
+    (t) => t.type === "active" && t.countries.includes(selectedCode) && t.countries.includes(code)
+  );
+}
+
+function hasHistoricalTension(selectedCode: string, code: string) {
+  return tensionsList.some(
+    (t) => t.type === "historical" && t.countries.includes(selectedCode) && t.countries.includes(code)
+  );
+}
+
 function loadCountries(): Country[] {
   return (countryData as Country[]).filter((country) => country.ccn3 && geographyByNumeric.has(country.ccn3));
+}
+
+function findPhrasebook(country: Country) {
+  // Try to find a non-English primary language with a phrasebook first
+  let language = country.primaryLanguages.find((lang) => lang !== "English" && phrasebookByLanguage[lang]);
+  // If not found, try to find a non-English other language with a phrasebook
+  if (!language) {
+    language = country.otherLanguages.find((lang) => lang !== "English" && phrasebookByLanguage[lang]);
+  }
+  return language ? phrasebookByLanguage[language] : undefined;
+}
+
+function sharedGroupName(groups: Record<string, string[]>, selectedCode: string, code: string) {
+  return Object.entries(groups).find(([, members]) => members.includes(selectedCode) && members.includes(code))?.[0] ?? null;
+}
+
+function hasTerritoryRelationship(selectedCountry: Country, country: Country) {
+  const selectedSovereign = selectedCountry.sovereignty?.sovereignState;
+  const countrySovereign = country.sovereignty?.sovereignState;
+  return (
+    selectedSovereign === country.name ||
+    countrySovereign === selectedCountry.name ||
+    (Boolean(selectedSovereign) && selectedSovereign === countrySovereign)
+  );
+}
+
+function relationshipKind(selectedCountry: Country | null, country: Country | undefined): RelationshipKind | null {
+  if (!selectedCountry || !country) return null;
+  if (country.cca3 === selectedCountry.cca3) return "self";
+  if (hasActiveTension(selectedCountry.cca3, country.cca3)) return "tension";
+  if (hasHistoricalTension(selectedCountry.cca3, country.cca3)) return "mild-tension";
+  if (sharedGroupName(allyGroups, selectedCountry.cca3, country.cca3)) return "ally";
+  if (sharedGroupName(unionGroups, selectedCountry.cca3, country.cca3)) return "union";
+  if (hasTerritoryRelationship(selectedCountry, country)) return "territory";
+  return null;
+}
+
+function relationshipLabel(selectedCountry: Country, country: Country, kind: RelationshipKind) {
+  if (kind === "self") return "Selected country";
+  if (kind === "tension") return "Dispute or major diplomatic tension";
+  if (kind === "mild-tension") return "Mild or historical dispute/tension";
+  if (kind === "ally") return sharedGroupName(allyGroups, selectedCountry.cca3, country.cca3) ?? "Shared alliance";
+  if (kind === "union") return sharedGroupName(unionGroups, selectedCountry.cca3, country.cca3) ?? "Shared union";
+  return "Sovereignty or territory link";
+}
+
+function relationshipSummary(selectedCountry: Country, countries: Country[]) {
+  const rows = countries
+    .map((country) => {
+      const kind = relationshipKind(selectedCountry, country);
+      return kind && kind !== "self" ? { country, kind, label: relationshipLabel(selectedCountry, country, kind) } : null;
+    })
+    .filter((row): row is { country: Country; kind: Exclude<RelationshipKind, "self">; label: string } => Boolean(row));
+
+  return {
+    tensions: rows.filter((row) => row.kind === "tension"),
+    mildTensions: rows.filter((row) => row.kind === "mild-tension"),
+    allies: rows.filter((row) => row.kind === "ally"),
+    unions: rows.filter((row) => row.kind === "union" || row.kind === "territory"),
+  };
 }
 
 function pickRandom<T>(items: T[], except?: T): T {
@@ -174,6 +808,10 @@ function App() {
   }, [countries, query, selectedRegion]);
 
   const selectedCountry = selectedCode ? countryByCode.get(selectedCode) ?? null : null;
+  const selectedRelationships = useMemo(
+    () => (selectedCountry ? relationshipSummary(selectedCountry, countries) : null),
+    [countries, selectedCountry],
+  );
   const quizPool = useMemo(
     () => countries.filter((country) => Boolean(country.alpha2) && (selectedRegion === "All" || country.region === selectedRegion)),
     [countries, selectedRegion],
@@ -252,6 +890,7 @@ function App() {
         countryByNumeric={countryByNumeric}
         filteredCountries={filteredCountries}
         selectedCountry={selectedCountry}
+        selectedRelationships={selectedRelationships}
         quizCountry={view === "quiz" && quizMode === "locate" ? quizCountry : null}
         result={result}
         mapView={mapView}
@@ -293,7 +932,7 @@ function App() {
       />
 
       {view === "practice" && selectedCountry ? (
-        <PracticePanel selectedCountry={selectedCountry} />
+        <PracticePanel selectedCountry={selectedCountry} relationships={selectedRelationships} countries={countries} />
       ) : view === "quiz" ? (
         <QuizPanel
           mode={quizMode}
@@ -317,6 +956,7 @@ function WorldMap({
   countryByNumeric,
   filteredCountries,
   selectedCountry,
+  selectedRelationships,
   quizCountry,
   result,
   mapView,
@@ -327,6 +967,7 @@ function WorldMap({
   countryByNumeric: Map<string, Country>;
   filteredCountries: Country[];
   selectedCountry: Country | null;
+  selectedRelationships: ReturnType<typeof relationshipSummary> | null;
   quizCountry: Country | null;
   result: ResultState;
   mapView: MapView;
@@ -518,6 +1159,7 @@ function WorldMap({
             const country = countryByNumeric.get(geo.id);
             const isSelected = country?.cca3 === selectedCountry?.cca3;
             const isTarget = country?.cca3 === quizCountry?.cca3;
+            const relation = relationshipKind(selectedCountry, country);
             const visible = country ? filteredCodes.has(country.cca3) : false;
             const hasSaneHitArea = geo.area < MAX_COUNTRY_HIT_AREA;
             const className = [
@@ -525,6 +1167,7 @@ function WorldMap({
               !hasSaneHitArea ? "no-hit" : "",
               showFlagFills && country?.alpha2 && visible ? "flagged" : "",
               visible ? "visible" : "muted",
+              relation ? `relationship-${relation}` : "",
               isSelected ? "selected" : "",
               result !== "idle" && isTarget ? "answer" : "",
             ]
@@ -567,18 +1210,55 @@ function WorldMap({
           )}
         </g>
       </svg>
+      {selectedCountry && selectedRelationships && (
+        <MapLegend
+          country={selectedCountry}
+          activeTensions={selectedRelationships.tensions.length}
+          historicalTensions={selectedRelationships.mildTensions.length}
+          allies={selectedRelationships.allies.length}
+          unions={selectedRelationships.unions.length}
+        />
+      )}
     </section>
+  );
+}
+
+function MapLegend({
+  country,
+  activeTensions,
+  historicalTensions,
+  allies,
+  unions,
+}: {
+  country: Country;
+  activeTensions: number;
+  historicalTensions: number;
+  allies: number;
+  unions: number;
+}) {
+  return (
+    <div className="map-legend" aria-label={`Relationship colors for ${country.name}`}>
+      <span><i className="legend-self" /> Selected</span>
+      {allies > 0 && <span><i className="legend-ally" /> Allies {allies}</span>}
+      {unions > 0 && <span><i className="legend-union" /> Unions {unions}</span>}
+      {activeTensions > 0 && <span><i className="legend-tension" /> Active Tensions {activeTensions}</span>}
+      {historicalTensions > 0 && <span><i className="legend-mild-tension" /> Mild/Historical Tensions {historicalTensions}</span>}
+    </div>
   );
 }
 
 function PracticePanel({
   selectedCountry,
+  relationships,
+  countries,
 }: {
   selectedCountry: Country;
+  relationships: ReturnType<typeof relationshipSummary> | null;
+  countries: Country[];
 }) {
   return (
     <aside className="side-panel">
-      <CountryCard country={selectedCountry} />
+      <CountryCard country={selectedCountry} relationships={relationships} countries={countries} />
     </aside>
   );
 }
@@ -659,7 +1339,16 @@ function CountryBrowser({
   );
 }
 
-function CountryCard({ country }: { country: Country }) {
+function CountryCard({
+  country,
+  relationships,
+  countries,
+}: {
+  country: Country;
+  relationships: ReturnType<typeof relationshipSummary> | null;
+  countries: Country[];
+}) {
+  const phrasebook = findPhrasebook(country);
   return (
     <article className="country-card">
       <div className="flag-frame">
@@ -701,7 +1390,168 @@ function CountryCard({ country }: { country: Country }) {
           <dd>{country.currencies.join(", ") || "Not listed"}</dd>
         </div>
       </dl>
+      {phrasebook && (
+        <section className="info-section">
+          <h3>Local Phrases ({phrasebook.language})</h3>
+          <table className="phrases-table">
+            <thead>
+              <tr>
+                <th>English</th>
+                <th>Local Script</th>
+                <th>Pronunciation</th>
+              </tr>
+            </thead>
+            <tbody>
+              {phrasebook.phrases.map((phrase, idx) => (
+                <tr key={idx}>
+                  <td>{phrase.english}</td>
+                  <td className="local-script">{phrase.local}</td>
+                  <td className="phonetic">{phrase.phonetic}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      )}
+      {relationships && hasGeopoliticalRelationships(country, countries) && (
+        <section className="info-section">
+          <h3>Key Relationships & Status</h3>
+          <RelationshipHighlights selectedCountry={country} countries={countries} />
+        </section>
+      )}
+      {country.wikipedia && (
+        <section className="info-section country-summary">
+          <h3>Overview</h3>
+          <p>{country.wikipedia.summary}</p>
+          <a href={country.wikipedia.sourceUrl} target="_blank" rel="noreferrer">
+            Source: Wikipedia, {country.wikipedia.title}
+            <ExternalLink size={14} aria-hidden="true" />
+          </a>
+        </section>
+      )}
     </article>
+  );
+}
+
+function hasGeopoliticalRelationships(selectedCountry: Country, countries: Country[]): boolean {
+  // 1. Tensions
+  const hasTensions = tensionsList.some((t) => t.countries.includes(selectedCountry.cca3));
+  if (hasTensions) return true;
+
+  // 2. Unions
+  const hasUnions = Object.values(unionGroups).some((members) => members.includes(selectedCountry.cca3));
+  if (hasUnions) return true;
+
+  // 3. Alliances
+  const hasAlliances = Object.values(allyGroups).some((members) => members.includes(selectedCountry.cca3));
+  if (hasAlliances) return true;
+
+  // 4. Territory link (to sovereign state)
+  if (selectedCountry.sovereignty?.sovereignState) return true;
+
+  // 5. Territory link (has external territories)
+  const hasExternalTerritories = countries.some(
+    (c) => c.sovereignty?.sovereignState === selectedCountry.name
+  );
+  if (hasExternalTerritories) return true;
+
+  return false;
+}
+
+type HighlightItem = {
+  type: "active-tension" | "mild-tension" | "ally" | "union" | "territory";
+  text: string;
+  detail?: string;
+};
+
+function RelationshipHighlights({
+  selectedCountry,
+  countries,
+}: {
+  selectedCountry: Country;
+  countries: Country[];
+}) {
+  const countryByCode = useMemo(
+    () => new Map(countries.map((c) => [c.cca3, c])),
+    [countries]
+  );
+
+  const highlights = useMemo(() => {
+    const list: HighlightItem[] = [];
+
+    // 1. Tensions
+    tensionsList.forEach((t) => {
+      if (t.countries.includes(selectedCountry.cca3)) {
+        const otherCode = t.countries.find((code) => code !== selectedCountry.cca3)!;
+        const otherCountry = countryByCode.get(otherCode);
+        const otherName = otherCountry ? otherCountry.name : otherCode;
+        const label = getTensionLabel(selectedCountry.cca3, otherCode, otherName, t);
+        list.push({
+          type: t.type === "active" ? "active-tension" : "mild-tension",
+          text: label,
+        });
+      }
+    });
+
+    // 2. Unions
+    Object.entries(unionGroups).forEach(([groupName, members]) => {
+      if (members.includes(selectedCountry.cca3)) {
+        list.push({
+          type: "union",
+          text: groupName === "European Union" ? "European Union" : `Member of ${groupName}`,
+        });
+      }
+    });
+
+    // 3. Alliances
+    Object.entries(allyGroups).forEach(([groupName, members]) => {
+      if (members.includes(selectedCountry.cca3)) {
+        list.push({
+          type: "ally",
+          text: groupName === "NATO" ? "NATO Alliance" : `Member of ${groupName} Alliance`,
+        });
+      }
+    });
+
+    // 4. Territory (Link to sovereign state)
+    if (selectedCountry.sovereignty?.sovereignState) {
+      list.push({
+        type: "territory",
+        text: `Territory of ${selectedCountry.sovereignty.sovereignState}`,
+        detail: selectedCountry.sovereignty.label,
+      });
+    }
+
+    // 5. Territory (Has external territories)
+    const territories = countries.filter(
+      (c) => c.sovereignty?.sovereignState === selectedCountry.name
+    );
+    if (territories.length > 0) {
+      const names = territories.map((t) => t.name).slice(0, 3).join(", ");
+      const moreCount = territories.length - 3;
+      list.push({
+        type: "territory",
+        text: `Sovereign of ${territories.length} external ${territories.length === 1 ? "territory" : "territories"}`,
+        detail: `${names}${moreCount > 0 ? `, +${moreCount} more` : ""}`,
+      });
+    }
+
+    return list;
+  }, [selectedCountry, countries, countryByCode]);
+
+  if (highlights.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="highlights-list">
+      {highlights.map((h, index) => (
+        <div key={index} className={`relationship-preview ${h.type}`}>
+          <strong>{h.text}</strong>
+          {h.detail && <span>{h.detail}</span>}
+        </div>
+      ))}
+    </div>
   );
 }
 

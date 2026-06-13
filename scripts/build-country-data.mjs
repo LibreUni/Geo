@@ -7,6 +7,7 @@ const fallbackPopulationRows = require("country-json/src/country-by-population.j
 
 const WORLD_BANK_POPULATION_URL =
   "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL?format=json&date=2024&per_page=400";
+const WIKIPEDIA_SUMMARY_URL = "https://en.wikipedia.org/api/rest_v1/page/summary/";
 
 const primaryLanguageOverrides = {
   AGO: ["Portuguese"],
@@ -42,6 +43,44 @@ const mapNameAliases = {
   CZE: "Czechia",
   SWZ: "eSwatini",
   USA: "United States of America",
+};
+
+const wikipediaTitleOverrides = {
+  AGO: "Angola",
+  BES: "Caribbean Netherlands",
+  BOL: "Bolivia",
+  COD: "Democratic Republic of the Congo",
+  COG: "Republic of the Congo",
+  CZE: "Czech Republic",
+  FLK: "Falkland Islands",
+  FSM: "Federated States of Micronesia",
+  GBR: "United Kingdom",
+  HKG: "Hong Kong",
+  IOT: "British Indian Ocean Territory",
+  IRN: "Iran",
+  KOR: "South Korea",
+  LAO: "Laos",
+  MAC: "Macau",
+  MDA: "Moldova",
+  MKD: "North Macedonia",
+  NLD: "Netherlands",
+  PSE: "State of Palestine",
+  PRK: "North Korea",
+  RUS: "Russia",
+  SGS: "South Georgia and the South Sandwich Islands",
+  SWZ: "Eswatini",
+  SYR: "Syria",
+  TCA: "Turks and Caicos Islands",
+  TUR: "Turkey",
+  TWN: "Taiwan",
+  TZA: "Tanzania",
+  USA: "United States",
+  VAT: "Vatican City",
+  VEN: "Venezuela",
+  VGB: "British Virgin Islands",
+  VIR: "United States Virgin Islands",
+  VNM: "Vietnam",
+  XKX: "Kosovo",
 };
 
 const fallbackPopulationNameAliases = {
@@ -399,6 +438,29 @@ async function fetchPopulationLookup() {
   );
 }
 
+async function fetchWikipediaSummary(country) {
+  const title = wikipediaTitleOverrides[country.cca3] ?? country.name;
+  const response = await fetch(`${WIKIPEDIA_SUMMARY_URL}${encodeURIComponent(title)}`, {
+    headers: {
+      "User-Agent": "GeoLearn/1.0 (country learning app; https://example.local)",
+    },
+  });
+
+  if (!response.ok) {
+    console.warn(`Skipping Wikipedia summary for ${country.name}: ${response.status} ${response.statusText}`);
+    return null;
+  }
+
+  const payload = await response.json();
+  if (typeof payload.extract !== "string" || !payload.extract.trim()) return null;
+
+  return {
+    title: payload.title ?? title,
+    summary: payload.extract,
+    sourceUrl: payload.content_urls?.desktop?.page ?? `https://en.wikipedia.org/wiki/${encodeURIComponent(title)}`,
+  };
+}
+
 const fallbackPopulationByName = new Map(
   fallbackPopulationRows
     .filter((row) => typeof row.country === "string" && Number.isFinite(row.population))
@@ -461,6 +523,11 @@ for (const country of supplementalCountries) {
 }
 
 const output = [...byCode.values()].sort((a, b) => a.name.localeCompare(b.name));
+
+for (const country of output) {
+  const wikipedia = await fetchWikipediaSummary(country);
+  if (wikipedia) country.wikipedia = wikipedia;
+}
 
 writeFileSync(
   new URL("../src/data/countries.json", import.meta.url),

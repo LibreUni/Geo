@@ -217,7 +217,7 @@ button {
 }
 
 .country.visible {
-  fill: #83a77f;
+  fill: #d2dadf;
 }
 
 .country.flagged.visible {
@@ -225,7 +225,7 @@ button {
 }
 
 .country.muted {
-  fill: #cbd5d9;
+  fill: #d2dadf;
   opacity: 0.58;
 }
 
@@ -234,8 +234,31 @@ button {
 }
 
 .country.selected {
-  fill: #df6148;
-  stroke: #17212b;
+  fill: #2da365;
+  stroke: #102d20;
+}
+
+.country.relationship-self {
+  fill: #2da365;
+}
+
+.country.relationship-ally {
+  fill: #a2bcae;
+}
+
+.country.relationship-union,
+.country.relationship-territory {
+  fill: #9eb5c8;
+}
+
+.country.relationship-tension {
+  fill: #cf6155;
+  stroke: #631f1a;
+}
+
+.country.relationship-mild-tension {
+  fill: #d98d4f;
+  stroke: #663d1a;
 }
 
 .country.answer {
@@ -286,6 +309,63 @@ button {
   align-items: center;
   padding: 6px;
   border-radius: 8px;
+}
+
+.map-legend {
+  position: fixed;
+  z-index: 18;
+  right: 18px;
+  bottom: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: min(480px, calc(100vw - 150px));
+  padding: 7px;
+  border: 1px solid rgb(255 255 255 / 66%);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 84%);
+  box-shadow: 0 18px 44px rgb(22 38 52 / 18%);
+  backdrop-filter: blur(18px) saturate(145%);
+}
+
+.map-legend span {
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 6px;
+  padding: 0 9px;
+  background: rgb(255 255 255 / 72%);
+  color: #344555;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.map-legend i {
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px rgb(21 53 63 / 14%);
+}
+
+.legend-self {
+  background: #2da365;
+}
+
+.legend-ally {
+  background: #a2bcae;
+}
+
+.legend-union {
+  background: #9eb5c8;
+}
+
+.legend-tension {
+  background: #cf6155;
+}
+
+.legend-mild-tension {
+  background: #d98d4f;
 }
 
 .control-button,
@@ -398,12 +478,10 @@ button {
 .flag-frame {
   width: 100%;
   aspect-ratio: 2 / 1.16;
-  border: 1px solid rgb(21 53 63 / 14%);
-  border-radius: 6px;
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: #f8fafb;
+  background: transparent;
 }
 
 .flag-frame img,
@@ -505,6 +583,118 @@ dd {
 .language-list span {
   background: #e9f0f2;
   color: #4c5b66;
+}
+
+.info-section {
+  margin-top: 18px;
+  border-top: 1px solid rgb(21 53 63 / 12%);
+  padding-top: 14px;
+}
+
+.info-section h3 {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+  color: #263746;
+  letter-spacing: 0;
+}
+
+.info-section p {
+  line-height: 1.45;
+}
+
+.phrases-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.88rem;
+}
+
+.phrases-table th,
+.phrases-table td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid rgb(21 53 63 / 8%);
+}
+
+.phrases-table th {
+  color: #65737e;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-bottom: 6px;
+}
+
+.phrases-table td {
+  color: #15202b;
+}
+
+.phrases-table td.local-script {
+  font-weight: 700;
+  color: #15353f;
+}
+
+.phrases-table td.phonetic {
+  color: #5d6a75;
+  font-style: italic;
+}
+
+.relationship-preview {
+  display: grid;
+  gap: 3px;
+  border-left: 4px solid;
+  padding: 8px 0 8px 10px;
+}
+
+.relationship-preview + .relationship-preview {
+  margin-top: 6px;
+}
+
+.relationship-preview strong {
+  color: #15202b;
+  font-size: 0.88rem;
+}
+
+.relationship-preview span,
+.relationship-note {
+  color: #5d6a75;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.relationship-preview.active-tension {
+  border-color: #cf6155;
+}
+
+.relationship-preview.mild-tension {
+  border-color: #d98d4f;
+}
+
+.relationship-preview.ally {
+  border-color: #a2bcae;
+}
+
+.relationship-preview.union,
+.relationship-preview.territory {
+  border-color: #9eb5c8;
+}
+
+.relationship-note {
+  margin-top: 10px;
+}
+
+.country-summary a {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #0e665d;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.country-summary a:hover {
+  text-decoration: underline;
 }
 
 .drawer-overlay {
@@ -744,6 +934,10 @@ dd {
 
   .floating-controls {
     top: 86px;
+  }
+
+  .map-legend {
+    display: none;
   }
 }
 
