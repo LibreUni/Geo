@@ -1,12 +1,15 @@
-import { useEffect, useMemo, useRef, useState, type PointerEvent, type WheelEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type PointerEvent, type ReactNode, type WheelEvent } from "react";
 import "flag-icons/css/flag-icons.min.css";
 import * as Dialog from "@radix-ui/react-dialog";
+import * as Select from "@radix-ui/react-select";
 import { geoEqualEarth, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
 import atlas from "world-atlas/countries-50m.json";
 import countryData from "./data/countries.json";
 import {
   CheckCircle2,
+  Check,
+  ChevronDown,
   Globe2,
   HelpCircle,
   Layers,
@@ -144,10 +147,6 @@ function App() {
   const [lastGuess, setLastGuess] = useState<Country | null>(null);
   const [score, setScore] = useState({ correct: 0, total: 0, streak: 0 });
 
-  useEffect(() => {
-    setSelectedCode(countries.find((country) => country.name === "Denmark")?.cca3 ?? countries[0]?.cca3 ?? null);
-  }, [countries]);
-
   const countryByNumeric = useMemo(
     () => new Map(countries.map((country) => [country.ccn3, country])),
     [countries],
@@ -255,6 +254,7 @@ function App() {
         result={result}
         mapView={mapView}
         onCountrySelect={selectFromMap}
+        onMapClear={() => setSelectedCode(null)}
       />
 
       <section className="floating-controls" aria-label="Map and country controls">
@@ -263,14 +263,17 @@ function App() {
           Countries
           <span>{filteredCountries.length}</span>
         </button>
-        <label className="select-control">
-          <Layers size={18} aria-hidden="true" />
-          <select value={mapView} onChange={(event) => setMapView(event.target.value as MapView)} aria-label="Map style">
-            <option value="borders">Borders</option>
-            <option value="flagFills">Flag fills</option>
-            <option value="markers">Flag markers</option>
-          </select>
-        </label>
+        <AppSelect
+          ariaLabel="Map style"
+          icon={<Layers size={18} aria-hidden="true" />}
+          value={mapView}
+          options={[
+            { value: "borders", label: "Borders" },
+            { value: "flagFills", label: "Flag fills" },
+            { value: "markers", label: "Flag markers" },
+          ]}
+          onChange={(value) => setMapView(value as MapView)}
+        />
       </section>
 
       <CountryBrowser
@@ -288,9 +291,9 @@ function App() {
         }}
       />
 
-      {view === "practice" ? (
+      {view === "practice" && selectedCountry ? (
         <PracticePanel selectedCountry={selectedCountry} />
-      ) : (
+      ) : view === "quiz" ? (
         <QuizPanel
           mode={quizMode}
           country={quizCountry}
@@ -303,7 +306,7 @@ function App() {
           onNext={() => nextQuestion()}
           onReset={() => setScore({ correct: 0, total: 0, streak: 0 })}
         />
-      )}
+      ) : null}
     </main>
   );
 }
@@ -317,6 +320,7 @@ function WorldMap({
   result,
   mapView,
   onCountrySelect,
+  onMapClear,
 }: {
   countries: Country[];
   countryByNumeric: Map<string, Country>;
@@ -326,6 +330,7 @@ function WorldMap({
   result: ResultState;
   mapView: MapView;
   onCountrySelect: (country: Country) => void;
+  onMapClear: () => void;
 }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const dragRef = useRef<{
@@ -426,6 +431,11 @@ function WorldMap({
     onCountrySelect(country);
   }
 
+  function clearMapSelection() {
+    if (wasDraggingRef.current) return;
+    onMapClear();
+  }
+
   function getMarkerPoint(country: Country) {
     if (country.latlng) {
       const [lat, lon] = country.latlng;
@@ -471,13 +481,15 @@ function WorldMap({
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
       >
-        <rect className="ocean" width={WIDTH} height={HEIGHT} rx="0" />
+        <rect className="ocean" width={WIDTH} height={HEIGHT} rx="0" onClick={clearMapSelection} />
         <g transform={`translate(${mapTransform.x} ${mapTransform.y}) scale(${mapTransform.scale})`}>
           {showFlagFills && (
             <>
               <defs>
                 {mapGeographies.map((geo) => (
-                  <clipPath key={geo.id} id={geo.clipId}><path d={geo.d} /></clipPath>
+                  <clipPath key={geo.id} id={geo.clipId}>
+                    <path d={geo.d} />
+                  </clipPath>
                 ))}
               </defs>
               {mapGeographies.map((geo) => {
@@ -487,7 +499,7 @@ function WorldMap({
                 if (![x0, y0, x1, y1].every(Number.isFinite)) return null;
                 return (
                   <foreignObject
-                    key={geo.id}
+                    key={`flag-${geo.id}`}
                     className="country-flag-fill"
                     x={x0}
                     y={y0}
@@ -578,11 +590,11 @@ function WorldMap({
 function PracticePanel({
   selectedCountry,
 }: {
-  selectedCountry: Country | null;
+  selectedCountry: Country;
 }) {
   return (
     <aside className="side-panel">
-      {selectedCountry ? <CountryCard country={selectedCountry} /> : <EmptyCountryPanel />}
+      <CountryCard country={selectedCountry} />
     </aside>
   );
 }
@@ -632,14 +644,14 @@ function CountryBrowser({
                 placeholder="Search country, capital, or region"
               />
             </label>
-            <label className="selectbox">
-              <ListFilter size={18} aria-hidden="true" />
-              <select value={selectedRegion} onChange={(event) => onRegionChange(event.target.value)}>
-                {regions.map((region) => (
-                  <option key={region}>{region}</option>
-                ))}
-              </select>
-            </label>
+            <AppSelect
+              ariaLabel="Region"
+              icon={<ListFilter size={18} aria-hidden="true" />}
+              value={selectedRegion}
+              options={regions.map((region) => ({ value: region, label: region }))}
+              onChange={onRegionChange}
+              stretch
+            />
           </div>
 
           <div className="country-list" aria-label="Countries">
@@ -660,16 +672,6 @@ function CountryBrowser({
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
-  );
-}
-
-function EmptyCountryPanel() {
-  return (
-    <article className="empty-panel">
-      <Globe2 size={24} aria-hidden="true" />
-      <h2>Select a country</h2>
-      <p>Use the map or the Countries menu to inspect details.</p>
-    </article>
   );
 }
 
@@ -864,5 +866,47 @@ function FlagIcon({ country }: { country: Country }) {
       aria-label={`${country.name} flag`}
       title={`${country.name} flag`}
     />
+  );
+}
+
+function AppSelect({
+  ariaLabel,
+  icon,
+  options,
+  value,
+  onChange,
+  stretch = false,
+}: {
+  ariaLabel: string;
+  icon: ReactNode;
+  options: Array<{ value: string; label: string }>;
+  value: string;
+  onChange: (value: string) => void;
+  stretch?: boolean;
+}) {
+  return (
+    <Select.Root value={value} onValueChange={onChange}>
+      <Select.Trigger className={stretch ? "select-trigger stretch" : "select-trigger"} aria-label={ariaLabel}>
+        {icon}
+        <Select.Value />
+        <Select.Icon className="select-chevron">
+          <ChevronDown size={16} />
+        </Select.Icon>
+      </Select.Trigger>
+      <Select.Portal>
+        <Select.Content className="select-content" position="popper" sideOffset={8}>
+          <Select.Viewport className="select-viewport">
+            {options.map((option) => (
+              <Select.Item className="select-item" key={option.value} value={option.value}>
+                <Select.ItemText>{option.label}</Select.ItemText>
+                <Select.ItemIndicator className="select-indicator">
+                  <Check size={15} />
+                </Select.ItemIndicator>
+              </Select.Item>
+            ))}
+          </Select.Viewport>
+        </Select.Content>
+      </Select.Portal>
+    </Select.Root>
   );
 }
