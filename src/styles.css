@@ -411,6 +411,25 @@ dd {
   color: #17212b;
 }
 
+.sovereignty-note {
+  display: grid;
+  gap: 4px;
+  line-height: 1.35;
+}
+
+.sovereignty-note strong {
+  font-weight: 700;
+  color: #17212b;
+}
+
+.sovereignty-note small {
+  color: #607080;
+}
+
+.sovereignty-note.disputed strong {
+  color: #8e4b13;
+}
+
 .language-list {
   display: flex;
   flex-wrap: wrap;

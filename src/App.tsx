@@ -41,6 +41,12 @@ type Country = {
   currencies: string[];
   emoji: string;
   latlng: [number, number] | null;
+  sovereignty?: {
+    label: string;
+    sovereignState?: string;
+    disputed?: boolean;
+    note?: string;
+  };
 };
 
 type Geography = GeoJSON.Feature<GeoJSON.Geometry, { id?: string; name?: string }>;
@@ -155,7 +161,9 @@ function App() {
         !terms ||
         country.name.toLowerCase().includes(terms) ||
         country.capital.toLowerCase().includes(terms) ||
-        country.subregion.toLowerCase().includes(terms);
+        country.subregion.toLowerCase().includes(terms) ||
+        country.sovereignty?.sovereignState?.toLowerCase().includes(terms) ||
+        country.sovereignty?.label.toLowerCase().includes(terms);
       return regionMatch && queryMatch;
     });
   }, [countries, query, selectedRegion]);
@@ -589,7 +597,7 @@ function PracticePanel({
             <span className="row-flag">{country.emoji}</span>
             <span>
               <strong>{country.name}</strong>
-              <small>{country.capital} · {country.region}</small>
+              <small>{country.capital} · {country.sovereignty?.sovereignState ?? country.region}</small>
             </span>
           </button>
         ))}
@@ -607,6 +615,14 @@ function CountryCard({ country }: { country: Country }) {
       <h2>{country.name}</h2>
       <p>{country.official}</p>
       <dl>
+        {country.sovereignty && (
+          <div>
+            <dt>{country.sovereignty.disputed ? "Status" : "Sovereignty"}</dt>
+            <dd>
+              <SovereigntyNote country={country} />
+            </dd>
+          </div>
+        )}
         <div>
           <dt>Capital</dt>
           <dd>{country.capital}</dd>
@@ -633,6 +649,20 @@ function CountryCard({ country }: { country: Country }) {
         </div>
       </dl>
     </article>
+  );
+}
+
+function SovereigntyNote({ country }: { country: Country }) {
+  const sovereignty = country.sovereignty;
+  if (!sovereignty) return null;
+
+  return (
+    <span className={sovereignty.disputed ? "sovereignty-note disputed" : "sovereignty-note"}>
+      <strong>
+        {sovereignty.sovereignState ? `${sovereignty.sovereignState} · ${sovereignty.label}` : sovereignty.label}
+      </strong>
+      {sovereignty.note && <small>{sovereignty.note}</small>}
+    </span>
   );
 }
 

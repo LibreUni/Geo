@@ -50,7 +50,11 @@
     "latlng": [
       60.116667,
       19.9
-    ]
+    ],
+    "sovereignty": {
+      "label": "Autonomous region",
+      "sovereignState": "Finland"
+    }
   },
   {
     "cca3": "ALB",
@@ -127,7 +131,11 @@
     "latlng": [
       -14.33333333,
       -170
-    ]
+    ],
+    "sovereignty": {
+      "label": "Unincorporated territory",
+      "sovereignState": "United States"
+    }
   },
   {
     "cca3": "AND",
@@ -202,7 +210,11 @@
     "latlng": [
       18.25,
       -63.16666666
-    ]
+    ],
+    "sovereignty": {
+      "label": "British overseas territory",
+      "sovereignState": "United Kingdom"
+    }
   },
   {
     "cca3": "ATA",
@@ -223,7 +235,11 @@
     "latlng": [
       -90,
       0
-    ]
+    ],
+    "sovereignty": {
+      "label": "Antarctic Treaty area",
+      "note": "No country has universally recognized sovereignty over Antarctica."
+    }
   },
   {
     "cca3": "ATG",
@@ -327,7 +343,11 @@
     "latlng": [
       12.5,
       -69.96666666
-    ]
+    ],
+    "sovereignty": {
+      "label": "Constituent country",
+      "sovereignState": "Kingdom of the Netherlands"
+    }
   },
   {
     "cca3": "AUS",
@@ -637,7 +657,11 @@
     "latlng": [
       32.33333333,
       -64.75
-    ]
+    ],
+    "sovereignty": {
+      "label": "British overseas territory",
+      "sovereignState": "United Kingdom"
+    }
   },
   {
     "cca3": "BTN",
@@ -770,7 +794,11 @@
     "latlng": [
       -54.43333333,
       3.4
-    ]
+    ],
+    "sovereignty": {
+      "label": "Dependency",
+      "sovereignState": "Norway"
+    }
   },
   {
     "cca3": "BRA",
@@ -820,7 +848,13 @@
     "latlng": [
       -6,
       71.5
-    ]
+    ],
+    "sovereignty": {
+      "label": "British overseas territory",
+      "sovereignState": "United Kingdom",
+      "disputed": true,
+      "note": "Sovereignty is disputed by Mauritius."
+    }
   },
   {
     "cca3": "VGB",
@@ -845,7 +879,11 @@
     "latlng": [
       18.431383,
       -64.62305
-    ]
+    ],
+    "sovereignty": {
+      "label": "British overseas territory",
+      "sovereignState": "United Kingdom"
+    }
   },
   {
     "cca3": "BRN",
@@ -1080,7 +1118,11 @@
     "latlng": [
       12.18,
       -68.25
-    ]
+    ],
+    "sovereignty": {
+      "label": "Special municipality",
+      "sovereignState": "Netherlands"
+    }
   },
   {
     "cca3": "CYM",
@@ -1105,7 +1147,11 @@
     "latlng": [
       19.5,
       -80.5
-    ]
+    ],
+    "sovereignty": {
+      "label": "British overseas territory",
+      "sovereignState": "United Kingdom"
+    }
   },
   {
     "cca3": "CAF",
@@ -1234,7 +1280,11 @@
     "latlng": [
       -10.5,
       105.66666666
-    ]
+    ],
+    "sovereignty": {
+      "label": "External territory",
+      "sovereignState": "Australia"
+    }
   },
   {
     "cca3": "CCK",
@@ -1259,7 +1309,11 @@
     "latlng": [
       -12.5,
       96.83333333
-    ]
+    ],
+    "sovereignty": {
+      "label": "External territory",
+      "sovereignState": "Australia"
+    }
   },
   {
     "cca3": "COL",
@@ -1339,7 +1393,12 @@
     "latlng": [
       -21.23333333,
       -159.76666666
-    ]
+    ],
+    "sovereignty": {
+      "label": "Self-governing state in free association",
+      "sovereignState": "New Zealand",
+      "note": "Cook Islands conducts many affairs itself while maintaining free association with New Zealand."
+    }
   },
   {
     "cca3": "CRI",
@@ -1443,7 +1502,11 @@
     "latlng": [
       12.116667,
       -68.933333
-    ]
+    ],
+    "sovereignty": {
+      "label": "Constituent country",
+      "sovereignState": "Kingdom of the Netherlands"
+    }
   },
   {
     "cca3": "CYP",
@@ -1862,7 +1925,13 @@
     "latlng": [
       -51.75,
       -59
-    ]
+    ],
+    "sovereignty": {
+      "label": "British overseas territory",
+      "sovereignState": "United Kingdom",
+      "disputed": true,
+      "note": "Sovereignty is disputed by Argentina, where the islands are known as Islas Malvinas."
+    }
   },
   {
     "cca3": "FRO",
@@ -1889,7 +1958,11 @@
     "latlng": [
       62,
       -7
-    ]
+    ],
+    "sovereignty": {
+      "label": "Autonomous territory",
+      "sovereignState": "Kingdom of Denmark"
+    }
   },
   {
     "cca3": "FJI",
@@ -1994,7 +2067,11 @@
     "latlng": [
       4,
       -53
-    ]
+    ],
+    "sovereignty": {
+      "label": "Overseas department and region",
+      "sovereignState": "France"
+    }
   },
   {
     "cca3": "PYF",
@@ -2019,7 +2096,11 @@
     "latlng": [
       -15,
       -140
-    ]
+    ],
+    "sovereignty": {
+      "label": "Overseas collectivity",
+      "sovereignState": "France"
+    }
   },
   {
     "cca3": "ATF",
@@ -2044,7 +2125,11 @@
     "latlng": [
       -49.25,
       69.167
-    ]
+    ],
+    "sovereignty": {
+      "label": "Overseas territory",
+      "sovereignState": "France"
+    }
   },
   {
     "cca3": "GAB",
@@ -2194,7 +2279,13 @@
     "latlng": [
       36.13333333,
       -5.35
-    ]
+    ],
+    "sovereignty": {
+      "label": "British overseas territory",
+      "sovereignState": "United Kingdom",
+      "disputed": true,
+      "note": "Spain disputes British sovereignty over Gibraltar."
+    }
   },
   {
     "cca3": "GRC",
@@ -2245,7 +2336,11 @@
     "latlng": [
       72,
       -40
-    ]
+    ],
+    "sovereignty": {
+      "label": "Autonomous territory",
+      "sovereignState": "Kingdom of Denmark"
+    }
   },
   {
     "cca3": "GRD",
@@ -2295,7 +2390,11 @@
     "latlng": [
       16.25,
       -61.583333
-    ]
+    ],
+    "sovereignty": {
+      "label": "Overseas department and region",
+      "sovereignState": "France"
+    }
   },
   {
     "cca3": "GUM",
@@ -2323,7 +2422,11 @@
     "latlng": [
       13.46666666,
       144.78333333
-    ]
+    ],
+    "sovereignty": {
+      "label": "Unincorporated territory",
+      "sovereignState": "United States"
+    }
   },
   {
     "cca3": "GTM",
@@ -2377,7 +2480,12 @@
     "latlng": [
       49.46666666,
       -2.58333333
-    ]
+    ],
+    "sovereignty": {
+      "label": "Crown Dependency",
+      "sovereignState": "United Kingdom",
+      "note": "The UK is responsible for defense and international representation."
+    }
   },
   {
     "cca3": "GIN",
@@ -2504,7 +2612,11 @@
     "latlng": [
       -53.1,
       72.51666666
-    ]
+    ],
+    "sovereignty": {
+      "label": "External territory",
+      "sovereignState": "Australia"
+    }
   },
   {
     "cca3": "HND",
@@ -2556,7 +2668,11 @@
     "latlng": [
       22.267,
       114.188
-    ]
+    ],
+    "sovereignty": {
+      "label": "Special administrative region",
+      "sovereignState": "China"
+    }
   },
   {
     "cca3": "HUN",
@@ -2766,7 +2882,12 @@
     "latlng": [
       54.25,
       -4.5
-    ]
+    ],
+    "sovereignty": {
+      "label": "Crown Dependency",
+      "sovereignState": "United Kingdom",
+      "note": "The UK is responsible for defense and international representation."
+    }
   },
   {
     "cca3": "ISR",
@@ -2923,7 +3044,12 @@
     "latlng": [
       49.25,
       -2.16666666
-    ]
+    ],
+    "sovereignty": {
+      "label": "Crown Dependency",
+      "sovereignState": "United Kingdom",
+      "note": "The UK is responsible for defense and international representation."
+    }
   },
   {
     "cca3": "JOR",
@@ -3056,7 +3182,12 @@
     "latlng": [
       42.6026,
       20.903
-    ]
+    ],
+    "sovereignty": {
+      "label": "Disputed state",
+      "disputed": true,
+      "note": "Kosovo is recognized by many countries, while Serbia continues to claim it."
+    }
   },
   {
     "cca3": "KWT",
@@ -3367,7 +3498,11 @@
     "latlng": [
       22.16666666,
       113.55
-    ]
+    ],
+    "sovereignty": {
+      "label": "Special administrative region",
+      "sovereignState": "China"
+    }
   },
   {
     "cca3": "MDG",
@@ -3577,7 +3712,11 @@
     "latlng": [
       14.666667,
       -61
-    ]
+    ],
+    "sovereignty": {
+      "label": "Overseas department and region",
+      "sovereignState": "France"
+    }
   },
   {
     "cca3": "MRT",
@@ -3654,7 +3793,13 @@
     "latlng": [
       -12.83333333,
       45.16666666
-    ]
+    ],
+    "sovereignty": {
+      "label": "Overseas department and region",
+      "sovereignState": "France",
+      "disputed": true,
+      "note": "Comoros disputes French sovereignty over Mayotte."
+    }
   },
   {
     "cca3": "MEX",
@@ -3827,7 +3972,11 @@
     "latlng": [
       16.75,
       -62.2
-    ]
+    ],
+    "sovereignty": {
+      "label": "British overseas territory",
+      "sovereignState": "United Kingdom"
+    }
   },
   {
     "cca3": "MAR",
@@ -4041,7 +4190,11 @@
     "latlng": [
       -21.5,
       165.5
-    ]
+    ],
+    "sovereignty": {
+      "label": "Special collectivity",
+      "sovereignState": "France"
+    }
   },
   {
     "cca3": "NZL",
@@ -4171,7 +4324,12 @@
     "latlng": [
       -19.03333333,
       -169.86666666
-    ]
+    ],
+    "sovereignty": {
+      "label": "Self-governing state in free association",
+      "sovereignState": "New Zealand",
+      "note": "Niue conducts many affairs itself while maintaining free association with New Zealand."
+    }
   },
   {
     "cca3": "NFK",
@@ -4198,7 +4356,11 @@
     "latlng": [
       -29.03333333,
       167.95
-    ]
+    ],
+    "sovereignty": {
+      "label": "External territory",
+      "sovereignState": "Australia"
+    }
   },
   {
     "cca3": "PRK",
@@ -4273,7 +4435,12 @@
     "latlng": [
       35.28,
       33.36
-    ]
+    ],
+    "sovereignty": {
+      "label": "Disputed self-declared state",
+      "disputed": true,
+      "note": "Recognized only by Turkey; internationally treated as part of Cyprus."
+    }
   },
   {
     "cca3": "MNP",
@@ -4301,7 +4468,11 @@
     "latlng": [
       15.2,
       145.75
-    ]
+    ],
+    "sovereignty": {
+      "label": "Commonwealth in political union",
+      "sovereignState": "United States"
+    }
   },
   {
     "cca3": "NOR",
@@ -4436,7 +4607,12 @@
     "latlng": [
       31.9,
       35.2
-    ]
+    ],
+    "sovereignty": {
+      "label": "Disputed state",
+      "disputed": true,
+      "note": "Palestine has broad international recognition, but borders and sovereignty remain disputed."
+    }
   },
   {
     "cca3": "PAN",
@@ -4597,7 +4773,11 @@
     "latlng": [
       -25.06666666,
       -130.1
-    ]
+    ],
+    "sovereignty": {
+      "label": "British overseas territory",
+      "sovereignState": "United Kingdom"
+    }
   },
   {
     "cca3": "POL",
@@ -4674,7 +4854,11 @@
     "latlng": [
       18.25,
       -66.5
-    ]
+    ],
+    "sovereignty": {
+      "label": "Unincorporated territory",
+      "sovereignState": "United States"
+    }
   },
   {
     "cca3": "QAT",
@@ -4752,7 +4936,11 @@
     "latlng": [
       -21.15,
       55.5
-    ]
+    ],
+    "sovereignty": {
+      "label": "Overseas department and region",
+      "sovereignState": "France"
+    }
   },
   {
     "cca3": "ROU",
@@ -4855,7 +5043,11 @@
     "latlng": [
       18.5,
       -63.41666666
-    ]
+    ],
+    "sovereignty": {
+      "label": "Overseas collectivity",
+      "sovereignState": "France"
+    }
   },
   {
     "cca3": "SHN",
@@ -4881,7 +5073,11 @@
     "latlng": [
       -15.95,
       -5.72
-    ]
+    ],
+    "sovereignty": {
+      "label": "British overseas territory",
+      "sovereignState": "United Kingdom"
+    }
   },
   {
     "cca3": "KNA",
@@ -4956,7 +5152,11 @@
     "latlng": [
       18.08333333,
       -63.95
-    ]
+    ],
+    "sovereignty": {
+      "label": "Overseas collectivity",
+      "sovereignState": "France"
+    }
   },
   {
     "cca3": "SPM",
@@ -4981,7 +5181,11 @@
     "latlng": [
       46.83333333,
       -56.33333333
-    ]
+    ],
+    "sovereignty": {
+      "label": "Overseas collectivity",
+      "sovereignState": "France"
+    }
   },
   {
     "cca3": "VCT",
@@ -5268,7 +5472,11 @@
     "latlng": [
       18.033333,
       -63.05
-    ]
+    ],
+    "sovereignty": {
+      "label": "Constituent country",
+      "sovereignState": "Kingdom of the Netherlands"
+    }
   },
   {
     "cca3": "SVK",
@@ -5397,7 +5605,12 @@
     "latlng": [
       9.55,
       44.05
-    ]
+    ],
+    "sovereignty": {
+      "label": "Disputed self-declared state",
+      "disputed": true,
+      "note": "Somaliland governs itself, but is internationally treated as part of Somalia."
+    }
   },
   {
     "cca3": "ZAF",
@@ -5458,7 +5671,13 @@
     "latlng": [
       -54.5,
       -37
-    ]
+    ],
+    "sovereignty": {
+      "label": "British overseas territory",
+      "sovereignState": "United Kingdom",
+      "disputed": true,
+      "note": "Sovereignty is disputed by Argentina."
+    }
   },
   {
     "cca3": "KOR",
@@ -5637,7 +5856,11 @@
     "latlng": [
       78,
       20
-    ]
+    ],
+    "sovereignty": {
+      "label": "Norwegian territory",
+      "sovereignState": "Norway"
+    }
   },
   {
     "cca3": "SWE",
@@ -5742,7 +5965,12 @@
     "latlng": [
       23.5,
       121
-    ]
+    ],
+    "sovereignty": {
+      "label": "Disputed state",
+      "disputed": true,
+      "note": "Taiwan is self-governed as the Republic of China; the People's Republic of China claims it."
+    }
   },
   {
     "cca3": "TJK",
@@ -5900,7 +6128,11 @@
     "latlng": [
       -9,
       -172
-    ]
+    ],
+    "sovereignty": {
+      "label": "Dependent territory",
+      "sovereignState": "New Zealand"
+    }
   },
   {
     "cca3": "TON",
@@ -6054,7 +6286,11 @@
     "latlng": [
       21.75,
       -71.58333333
-    ]
+    ],
+    "sovereignty": {
+      "label": "British overseas territory",
+      "sovereignState": "United Kingdom"
+    }
   },
   {
     "cca3": "TUV",
@@ -6234,7 +6470,11 @@
     "latlng": [
       19.3,
       166.633333
-    ]
+    ],
+    "sovereignty": {
+      "label": "Outlying islands",
+      "sovereignState": "United States"
+    }
   },
   {
     "cca3": "VIR",
@@ -6259,7 +6499,11 @@
     "latlng": [
       18.35,
       -64.933333
-    ]
+    ],
+    "sovereignty": {
+      "label": "Unincorporated territory",
+      "sovereignState": "United States"
+    }
   },
   {
     "cca3": "URY",
@@ -6441,7 +6685,11 @@
     "latlng": [
       -13.3,
       -176.2
-    ]
+    ],
+    "sovereignty": {
+      "label": "Overseas collectivity",
+      "sovereignState": "France"
+    }
   },
   {
     "cca3": "ESH",
@@ -6471,7 +6719,12 @@
     "latlng": [
       24.5,
       -13
-    ]
+    ],
+    "sovereignty": {
+      "label": "Disputed territory",
+      "disputed": true,
+      "note": "Western Sahara is claimed by Morocco and by the Sahrawi Arab Democratic Republic."
+    }
   },
   {
     "cca3": "YEM",
