@@ -1,20 +1,23 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent, type WheelEvent } from "react";
 import "flag-icons/css/flag-icons.min.css";
+import * as Dialog from "@radix-ui/react-dialog";
 import { geoEqualEarth, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
 import atlas from "world-atlas/countries-50m.json";
 import countryData from "./data/countries.json";
 import {
   CheckCircle2,
-  Flag,
   Globe2,
   HelpCircle,
+  Layers,
   ListFilter,
   MapPinned,
   Maximize2,
+  Menu,
   RotateCcw,
   Search,
   XCircle,
+  X,
   ZoomIn,
   ZoomOut,
 } from "lucide-react";
@@ -129,6 +132,7 @@ function shuffled<T>(items: T[]): T[] {
 function App() {
   const countries = useMemo(loadCountries, []);
   const [view, setView] = useState<ViewMode>("practice");
+  const [countryBrowserOpen, setCountryBrowserOpen] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState("All");
   const [query, setQuery] = useState("");
   const [mapView, setMapView] = useState<MapView>("borders");
@@ -232,76 +236,74 @@ function App() {
         </div>
         <nav className="mode-switch" aria-label="Mode">
           <button className={view === "practice" ? "active" : ""} onClick={() => setView("practice")}>
-            <MapPinned size={18} /> Practice
+            <MapPinned size={18} />
+            <span>Practice</span>
           </button>
           <button className={view === "quiz" ? "active" : ""} onClick={() => setView("quiz")}>
-            <HelpCircle size={18} /> Quizzes
+            <HelpCircle size={18} />
+            <span>Quizzes</span>
           </button>
         </nav>
       </header>
 
-      <>
-          <section className="controls" aria-label="Filters">
-            <label className="searchbox">
-              <Search size={18} aria-hidden="true" />
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search country, capital, or region"
-              />
-            </label>
-            <label className="selectbox">
-              <ListFilter size={18} aria-hidden="true" />
-              <select value={selectedRegion} onChange={(event) => setSelectedRegion(event.target.value)}>
-                {regions.map((region) => (
-                  <option key={region}>{region}</option>
-                ))}
-              </select>
-            </label>
-            <label className="toggle">
-              <Flag size={18} aria-hidden="true" />
-              <select value={mapView} onChange={(event) => setMapView(event.target.value as MapView)}>
-                <option value="borders">Borders</option>
-                <option value="flagFills">Flag fills</option>
-                <option value="markers">Flag markers</option>
-              </select>
-            </label>
-          </section>
+      <WorldMap
+        countries={countries}
+        countryByNumeric={countryByNumeric}
+        filteredCountries={filteredCountries}
+        selectedCountry={selectedCountry}
+        quizCountry={view === "quiz" && quizMode === "locate" ? quizCountry : null}
+        result={result}
+        mapView={mapView}
+        onCountrySelect={selectFromMap}
+      />
 
-          <section className="workspace">
-            <WorldMap
-              countries={countries}
-              countryByNumeric={countryByNumeric}
-              filteredCountries={filteredCountries}
-              selectedCountry={selectedCountry}
-              quizCountry={view === "quiz" && quizMode === "locate" ? quizCountry : null}
-              result={result}
-              mapView={mapView}
-              onCountrySelect={selectFromMap}
-            />
+      <section className="floating-controls" aria-label="Map and country controls">
+        <button className="control-button primary" type="button" onClick={() => setCountryBrowserOpen(true)}>
+          <Menu size={18} aria-hidden="true" />
+          Countries
+          <span>{filteredCountries.length}</span>
+        </button>
+        <label className="select-control">
+          <Layers size={18} aria-hidden="true" />
+          <select value={mapView} onChange={(event) => setMapView(event.target.value as MapView)} aria-label="Map style">
+            <option value="borders">Borders</option>
+            <option value="flagFills">Flag fills</option>
+            <option value="markers">Flag markers</option>
+          </select>
+        </label>
+      </section>
 
-            {view === "practice" ? (
-              <PracticePanel
-                countries={filteredCountries}
-                selectedCountry={selectedCountry}
-                onSelect={(country) => setSelectedCode(country.cca3)}
-              />
-            ) : (
-              <QuizPanel
-                mode={quizMode}
-                country={quizCountry}
-                choices={choices}
-                result={result}
-                lastGuess={lastGuess}
-                score={score}
-                onModeChange={changeQuizMode}
-                onChoice={checkAnswer}
-                onNext={() => nextQuestion()}
-                onReset={() => setScore({ correct: 0, total: 0, streak: 0 })}
-              />
-            )}
-          </section>
-      </>
+      <CountryBrowser
+        countries={filteredCountries}
+        open={countryBrowserOpen}
+        query={query}
+        selectedCountry={selectedCountry}
+        selectedRegion={selectedRegion}
+        onOpenChange={setCountryBrowserOpen}
+        onQueryChange={setQuery}
+        onRegionChange={setSelectedRegion}
+        onSelect={(country) => {
+          setSelectedCode(country.cca3);
+          setCountryBrowserOpen(false);
+        }}
+      />
+
+      {view === "practice" ? (
+        <PracticePanel selectedCountry={selectedCountry} />
+      ) : (
+        <QuizPanel
+          mode={quizMode}
+          country={quizCountry}
+          choices={choices}
+          result={result}
+          lastGuess={lastGuess}
+          score={score}
+          onModeChange={changeQuizMode}
+          onChoice={checkAnswer}
+          onNext={() => nextQuestion()}
+          onReset={() => setScore({ correct: 0, total: 0, streak: 0 })}
+        />
+      )}
     </main>
   );
 }
@@ -460,6 +462,7 @@ function WorldMap({
       <svg
         ref={svgRef}
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+        preserveAspectRatio="xMidYMid slice"
         role="img"
         aria-label="Clickable world map"
         onWheel={handleWheel}
@@ -568,41 +571,105 @@ function WorldMap({
           )}
         </g>
       </svg>
-      <div className="map-caption">
-        {quizCountry ? `Find ${quizCountry.name} on the map` : selectedCountry ? selectedCountry.official : `${countries.length} countries`}
-      </div>
     </section>
   );
 }
 
 function PracticePanel({
-  countries,
   selectedCountry,
-  onSelect,
 }: {
-  countries: Country[];
   selectedCountry: Country | null;
-  onSelect: (country: Country) => void;
 }) {
   return (
     <aside className="side-panel">
-      {selectedCountry && <CountryCard country={selectedCountry} />}
-      <div className="country-list" aria-label="Countries">
-        {countries.map((country) => (
-          <button
-            key={country.cca3}
-            className={country.cca3 === selectedCountry?.cca3 ? "country-row active" : "country-row"}
-            onClick={() => onSelect(country)}
-          >
-            <span className="row-flag">{country.emoji}</span>
-            <span>
-              <strong>{country.name}</strong>
-              <small>{country.capital} · {country.sovereignty?.sovereignState ?? country.region}</small>
-            </span>
-          </button>
-        ))}
-      </div>
+      {selectedCountry ? <CountryCard country={selectedCountry} /> : <EmptyCountryPanel />}
     </aside>
+  );
+}
+
+function CountryBrowser({
+  countries,
+  open,
+  query,
+  selectedCountry,
+  selectedRegion,
+  onOpenChange,
+  onQueryChange,
+  onRegionChange,
+  onSelect,
+}: {
+  countries: Country[];
+  open: boolean;
+  query: string;
+  selectedCountry: Country | null;
+  selectedRegion: string;
+  onOpenChange: (open: boolean) => void;
+  onQueryChange: (query: string) => void;
+  onRegionChange: (region: string) => void;
+  onSelect: (country: Country) => void;
+}) {
+  return (
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="drawer-overlay" />
+        <Dialog.Content className="country-drawer" aria-describedby={undefined}>
+          <div className="drawer-header">
+            <div>
+              <Dialog.Title>Countries</Dialog.Title>
+              <p>{countries.length} matches</p>
+            </div>
+            <Dialog.Close className="icon-button" aria-label="Close country browser">
+              <X size={18} />
+            </Dialog.Close>
+          </div>
+
+          <div className="drawer-controls">
+            <label className="searchbox">
+              <Search size={18} aria-hidden="true" />
+              <input
+                value={query}
+                onChange={(event) => onQueryChange(event.target.value)}
+                placeholder="Search country, capital, or region"
+              />
+            </label>
+            <label className="selectbox">
+              <ListFilter size={18} aria-hidden="true" />
+              <select value={selectedRegion} onChange={(event) => onRegionChange(event.target.value)}>
+                {regions.map((region) => (
+                  <option key={region}>{region}</option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="country-list" aria-label="Countries">
+            {countries.map((country) => (
+              <button
+                key={country.cca3}
+                className={country.cca3 === selectedCountry?.cca3 ? "country-row active" : "country-row"}
+                onClick={() => onSelect(country)}
+              >
+                <span className="row-flag">{country.emoji}</span>
+                <span>
+                  <strong>{country.name}</strong>
+                  <small>{country.capital} · {country.sovereignty?.sovereignState ?? country.region}</small>
+                </span>
+              </button>
+            ))}
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
+
+function EmptyCountryPanel() {
+  return (
+    <article className="empty-panel">
+      <Globe2 size={24} aria-hidden="true" />
+      <h2>Select a country</h2>
+      <p>Use the map or the Countries menu to inspect details.</p>
+    </article>
   );
 }
 
