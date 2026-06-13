@@ -29,6 +29,7 @@ import {
   Play,
   Award,
   ArrowRight,
+  Info,
 } from "lucide-react";
 
 type ViewMode = "practice" | "quiz";
@@ -36,6 +37,7 @@ type QuizMode = "locate" | "flag" | "facts";
 type MapView = "borders" | "flagFills";
 type ResultState = "idle" | "correct" | "wrong";
 type RelationshipKind = "self" | "tension" | "mild-tension" | "ally" | "union" | "territory";
+type DetailLevel = "full" | "basic" | "minimal";
 
 type Country = {
   cca3: string;
@@ -784,6 +786,34 @@ function App() {
   const [query, setQuery] = useState("");
   const [mapView, setMapView] = useState<MapView>("borders");
   const [selectedCode, setSelectedCode] = useState<string | null>(null);
+  const [detailLevel, setDetailLevel] = useState<DetailLevel>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_detail_level");
+      if (saved === "full" || saved === "basic" || saved === "minimal") {
+        return saved;
+      }
+    } catch (e) {
+      console.error("Failed to load detail level", e);
+    }
+    return "full";
+  });
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 900);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_detail_level", detailLevel);
+    } catch (e) {
+      console.error("Failed to save detail level", e);
+    }
+  }, [detailLevel]);
   const [quizMode, setQuizMode] = useState<QuizMode>("locate");
   const [quizCountry, setQuizCountry] = useState<Country | null>(null);
   const [choices, setChoices] = useState<Country[]>([]);
@@ -831,8 +861,9 @@ function App() {
   
   const selectedRelationships = useMemo(() => {
     if (view === "quiz" && quizStatus === "playing") return null;
+    if (detailLevel !== "full") return null;
     return selectedCountry ? relationshipSummary(selectedCountry, countries) : null;
-  }, [countries, selectedCountry, view, quizStatus]);
+  }, [countries, selectedCountry, view, quizStatus, detailLevel]);
 
   const currentQuizPool = useMemo(() => {
     return countries.filter(
@@ -1155,13 +1186,51 @@ function App() {
           <div className="brand">
             <Globe2 size={30} aria-hidden="true" />
             <div>
-              <h1>GeoLearn</h1>
+              <h1>Geo.LibreUni.Org</h1>
               <p>
                 {countries.length
                   ? `${countries.length} countries loaded`
                   : "World countries, flags, facts, and map practice"}
               </p>
             </div>
+
+            {!isMobile && !(view === "quiz" && quizStatus === "playing") && (
+              <>
+                <div className="brand-divider" />
+                <div className="brand-controls">
+                  <button
+                    className="control-button primary"
+                    type="button"
+                    onClick={() => setCountryBrowserOpen(true)}
+                  >
+                    <Menu size={18} aria-hidden="true" />
+                    Countries
+                    <span>{filteredCountries.length}</span>
+                  </button>
+                  <AppSelect
+                    ariaLabel="Map style"
+                    icon={<Layers size={18} aria-hidden="true" />}
+                    value={mapView}
+                    options={[
+                      { value: "borders", label: "Borders" },
+                      { value: "flagFills", label: "Flag fills" },
+                    ]}
+                    onChange={(value) => setMapView(value as MapView)}
+                  />
+                  <AppSelect
+                    ariaLabel="Detail level"
+                    icon={<Info size={18} aria-hidden="true" />}
+                    value={detailLevel}
+                    options={[
+                      { value: "full", label: "Full Details" },
+                      { value: "basic", label: "Basic Facts" },
+                      { value: "minimal", label: "Minimal Info" },
+                    ]}
+                    onChange={(value) => setDetailLevel(value as DetailLevel)}
+                  />
+                </div>
+              </>
+            )}
           </div>
           <nav className="mode-switch" aria-label="Mode">
             <button
@@ -1204,7 +1273,7 @@ function App() {
         revealingTarget={revealingTarget}
       />
 
-      {!(view === "quiz" && quizStatus === "playing") && (
+      {isMobile && !(view === "quiz" && quizStatus === "playing") && (
         <section className="floating-controls" aria-label="Map and country controls">
           <button
             className="control-button primary"
@@ -1224,6 +1293,17 @@ function App() {
               { value: "flagFills", label: "Flag fills" },
             ]}
             onChange={(value) => setMapView(value as MapView)}
+          />
+          <AppSelect
+            ariaLabel="Detail level"
+            icon={<Info size={18} aria-hidden="true" />}
+            value={detailLevel}
+            options={[
+              { value: "full", label: "Full Details" },
+              { value: "basic", label: "Basic Facts" },
+              { value: "minimal", label: "Minimal Info" },
+            ]}
+            onChange={(value) => setDetailLevel(value as DetailLevel)}
           />
         </section>
       )}
@@ -1248,6 +1328,9 @@ function App() {
           selectedCountry={selectedCountry}
           relationships={selectedRelationships}
           countries={countries}
+          detailLevel={detailLevel}
+          isMobile={isMobile}
+          onSelectCountry={(country) => setSelectedCode(country.cca3)}
         />
       ) : view === "quiz" && quizStatus === "config" ? (
         <div className="quiz-dashboard-overlay">
@@ -1753,7 +1836,7 @@ function WorldMap({
             const visible = country ? targetCodes.has(country.cca3) : false;
             
             const isSelected = !isQuizPlayingActive && country?.cca3 === selectedCountry?.cca3;
-            const relation = !isQuizPlayingActive ? relationshipKind(selectedCountry, country) : null;
+            const relation = !isQuizPlayingActive && selectedRelationships ? relationshipKind(selectedCountry, country) : null;
             
             const isTarget = country?.cca3 === quizCountry?.cca3;
             const quizColor = (isQuizMode && country) ? quizHistory[country.cca3] : undefined;
@@ -1831,56 +1914,404 @@ function WorldMap({
           )}
         </g>
       </svg>
-      {selectedCountry && selectedRelationships && (
-        <MapLegend
-          country={selectedCountry}
-          activeTensions={selectedRelationships.tensions.length}
-          historicalTensions={selectedRelationships.mildTensions.length}
-          allies={selectedRelationships.allies.length}
-          unions={selectedRelationships.unions.length}
-        />
-      )}
+      {/* MapLegend has been integrated into the bottom panel in practice mode */}
     </section>
   );
 }
 
-function MapLegend({
-  country,
-  activeTensions,
-  historicalTensions,
-  allies,
-  unions,
-}: {
-  country: Country;
-  activeTensions: number;
-  historicalTensions: number;
-  allies: number;
-  unions: number;
-}) {
-  return (
-    <div className="map-legend" aria-label={`Relationship colors for ${country.name}`}>
-      <span><i className="legend-self" /> Selected</span>
-      {allies > 0 && <span><i className="legend-ally" /> Allies {allies}</span>}
-      {unions > 0 && <span><i className="legend-union" /> Unions {unions}</span>}
-      {activeTensions > 0 && <span><i className="legend-tension" /> Active Tensions {activeTensions}</span>}
-      {historicalTensions > 0 && <span><i className="legend-mild-tension" /> Mild/Historical Tensions {historicalTensions}</span>}
-    </div>
+type HighlightItem = {
+  type: "active-tension" | "mild-tension" | "ally" | "union" | "territory";
+  text: string;
+  detail?: string;
+  relatedCountries: Country[];
+};
+
+function getRelationshipHighlights(
+  selectedCountry: Country,
+  countries: Country[],
+  countryByCode: Map<string, Country>
+): HighlightItem[] {
+  const list: HighlightItem[] = [];
+
+  // 1. Tensions
+  tensionsList.forEach((t) => {
+    if (t.countries.includes(selectedCountry.cca3)) {
+      const otherCode = t.countries.find((code) => code !== selectedCountry.cca3)!;
+      const otherCountry = countryByCode.get(otherCode);
+      const otherName = otherCountry ? otherCountry.name : otherCode;
+      const label = getTensionLabel(selectedCountry.cca3, otherCode, otherName, t);
+      list.push({
+        type: t.type === "active" ? "active-tension" : "mild-tension",
+        text: label,
+        relatedCountries: otherCountry ? [otherCountry] : [],
+      });
+    }
+  });
+
+  // 2. Unions
+  Object.entries(unionGroups).forEach(([groupName, members]) => {
+    if (members.includes(selectedCountry.cca3)) {
+      list.push({
+        type: "union",
+        text: groupName === "European Union" ? "European Union" : `Member of ${groupName}`,
+        relatedCountries: [],
+      });
+    }
+  });
+
+  // 3. Alliances
+  Object.entries(allyGroups).forEach(([groupName, members]) => {
+    if (members.includes(selectedCountry.cca3)) {
+      list.push({
+        type: "ally",
+        text: groupName === "NATO" ? "NATO Alliance" : `Member of ${groupName} Alliance`,
+        relatedCountries: [],
+      });
+    }
+  });
+
+  // 4. Territory (Link to sovereign state)
+  if (selectedCountry.sovereignty?.sovereignState) {
+    const sovereignName = selectedCountry.sovereignty.sovereignState;
+    const sovereignCountry = countries.find((c) => c.name === sovereignName || c.official === sovereignName);
+    list.push({
+      type: "territory",
+      text: `Territory of ${sovereignName}`,
+      detail: selectedCountry.sovereignty.label,
+      relatedCountries: sovereignCountry ? [sovereignCountry] : [],
+    });
+  }
+
+  // 5. Territory (Has external territories)
+  const territories = countries.filter(
+    (c) => c.sovereignty?.sovereignState === selectedCountry.name
   );
+  if (territories.length > 0) {
+    const names = territories.map((t) => t.name).slice(0, 3).join(", ");
+    const moreCount = territories.length - 3;
+    list.push({
+      type: "territory",
+      text: `Sovereign of ${territories.length} external ${territories.length === 1 ? "territory" : "territories"}`,
+      detail: `${names}${moreCount > 0 ? `, +${moreCount} more` : ""}`,
+      relatedCountries: territories,
+    });
+  }
+
+  return list;
+}
+
+function renderLabelWithLinks(
+  text: string,
+  relatedCountries: Country[],
+  onSelectCountry: (country: Country) => void
+) {
+  if (!relatedCountries || relatedCountries.length === 0) return <span>{text}</span>;
+
+  let parts: ReactNode[] = [text];
+
+  relatedCountries.forEach((country) => {
+    const name = country.name;
+    const newParts: ReactNode[] = [];
+    parts.forEach((part) => {
+      if (typeof part !== "string") {
+        newParts.push(part);
+        return;
+      }
+      let currentPart = part;
+      let index = currentPart.indexOf(name);
+      while (index !== -1) {
+        const before = currentPart.substring(0, index);
+        const after = currentPart.substring(index + name.length);
+        if (before) {
+          newParts.push(before);
+        }
+        newParts.push(
+          <button
+            key={`${country.cca3}-${index}`}
+            className="inline-country-link"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelectCountry(country);
+            }}
+          >
+            {country.emoji} {name}
+          </button>
+        );
+        currentPart = after;
+        index = currentPart.indexOf(name);
+      }
+      if (currentPart) {
+        newParts.push(currentPart);
+      }
+    });
+    parts = newParts;
+  });
+
+  return <>{parts.map((p, idx) => <span key={idx}>{p}</span>)}</>;
 }
 
 function PracticePanel({
   selectedCountry,
   relationships,
   countries,
+  detailLevel,
+  isMobile,
+  onSelectCountry,
 }: {
   selectedCountry: Country;
   relationships: ReturnType<typeof relationshipSummary> | null;
   countries: Country[];
+  detailLevel: DetailLevel;
+  isMobile: boolean;
+  onSelectCountry: (country: Country) => void;
 }) {
+  const countryByCode = useMemo(
+    () => new Map(countries.map((c) => [c.cca3, c])),
+    [countries]
+  );
+
+  const phrasebook = findPhrasebook(selectedCountry);
+  const highlights = useMemo(
+    () => getRelationshipHighlights(selectedCountry, countries, countryByCode),
+    [selectedCountry, countries, countryByCode]
+  );
+
+  if (isMobile) {
+    return (
+      <aside className="mobile-info-panel side-panel">
+        <div className="country-card">
+          <div className="flag-frame">
+            <FlagIcon country={selectedCountry} />
+          </div>
+          <h2>{selectedCountry.name}</h2>
+          <p>{selectedCountry.official}</p>
+          <dl>
+            {selectedCountry.sovereignty && (
+              <div>
+                <dt>{selectedCountry.sovereignty.disputed ? "Status" : "Sovereignty"}</dt>
+                <dd>
+                  <SovereigntyNote country={selectedCountry} />
+                </dd>
+              </div>
+            )}
+            <div>
+              <dt>Capital</dt>
+              <dd>{selectedCountry.capital}</dd>
+            </div>
+            <div>
+              <dt>Region</dt>
+              <dd>{selectedCountry.subregion}, {selectedCountry.region}</dd>
+            </div>
+            {detailLevel !== "minimal" && (
+              <>
+                <div>
+                  <dt>Population</dt>
+                  <dd>{formatNumber.format(selectedCountry.population)}</dd>
+                </div>
+                <div>
+                  <dt>Area</dt>
+                  <dd>{formatArea(selectedCountry.area)}</dd>
+                </div>
+                <div>
+                  <dt>Languages</dt>
+                  <dd><LanguageList country={selectedCountry} /></dd>
+                </div>
+                <div>
+                  <dt>Currencies</dt>
+                  <dd>{selectedCountry.currencies.join(", ") || "Not listed"}</dd>
+                </div>
+              </>
+            )}
+          </dl>
+
+          {detailLevel !== "minimal" && phrasebook && (
+            <section className="info-section">
+              <h3>Local Phrases ({phrasebook.language})</h3>
+              <table className="phrases-table">
+                <thead>
+                  <tr>
+                    <th>English</th>
+                    <th>Local Script</th>
+                    <th>Pronunciation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {phrasebook.phrases.map((phrase, idx) => (
+                    <tr key={idx}>
+                      <td>{phrase.english}</td>
+                      <td className="local-script">{phrase.local}</td>
+                      <td className="phonetic">{phrase.phonetic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          )}
+
+          {detailLevel === "full" && highlights.length > 0 && (
+            <section className="info-section">
+              <h3>Key Relationships & Status</h3>
+              <div className="highlights-list">
+                {highlights.map((h, index) => (
+                  <div key={index} className={`relationship-preview ${h.type}`}>
+                    <strong>
+                      {renderLabelWithLinks(h.text, h.relatedCountries, onSelectCountry)}
+                    </strong>
+                    {h.detail && (
+                      <span>
+                        {renderLabelWithLinks(h.detail, h.relatedCountries, onSelectCountry)}
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {detailLevel !== "minimal" && selectedCountry.wikipedia && (
+            <section className="info-section country-summary">
+              <h3>Overview</h3>
+              <p>{selectedCountry.wikipedia.summary}</p>
+              <a href={selectedCountry.wikipedia.sourceUrl} target="_blank" rel="noreferrer">
+                Source: Wikipedia, {selectedCountry.wikipedia.title}
+                <ExternalLink size={14} aria-hidden="true" />
+              </a>
+            </section>
+          )}
+        </div>
+      </aside>
+    );
+  }
+
+  // Desktop View (Split Panels)
   return (
-    <aside className="side-panel">
-      <CountryCard country={selectedCountry} relationships={relationships} countries={countries} />
-    </aside>
+    <>
+      {/* Left Panel - Core Facts & Cultural Phrases */}
+      <aside className="left-info-panel side-panel">
+        <div className="country-card">
+          <div className="flag-frame">
+            <FlagIcon country={selectedCountry} />
+          </div>
+          <h2>{selectedCountry.name}</h2>
+          <p>{selectedCountry.official}</p>
+          <dl>
+            {selectedCountry.sovereignty && (
+              <div>
+                <dt>{selectedCountry.sovereignty.disputed ? "Status" : "Sovereignty"}</dt>
+                <dd>
+                  <SovereigntyNote country={selectedCountry} />
+                </dd>
+              </div>
+            )}
+            <div>
+              <dt>Capital</dt>
+              <dd>{selectedCountry.capital}</dd>
+            </div>
+            <div>
+              <dt>Region</dt>
+              <dd>{selectedCountry.subregion}, {selectedCountry.region}</dd>
+            </div>
+            {detailLevel !== "minimal" && (
+              <>
+                <div>
+                  <dt>Population</dt>
+                  <dd>{formatNumber.format(selectedCountry.population)}</dd>
+                </div>
+                <div>
+                  <dt>Area</dt>
+                  <dd>{formatArea(selectedCountry.area)}</dd>
+                </div>
+                <div>
+                  <dt>Languages</dt>
+                  <dd><LanguageList country={selectedCountry} /></dd>
+                </div>
+                <div>
+                  <dt>Currencies</dt>
+                  <dd>{selectedCountry.currencies.join(", ") || "Not listed"}</dd>
+                </div>
+              </>
+            )}
+          </dl>
+
+          {detailLevel !== "minimal" && phrasebook && (
+            <section className="info-section">
+              <h3>Local Phrases ({phrasebook.language})</h3>
+              <table className="phrases-table">
+                <thead>
+                  <tr>
+                    <th>English</th>
+                    <th>Local Script</th>
+                    <th>Pronunciation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {phrasebook.phrases.map((phrase, idx) => (
+                    <tr key={idx}>
+                      <td>{phrase.english}</td>
+                      <td className="local-script">{phrase.local}</td>
+                      <td className="phonetic">{phrase.phonetic}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          )}
+        </div>
+      </aside>
+
+      {/* Right Panel - Wikipedia Summary */}
+      {detailLevel !== "minimal" && selectedCountry.wikipedia && (
+        <aside className="right-wikipedia-panel side-panel">
+          <div className="country-card">
+            <section className="country-summary">
+              <h3>Overview</h3>
+              <p>{selectedCountry.wikipedia.summary}</p>
+              <a href={selectedCountry.wikipedia.sourceUrl} target="_blank" rel="noreferrer">
+                Source: Wikipedia, {selectedCountry.wikipedia.title}
+                <ExternalLink size={14} aria-hidden="true" />
+              </a>
+            </section>
+          </div>
+        </aside>
+      )}
+
+      {/* Bottom Panel - Legend + Badges */}
+      {detailLevel === "full" && (relationships?.allies.length || relationships?.unions.length || relationships?.tensions.length || relationships?.mildTensions.length || highlights.length) ? (
+        <div className="bottom-relationships-panel">
+          {/* Integrated Map Legend */}
+          <div className="bottom-legend-section">
+            <span className="legend-title">Map Legend:</span>
+            <span><i className="legend-self" /> Selected</span>
+            {relationships && relationships.allies.length > 0 && <span><i className="legend-ally" /> Allies ({relationships.allies.length})</span>}
+            {relationships && relationships.unions.length > 0 && <span><i className="legend-union" /> Unions ({relationships.unions.length})</span>}
+            {relationships && relationships.tensions.length > 0 && <span><i className="legend-tension" /> Tensions ({relationships.tensions.length})</span>}
+            {relationships && relationships.mildTensions.length > 0 && <span><i className="legend-mild-tension" /> Mild Tensions ({relationships.mildTensions.length})</span>}
+          </div>
+
+          {/* Vertical Separator if there are badges */}
+          {highlights.length > 0 && <div className="bottom-panel-separator" />}
+
+          {/* Badges Container */}
+          {highlights.length > 0 && (
+            <div className="bottom-badges-section">
+              {highlights.map((h, index) => (
+                <div key={index} className={`relationship-badge ${h.type}`}>
+                  <strong>
+                    {renderLabelWithLinks(h.text, h.relatedCountries, onSelectCountry)}
+                  </strong>
+                  {h.detail && (
+                    <span className="badge-detail">
+                      ({renderLabelWithLinks(h.detail, h.relatedCountries, onSelectCountry)})
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ) : null}
+    </>
   );
 }
 
@@ -1960,221 +2391,8 @@ function CountryBrowser({
   );
 }
 
-function CountryCard({
-  country,
-  relationships,
-  countries,
-}: {
-  country: Country;
-  relationships: ReturnType<typeof relationshipSummary> | null;
-  countries: Country[];
-}) {
-  const phrasebook = findPhrasebook(country);
-  return (
-    <article className="country-card">
-      <div className="flag-frame">
-        <FlagIcon country={country} />
-      </div>
-      <h2>{country.name}</h2>
-      <p>{country.official}</p>
-      <dl>
-        {country.sovereignty && (
-          <div>
-            <dt>{country.sovereignty.disputed ? "Status" : "Sovereignty"}</dt>
-            <dd>
-              <SovereigntyNote country={country} />
-            </dd>
-          </div>
-        )}
-        <div>
-          <dt>Capital</dt>
-          <dd>{country.capital}</dd>
-        </div>
-        <div>
-          <dt>Region</dt>
-          <dd>{country.subregion}, {country.region}</dd>
-        </div>
-        <div>
-          <dt>Population</dt>
-          <dd>{formatNumber.format(country.population)}</dd>
-        </div>
-        <div>
-          <dt>Area</dt>
-          <dd>{formatArea(country.area)}</dd>
-        </div>
-        <div>
-          <dt>Languages</dt>
-          <dd><LanguageList country={country} /></dd>
-        </div>
-        <div>
-          <dt>Currencies</dt>
-          <dd>{country.currencies.join(", ") || "Not listed"}</dd>
-        </div>
-      </dl>
-      {phrasebook && (
-        <section className="info-section">
-          <h3>Local Phrases ({phrasebook.language})</h3>
-          <table className="phrases-table">
-            <thead>
-              <tr>
-                <th>English</th>
-                <th>Local Script</th>
-                <th>Pronunciation</th>
-              </tr>
-            </thead>
-            <tbody>
-              {phrasebook.phrases.map((phrase, idx) => (
-                <tr key={idx}>
-                  <td>{phrase.english}</td>
-                  <td className="local-script">{phrase.local}</td>
-                  <td className="phonetic">{phrase.phonetic}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
-      )}
-      {relationships && hasGeopoliticalRelationships(country, countries) && (
-        <section className="info-section">
-          <h3>Key Relationships & Status</h3>
-          <RelationshipHighlights selectedCountry={country} countries={countries} />
-        </section>
-      )}
-      {country.wikipedia && (
-        <section className="info-section country-summary">
-          <h3>Overview</h3>
-          <p>{country.wikipedia.summary}</p>
-          <a href={country.wikipedia.sourceUrl} target="_blank" rel="noreferrer">
-            Source: Wikipedia, {country.wikipedia.title}
-            <ExternalLink size={14} aria-hidden="true" />
-          </a>
-        </section>
-      )}
-    </article>
-  );
-}
-
-function hasGeopoliticalRelationships(selectedCountry: Country, countries: Country[]): boolean {
-  // 1. Tensions
-  const hasTensions = tensionsList.some((t) => t.countries.includes(selectedCountry.cca3));
-  if (hasTensions) return true;
-
-  // 2. Unions
-  const hasUnions = Object.values(unionGroups).some((members) => members.includes(selectedCountry.cca3));
-  if (hasUnions) return true;
-
-  // 3. Alliances
-  const hasAlliances = Object.values(allyGroups).some((members) => members.includes(selectedCountry.cca3));
-  if (hasAlliances) return true;
-
-  // 4. Territory link (to sovereign state)
-  if (selectedCountry.sovereignty?.sovereignState) return true;
-
-  // 5. Territory link (has external territories)
-  const hasExternalTerritories = countries.some(
-    (c) => c.sovereignty?.sovereignState === selectedCountry.name
-  );
-  if (hasExternalTerritories) return true;
-
-  return false;
-}
-
-type HighlightItem = {
-  type: "active-tension" | "mild-tension" | "ally" | "union" | "territory";
-  text: string;
-  detail?: string;
-};
-
-function RelationshipHighlights({
-  selectedCountry,
-  countries,
-}: {
-  selectedCountry: Country;
-  countries: Country[];
-}) {
-  const countryByCode = useMemo(
-    () => new Map(countries.map((c) => [c.cca3, c])),
-    [countries]
-  );
-
-  const highlights = useMemo(() => {
-    const list: HighlightItem[] = [];
-
-    // 1. Tensions
-    tensionsList.forEach((t) => {
-      if (t.countries.includes(selectedCountry.cca3)) {
-        const otherCode = t.countries.find((code) => code !== selectedCountry.cca3)!;
-        const otherCountry = countryByCode.get(otherCode);
-        const otherName = otherCountry ? otherCountry.name : otherCode;
-        const label = getTensionLabel(selectedCountry.cca3, otherCode, otherName, t);
-        list.push({
-          type: t.type === "active" ? "active-tension" : "mild-tension",
-          text: label,
-        });
-      }
-    });
-
-    // 2. Unions
-    Object.entries(unionGroups).forEach(([groupName, members]) => {
-      if (members.includes(selectedCountry.cca3)) {
-        list.push({
-          type: "union",
-          text: groupName === "European Union" ? "European Union" : `Member of ${groupName}`,
-        });
-      }
-    });
-
-    // 3. Alliances
-    Object.entries(allyGroups).forEach(([groupName, members]) => {
-      if (members.includes(selectedCountry.cca3)) {
-        list.push({
-          type: "ally",
-          text: groupName === "NATO" ? "NATO Alliance" : `Member of ${groupName} Alliance`,
-        });
-      }
-    });
-
-    // 4. Territory (Link to sovereign state)
-    if (selectedCountry.sovereignty?.sovereignState) {
-      list.push({
-        type: "territory",
-        text: `Territory of ${selectedCountry.sovereignty.sovereignState}`,
-        detail: selectedCountry.sovereignty.label,
-      });
-    }
-
-    // 5. Territory (Has external territories)
-    const territories = countries.filter(
-      (c) => c.sovereignty?.sovereignState === selectedCountry.name
-    );
-    if (territories.length > 0) {
-      const names = territories.map((t) => t.name).slice(0, 3).join(", ");
-      const moreCount = territories.length - 3;
-      list.push({
-        type: "territory",
-        text: `Sovereign of ${territories.length} external ${territories.length === 1 ? "territory" : "territories"}`,
-        detail: `${names}${moreCount > 0 ? `, +${moreCount} more` : ""}`,
-      });
-    }
-
-    return list;
-  }, [selectedCountry, countries, countryByCode]);
-
-  if (highlights.length === 0) {
-    return null;
-  }
-
-  return (
-    <div className="highlights-list">
-      {highlights.map((h, index) => (
-        <div key={index} className={`relationship-preview ${h.type}`}>
-          <strong>{h.text}</strong>
-          {h.detail && <span>{h.detail}</span>}
-        </div>
-      ))}
-    </div>
-  );
-}
+// Legacy CountryCard, hasGeopoliticalRelationships, and RelationshipHighlights components have been removed.
+// Their layout has been refactored into the modular PracticePanel component.
 
 function SovereigntyNote({ country }: { country: Country }) {
   const sovereignty = country.sovereignty;

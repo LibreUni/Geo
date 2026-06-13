@@ -80,6 +80,19 @@ button {
   border-radius: 8px;
 }
 
+.brand-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(21, 53, 63, 0.12);
+  margin: 0 10px;
+}
+
+.brand-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .brand svg {
   color: #0e665d;
 }
@@ -1675,5 +1688,202 @@ dd {
   font-weight: 800;
   color: #15353f;
   margin: 0 0 16px;
+}
+
+/* --- DETAILED modular PANELS LAYOUT FOR PRACTICE MODE --- */
+
+/* Split Panels for Practice mode in desktop */
+.left-info-panel {
+  left: 18px !important;
+  right: auto !important;
+  top: 154px !important;
+  width: 340px !important;
+  max-height: calc(100vh - 172px) !important;
+}
+
+.right-wikipedia-panel {
+  right: 18px !important;
+  left: auto !important;
+  top: 154px !important;
+  width: 340px !important;
+  max-height: calc(100vh - 172px) !important;
+}
+
+/* Slide map tools zoom controls dynamically when left panel is visible */
+.shell:has(.left-info-panel) .map-tools {
+  left: 376px;
+}
+
+.map-tools {
+  transition: left 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Bottom centered relationships panel */
+.bottom-relationships-panel {
+  position: fixed;
+  z-index: 18;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 20px;
+  border: 1px solid rgb(255 255 255 / 66%);
+  background: rgb(255 255 255 / 78%);
+  box-shadow: 0 20px 60px rgb(22 38 52 / 18%);
+  backdrop-filter: blur(18px) saturate(145%);
+  border-radius: 999px;
+  max-width: calc(100vw - 36px);
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  animation: slide-up 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slide-up {
+  from {
+    transform: translate(-50%, 20px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+.bottom-relationships-panel::-webkit-scrollbar {
+  display: none;
+}
+
+.bottom-legend-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bottom-legend-section .legend-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #5d6a75;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 4px;
+}
+
+.bottom-legend-section span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: #344555;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+}
+
+.bottom-legend-section i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgb(21 53 63 / 14%);
+}
+
+.bottom-panel-separator {
+  width: 1px;
+  height: 20px;
+  background: rgba(21, 53, 63, 0.12);
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.bottom-badges-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.relationship-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  font-size: 0.84rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.relationship-badge.active-tension {
+  background: #fdeeea;
+  color: #8e2f1d;
+  border-color: #f5c2c2;
+}
+
+.relationship-badge.mild-tension {
+  background: #fff5eb;
+  color: #b05c1d;
+  border-color: #fcd5b5;
+}
+
+.relationship-badge.ally {
+  background: #eaf4ed;
+  color: #1e5a38;
+  border-color: #cce5d6;
+}
+
+.relationship-badge.union,
+.relationship-badge.territory {
+  background: #ebf3f9;
+  color: #245275;
+  border-color: #ccdff0;
+}
+
+.relationship-badge .badge-detail {
+  font-size: 0.78rem;
+  opacity: 0.85;
+  margin-left: 2px;
+}
+
+/* Clickable country names inside relationship badges */
+.inline-country-link {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.15s ease;
+}
+
+.inline-country-link:hover {
+  color: #000000;
+  text-decoration-style: solid;
+  transform: translateY(-0.5px);
+}
+
+/* Mobile responsive fixes */
+@media (max-width: 900px) {
+  .mobile-info-panel.side-panel {
+    position: fixed;
+    z-index: 17;
+    top: auto !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    width: auto !important;
+    max-height: 44vh !important;
+    overflow-y: auto;
+    border-radius: 8px;
+  }
 }
 
