@@ -56,10 +56,12 @@ type MapGeometry = {
 
 const WIDTH = 1100;
 const HEIGHT = 620;
-const MIN_MAP_ZOOM = 1;
-const MAX_MAP_ZOOM = 8;
+const MIN_MAP_ZOOM = 0.82;
+const MAX_MAP_ZOOM = 18;
 const MAX_COUNTRY_HIT_AREA = WIDTH * HEIGHT * 0.6;
 const SMALL_COUNTRY_HIT_AREA = 16;
+const SMALL_COUNTRY_HIT_RADIUS = 9;
+const MIN_SMALL_COUNTRY_HIT_RADIUS = 0.65;
 const projection = geoEqualEarth().fitExtent(
   [
     [20, 20],
@@ -428,6 +430,10 @@ function WorldMap({
     return !geo || geo.area < 18;
   }
 
+  function smallCountryHitRadius() {
+    return Math.max(MIN_SMALL_COUNTRY_HIT_RADIUS, SMALL_COUNTRY_HIT_RADIUS / mapTransform.scale);
+  }
+
   const quizMarkerPoint = quizCountry && needsQuizMarker(quizCountry) ? getMarkerPoint(quizCountry) : null;
 
   return (
@@ -517,7 +523,7 @@ function WorldMap({
               className="island-hitbox"
               cx={geo.centroid![0]}
               cy={geo.centroid![1]}
-              r={Math.max(4, 10 / mapTransform.scale)}
+              r={smallCountryHitRadius()}
               onClick={() => selectCountry(country)}
             >
               <title>{country.name}</title>
