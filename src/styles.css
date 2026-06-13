@@ -215,14 +215,6 @@ button {
   touch-action: none;
 }
 
-.map-panel svg.zoomed {
-  cursor: grab;
-}
-
-.map-panel svg.zoomed:active {
-  cursor: grabbing;
-}
-
 .ocean {
   fill: #d9edf5;
 }
@@ -231,6 +223,10 @@ button {
   stroke: #ffffff;
   stroke-width: 0.55;
   transition: fill 140ms ease, opacity 140ms ease;
+}
+
+.country:not(.no-hit) {
+  cursor: pointer;
 }
 
 .country.no-hit {

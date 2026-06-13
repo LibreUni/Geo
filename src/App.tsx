@@ -379,7 +379,6 @@ function WorldMap({
   }
 
   function handlePointerDown(event: PointerEvent<SVGSVGElement>) {
-    if (mapTransform.scale <= 1) return;
     dragRef.current = {
       pointerId: event.pointerId,
       startX: event.clientX,
@@ -446,7 +445,6 @@ function WorldMap({
       </div>
       <svg
         ref={svgRef}
-        className={mapTransform.scale > 1 ? "zoomed" : ""}
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
         role="img"
         aria-label="Clickable world map"
