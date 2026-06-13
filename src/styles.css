@@ -198,8 +198,7 @@ button {
 
 .country {
   stroke: #ffffff;
-  stroke-width: 0.55;
-  transition: fill 140ms ease, opacity 140ms ease, stroke 140ms ease;
+  transition: fill 140ms ease, opacity 140ms ease, stroke 140ms ease, stroke-width 140ms ease;
 }
 
 .country:not(.no-hit) {
@@ -237,13 +236,11 @@ button {
 .country.selected {
   fill: #df6148;
   stroke: #17212b;
-  stroke-width: 1.2;
 }
 
 .country.answer {
   fill: #27885a;
   stroke: #0d3926;
-  stroke-width: 1.2;
 }
 
 .quiz-target-marker {

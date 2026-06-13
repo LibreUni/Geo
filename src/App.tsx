@@ -74,6 +74,8 @@ const MAX_COUNTRY_HIT_AREA = WIDTH * HEIGHT * 0.6;
 const SMALL_COUNTRY_HIT_AREA = 16;
 const SMALL_COUNTRY_HIT_RADIUS = 9;
 const MIN_SMALL_COUNTRY_HIT_RADIUS = 0.65;
+const BASE_COUNTRY_STROKE_WIDTH = 0.55;
+const MIN_COUNTRY_STROKE_WIDTH = 0.08;
 const projection = geoEqualEarth().fitExtent(
   [
     [20, 20],
@@ -450,6 +452,10 @@ function WorldMap({
   }
 
   const quizMarkerPoint = quizCountry && needsQuizMarker(quizCountry) ? getMarkerPoint(quizCountry) : null;
+  const countryStrokeWidth = Math.max(
+    MIN_COUNTRY_STROKE_WIDTH,
+    BASE_COUNTRY_STROKE_WIDTH / Math.pow(mapTransform.scale, 1.35),
+  );
 
   return (
     <section className="map-panel" aria-label="World map">
@@ -529,6 +535,7 @@ function WorldMap({
                 key={geo.id}
                 className={className}
                 d={geo.d}
+                strokeWidth={countryStrokeWidth}
                 onClick={() => country && hasSaneHitArea && selectCountry(country)}
               >
                 <title>{country?.name ?? geo.name}</title>
