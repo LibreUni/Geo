@@ -634,6 +634,7 @@ const tensionsList: TensionDetail[] = [
   { countries: ["GUY", "VEN"], type: "historical", label: "Guayana Esequiba Dispute" },
   { countries: ["JPN", "RUS"], type: "historical", label: "Kuril Islands Dispute" },
   { countries: ["MAR", "ESH"], type: "historical", label: "Western Sahara Conflict" },
+  { countries: ["PAK", "SIA"], type: "active", label: "Siachen Glacier Dispute" },
 ];
 
 function getTensionLabel(selectedCode: string, otherCode: string, otherName: string, detail: TensionDetail): string {
@@ -678,6 +679,8 @@ function getTensionLabel(selectedCode: string, otherCode: string, otherName: str
       return `Kuril Islands dispute with ${otherName}`;
     case "ESH-MAR":
       return selectedCode === "MAR" ? "Western Sahara conflict / control" : "Western Sahara sovereignty dispute with Morocco";
+    case "PAK-SIA":
+      return selectedCode === "PAK" ? "Sovereignty dispute over Siachen Glacier" : "Sovereignty dispute with Pakistan";
     default:
       return `${detail.label} with ${otherName}`;
   }

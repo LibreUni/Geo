@@ -8083,5 +8083,45 @@
       "summary": "Zimbabwe, officially the Republic of Zimbabwe, is a landlocked country in Southeast Africa, between the Zambezi and Limpopo River, bordered by South Africa to the south, Botswana to the southwest, Zambia to the north, and Mozambique to the east. The capital and largest city is Harare, and the second largest is Bulawayo.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Zimbabwe"
     }
+  },
+  {
+    "cca3": "SIA",
+    "alpha2": "",
+    "ccn3": "geo:Siachen Glacier",
+    "mapName": "Siachen Glacier",
+    "name": "Siachen Glacier",
+    "official": "Siachen Glacier",
+    "capital": "",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "population": 3000,
+    "area": 700,
+    "primaryLanguages": [
+      "Hindi",
+      "Urdu"
+    ],
+    "otherLanguages": [
+      "English"
+    ],
+    "currencies": [
+      "Indian rupee",
+      "Pakistani rupee"
+    ],
+    "emoji": "🏳️",
+    "latlng": [
+      35.42,
+      77.10
+    ],
+    "sovereignty": {
+      "label": "Disputed territory",
+      "sovereignState": "India",
+      "disputed": true,
+      "note": "Currently administered by India as part of the union territory of Ladakh, but also claimed by Pakistan."
+    },
+    "wikipedia": {
+      "title": "Siachen Glacier",
+      "summary": "The Siachen Glacier is a glacier located in the eastern Karakoram range in the Himalayas, just northeast of the point NJ9842 where the Line of Control between India and Pakistan ends. At 76 km (47 mi) long, it is the longest glacier in the Karakoram and second-longest in the world's non-polar areas. It has been a site of military conflict and administrative dispute between India and Pakistan since 1984.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Siachen_Glacier"
+    }
   }
 ]
