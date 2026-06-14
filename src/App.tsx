@@ -220,12 +220,193 @@ const usStateNameToCode: Record<string, string> = {
   "District of Columbia": "DC"
 };
 
-const baseGeographies = (
+const missingCountriesVirtualData: Array<{ cca3: string; name: string; ccn3: string; latlng: [number, number] }> = [
+  { cca3: "BVT", name: "Bouvet Island", ccn3: "074", latlng: [-54.43333333, 3.4] },
+  { cca3: "BES", name: "Caribbean Netherlands", ccn3: "535", latlng: [12.18, -68.25] },
+  { cca3: "CXR", name: "Christmas Island", ccn3: "162", latlng: [-10.5, 105.66666666] },
+  { cca3: "CCK", name: "Cocos (Keeling) Islands", ccn3: "166", latlng: [-12.5, 96.83333333] },
+  { cca3: "GUF", name: "French Guiana", ccn3: "254", latlng: [4, -53] },
+  { cca3: "GIB", name: "Gibraltar", ccn3: "292", latlng: [36.13333333, -5.35] },
+  { cca3: "GLP", name: "Guadeloupe", ccn3: "312", latlng: [16.25, -61.583333] },
+  { cca3: "MTQ", name: "Martinique", ccn3: "474", latlng: [14.666667, -61] },
+  { cca3: "MYT", name: "Mayotte", ccn3: "175", latlng: [-12.83333333, 45.16666666] },
+  { cca3: "REU", name: "Réunion", ccn3: "638", latlng: [-21.15, 55.5] },
+  { cca3: "SJM", name: "Svalbard and Jan Mayen", ccn3: "744", latlng: [78, 20] },
+  { cca3: "TKL", name: "Tokelau", ccn3: "772", latlng: [-9, -172] },
+  { cca3: "TUV", name: "Tuvalu", ccn3: "798", latlng: [-8, 178] },
+  { cca3: "UMI", name: "United States Minor Outlying Islands", ccn3: "581", latlng: [19.3, 166.633333] }
+];
+
+function makeVirtualGeography(ccn3: string, mapName: string, latlng: [number, number], cca3: string): Geography {
+  const [lat, lon] = latlng;
+  let coordinates: number[][];
+
+  if (cca3 === "GIB") {
+    // Gibraltar custom peninsula shape
+    coordinates = [
+      [-5.355, 36.155],
+      [-5.338, 36.155],
+      [-5.338, 36.13],
+      [-5.344, 36.109],
+      [-5.352, 36.115],
+      [-5.355, 36.155]
+    ];
+  } else if (cca3 === "BES") {
+    // Bonaire custom crescent shape for Caribbean Netherlands
+    coordinates = [
+      [-68.27, 12.30],
+      [-68.22, 12.22],
+      [-68.24, 12.06],
+      [-68.28, 12.12],
+      [-68.30, 12.15],
+      [-68.31, 12.25],
+      [-68.27, 12.30]
+    ];
+  } else {
+    // Beautiful dodecagon (circle) representing circular/organic island states (e.g. Tuvalu, Tokelau, Christmas Island, Cocos)
+    coordinates = [];
+    const pointsCount = 12;
+    const radius = 0.07;
+    for (let i = 0; i <= pointsCount; i++) {
+      const angle = (i * 2 * Math.PI) / pointsCount;
+      const x = lon + radius * Math.sin(angle);
+      const y = lat + radius * Math.cos(angle);
+      coordinates.push([x, y]);
+    }
+  }
+
+  return {
+    type: "Feature",
+    id: ccn3,
+    properties: {
+      name: mapName,
+    },
+    geometry: {
+      type: "Polygon",
+      coordinates: [coordinates]
+    }
+  };
+}
+
+const splitTargets = [
+  { cca3: "GUF", name: "French Guiana", ccn3: "254", latlng: [4, -53] as [number, number], parentCcn3: "250" },
+  { cca3: "GLP", name: "Guadeloupe", ccn3: "312", latlng: [16.25, -61.583333] as [number, number], parentCcn3: "250" },
+  { cca3: "MTQ", name: "Martinique", ccn3: "474", latlng: [14.666667, -61] as [number, number], parentCcn3: "250" },
+  { cca3: "MYT", name: "Mayotte", ccn3: "175", latlng: [-12.83333333, 45.16666666] as [number, number], parentCcn3: "250" },
+  { cca3: "REU", name: "Réunion", ccn3: "638", latlng: [-21.15, 55.5] as [number, number], parentCcn3: "250" },
+  { cca3: "SJM", name: "Svalbard and Jan Mayen", ccn3: "744", latlng: [78, 20] as [number, number], parentCcn3: "578" }
+];
+
+function getRingCentroid(ring: any[]): [number, number] {
+  let sumLon = 0, sumLat = 0;
+  for (const pt of ring) {
+    sumLon += pt[0];
+    sumLat += pt[1];
+  }
+  return [sumLat / ring.length, sumLon / ring.length];
+}
+
+function distance(pt1: [number, number], pt2: [number, number]): number {
+  const dLat = pt1[0] - pt2[0];
+  const dLon = pt1[1] - pt2[1];
+  return Math.sqrt(dLat * dLat + dLon * dLon);
+}
+
+const rawFeatures = (
   feature(
     atlas as unknown as Parameters<typeof feature>[0],
     (atlas as { objects: { countries: unknown } }).objects.countries as Parameters<typeof feature>[1],
   ) as GeoJSON.FeatureCollection<GeoJSON.Geometry, { id?: string; name?: string }>
 ).features as Geography[];
+
+const processedGeographies: Geography[] = [];
+const splitPolygonsMap = new Map<string, any[]>();
+
+for (const target of splitTargets) {
+  splitPolygonsMap.set(target.cca3, []);
+}
+
+for (const geo of rawFeatures) {
+  const id = geo.id;
+  if (id === "250" || id === "578") {
+    const geom = geo.geometry;
+    let polygons: any[] = [];
+    if (geom.type === "Polygon") {
+      polygons = [geom.coordinates];
+    } else if (geom.type === "MultiPolygon") {
+      polygons = geom.coordinates;
+    }
+
+    const parentRemainingPolygons: any[] = [];
+
+    for (const poly of polygons) {
+      if (!poly || !poly[0] || !poly[0].length) continue;
+      const centroid = getRingCentroid(poly[0]);
+      let matchedTarget: typeof splitTargets[0] | null = null;
+
+      if (id === "250") {
+        let minD = Infinity;
+        let bestTarget: typeof splitTargets[0] | null = null;
+        for (const t of splitTargets) {
+          if (t.parentCcn3 === "250") {
+            const d = distance(centroid, t.latlng);
+            if (d < 2.0 && d < minD) {
+              minD = d;
+              bestTarget = t;
+            }
+          }
+        }
+        if (bestTarget) matchedTarget = bestTarget;
+      } else if (id === "578") {
+        const [lat, lon] = centroid;
+        if (lat > 72 || (lat > 70 && lon < 0)) {
+          matchedTarget = splitTargets.find(t => t.cca3 === "SJM")!;
+        }
+      }
+
+      if (matchedTarget) {
+        splitPolygonsMap.get(matchedTarget.cca3)!.push(poly);
+      } else {
+        parentRemainingPolygons.push(poly);
+      }
+    }
+
+    processedGeographies.push({
+      ...geo,
+      geometry: {
+        type: "MultiPolygon",
+        coordinates: parentRemainingPolygons
+      }
+    });
+  } else {
+    processedGeographies.push(geo);
+  }
+}
+
+for (const target of splitTargets) {
+  const coords = splitPolygonsMap.get(target.cca3)!;
+  if (coords.length > 0) {
+    processedGeographies.push({
+      type: "Feature",
+      id: target.ccn3,
+      properties: {
+        name: target.name
+      },
+      geometry: {
+        type: "MultiPolygon",
+        coordinates: coords
+      }
+    });
+  }
+}
+
+const matchedCca3s = new Set(splitTargets.map(t => t.cca3));
+const pureVirtualCountries = missingCountriesVirtualData.filter(c => !matchedCca3s.has(c.cca3));
+
+const baseGeographies: Geography[] = [
+  ...processedGeographies,
+  ...pureVirtualCountries.map(c => makeVirtualGeography(c.ccn3, c.name, c.latlng, c.cca3))
+];
 
 function geoId(geo: Geography) {
   const rawId = geo.id;
