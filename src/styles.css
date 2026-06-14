@@ -211,6 +211,8 @@ button {
 
 .country {
   stroke: #ffffff;
+  vector-effect: non-scaling-stroke;
+  stroke-width: 0.65px;
   transition: fill 140ms ease, opacity 140ms ease, stroke 140ms ease, stroke-width 140ms ease;
 }
 
@@ -1979,6 +1981,24 @@ dd {
 
 .emblem-img:hover {
   transform: scale(1.05);
+}
+
+.country-label {
+  font-weight: 600;
+  fill: #1e293b;
+  stroke: #ffffff;
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+  dominant-baseline: middle;
+  user-select: none;
+  opacity: 0.88;
+  cursor: pointer;
+  transition: fill 140ms ease, opacity 140ms ease;
+}
+
+.country-label:hover {
+  fill: #0e665d;
+  opacity: 1;
 }
 
 

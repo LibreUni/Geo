@@ -34,6 +34,7 @@ import {
   Info,
   Compass,
   Repeat,
+  Type,
 } from "lucide-react";
 
 type ViewMode = "practice" | "quiz";
@@ -117,7 +118,7 @@ type MapGeometry = {
 const WIDTH = 1100;
 const HEIGHT = 620;
 const MIN_MAP_ZOOM = 0.82;
-const MAX_MAP_ZOOM = 18;
+const MAX_MAP_ZOOM = 120;
 const MAX_COUNTRY_HIT_AREA = WIDTH * HEIGHT * 0.6;
 const SMALL_COUNTRY_HIT_AREA = 16;
 const SMALL_COUNTRY_HIT_RADIUS = 9;
@@ -1012,6 +1013,18 @@ function App() {
     return true;
   });
 
+  const [showCountryNames, setShowCountryNames] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_show_country_names");
+      if (saved !== null) {
+        return saved === "true";
+      }
+    } catch (e) {
+      console.error("Failed to load country names option", e);
+    }
+    return false;
+  });
+
   useEffect(() => {
     try {
       localStorage.setItem("geolearn_projection_type", projectionType);
@@ -1027,6 +1040,14 @@ function App() {
       console.error("Failed to save repeat map", e);
     }
   }, [repeatMap]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_show_country_names", String(showCountryNames));
+    } catch (e) {
+      console.error("Failed to save country names option", e);
+    }
+  }, [showCountryNames]);
   const [quizMode, setQuizMode] = useState<QuizMode>("locate");
   const [quizCountry, setQuizCountry] = useState<Country | null>(null);
   const [choices, setChoices] = useState<Country[]>([]);
@@ -1529,6 +1550,14 @@ function App() {
                       Repeat Map
                     </button>
                   )}
+                  <button
+                    className={`control-button ${showCountryNames ? "primary" : ""}`}
+                    type="button"
+                    onClick={() => setShowCountryNames((prev) => !prev)}
+                  >
+                    <Type size={18} aria-hidden="true" />
+                    Country Names
+                  </button>
                 </div>
               </>
             )}
@@ -1575,6 +1604,7 @@ function App() {
         quizPoolCodes={quizPoolCodes}
         wrongGuesses={wrongGuesses}
         revealingTarget={revealingTarget}
+        showCountryNames={showCountryNames}
       />
 
       {isMobile && !(view === "quiz" && quizStatus === "playing") && (
@@ -1645,6 +1675,14 @@ function App() {
               <Repeat size={18} aria-hidden="true" />
             </button>
           )}
+          <button
+            className={`control-button ${showCountryNames ? "primary" : ""}`}
+            type="button"
+            onClick={() => setShowCountryNames((prev) => !prev)}
+            title="Country Names"
+          >
+            <Type size={18} aria-hidden="true" />
+          </button>
         </section>
       )}
 
@@ -2009,6 +2047,7 @@ function WorldMap({
   quizPoolCodes = new Set(),
   wrongGuesses = [],
   revealingTarget = false,
+  showCountryNames = false,
 }: {
   countries: Country[];
   countryByNumeric: Map<string, Country>;
@@ -2029,6 +2068,7 @@ function WorldMap({
   quizPoolCodes?: Set<string>;
   wrongGuesses?: string[];
   revealingTarget?: boolean;
+  showCountryNames?: boolean;
 }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   
@@ -2272,7 +2312,8 @@ function WorldMap({
   }
 
   function smallCountryHitRadius() {
-    return Math.max(MIN_SMALL_COUNTRY_HIT_RADIUS, SMALL_COUNTRY_HIT_RADIUS / mapTransform.scale);
+    const screenRadius = Math.min(24, 9 * Math.max(1, Math.sqrt(mapTransform.scale)));
+    return Math.max(MIN_SMALL_COUNTRY_HIT_RADIUS, screenRadius / mapTransform.scale);
   }
 
   const quizMarkerPoint = quizCountry && needsQuizMarker(quizCountry) ? getMarkerPoint(quizCountry) : null;
@@ -2364,7 +2405,6 @@ function WorldMap({
               key={`path-${geo.id}-${idx}${offsetKey}`}
               className={className}
               d={geo.d}
-              strokeWidth={countryStrokeWidth}
               onClick={() =>
                 country &&
                 hasSaneHitArea &&
@@ -2376,7 +2416,7 @@ function WorldMap({
             </path>
           );
         })}
-        {smallCountryHitboxes.map(({ geo, country }) => {
+        {mapTransform.scale < 2.2 && smallCountryHitboxes.map(({ geo, country }) => {
           const quizColor = isQuizMode ? quizHistory[country.cca3] : undefined;
           const isWrongGuess = isQuizMode ? wrongGuesses.includes(country.cca3) : false;
           const isRevealed = isQuizMode && revealingTarget && country.cca3 === quizCountry?.cca3;
@@ -2412,6 +2452,71 @@ function WorldMap({
             {!isQuizPlayingActive && <title>{quizCountry.name}</title>}
           </g>
         )}
+        {showCountryNames && !(isQuizMode && quizStatus === "playing") && (() => {
+          const renderedLabels = new Set<string>();
+          return mapGeographies.map((geo, idx) => {
+            const country = countryByNumeric.get(geo.id);
+            const visible = country ? targetCodes.has(country.cca3) : false;
+            if (!visible || !country) return null;
+            
+            const isSmall = geo.area < 18;
+            
+            if (isSmall && renderedLabels.has(country.cca3)) return null;
+            
+            let labelPt: [number, number] | null = null;
+            if (isSmall && country.latlng) {
+              labelPt = getMarkerPoint(country);
+            }
+            if (!labelPt) {
+              labelPt = geo.centroid;
+            }
+            if (!labelPt) return null;
+            
+            const screenArea = geo.area * mapTransform.scale * mapTransform.scale;
+            
+            if (isSmall) {
+              if (mapTransform.scale < 2.2) return null;
+            } else {
+              if (screenArea < 120) return null;
+            }
+            
+            if (isSmall) {
+              renderedLabels.add(country.cca3);
+            }
+            
+            const displayName = country.name;
+            
+            let textX = labelPt[0];
+            let textY = labelPt[1];
+            let textAnchor: "middle" | "start" = "middle";
+            
+            if (isSmall) {
+              textX += 11 / mapTransform.scale;
+              textY += 3 / mapTransform.scale;
+              textAnchor = "start";
+            } else {
+              textY -= 3 / mapTransform.scale;
+            }
+            
+            return (
+              <text
+                key={`label-${country.cca3}-${idx}${offsetKey}`}
+                x={textX}
+                y={textY}
+                fontSize={10 / mapTransform.scale}
+                strokeWidth={2.5 / mapTransform.scale}
+                style={{ textAnchor }}
+                className="country-label"
+                onClick={() =>
+                  (!isQuizPlayingActive || quizPoolCodes.has(country.cca3)) &&
+                  selectCountry(country)
+                }
+              >
+                {displayName}
+              </text>
+            );
+          });
+        })()}
       </g>
     );
   }
