@@ -1945,4 +1945,40 @@ dd {
   transition: none !important;
 }
 
+/* Subdivision flag and emblem banner styles */
+.banner-frame {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  aspect-ratio: 2 / 1.16;
+}
+
+.banner-frame .flag-frame {
+  flex: 1;
+  aspect-ratio: auto;
+  height: 100%;
+}
+
+.emblem-frame {
+  flex: 1;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.emblem-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.08));
+  transition: transform 0.2s ease;
+}
+
+.emblem-img:hover {
+  transform: scale(1.05);
+}
+
 

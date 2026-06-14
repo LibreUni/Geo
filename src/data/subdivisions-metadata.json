@@ -12,7 +12,11 @@
       "title": "Australian Capital Territory",
       "summary": "The Australian Capital Territory (ACT), known as the Federal Capital Territory until 1938, is an internal territory of Australia. Canberra, the capital city of Australia, is situated within the territory, and is the territory's primate city. The Australian Capital Territory is located in southeastern Australia as an enclave surrounded by the state of New South Wales. The territory was excised from New South Wales in 1911 to serve as the seat of government for the Commonwealth, in accordance with Section 125 of the Australian Constitution. Today, the ACT hosts a number of important political and cultural institutions, including the Parliament of Australia and High Court of Australia, as well as the headquarters of many federal departments and agencies.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Australian_Capital_Territory"
-    }
+    },
+    "emblemUrl": "/emblems/au-act.svg",
+    "established": "1911",
+    "highestPoint": "Bimberi Peak (1,912 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q3224",
@@ -27,7 +31,11 @@
       "title": "New South Wales",
       "summary": "New South Wales is a state on the east coast of Australia. It borders Queensland to the north, Victoria to the south, and South Australia to the west. Its coast borders the Coral and Tasman Seas to the east. The Australian Capital Territory and Jervis Bay Territory are enclaves within the state. New South Wales' state capital is Sydney, which is also Australia's most populous city. As of September 2025, the population of New South Wales was over 8.6 million, making it Australia's most populous state. Almost two-thirds of the state's population live in the Greater Sydney area.",
       "sourceUrl": "https://en.wikipedia.org/wiki/New_South_Wales"
-    }
+    },
+    "emblemUrl": "/emblems/au-nsw.svg",
+    "established": "1788",
+    "highestPoint": "Mount Kosciuszko (2,228 m)",
+    "namedAfter": "South Wales"
   },
   {
     "wikiId": "Q3235",
@@ -42,7 +50,11 @@
       "title": "Northern Territory",
       "summary": "The Northern Territory is an Australian internal territory in the central and central-northern regions of Australia. The Northern Territory shares its borders with Western Australia to the west, South Australia to the south, and Queensland to the east. To the north, the Northern Territory looks out to the Timor Sea, the Arafura Sea, and the Gulf of Carpentaria, including Western New Guinea and various other islands of the Indonesian archipelago.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Northern_Territory"
-    }
+    },
+    "emblemUrl": "/emblems/au-nt.svg",
+    "established": "1911",
+    "highestPoint": null,
+    "namedAfter": "north"
   },
   {
     "wikiId": "Q36074",
@@ -57,7 +69,11 @@
       "title": "Queensland",
       "summary": "Queensland is a state in northeastern Australia, the second-largest and third-most populous state in Australia. It is bordered by the Northern Territory, South Australia and New South Wales to the west, south-west and south, respectively. To the east, Queensland is bordered by the Coral Sea and the Pacific Ocean; to the state's north is the Torres Strait, separating the Australian mainland from Papua New Guinea, and the Gulf of Carpentaria to the north-west. With an area of 1,723,030 square kilometres (665,270 sq mi), Queensland is the world's sixth-largest subdivision of any country on earth; it is larger than all but 16 countries. Due to its size, Queensland's geographical features and climates are diverse, and include tropical rainforests, rivers, coral reefs, mountain ranges and white sandy beaches in its tropical and sub-tropical coastal regions, as well as deserts and savanna in the semi-arid and desert climatic regions of its interior.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Queensland"
-    }
+    },
+    "emblemUrl": "/emblems/au-qld.svg",
+    "established": "1859",
+    "highestPoint": "Mount Bartle Frere (1,611 m)",
+    "namedAfter": "Victoria"
   },
   {
     "wikiId": "Q35715",
@@ -72,7 +88,11 @@
       "title": "South Australia",
       "summary": "South Australia is a state in the southern central part of Australia. With a total land area of 984,314 square kilometres (380,046 sq mi), it is the fourth-largest of Australia's states and territories by area, which includes some of the most arid parts of the continent. With 1.9 million people as of June 2025, it is the 17th-largest subdivision in the world and the fifth-largest in Australasia. It is the second-most highly centralised state in the nation after Western Australia, with more than 67% of South Australians living in the capital Adelaide or its environs. Other population centres in the state are relatively small; with Mount Gambier being the second-largest centre, with a population of 26,878.",
       "sourceUrl": "https://en.wikipedia.org/wiki/South_Australia"
-    }
+    },
+    "emblemUrl": "/emblems/au-sa.svg",
+    "established": "1836",
+    "highestPoint": "Mount Woodroffe (1,435 m)",
+    "namedAfter": "Australian continent"
   },
   {
     "wikiId": "Q34366",
@@ -87,7 +107,11 @@
       "title": "Tasmania",
       "summary": "Tasmania is an island state of Australia. It is located 240 kilometres to the south of the Australian mainland, and is separated from it by the Bass Strait. The state encompasses the main island of Tasmania, the 26th-largest island in the world, and the surrounding 1000 islands. It is Australia's smallest and least populous state, with 573,479 residents as of June 2023. The state capital and largest city is Hobart, with around 40% of the population living in the Greater Hobart area. Tasmania is the most decentralised state in Australia, with the lowest proportion of its residents living within its capital city.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Tasmania"
-    }
+    },
+    "emblemUrl": "/emblems/au-tas.svg",
+    "established": "1825",
+    "highestPoint": "Mount Ossa (1,617 m)",
+    "namedAfter": "Abel Tasman"
   },
   {
     "wikiId": "Q36687",
@@ -102,7 +126,11 @@
       "title": "Victoria (state)",
       "summary": "Victoria, commonly abbreviated as Vic, is a state in southeastern Australia. It is the second-smallest state, with a land area of 227,444 square kilometres (87,817 sq mi); the second-most-populous state, with a population of over 7 million; and the most densely populated state in Australia. Victoria's economy is the second-largest among Australian states and is highly diversified, with service sectors predominating.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Victoria_(state)"
-    }
+    },
+    "emblemUrl": "/emblems/au-vic.svg",
+    "established": "1851",
+    "highestPoint": "Mount Bogong (1,986 m)",
+    "namedAfter": "Victoria"
   },
   {
     "wikiId": "Q3206",
@@ -117,7 +145,11 @@
       "title": "Western Australia",
       "summary": "Western Australia (WA) is the westernmost state of Australia. It is bounded by the Indian Ocean to the north and west, the Southern Ocean to the south, the Northern Territory to the north-east, and South Australia to the south-east. Western Australia is Australia's largest state, with a land area of 2,527,013 square kilometres (975,685 sq mi), and is also the second-largest subdivision of any country on Earth.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Western_Australia"
-    }
+    },
+    "emblemUrl": "/emblems/au-wa.svg",
+    "established": "1901",
+    "highestPoint": "Mount Meharry (1,251 m)",
+    "namedAfter": "Australia"
   },
   {
     "wikiId": "Q40780",
@@ -132,7 +164,11 @@
       "title": "Acre (state)",
       "summary": "Acre is a state located in the west of the North Region of Brazil and the Amazonia Legal. Located in the westernmost part of the country, at a two-hour time difference from Brasília, Acre is bordered clockwise by the Brazilian states of Amazonas and Rondônia to the north and east, along with an international border with the Bolivian department of Pando to the southeast, and the Peruvian regions of Madre de Dios, Ucayali and Loreto to the south and west. Its capital and largest city is Rio Branco. Other important places include Cruzeiro do Sul, Sena Madureira, Tarauacá and Feijó. The state, which has 0.42% of the Brazilian population, generates 0.2% of the Brazilian GDP.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Acre_(state)"
-    }
+    },
+    "emblemUrl": "/emblems/br-ac.svg",
+    "established": "1962",
+    "highestPoint": "Sierra del Divisor",
+    "namedAfter": "Rio Aquiri"
   },
   {
     "wikiId": "Q40885",
@@ -147,7 +183,11 @@
       "title": "Alagoas",
       "summary": "Alagoas is one of the 27 federative units of Brazil and is situated in the eastern part of the Northeast Region. It borders Pernambuco to the north, Sergipe to the south, Bahia to the southwest, and the Atlantic Ocean to the east. Its capital city is Maceió. It is made up of 102 municipalities and its most populous cities are Maceió, Arapiraca, Palmeira dos Índios, Rio Largo, Penedo, União dos Palmares, São Miguel dos Campos, Santana do Ipanema, Delmiro Gouveia, Coruripe, and Campo Alegre.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Alagoas"
-    }
+    },
+    "emblemUrl": "/emblems/br-al.svg",
+    "established": "1889",
+    "highestPoint": null,
+    "namedAfter": "artificial pond"
   },
   {
     "wikiId": "Q40040",
@@ -162,7 +202,11 @@
       "title": "Amazonas (Brazilian state)",
       "summary": "Amazonas is a state of Brazil, located in the North Region in the north-western corner of the country. It is the largest Brazilian state by area and the ninth-largest country subdivision in the world with an area of 1,570,745.7 square kilometers. It is the largest country subdivision in South America, being greater than the areas of Chile, Paraguay, and Uruguay combined. Neighbouring states are Roraima, Pará, Mato Grosso, Rondônia, and Acre. It also borders the nations of Peru, Colombia and Venezuela. This includes the Departments of Amazonas, Vaupés and Guainía in Colombia, as well as the Amazonas state in Venezuela, and the Loreto Region in Peru.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Amazonas_(Brazilian_state)"
-    }
+    },
+    "emblemUrl": "/emblems/br-am.svg",
+    "established": "1889",
+    "highestPoint": "Pico da Neblina (2,994 m)",
+    "namedAfter": "Amazon"
   },
   {
     "wikiId": "Q40130",
@@ -177,7 +221,11 @@
       "title": "Amapá",
       "summary": "Amapá is one of the 26 states of Brazil. It is in the North Region of Brazil. It is the second-least populous state and the eighteenth-largest state by area. Located in the far northern part of the country, Amapá is bordered clockwise by French Guiana to the north for 730 km, the Atlantic Ocean to the east for 578 km, Pará to the south and west, and Suriname to the northwest for 63 km. The capital and largest city is Macapá. The state has 0.4% of the Brazilian population and is responsible for 0.22% of the Brazilian GDP.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Amap%C3%A1"
-    }
+    },
+    "emblemUrl": "/emblems/br-ap.svg",
+    "established": "1988",
+    "highestPoint": null,
+    "namedAfter": null
   },
   {
     "wikiId": "Q40430",
@@ -192,7 +240,11 @@
       "title": "Bahia",
       "summary": "Bahia is one of the 26 states of Brazil, located in the Northeast Region of the country. It is the fourth-largest Brazilian state by population and the 5th-largest by area. Bahia's capital is the city of Salvador, on a spit of land separating the Bay of All Saints from the Atlantic. Once a stronghold of supporters of direct rule of Brazil by the Portuguese monarchy, and dominated by agricultural, slaving, and ranching interests, Bahia is now a predominantly working-class industrial and agricultural state. The state is home to 7% of the Brazilian population and produces 4.2% of the country's GDP. It is divided into 417 municipalities. The state has a strong tourism power in several regions of its territory beyond the Salvador, Morro de São Paulo, Porto Seguro, Ilhéus, Alto Cariri National Park, Itacaré, Juazeiro with São Francisco River, Lençóis-Chapada Diamantina, Bom Jesus da Lapa, São Desidério etc.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Bahia"
-    }
+    },
+    "emblemUrl": "/emblems/br-ba.svg",
+    "established": "1889",
+    "highestPoint": "Pico do Barbado (2,033 m)",
+    "namedAfter": "Bay of All Saints"
   },
   {
     "wikiId": "Q40123",
@@ -207,7 +259,11 @@
       "title": "Ceará",
       "summary": "Ceará is one of the 26 states of Brazil, located in the northeastern part of the country, on the Atlantic coast. It is the eighth-largest Brazilian State by population and the 17th by area. It is also one of the main tourist destinations in Brazil. The state capital is the city of Fortaleza, the country's fourth most populous city. The state has 4.3% of the Brazilian population and produces 2.1% of the Brazilian GDP. It is divided into 184 municipalities.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Cear%C3%A1"
-    }
+    },
+    "emblemUrl": "/emblems/br-ce.svg",
+    "established": "1891",
+    "highestPoint": "Pico Alto (1,114 m)",
+    "namedAfter": "Aratinga"
   },
   {
     "wikiId": "Q119158",
@@ -222,7 +278,11 @@
       "title": "Federal District (Brazil)",
       "summary": "The Federal District is one of 27 federative units of Brazil. Located in the Center-West Region, it is the smallest Brazilian federal unit and the only one that has no municipalities, being divided into 35 administrative regions. The federal capital of Brazil, Brasília, which is also the seat of government of the Federal District, is located in its territory. The Federal District shares a small border with Minas Gerais and is otherwise surrounded by the state of Goiás.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Federal_District_(Brazil)"
-    }
+    },
+    "emblemUrl": "/emblems/br-df.svg",
+    "established": "1960",
+    "highestPoint": "Pico do Roncador (1,341 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q43233",
@@ -237,7 +297,11 @@
       "title": "Espírito Santo",
       "summary": "Espírito Santo is a state in southeastern Brazil. Its capital is Vitória, and its largest city is Serra. With an extensive coastline, the state hosts some of the country's main ports, and its beaches are significant tourist attractions.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Esp%C3%ADrito_Santo"
-    }
+    },
+    "emblemUrl": "/emblems/br-es.svg",
+    "established": "1889",
+    "highestPoint": "Pico da Bandeira (2,891 m)",
+    "namedAfter": "Holy Spirit"
   },
   {
     "wikiId": "Q41587",
@@ -252,7 +316,11 @@
       "title": "Goiás",
       "summary": "Goiás is a Brazilian state located in the Central-West region. Goiás borders the Federal District and the states of Tocantins, Bahia, Minas Gerais, Mato Grosso do Sul and Mato Grosso. The state capital is Goiânia. With 7.2 million inhabitants, Goiás is the most populous state in the Central-West region and the 11th most populous in the country. It has the ninth largest economy among Brazilian federative units. In Brazil's geoeconomic division, Goiás belongs to the Centro-Sul (Center-South), being the northernmost state of the southern portion of Brazil. The state has 3.3% of the Brazilian population and is responsible for 2.7% of the Brazilian GDP.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Goi%C3%A1s"
-    }
+    },
+    "emblemUrl": "/emblems/br-go.svg",
+    "established": "1889",
+    "highestPoint": null,
+    "namedAfter": "Goyazes"
   },
   {
     "wikiId": "Q42362",
@@ -267,7 +335,11 @@
       "title": "Maranhão",
       "summary": "Maranhão is a state in Brazil. Located in the country's Northeast Region, it has a population of about 7 million and an area of 332,000 km2 (128,000 sq mi) and it is divided into 217 municipalities. Clockwise from north, it borders on the Atlantic Ocean for 2,243 km and the states of Piauí, Tocantins and Pará. The people of Maranhão have a distinctive accent within the common Northeastern Brazilian dialect. Maranhão is described in literary works such as Exile Song by Gonçalves Dias and Casa de Pensão by Aluísio Azevedo.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Maranh%C3%A3o"
-    }
+    },
+    "emblemUrl": "/emblems/br-ma.svg",
+    "established": "1889",
+    "highestPoint": null,
+    "namedAfter": null
   },
   {
     "wikiId": "Q39109",
@@ -282,7 +354,11 @@
       "title": "Minas Gerais",
       "summary": "Minas Gerais is one of the 27 federative units of Brazil, being the fourth largest state by area and the second largest in number of inhabitants with a population of 20,539,989 according to the 2022 census. Located in the Southeast Region of the country, it is bordered by São Paulo in the south and southwest; Mato Grosso do Sul to the west; Goiás and the Federal District to the northwest; Bahia to the north and northeast; Espírito Santo to the east; and Rio de Janeiro to the southeast.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Minas_Gerais"
-    }
+    },
+    "emblemUrl": "/emblems/br-mg.svg",
+    "established": "1889",
+    "highestPoint": "Pico da Bandeira (2,891 m)",
+    "namedAfter": "mine"
   },
   {
     "wikiId": "Q43319",
@@ -297,7 +373,11 @@
       "title": "Mato Grosso do Sul",
       "summary": "Mato Grosso do Sul is one of Brazil's 27 federal units, located in the southern part of the Central-West Region, bordering five Brazilian states: Mato Grosso, Goiás and Minas Gerais (northeast), São Paulo (east) and Paraná (southeast); and two South American countries: Paraguay and Bolivia (west). It is divided into 79 municipalities and covers an area of 357,145.532 square kilometers, which is about the same size as Germany. With a population of 2,924,631 inhabitants in 2025, Mato Grosso do Sul is the 21st most populous state in Brazil.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Mato_Grosso_do_Sul"
-    }
+    },
+    "emblemUrl": "/emblems/br-ms.svg",
+    "established": "1977",
+    "highestPoint": "Massif of Urucum (1,065 m)",
+    "namedAfter": "Mato Grosso"
   },
   {
     "wikiId": "Q42824",
@@ -312,7 +392,11 @@
       "title": "Mato Grosso",
       "summary": "Mato Grosso is one of the states of Brazil, the third largest by area, located in the Central-West region. The state has 1.66% of the Brazilian population and is responsible for 1.9% of the Brazilian GDP. Neighboring states are: Rondônia, Amazonas, Pará, Tocantins, Goiás and Mato Grosso do Sul. It is divided into 142 municipalities and covers an area of 903,357 square kilometers, \nconsequently the state is roughly 82.2% of the size of its southwest neighbor, the nation of Bolivia.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Mato_Grosso"
-    }
+    },
+    "emblemUrl": "/emblems/br-mt.png",
+    "established": "1889",
+    "highestPoint": null,
+    "namedAfter": null
   },
   {
     "wikiId": "Q39517",
@@ -327,7 +411,11 @@
       "title": "Pará",
       "summary": "Pará is a state of Brazil, located in northern Brazil and traversed by the lower Amazon River. It borders the Brazilian states of Amapá, Maranhão, Tocantins, Mato Grosso, Amazonas and Roraima. To the northwest are the borders of Guyana and Suriname, to the northeast of Pará is the Atlantic Ocean. The capital and largest city is Belém, which is located at the Marajó bay, near the estuary of the Amazon river. The state, which is home to 4.1% of the Brazilian population, is responsible for just 2.2% of the Brazilian GDP.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Par%C3%A1"
-    }
+    },
+    "emblemUrl": "/emblems/br-pa.svg",
+    "established": "1889",
+    "highestPoint": null,
+    "namedAfter": null
   },
   {
     "wikiId": "Q38088",
@@ -342,7 +430,11 @@
       "title": "Paraíba",
       "summary": "Paraíba is a state in Brazil. It is located in the Brazilian Northeast, and it is bordered by Rio Grande do Norte to the north, Ceará to the west, Pernambuco to the south and the Atlantic Ocean to the east. Paraíba is the third most densely populated state of the Northeast; João Pessoa, the coastal state capital, and Campina Grande, in the countryside, rank among the fifteen largest municipalities in the Northeast of Brazil. The state is home to 1.9% of the Brazilian population and produces 0.9% of the Brazilian GDP and it is divided into 223 municipalities.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Para%C3%ADba"
-    }
+    },
+    "emblemUrl": "/emblems/br-pb.svg",
+    "established": "1889",
+    "highestPoint": "Pico do Jabre (1,197 m)",
+    "namedAfter": "Paraíba do Norte River"
   },
   {
     "wikiId": "Q40942",
@@ -357,7 +449,11 @@
       "title": "Pernambuco",
       "summary": "Pernambuco is a state of Brazil, on the east coast in the Northeast region of the country. With an estimated population of 9.5 million people as of 2024, it is the seventh-most populous state of Brazil and with around 98,067.877 km2, it is the 19th-largest in area among federative units of the country. It is also the sixth-most densely populated with around 92.37 people per km2. Its capital and largest city, Recife, is one of the most important economic and urban hubs in the country. Based on 2019 estimates, the Recife Metropolitan Region is seventh-most populous in the country, and the second-largest in northeastern Brazil. In 2015, the state had 4.4% of the national population and produced 2.8% of the national gross domestic product (GDP).",
       "sourceUrl": "https://en.wikipedia.org/wiki/Pernambuco"
-    }
+    },
+    "emblemUrl": "/emblems/br-pe.svg",
+    "established": "1889",
+    "highestPoint": "Pico do Papagaio (1,260 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q42722",
@@ -372,7 +468,11 @@
       "title": "Piauí",
       "summary": "Piauí is one of the states of Brazil, located in the country's Northeast Region. The state has 1.6% of the Brazilian population and produces 0.7% of the Brazilian GDP.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Piau%C3%AD"
-    }
+    },
+    "emblemUrl": "/emblems/br-pi.svg",
+    "established": "1889",
+    "highestPoint": null,
+    "namedAfter": "piaba"
   },
   {
     "wikiId": "Q15499",
@@ -387,7 +487,11 @@
       "title": "Paraná (state)",
       "summary": "Paraná is one of the 26 states of Brazil, in the south of the country. It is bordered in the north by São Paulo state, in the east by the Atlantic Ocean, in the south by Santa Catarina and the Argentine province of Misiones, and in the west by Mato Grosso do Sul and Paraguay, with the Paraná River as its western boundary. It is subdivided into 399 municipalities, and its capital is the city of Curitiba. Other major cities are Londrina, Maringá, Ponta Grossa, Cascavel, São José dos Pinhais and Foz do Iguaçu. The state is home to 5.4% of the Brazilian population and generates 6.2% of the Brazilian GDP.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Paran%C3%A1_(state)"
-    }
+    },
+    "emblemUrl": "/emblems/br-pr.svg",
+    "established": "1889",
+    "highestPoint": "Pico Paraná (1,877 m)",
+    "namedAfter": "Paraná River"
   },
   {
     "wikiId": "Q41428",
@@ -402,7 +506,11 @@
       "title": "Rio de Janeiro (state)",
       "summary": "Rio de Janeiro is one of the 27 federative units of Brazil. It has the second largest economy of Brazil, with the largest being that of the state of São Paulo. The state, which has 8.2% of the Brazilian population, is responsible for 9.2% of the Brazilian GDP.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Rio_de_Janeiro_(state)"
-    }
+    },
+    "emblemUrl": "/emblems/br-rj.svg",
+    "established": "1889",
+    "highestPoint": "Pico das Agulhas Negras (2,791 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q43255",
@@ -417,7 +525,11 @@
       "title": "Rio Grande do Norte",
       "summary": "Rio Grande do Norte is one of the states of Brazil. It is located in the northeastern region of the country, forming the northeasternmost tip of the South American continent. The name literally translates as \"Great Northern River\", referring to the mouth of the Potenji River.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Rio_Grande_do_Norte"
-    }
+    },
+    "emblemUrl": "/emblems/br-rn.svg",
+    "established": "1891",
+    "highestPoint": null,
+    "namedAfter": "Potengi River"
   },
   {
     "wikiId": "Q43235",
@@ -432,7 +544,11 @@
       "title": "Rondônia",
       "summary": "Rondônia is one of the 26 states of Brazil, located in the North Region. It is bordered by Acre in the west, \nAmazonas in the north, Mato Grosso in the east, and Bolivia in the south. Rondônia has a population of 1,815,000 as of 2021. It is the fifth least populated state. Its capital and largest city is Porto Velho, bathed by the Madeira River. The state was named after Cândido Rondon, who explored the north of the country during the 1910s. The state, which is home to c. 0.7% of the Brazilian population, is responsible for c. 0.3% of the Brazilian GDP.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Rond%C3%B4nia"
-    }
+    },
+    "emblemUrl": "/emblems/br-ro.svg",
+    "established": "1982",
+    "highestPoint": null,
+    "namedAfter": "Cândido Rondon"
   },
   {
     "wikiId": "Q42508",
@@ -447,7 +563,11 @@
       "title": "Roraima",
       "summary": "Roraima is one of the 26 states of Brazil. Located in the country's North Region, it is the northernmost and most geographically and logistically isolated state in Brazil. It is bordered by the state of Pará to the southeast, Amazonas to the south and west, Venezuela to the north and northwest, and Guyana to the east.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Roraima"
-    }
+    },
+    "emblemUrl": "/emblems/br-rr.svg",
+    "established": "1988",
+    "highestPoint": "Mount Roraima (2,810 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q40030",
@@ -462,7 +582,11 @@
       "title": "Rio Grande do Sul",
       "summary": "Rio Grande do Sul is a state in the southern region of Brazil. It is the fifth-most populous state and the ninth-largest by area and it is divided into 497 municipalities. Located in the southernmost part of the country, Rio Grande do Sul is bordered clockwise by Santa Catarina to the north and northeast, the Atlantic Ocean to the east, the Uruguayan departments of Rocha, Treinta y Tres, Cerro Largo, Rivera, and Artigas to the south and southwest, and the Argentine provinces of Corrientes and Misiones to the west and northwest. The capital and largest city is Porto Alegre. The state has the highest life expectancy in Brazil, and the crime rate is relatively low compared to the Brazilian national average. The state has 5.4% of the Brazilian population and it is responsible for 6.6% of the Brazilian GDP.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Rio_Grande_do_Sul"
-    }
+    },
+    "emblemUrl": "/emblems/br-rs.svg",
+    "established": "1889",
+    "highestPoint": "Pico do Monte Negro (1,398 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q41115",
@@ -477,7 +601,11 @@
       "title": "Santa Catarina (state)",
       "summary": "Santa Catarina is one of the 27 federative units of Brazil. It is located in the centre of the country's Southern region. It is bordered to the north by the state of Paraná, to the south by the state of Rio Grande do Sul, to the east by the Atlantic Ocean, and to the west by the Argentine province of Misiones.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Santa_Catarina_(state)"
-    }
+    },
+    "emblemUrl": "/emblems/br-sc.svg",
+    "established": "1889",
+    "highestPoint": "Morro da Boa Vista (1,827 m)",
+    "namedAfter": "Catherine of Alexandria"
   },
   {
     "wikiId": "Q43783",
@@ -492,7 +620,11 @@
       "title": "Sergipe",
       "summary": "Sergipe, officially the State of Sergipe, is a state of Brazil. Located in the Northeast Region along the Atlantic coast of the country, Sergipe is the smallest state in Brazil by geographical area at 21,910 square kilometres (8,460 mi2), larger only than the Federal District. Sergipe borders Bahia to the south and west and Alagoas to the north. Aracaju is the capital and the largest city in the state; the state is divided into 75 municipalities. The state has 1.1% of the Brazilian population and produces 0.6% of the Brazilian GDP.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Sergipe"
-    }
+    },
+    "emblemUrl": "/emblems/br-se.svg",
+    "established": "1889",
+    "highestPoint": null,
+    "namedAfter": null
   },
   {
     "wikiId": "Q175",
@@ -507,7 +639,11 @@
       "title": "São Paulo (state)",
       "summary": "São Paulo is one of the 26 states of the Federative Republic of Brazil and is named after Saint Paul of Tarsus. It is located in the Southeast Region and is bordered by the states of Minas Gerais to the north and northeast, Paraná to the south, Rio de Janeiro to the east, and Mato Grosso do Sul to the west, in addition to the Atlantic Ocean to the southeast. It is divided into 645 municipalities. The total area is 248,219.481 square kilometres, which is equivalent to 2.9% of Brazil's surface, being slightly larger than the United Kingdom. Its capital is the municipality of São Paulo, which is Brazil's most populous city.",
       "sourceUrl": "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo_(state)"
-    }
+    },
+    "emblemUrl": "/emblems/br-sp.svg",
+    "established": "1889",
+    "highestPoint": "Pedra da Mina (2,798 m)",
+    "namedAfter": "Paul the Apostle"
   },
   {
     "wikiId": "Q43695",
@@ -522,7 +658,11 @@
       "title": "Tocantins",
       "summary": "Tocantins is one of the 26 states of Brazil. It is the newest state, formed in 1988 and encompassing what had formerly been the northern two-fifths of the state of Goiás. Tocantins covers 277,620.91 square kilometres (107,190.03 mi2) and had an estimated population of 1,595,994 in 2026. Construction of its capital, Palmas, began in 1989; most of the other cities in the state date to the Portuguese colonial period. With the exception of Araguaína, there are few other cities with a significant population in the state. The government has invested in a new capital, a major hydropower dam, railroads and related infrastructure to develop this primarily agricultural area. The state has 0.75% of the Brazilian population and is responsible for 0.5% of the Brazilian GDP.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Tocantins"
-    }
+    },
+    "emblemUrl": "/emblems/br-to.svg",
+    "established": "1988",
+    "highestPoint": null,
+    "namedAfter": "Tocantins River"
   },
   {
     "wikiId": "Q1951",
@@ -537,7 +677,11 @@
       "title": "Alberta",
       "summary": "Alberta is a province in Canada. It is a part of Western Canada and is one of the three prairie provinces. Alberta is bordered by British Columbia to its west, Saskatchewan to its east, the Northwest Territories to its north, and the U.S. state of Montana to its south. Alberta and Saskatchewan are the only two landlocked provinces. The eastern part of the province is occupied by the Great Plains, while the western part borders the Rocky Mountains. The province has a predominantly continental climate, but seasonal temperatures tend to swing rapidly due to its aridity. Those swings are less pronounced in western Alberta because of its occasional Chinook winds.\n\nAlberta is Canada's fourth-largest province by area, at 661,848 square kilometres (255,541 sq mi), and the fourth-most populous, with 4,262,635 residents. Alberta's capital is Edmonton; its largest city is Calgary. The two cities are Alberta's largest census metropolitan areas. More than half of Albertans live in Edmonton or Calgary, which encourages a continuing rivalry between the two cities. English is the province's official language. In 2016, 76.0% of Albertans were anglophone, 1.8% were francophone and 22.2% were allophone.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Alberta"
-    }
+    },
+    "emblemUrl": "/emblems/ca-ab.svg",
+    "established": "1905",
+    "highestPoint": "Mount Columbia (3,747 m)",
+    "namedAfter": "Princess Louise, Duchess of Argyll"
   },
   {
     "wikiId": "Q1973",
@@ -552,7 +696,11 @@
       "title": "British Columbia",
       "summary": "British Columbia is the westernmost province of Canada. Situated in the Pacific Northwest between the Pacific Ocean and the Rocky Mountains, the province has a diverse geography, with rugged landscapes that include rocky coastlines, sandy beaches, forests, lakes, mountains, inland deserts, and grassy plains. British Columbia borders the province of Alberta to the east; the territories of Yukon and Northwest Territories to the north; the US states of Washington, Idaho, and Montana to the south; and Alaska to the northwest. With an estimated population of 5.68 million as of 2025, it is Canada's third-most populous province. The capital of British Columbia is Victoria, while the province's largest city is Vancouver. Vancouver and its suburbs together make up the third-largest metropolitan area in Canada, with the 2021 census recording 2.6 million people in Metro Vancouver. British Columbia is Canada's third-largest province by total area, after Quebec and Ontario.",
       "sourceUrl": "https://en.wikipedia.org/wiki/British_Columbia"
-    }
+    },
+    "emblemUrl": "/emblems/ca-bc.svg",
+    "established": "1871",
+    "highestPoint": "Mount Fairweather (4,671 m)",
+    "namedAfter": "Columbia District"
   },
   {
     "wikiId": "Q1948",
@@ -567,7 +715,11 @@
       "title": "Manitoba",
       "summary": "Manitoba is a province of Canada at the longitudinal centre of the country. It is Canada's fifth-most populous province, with a population estimated at 1,507,057 in 2025. Manitoba has a widely varied landscape, from arctic tundra and the Hudson Bay coastline in the north to dense boreal forest, large freshwater lakes, and prairie grassland in the central and southern regions. Manitoba's capital and largest city is Winnipeg.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Manitoba"
-    }
+    },
+    "emblemUrl": "/emblems/ca-mb.svg",
+    "established": "1870",
+    "highestPoint": "Baldy Mountain (832 m)",
+    "namedAfter": "Lake Manitoba Narrows"
   },
   {
     "wikiId": "Q1965",
@@ -582,7 +734,11 @@
       "title": "New Brunswick",
       "summary": "New Brunswick is a province of Canada, bordering Quebec to the northwest, the Gulf of Saint Lawrence to the northeast, Nova Scotia to the east, the Bay of Fundy to the southeast, and the U.S. state of Maine to the southwest. It is part of Eastern Canada and is one of the three Maritime provinces and one of the four Atlantic provinces. The province is about 83% forested and its northern half is occupied by the Appalachians. The province's climate is continental with snowy winters and temperate summers. The province has a surface area of 72,908 square kilometres (28,150 sq mi) and 775,610 inhabitants.",
       "sourceUrl": "https://en.wikipedia.org/wiki/New_Brunswick"
-    }
+    },
+    "emblemUrl": "/emblems/ca-nb.svg",
+    "established": "1867",
+    "highestPoint": "Mount Carleton (820 m)",
+    "namedAfter": "Brunswick-Lüneburg"
   },
   {
     "wikiId": "Q2003",
@@ -597,7 +753,11 @@
       "title": "Newfoundland and Labrador",
       "summary": "Newfoundland and Labrador is the easternmost province of Canada, in the country's Atlantic region. It comprises the island of Newfoundland and the continental region of Labrador, with an area of 405,212 km2 (156,453 sq mi) and a population of 549,738 in 2025. Newfoundland with its neighbouring islands has 94% of the province's population, with more than half in the Avalon Peninsula. Labrador has a land border with the province of Quebec and a short border with Nunavut on Killiniq Island. The French overseas collectivity of Saint Pierre and Miquelon lies about 20 km (12 mi) west of the Burin Peninsula.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Newfoundland_and_Labrador"
-    }
+    },
+    "emblemUrl": "/emblems/ca-nl.svg",
+    "established": "1949",
+    "highestPoint": "Mount Caubvick (1,652 m)",
+    "namedAfter": "João Fernandes Lavrador"
   },
   {
     "wikiId": "Q1952",
@@ -612,7 +772,11 @@
       "title": "Nova Scotia",
       "summary": "Nova Scotia is a province in the Maritimes region of Canada, located on the nation's east coast. With an estimated population of over 1 million as of 2025, Nova Scotia is the most populous province in Atlantic Canada. Nova Scotia is also the second-most densely populated province in Canada, and the second-smallest province by area. The province comprises the Nova Scotia peninsula and Cape Breton Island, as well as 3,800 other coastal islands. The province is connected to the rest of Canada by the Isthmus of Chignecto, on which the province's sole land border, with New Brunswick, is located.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Nova_Scotia"
-    }
+    },
+    "emblemUrl": "/emblems/ca-ns.svg",
+    "established": "1867",
+    "highestPoint": "White Hill (535 m)",
+    "namedAfter": "Scotland"
   },
   {
     "wikiId": "Q2007",
@@ -627,7 +791,11 @@
       "title": "Northwest Territories",
       "summary": "The Northwest Territories is a territory of Canada. At a land area of approximately 1,127,711.92 square kilometres (435,412.01 sq mi) and a 2025 estimated population of 45,848, it is the second-largest and second-most populous of the three territories in Northern Canada. Under its modern borders, the Northwest Territories consists of a large part of Denendeh—traditional land of the Dene—and most of the Inuvialuit Settlement Region —traditional land of the Western Canadian Inuit. The territory also contains some land traditionally used by Cree and Métis peoples. Its capital and most populous community is Yellowknife, the only city in the territory; its population was 20,340 as of the 2021 census. It became the territorial capital in 1967, following recommendations by the Carrothers Commission.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Northwest_Territories"
-    }
+    },
+    "emblemUrl": "/emblems/ca-nt.svg",
+    "established": "1870",
+    "highestPoint": "Mount Nirvana (2,773 m)",
+    "namedAfter": "northwest"
   },
   {
     "wikiId": "Q2023",
@@ -642,7 +810,11 @@
       "title": "Nunavut",
       "summary": "Nunavut is the largest and northernmost territory of Canada. It was separated from the Northwest Territories on April 1, 1999, via the Nunavut Act and the Nunavut Land Claims Agreement Act, which provided this territory to the Inuit for self-government. The boundaries had been drawn in 1993. The creation of Nunavut resulted in the first major change to Canada's political map in half a century since the province of Newfoundland was admitted in 1949.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Nunavut"
-    }
+    },
+    "emblemUrl": "/emblems/ca-nu.svg",
+    "established": "1999",
+    "highestPoint": "Barbeau Peak (2,616 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q1904",
@@ -657,7 +829,11 @@
       "title": "Ontario",
       "summary": "Ontario is the southernmost province of Canada. Located in Central Canada, Ontario is the country's most populous province. As of the 2021 Canadian census, it is home to over 14 million people, which is 38.5% of the country's population. Ontario is the second-largest province by total area and the fourth-largest jurisdiction of all the Canadian provinces and territories. It is home to the nation's capital, Ottawa, and its most populous city, Toronto, which is Ontario's provincial capital.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Ontario"
-    }
+    },
+    "emblemUrl": "/emblems/ca-on.svg",
+    "established": "1867",
+    "highestPoint": "Ishpatina Ridge (693 m)",
+    "namedAfter": "Lake Ontario"
   },
   {
     "wikiId": "Q1978",
@@ -672,7 +848,11 @@
       "title": "Prince Edward Island",
       "summary": "Prince Edward Island is an island province of Canada. It is the smallest province by both land area and population, but has the highest population density in Canada. The island has several nicknames: \"Garden of the Gulf\", \"Birthplace of Confederation\" and \"Cradle of Confederation\". Its capital and largest city is Charlottetown. It is one of the three Maritime provinces and one of the four Atlantic provinces.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Prince_Edward_Island"
-    }
+    },
+    "emblemUrl": "/emblems/ca-pe.svg",
+    "established": "1769",
+    "highestPoint": "Hunter River",
+    "namedAfter": "Prince Edward Island"
   },
   {
     "wikiId": "Q176",
@@ -687,7 +867,11 @@
       "title": "Quebec",
       "summary": "Quebec is Canada's largest province by area. Located in Central Canada, it is the only Francophone-majority province in the country, being home to Québécois French. It shares borders with the provinces of Ontario to the west, Newfoundland and Labrador to the northeast, New Brunswick to the southeast and a coastal border with the territory of Nunavut. In the south, it shares a border with the United States. Quebec has a population of around eight million, making it Canada's second-most populous province only behind Ontario.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Quebec"
-    }
+    },
+    "emblemUrl": "/emblems/ca-qc.svg",
+    "established": "1867",
+    "highestPoint": "Mount Caubvick (1,652 m)",
+    "namedAfter": "Quebec City"
   },
   {
     "wikiId": "Q1989",
@@ -702,7 +886,11 @@
       "title": "Saskatchewan",
       "summary": "Saskatchewan is a province in Western Canada. It is bordered to the west by Alberta, to the north by the Northwest Territories, to the east by Manitoba, to the northeast by Nunavut, and to the south by the United States. Saskatchewan and neighbouring Alberta are the only landlocked provinces in Canada. In 2025, Saskatchewan's population was estimated at 1,266,234. Nearly 10% of Saskatchewan's total area of 651,900 square kilometres (251,700 sq mi) is fresh water, mostly rivers, reservoirs, and lakes.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Saskatchewan"
-    }
+    },
+    "emblemUrl": "/emblems/ca-sk.svg",
+    "established": "1905",
+    "highestPoint": "Cypress Hills (1,468 m)",
+    "namedAfter": "Saskatchewan River"
   },
   {
     "wikiId": "Q2009",
@@ -717,7 +905,11 @@
       "title": "Yukon",
       "summary": "Yukon is a territory of Canada, bordering British Columbia to the south, the Northwest Territories to the east, the Beaufort Sea to the north, and the U.S. state of Alaska to the west. It is Canada's westernmost and smallest territory by land area. As of the 2026 first quarter estimates Yukon had a population of 48,218, the most of the territories. Whitehorse, the territorial capital, is the largest city in northern Canada.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Yukon"
-    }
+    },
+    "emblemUrl": "/emblems/ca-yt.svg",
+    "established": "1898",
+    "highestPoint": "Mount Logan (5,959 m)",
+    "namedAfter": "Yukon River"
   },
   {
     "wikiId": "Q3734",
@@ -732,7 +924,11 @@
       "title": "Adygea",
       "summary": "Adygea, officially the Republic of Adygea or the Adygean Republic, is a republic of Russia. It is situated in the North Caucasus of Eastern Europe. The republic is a part of the Southern Federal District, and covers an area of 7,600 square kilometers (2,900 sq mi), with a population of roughly 500,731 residents as of 2025. It is an enclave within Krasnodar Krai and is the fifth-smallest Russian federal subject by area. Maykop is the capital and the largest city of Adygea, home to one-third of the republic's population.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Adygea"
-    }
+    },
+    "emblemUrl": "/emblems/ru-ad.svg",
+    "established": "1991",
+    "highestPoint": "Chugush (3,238 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q5971",
@@ -747,7 +943,11 @@
       "title": "Altai Republic",
       "summary": "The Altai Republic, also known as the Gorno-Altai Republic, is a republic of Russia located in southern Siberia. The republic borders Kemerovo Oblast to the north, Khakassia to the northeast, Tuva to the east, Altai Krai to the west, as well as three countries: Mongolia (Bayan-Ölgii) to the southeast, China (Xinjiang) to the south and Kazakhstan to the southwest. It is a part of the Siberian Federal District, and covers an area of 92,903 square kilometers (35,870 sq mi), with a population of 210,924 residents. It is the least-populous republic of Russia and least-populous federal subject in the Siberian Federal District. Gorno-Altaysk is the capital and the largest town of the republic with 65,342 inhabitants and in urban areas, making it the least urbanized federal subject.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Altai_Republic"
-    }
+    },
+    "emblemUrl": "/emblems/ru-al.svg",
+    "established": "1992",
+    "highestPoint": "Belukha Mountain (4,506 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q5710",
@@ -762,7 +962,11 @@
       "title": "Bashkortostan",
       "summary": "Bashkortostan, officially the Republic of Bashkortostan, sometimes also called Bashkiria, is a republic of Russia between the Volga river and the Ural Mountains in Eastern Europe. The republic borders Perm Krai to the north, Sverdlovsk Oblast to the northeast, Chelyabinsk Oblast to the east, Orenburg Oblast to the south, Tatarstan to the west and Udmurtia to the northwest. It covers 143,600 square kilometres. It is the seventh-most populous federal subject in Russia and the most populous republic. Its capital and largest city is Ufa. As of 2025, it has a population of 4,046,094.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Bashkortostan"
-    }
+    },
+    "emblemUrl": "/emblems/ru-ba.svg",
+    "established": "1990",
+    "highestPoint": "Mount Yamantau (1,640 m)",
+    "namedAfter": "Bashkir people"
   },
   {
     "wikiId": "Q6809",
@@ -777,7 +981,11 @@
       "title": "Buryatia",
       "summary": "Buryatia, officially the Republic of Buryatia, is a republic of Russia located in the Russian Far East. Formerly part of the Siberian Federal District, it has been administered as part of the Far Eastern Federal District since 2018. To its north lie Irkutsk Oblast and Lake Baikal, the deepest lake in the world; Zabaykalsky Krai to the east; Tuva to the west and Mongolia to the south. Its capital is the city of Ulan-Ude. It has an area of 351,300 square kilometers (135,600 sq mi) with a population of 978,588. It is home to the indigenous Buryats.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Buryatia"
-    }
+    },
+    "emblemUrl": "/emblems/ru-bu.svg",
+    "established": "1992",
+    "highestPoint": "Monkh Saridag (3,491 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q5187",
@@ -792,7 +1000,11 @@
       "title": "Chechnya",
       "summary": "Chechnya, officially the Chechen Republic, is a republic of Russia. It is situated in the North Caucasus of Eastern Europe, between the Caspian Sea and Black Sea. The republic forms a part of the North Caucasian Federal District, and shares land borders with Georgia to its south; with the Russian republics of Dagestan, Ingushetia, and North Ossetia–Alania to its east, north, and west; and with Stavropol Krai to its northwest.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Chechnya"
-    }
+    },
+    "emblemUrl": "/emblems/ru-ce.svg",
+    "established": "1993",
+    "highestPoint": "Tebulosmta (4,493 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q144709",
@@ -807,7 +1019,11 @@
       "title": "Crimea (disambiguation)",
       "summary": "Crimea, or the Crimean Peninsula, historically also known as the Tauric Chersonese, is a major peninsula in the north of the Black Sea.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Crimea_(disambiguation)"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1991",
+    "highestPoint": "Roman-Kosh (1,545 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q5466",
@@ -822,7 +1038,11 @@
       "title": "Chuvashia",
       "summary": "Chuvashia, officially known as Chuvash Republic — Chuvashia, is a republic of Russia located in Eastern Europe. It is the homeland of the Chuvash people. The republic's capital city is the city of Cheboksary. As of the 2010 Census, its population was 1,251,619.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Chuvashia"
-    }
+    },
+    "emblemUrl": "/emblems/ru-cu.svg",
+    "established": "1992",
+    "highestPoint": null,
+    "namedAfter": null
   },
   {
     "wikiId": "Q5118",
@@ -837,7 +1057,11 @@
       "title": "Dagestan",
       "summary": "Dagestan, officially the Republic of Dagestan, is a republic of Russia situated in the North Caucasus of Eastern Europe, along the Caspian Sea. It is located north of the Greater Caucasus, and is a part of the North Caucasian Federal District. The republic is at the southernmost tip of Russia, sharing land borders with the countries of Azerbaijan (south) and Georgia (southwest), and the Russian republics of Chechnya (west), Stavropol Krai (northwest), and Kalmykia (north). Makhachkala is the republic's capital and largest city; other major cities are Derbent, Kizlyar, Izberbash, Kaspiysk, and Buynaksk.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Dagestan"
-    }
+    },
+    "emblemUrl": "/emblems/ru-da.svg",
+    "established": "1991",
+    "highestPoint": "Mount Bazardüzü (2,706 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q5219",
@@ -852,7 +1076,11 @@
       "title": "Ingushetia",
       "summary": "Ingushetia or Ingushetiya, officially the Republic of Ingushetia, is a republic of Russia located in the North Caucasus of Eastern Europe. The republic is part of the North Caucasian Federal District, and shares land borders with the country of Georgia to its south; and borders the Russian republics of North Ossetia–Alania to its west and north and Chechnya to its east and northeast.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Ingushetia"
-    }
+    },
+    "emblemUrl": "/emblems/ru-in.svg",
+    "established": "1992",
+    "highestPoint": "Mount Shani (4,451 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q5267",
@@ -867,7 +1095,11 @@
       "title": "Kabardino-Balkaria",
       "summary": "Kabardino-Balkaria, officially the Kabardino-Balkarian Republic, is a republic of Russia located in the North Caucasus. As of the 2021 Census, its population was 904,200. Its capital is Nalchik. The area contains the highest mountain in Europe, Mount Elbrus, at 5,642 m (18,510 ft). Mount Elbrus has 22 glaciers that feed three rivers — Baksan, Malka and Kuban. The mountain is covered with snow year-round.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Kabardino-Balkaria"
-    }
+    },
+    "emblemUrl": "/emblems/ru-kb.svg",
+    "established": "1936",
+    "highestPoint": "Mount Elbrus (5,642 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q5328",
@@ -882,7 +1114,11 @@
       "title": "Karachay-Cherkessia",
       "summary": "Karachay-Cherkessia, officially the Karachay-Cherkess Republic, is a republic of Russia located in the North Caucasus. It is administratively part of the North Caucasian Federal District. As of the 2021 census, Karachay-Cherkessia has a population of 469,865. Cherkessk is the largest city and the capital of the republic.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Karachay-Cherkessia"
-    }
+    },
+    "emblemUrl": "/emblems/ru-kc.svg",
+    "established": "1992",
+    "highestPoint": "Mount Elbrus (5,642 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q6543",
@@ -897,7 +1133,11 @@
       "title": "Khakassia",
       "summary": "Khakassia, officially the Republic of Khakassia, is a republic of Russia located in southern Siberia. It is situated between Krasnoyarsk Krai to the north and the Altai Republic to the south.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Khakassia"
-    }
+    },
+    "emblemUrl": "/emblems/ru-kk.svg",
+    "established": "1991",
+    "highestPoint": "Gora Karagosh (2,932 m)",
+    "namedAfter": "Khakass people"
   },
   {
     "wikiId": "Q3953",
@@ -912,7 +1152,11 @@
       "title": "Kalmykia",
       "summary": "Kalmykia, officially the Republic of Kalmykia, is a republic of Russia, located in the Volga region of European Russia. The republic is part of the Southern Federal District, and borders Dagestan to the south and Stavropol Krai to the southwest; Volgograd Oblast to the northwest and north and Astrakhan Oblast to the north and east; Rostov Oblast to the west and the Caspian Sea to the east. Through the Caspian Depression, the Kuma river forms Kalmykia's natural border with Dagestan. Kalmykia is the only polity within the European continent where the Dharmic religion of Buddhism is the majoritary religion; the majority of Kalmyk people are Vajrayana Tibetan Buddhists of the Gelug and Kagyu lineages.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Kalmykia"
-    }
+    },
+    "emblemUrl": "/emblems/ru-kl.svg",
+    "established": "1992",
+    "highestPoint": "Gora Shared (222 m)",
+    "namedAfter": "Kalmyks"
   },
   {
     "wikiId": "Q2073",
@@ -927,7 +1171,11 @@
       "title": "Komi Republic",
       "summary": "The Komi Republic, sometimes simply referred to as Komi, is a republic of Russia situated in the northeast of European Russia. Its capital is the city of Syktyvkar.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Komi_Republic"
-    }
+    },
+    "emblemUrl": "/emblems/ru-ko.svg",
+    "established": "1991",
+    "highestPoint": "Mount Karpinsky (1,803 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q1914",
@@ -942,7 +1190,11 @@
       "title": "Republic of Karelia",
       "summary": "The Republic of Karelia, or simply Karelia or Karjala is a republic of Russia situated in the northwest of the country. The republic is a part of the Northwestern Federal District, and covers an area of 172,400 square kilometres, with a population of 533,121 residents. Its capital is Petrozavodsk.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Republic_of_Karelia"
-    }
+    },
+    "emblemUrl": "/emblems/ru-kr.svg",
+    "established": "1991",
+    "highestPoint": "Nuorunen (577 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q5446",
@@ -957,7 +1209,11 @@
       "title": "Mari El",
       "summary": "Mari El, officially the Mari El Republic, is a republic of Russia. It is in the European region of the country, along the northern bank of the Volga River, and administratively part of the Volga Federal District. The republic has a population of 696,459. Yoshkar-Ola is the capital and largest city.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Mari_El"
-    }
+    },
+    "emblemUrl": "/emblems/ru-me.svg",
+    "established": "1993",
+    "highestPoint": null,
+    "namedAfter": null
   },
   {
     "wikiId": "Q5340",
@@ -972,7 +1228,11 @@
       "title": "Mordovia",
       "summary": "Mordovia, officially the Republic of Mordovia, is a republic of Russia, situated in Eastern Europe. Its capital is the city of Saransk. As of the 2010 Census, the population of the republic was 834,755. Ethnic Russians (53.1%) and Mordvins (39.8%) account for the majority of the population.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Mordovia"
-    }
+    },
+    "emblemUrl": "/emblems/ru-mo.svg",
+    "established": "1993",
+    "highestPoint": null,
+    "namedAfter": null
   },
   {
     "wikiId": "Q6605",
@@ -987,7 +1247,11 @@
       "title": "Sakha Republic",
       "summary": "Sakha, officially the Republic of Sakha (Yakutia), is a republic of Russia, and the largest federal subject of Russia by area. It is located in the Russian Far East, along the Arctic Ocean, with a population of one million. Sakha comprises half of the area of its governing Far Eastern Federal District, and is the world's largest country subdivision, covering over 3,083,523 square kilometers (1,190,555 sq mi). Yakutsk, which is the world's coldest major city, is its capital and largest city.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Sakha_Republic"
-    }
+    },
+    "emblemUrl": "/emblems/ru-sa.svg",
+    "established": "1990",
+    "highestPoint": "Peak Pobeda, Sakha (3,003 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q5237",
@@ -1002,7 +1266,11 @@
       "title": "North Ossetia–Alania",
       "summary": "North Ossetia–Alania, officially the Republic of North Ossetia–Alania, is a republic of Russia situated in the North Caucasus of Eastern Europe. It borders the country of Georgia to the south, and the Russian federal subjects of Kabardino-Balkaria to the west, Stavropol Krai to the north, Chechnya to the east and Ingushetia to the southeast. Its population according to the 2021 Census was 687,357. The republic’s capital city is Vladikavkaz, located on the foothills of the Caucasus Mountains.",
       "sourceUrl": "https://en.wikipedia.org/wiki/North_Ossetia%E2%80%93Alania"
-    }
+    },
+    "emblemUrl": "/emblems/ru-se.svg",
+    "established": "1993",
+    "highestPoint": "Mount Kazbek (5,033 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q5481",
@@ -1017,7 +1285,11 @@
       "title": "Tatarstan",
       "summary": "Tatarstan, officially the Republic of Tatarstan, sometimes also called Tataria, is a republic of Russia located in Eastern Europe. It is a part of the Volga Federal District; and its capital and largest city is Kazan, an important cultural centre in Russia. The region's main source of wealth is oil with a strong petrochemical industry.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Tatarstan"
-    }
+    },
+    "emblemUrl": "/emblems/ru-ta.svg",
+    "established": "1990",
+    "highestPoint": null,
+    "namedAfter": "-stan"
   },
   {
     "wikiId": "Q960",
@@ -1032,7 +1304,11 @@
       "title": "Tuva",
       "summary": "Tuva or Tyva, officially the Republic of Tyva, is a republic of Russia. Tuva lies at the geographical center of Asia, in southern Siberia. The republic borders the federal subjects of the Altai Republic, Buryatia, Irkutsk Oblast, Khakassia, and Krasnoyarsk Krai, and shares an international border with Mongolia to the south. Tuva has a population of 336,651. Its capital city is Kyzyl, in which more than a third of the population reside.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Tuva"
-    }
+    },
+    "emblemUrl": "/emblems/ru-ty.svg",
+    "established": "1991",
+    "highestPoint": "Mongun-Taiga (3,970 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q5422",
@@ -1047,7 +1323,11 @@
       "title": "Udmurtia",
       "summary": "Udmurtia, officially the Udmurt Republic, is a republic of Russia located in Eastern Europe. It is administratively part of the Volga Federal District. Its capital is the city of Izhevsk.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Udmurtia"
-    }
+    },
+    "emblemUrl": "/emblems/ru-ud.svg",
+    "established": "1991",
+    "highestPoint": null,
+    "namedAfter": null
   },
   {
     "wikiId": "Q797",
@@ -1062,7 +1342,11 @@
       "title": "Alaska",
       "summary": "Alaska is a non-contiguous U.S. state located in the northwestern regions of North America. Part of the Western United States region, it is one of the two non-contiguous U.S. states, alongside Hawaii. Alaska is considered to be the northernmost, westernmost, and, longitudinally, the easternmost state in the United States. It is a semi-exclave of the U.S., bordering the Canadian territory of Yukon and the province of British Columbia to the east. It shares a western maritime border in the Bering Strait with Russia's Chukotka Autonomous Okrug, and is closer to another continent (Asia) than any other U.S. state. The Chukchi and Beaufort Seas of the Arctic Ocean lie to the north, and the Pacific Ocean to the south.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Alaska"
-    }
+    },
+    "emblemUrl": "/emblems/us-ak.svg",
+    "established": "1959",
+    "highestPoint": null,
+    "namedAfter": null
   },
   {
     "wikiId": "Q173",
@@ -1077,7 +1361,11 @@
       "title": "Alabama",
       "summary": "Alabama is a state in the Southeastern and Deep Southern regions of the United States. It borders Tennessee to the north, Georgia to the east, Florida and the Gulf of Mexico to the south, and Mississippi to the west. Alabama is the 30th largest by area, and the 24th-most populous of the 50 U.S. states.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Alabama"
-    }
+    },
+    "emblemUrl": "/emblems/us-al.svg",
+    "established": "1819",
+    "highestPoint": "Cheaha Mountain (733 m)",
+    "namedAfter": "Alabama people"
   },
   {
     "wikiId": "Q1612",
@@ -1092,7 +1380,11 @@
       "title": "Arkansas",
       "summary": "Arkansas is a landlocked state in the West South Central region of the Southern United States. It borders Missouri to the north, Tennessee and Mississippi to the east, Louisiana to the south, Texas to the southwest, and Oklahoma to the west. Its name derives from the Osage language, and refers to their relatives, the Quapaw people. The state's diverse geography ranges from the mountainous regions of the Ozark and Ouachita Mountains, which make up the U.S. Interior Highlands, to the densely forested land in the south known as the Arkansas Timberlands, to the eastern lowlands along the Mississippi River and the Arkansas Delta.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Arkansas"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1836",
+    "highestPoint": "Mount Magazine (839 m)",
+    "namedAfter": "Quapaw"
   },
   {
     "wikiId": "Q816",
@@ -1107,7 +1399,11 @@
       "title": "Arizona",
       "summary": "Arizona is a landlocked state in the Southwestern United States, sharing the Four Corners region with Colorado, New Mexico, and Utah. It also borders Nevada to the northwest and California to the west, and shares an international border with the Mexican states of Sonora and Baja California to the south and southwest. Its capital and largest city is Phoenix, which is the most populous state capital and fifth-most populous city in the United States. Arizona is divided into 15 counties.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Arizona"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1912",
+    "highestPoint": "Humphreys Peak (3,847 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q99",
@@ -1122,7 +1418,11 @@
       "title": "California",
       "summary": "California is a U.S. state in the Western United States that lies on the Pacific Coast. It borders Oregon to the north, and Nevada and Arizona to the east; it also shares an international border with the Mexican state of Baja California to the south. With over 39 million residents across an area of 163,696 square miles (423,970 km2), it is the largest U.S. state by population and third-largest by area.",
       "sourceUrl": "https://en.wikipedia.org/wiki/California"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1850",
+    "highestPoint": "Mount Whitney (4,421 m)",
+    "namedAfter": "The Californias"
   },
   {
     "wikiId": "Q1261",
@@ -1137,7 +1437,11 @@
       "title": "Colorado",
       "summary": "Colorado is a landlocked state in the Mountain West subregion of the Western United States. It is one of the Mountain states, and part of the Southwestern United States, sharing the Four Corners region with Arizona, New Mexico, and Utah. It is also bordered by Wyoming to the north, Nebraska to the northeast, Kansas to the east, and Oklahoma to the southeast. Colorado is noted for its landscape of mountains, forests, high plains, mesas, canyons, plateaus, rivers, and desert lands. It encompasses most of the Southern Rocky Mountains, as well as the northeastern portion of the Colorado Plateau and the western edge of the Great Plains. Colorado is the eighth-largest U.S. state by area and the 20th by population. The United States Census Bureau estimated the population of Colorado to be 5,957,493 as of July 1, 2024, a 3.2% increase from the 2020 United States census.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Colorado"
-    }
+    },
+    "emblemUrl": "/emblems/us-co.svg",
+    "established": "1876",
+    "highestPoint": "Mount Elbert (4,401 m)",
+    "namedAfter": "Colorado River"
   },
   {
     "wikiId": "Q779",
@@ -1152,7 +1456,11 @@
       "title": "Connecticut",
       "summary": "Connecticut is a state in the New England region of the Northeastern United States. It borders Rhode Island to the east, Massachusetts to the north, New York to the west, and Long Island Sound to the south. Its capital is Hartford, and its most populous city is Bridgeport. Connecticut lies between the major hubs of New York City and Boston along the Northeast Corridor, where the New York metropolitan area, which includes four of Connecticut's seven largest cities, extends into the southwestern part of the state. Connecticut is the third-smallest state by area after Rhode Island and Delaware, and the 29th-most populous with more than 3.6 million residents as of 2024, ranking it fourth among the most densely populated U.S. states.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Connecticut"
-    }
+    },
+    "emblemUrl": "/emblems/us-ct.svg",
+    "established": "1788",
+    "highestPoint": "Mount Frissell (748 m)",
+    "namedAfter": "Connecticut River"
   },
   {
     "wikiId": "Q1393",
@@ -1167,7 +1475,11 @@
       "title": "Delaware",
       "summary": "Delaware is a state in the Mid-Atlantic and South Atlantic regions of the United States. It borders Maryland to its south and west, Pennsylvania to its north, New Jersey to its northeast, and the Atlantic Ocean to its east. The state's name derives from the adjacent Delaware Bay, which in turn was named after Thomas West, 3rd Baron De La Warr, an English nobleman and the Colony of Virginia's first colonial-era governor.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Delaware"
-    }
+    },
+    "emblemUrl": "/emblems/us-de.svg",
+    "established": "1787",
+    "highestPoint": "Ebright Azimuth (137 m)",
+    "namedAfter": "Delaware Bay"
   },
   {
     "wikiId": "Q812",
@@ -1182,7 +1494,11 @@
       "title": "Florida",
       "summary": "Florida is a state in the Southeastern and South Atlantic\nregions of the United States. It borders the Gulf of Mexico to the west, Alabama to the northwest, Georgia to the north, the Atlantic Ocean to the east, the Straits of Florida to the south, and The Bahamas to the southeast. About two-thirds of Florida occupies a peninsula between the Gulf of Mexico and the Atlantic Ocean. It has the longest coastline in the contiguous United States, spanning approximately 1,350 miles (2,170 km), not including its many barrier islands. It is the only state that borders both the Gulf of Mexico and the Atlantic Ocean. With a population of over 23 million, it is the third-most populous state in the United States and ranks seventh in population density as of 2020. Florida spans 65,758 square miles (170,310 km2), ranking 22nd in area among the states. The Miami metropolitan area, anchored by the cities of Miami, Fort Lauderdale, and West Palm Beach, is the state's largest metropolitan area, with a population of 6.138 million; the most populous city is Jacksonville. Florida's other major population centers include Tampa Bay, Orlando, Cape Coral, and the state capital of Tallahassee.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Florida"
-    }
+    },
+    "emblemUrl": "/emblems/us-fl.svg",
+    "established": "1845",
+    "highestPoint": "Britton Hill (105 m)",
+    "namedAfter": "Easter"
   },
   {
     "wikiId": "Q1428",
@@ -1197,7 +1513,11 @@
       "title": "Georgia (U.S. state)",
       "summary": "Georgia is a state in the Southeastern, South Atlantic, and Deep South regions of the United States. It borders Tennessee to the northwest, North Carolina and South Carolina to the northeast, the Atlantic Ocean to the east, Florida to the south, and Alabama to the west. Of the 50 U.S. states, Georgia is the 24th-largest by area and eighth-most populous. According to the U.S. Census Bureau, its 2025 estimated population was 11,302,748. Atlanta, a global city, is both the state's capital and its largest city. The Atlanta metropolitan area, with a population greater than 6.3 million people in 2023, is the eighth most populous metropolitan area in the United States and contains about 57% of Georgia's entire population. Other major metropolitan areas in the state include Augusta, Savannah, Columbus, and Macon.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Georgia_(U.S._state)"
-    }
+    },
+    "emblemUrl": "/emblems/us-ga.svg",
+    "established": "1788",
+    "highestPoint": "Brasstown Bald (1,458 m)",
+    "namedAfter": "George II of Great Britain"
   },
   {
     "wikiId": "Q782",
@@ -1212,7 +1532,11 @@
       "title": "Hawaii",
       "summary": "Hawaii is an island state of the United States, in the Pacific Ocean about 2,000 miles (3,200 km) southwest of the U.S. mainland. One of the two non-contiguous U.S. states, it is the only state not on the North American mainland, the only state that is an archipelago, the only state south of the Tropic of Cancer, one of only two states, along with Florida, with regions that have a tropical climate, and one of the two U.S. states, along with Texas, that were internationally recognized sovereign countries before becoming U.S. states.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Hawaii"
-    }
+    },
+    "emblemUrl": "/emblems/us-hi.svg",
+    "established": "1959",
+    "highestPoint": "Mauna Kea (4,207 m)",
+    "namedAfter": "Hawaii"
   },
   {
     "wikiId": "Q1546",
@@ -1227,7 +1551,11 @@
       "title": "Iowa",
       "summary": "Iowa is a landlocked state in the upper Midwestern region of the United States. It borders the Mississippi River to the east and the Missouri River and Big Sioux River to the west; Wisconsin to the northeast, Illinois to the east and southeast, Missouri to the south, Nebraska to the west, South Dakota to the northwest, and Minnesota to the north. Iowa is the 26th largest in total area and the 31st most populous of the 50 U.S. states, with a population of 3.19 million. The state's capital, most populous city, and largest metropolitan area fully located within the state is Des Moines.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Iowa"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1846",
+    "highestPoint": "Hawkeye Point (509 m)",
+    "namedAfter": "Iowa people"
   },
   {
     "wikiId": "Q1221",
@@ -1242,7 +1570,11 @@
       "title": "Idaho",
       "summary": "Idaho is a landlocked state in the Pacific Northwest and Mountain West subregions of the Western United States. It borders Montana and Wyoming to the east, Nevada and Utah to the south, and Washington and Oregon to the west; the state shares a small portion of the Canada–United States border to the north with the Canadian province of British Columbia. Idaho's state capital and largest city is Boise. With an area of 83,569 square miles (216,440 km2), Idaho is the 14th-largest state by land area. The state has a population of approximately two million people; it ranks as the 13th-least populous and the seventh-least densely populated of the 50 U.S. states.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Idaho"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1890",
+    "highestPoint": "Borah Peak (3,857 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q1204",
@@ -1257,7 +1589,11 @@
       "title": "Illinois",
       "summary": "Illinois is a state in the Midwestern region of the United States. It borders on Lake Michigan to its northeast, the Mississippi River to its west, and the Wabash and Ohio rivers to its south. Of the fifty U.S. states, Illinois has the fifth-largest gross domestic product (GDP), the sixth-largest population, and the 25th-most land area. Its capital city is Springfield in the center of the state, and the state's largest city is Chicago in the northeast.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Illinois"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1818",
+    "highestPoint": "Charles Mound (376 m)",
+    "namedAfter": "Illinois Confederation"
   },
   {
     "wikiId": "Q1415",
@@ -1272,7 +1608,11 @@
       "title": "Indiana",
       "summary": "Indiana is a state in the Midwestern region of the United States. It borders Lake Michigan to the northwest, Michigan to the north and northeast, Ohio to the east, the Ohio River and Kentucky to the south and southeast, and the Wabash River and Illinois to the west. Nicknamed \"the Hoosier State\", Indiana is the 38th-largest by area and the 17th-most populous of the 50 states. The state's capital and largest city is Indianapolis. Indiana was admitted to the Union as the 19th state on December 11, 1816.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Indiana"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1816",
+    "highestPoint": "Hoosier Hill (383 m)",
+    "namedAfter": "Indiana Territory"
   },
   {
     "wikiId": "Q1558",
@@ -1287,7 +1627,11 @@
       "title": "Kansas",
       "summary": "Kansas is a landlocked state in the Midwestern region of the United States. It borders Nebraska to the north, Colorado to the west, Oklahoma to the south, and Missouri to the east. Kansas is named after the Kansas River, in turn named after the Kansa people. Its capital is Topeka, and its most populous city is Wichita; however, the largest urban area is the bi-state Kansas City metropolitan area surrounding Kansas City, Missouri, which straddles the border of Kansas and Missouri.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Kansas"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1861",
+    "highestPoint": "Mount Sunflower (4,039 m)",
+    "namedAfter": "Kansas River"
   },
   {
     "wikiId": "Q1603",
@@ -1302,7 +1646,11 @@
       "title": "Kentucky",
       "summary": "Kentucky, officially the Commonwealth of Kentucky, is a landlocked state in the Southeastern region of the United States. It borders Illinois, Indiana, and Ohio to the north, West Virginia to the northeast, Virginia to the east, Tennessee to the south, and Missouri to the west. Its northern border is defined by the Ohio River. Its capital is Frankfort and its most populous city is Louisville. As of 2024, the state's population was approximately 4.6 million.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Kentucky"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1792",
+    "highestPoint": "Black Mountain (1,263 m)",
+    "namedAfter": "Kentucky River"
   },
   {
     "wikiId": "Q1588",
@@ -1317,7 +1665,11 @@
       "title": "Louisiana",
       "summary": "Louisiana is a state in the Deep South and South Central regions of the United States. It is bordered by Texas to the west, Arkansas to the north, and Mississippi to the east. Of the 50 U.S. states, it ranks 31st in area and 25th in population, with roughly 4.6 million residents. Reflecting its French heritage, Louisiana is the only U.S. state with political subdivisions termed parishes, which are equivalent to counties, making it one of only two U.S. states not subdivided into counties. Baton Rouge is the state's capital, and New Orleans, a French Louisiana region, is its most populous city with a population of about 363,000 people. Louisiana has a coastline with the Gulf of Mexico to the south; a large part of its eastern boundary is demarcated by the Mississippi River; and the mouth of the Mississippi or delta defines much of its lower topography.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Louisiana"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1812",
+    "highestPoint": "Driskill Mountain (163 m)",
+    "namedAfter": "Louis XIV of France"
   },
   {
     "wikiId": "Q771",
@@ -1332,7 +1684,11 @@
       "title": "Massachusetts",
       "summary": "Massachusetts, officially the Commonwealth of Massachusetts, is a state in the New England region of the Northeastern United States. It borders the Atlantic Ocean and the Gulf of Maine to its east, Connecticut and Rhode Island to its south, New Hampshire and Vermont to its north, and New York to its west. Massachusetts is the seventh-smallest state by land area. With an estimated population of over 7.1 million, it is the most populous state in New England, the 16th-most-populous in the United States, and the third-most densely populated U.S. state after New Jersey and Rhode Island.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Massachusetts"
-    }
+    },
+    "emblemUrl": "/emblems/us-ma.svg",
+    "established": "1788",
+    "highestPoint": "Mount Greylock (1,064 m)",
+    "namedAfter": "Great Blue Hill"
   },
   {
     "wikiId": "Q1391",
@@ -1347,7 +1703,11 @@
       "title": "Maryland",
       "summary": "Maryland is a state in the Mid-Atlantic and Southeastern regions of the United States. It borders Virginia to its south, West Virginia to its west, Pennsylvania to its north, and Delaware to its east, as well as with the Atlantic Ocean to its east, and the national capital and federal district of Washington, D.C. to the southwest. With a total area of 12,407 square miles (32,130 km2), Maryland is the ninth-smallest state by land area, and its population of 6.1 million ranks it the 19th-most populous state and the fifth-most densely populated. Maryland's capital city is Annapolis, and the state's most populous city is Baltimore.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Maryland"
-    }
+    },
+    "emblemUrl": "/emblems/us-md.svg",
+    "established": "1788",
+    "highestPoint": "Hoye-Crest (1,020 m)",
+    "namedAfter": "Henrietta Maria of France"
   },
   {
     "wikiId": "Q724",
@@ -1362,7 +1722,11 @@
       "title": "Maine",
       "summary": "Maine is a state in the New England region of the United States, and the northeasternmost state in the contiguous United States. It borders New Hampshire to the west, the Gulf of Maine to the southeast, and the Canadian provinces of New Brunswick and Quebec to the northeast and northwest, and shares a maritime border with Nova Scotia. It is the only state to border only one other state. Maine is the largest state in New England by total area, almost as large as the combined area of the remaining five states. Of the 50 U.S. states, it is the 12th-smallest by area, the 9th-least populous, the 13th-least densely populated, and the most rural. As of 2024, Maine's population stood at a Census-estimated 1,400,000, the state's highest-ever population estimate. Maine's capital is Augusta, while its most populous city is Portland.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Maine"
-    }
+    },
+    "emblemUrl": "/emblems/us-me.svg",
+    "established": "1820",
+    "highestPoint": "Katahdin (1,606 m)",
+    "namedAfter": "Province of Maine"
   },
   {
     "wikiId": "Q1166",
@@ -1377,7 +1741,11 @@
       "title": "Michigan",
       "summary": "Michigan is a peninsular state in the Great Lakes region of the Upper Midwestern United States. It shares water and land boundaries with Minnesota to the northwest, Wisconsin to the west, Indiana and Illinois to the southwest, Ohio to the southeast, and the Canadian province of Ontario to the east, northeast and north. With a population of 10.14 million and an area of 96,716 sq mi (250,490 km2), Michigan is the tenth-largest state by population, the 11th-largest by area, and the largest by total area east of the Mississippi River. The state capital is Lansing, while its most populous city is Detroit. The Metro Detroit region in Southeast Michigan is among the nation's most populous and largest metropolitan economies. Other important metropolitan areas include Grand Rapids, Flint, Ann Arbor, Kalamazoo, the Tri-Cities, and Muskegon.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Michigan"
-    }
+    },
+    "emblemUrl": "/emblems/us-mi.svg",
+    "established": "1837",
+    "highestPoint": "Mount Arvon (603 m)",
+    "namedAfter": "Great Lakes"
   },
   {
     "wikiId": "Q1527",
@@ -1392,7 +1760,11 @@
       "title": "Minnesota",
       "summary": "Minnesota is a state in the Upper Midwestern region of the United States. It is bordered by the Canadian provinces of Manitoba and Ontario to the north and east and by the U.S. states of Wisconsin to the east, Iowa to the south, and North Dakota and South Dakota to the west. The northeast corner has a water boundary with Michigan. It is the 12th-largest U.S. state in area and the 22nd-most populous, with about 5.8 million residents. Minnesota is known as the \"Land of 10,000 Lakes\"; it has 14,420 bodies of fresh water covering at least ten acres each. Roughly a third of the state is forested. Much of the remainder is prairie and farmland. More than 60% of Minnesotans live in the Minneapolis–Saint Paul metropolitan area, known as the \"Twin Cities\", which is Minnesota's main political, economic, and cultural hub and the 16th-largest metropolitan area in the U.S. Other minor metropolitan and micropolitan statistical areas include Duluth, Mankato, Moorhead, Rochester, and St. Cloud.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Minnesota"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1858",
+    "highestPoint": "Eagle Mountain (701 m)",
+    "namedAfter": "Minnesota River"
   },
   {
     "wikiId": "Q1581",
@@ -1407,7 +1779,11 @@
       "title": "Missouri",
       "summary": "Missouri is a landlocked state in the Midwestern region of the United States. Ranking 21st in land area, it borders Iowa to the north, Illinois, Kentucky and Tennessee to the east, Arkansas to the south and Oklahoma, Kansas, and Nebraska to the west. With over six million residents, it is the 19th-most populous state of the country. The largest urban areas are St. Louis, Kansas City, Springfield, and Columbia. The capital is Jefferson City.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Missouri"
-    }
+    },
+    "emblemUrl": "/emblems/us-mo.svg",
+    "established": "1821",
+    "highestPoint": "Taum Sauk Mountain (540 m)",
+    "namedAfter": "Missouri River"
   },
   {
     "wikiId": "Q1494",
@@ -1422,7 +1798,11 @@
       "title": "Mississippi",
       "summary": "Mississippi is a state in the Southeastern and Deep South regions of the United States. It borders Tennessee to the north, Alabama to the east, the Gulf of Mexico to the south, Louisiana to the southwest, and Arkansas to the northwest. Mississippi's western boundary is largely defined by the Mississippi River, or its historical course. Mississippi is the 32nd largest by area and 35th-most populous of the 50 U.S. states and has the lowest per-capita income. Jackson is both the state's capital and largest city. Greater Jackson is the state's most populous metropolitan area, with a population of 591,978 in 2020. Other major cities include Gulfport, Southaven, Hattiesburg, Biloxi, Olive Branch, Tupelo, Meridian, and Greenville.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Mississippi"
-    }
+    },
+    "emblemUrl": "/emblems/us-ms.svg",
+    "established": "1817",
+    "highestPoint": "Woodall Mountain (246 m)",
+    "namedAfter": "Mississippi River"
   },
   {
     "wikiId": "Q1212",
@@ -1437,7 +1817,11 @@
       "title": "Montana",
       "summary": "Montana is a landlocked state in the Mountain West subregion of the Western United States. It is bordered by Idaho to the west, North Dakota to the east, South Dakota to the southeast, Wyoming to the south, and the Canadian provinces of Alberta, British Columbia, and Saskatchewan to the north. It is the fourth-largest state by area, but the eighth-least populous state and the third-least densely populated state. Its capital is Helena, while the most populous city is Billings. The western half of the state contains numerous mountain ranges, particularly the Rocky Mountains, while the eastern half is characterized by western prairie terrain and badlands, with smaller mountain ranges found throughout the state.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Montana"
-    }
+    },
+    "emblemUrl": "/emblems/us-mt.svg",
+    "established": "1889",
+    "highestPoint": "Granite Peak (3,904 m)",
+    "namedAfter": "mountain"
   },
   {
     "wikiId": "Q1454",
@@ -1452,7 +1836,11 @@
       "title": "North Carolina",
       "summary": "North Carolina is a state in the Southeastern and South Atlantic regions of the United States. It is bordered by Virginia to the north, the Atlantic Ocean to the east, South Carolina to the south, Georgia to the southwest, and Tennessee to the west. The state is the 28th-largest and ninth-most populous of the United States. Along with South Carolina, it makes up the Carolinas region of the East Coast. At the 2020 census, the state had a population of 10,439,388. Raleigh is the state's capital and Charlotte is its most populous and one of the fastest growing cities in the United States. The Charlotte metropolitan area, with an estimated population of 2,883,370 in 2024, is the most populous metropolitan area in North Carolina, the 21st-most populous in the United States, and the largest banking center in the nation after New York City. The Research Triangle, with an estimated population of 2,368,947 in 2023, is the second-most populous combined metropolitan area in the state, 31st-most populous in the United States, and is home to the largest research park in the United States, Research Triangle Park.",
       "sourceUrl": "https://en.wikipedia.org/wiki/North_Carolina"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1789",
+    "highestPoint": "Mount Mitchell (2,037 m)",
+    "namedAfter": "Province of Carolina"
   },
   {
     "wikiId": "Q1207",
@@ -1467,7 +1855,11 @@
       "title": "North Dakota",
       "summary": "North Dakota is a landlocked U.S. state in the Upper Midwest, named after the indigenous Dakota and Sioux peoples. It is bordered by the Canadian provinces of Saskatchewan and Manitoba to the north and by the U.S. states of Minnesota to the east, South Dakota to the south, and Montana to the west. North Dakota is part of the Great Plains region, characterized by broad prairies, steppe, temperate savanna, badlands, and farmland. North Dakota is the 19th-largest state by area, but with a population of just under 800,000, the fourth-least populous and fourth-least densely populated. The state capital is Bismarck and the most populous city is Fargo, which accounts for nearly a fifth of the state's population; both cities are among the fastest-growing in the U.S., although half of North Dakotans live in rural areas.",
       "sourceUrl": "https://en.wikipedia.org/wiki/North_Dakota"
-    }
+    },
+    "emblemUrl": "/emblems/us-nd.svg",
+    "established": "1889",
+    "highestPoint": "White Butte (1,069 m)",
+    "namedAfter": "Dakota people"
   },
   {
     "wikiId": "Q1553",
@@ -1482,7 +1874,11 @@
       "title": "Nebraska",
       "summary": "Nebraska is a triple-landlocked state in the Midwestern region of the United States. It borders South Dakota to the north; Wyoming to the west; Colorado to the southwest; Kansas to the south; and Missouri to the southeast and Iowa to the east, both across the Missouri River. Nebraska is the 16th-largest state by land area, with just over 77,347 square miles (200,330 km2). As of the 2020 census, the population was 1,961,504, and was estimated to be 2,018,006 in 2025, it is the 38th-most populous state and the eighth-least densely populated. Nebraska's capital is Lincoln, and its most populous city is Omaha, which is on the Missouri River.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Nebraska"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1867",
+    "highestPoint": "Panorama Point (5,429 m)",
+    "namedAfter": "Platte River"
   },
   {
     "wikiId": "Q759",
@@ -1497,7 +1893,11 @@
       "title": "New Hampshire",
       "summary": "New Hampshire is a state in the New England region of the Northeastern United States. It borders Massachusetts to the south, Vermont to the west, Maine and the Gulf of Maine to the east, and the Canadian province of Quebec to the north. Of the 50 U.S. states, New Hampshire is the seventh-smallest by land area and the tenth-least populous, with a population of 1,377,529 residents as of the 2020 census. Concord is the state capital and Manchester is the most populous city. New Hampshire's motto, \"Live Free or Die\", reflects its role in the American Revolutionary War; its nickname, \"The Granite State\", refers to its extensive granite formations and quarries. It is well known for holding the first primary in the U.S. presidential election cycle, and its resulting influence on American electoral politics.",
       "sourceUrl": "https://en.wikipedia.org/wiki/New_Hampshire"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1788",
+    "highestPoint": "Mount Washington (1,917 m)",
+    "namedAfter": "Hampshire"
   },
   {
     "wikiId": "Q1408",
@@ -1512,7 +1912,11 @@
       "title": "New Jersey",
       "summary": "New Jersey is a state located in both the Mid-Atlantic and Northeastern regions of the United States. Located at the geographic hub of the heavily urbanized Northeast megalopolis, it is bordered to the northwest, north, and northeast by New York State; on its east, southeast, and south by the Atlantic Ocean; on its west by the Delaware River and Pennsylvania; and on its southwest by Delaware Bay and Delaware. At 7,354 square miles (19,050 km2), New Jersey is the fifth-smallest state in land area. According to a 2025 U.S. Census Bureau estimate, it is the 11th-most populous state, with over 9.5 million residents, its highest estimated count ever. The state capital is Trenton, and the state's most populous city is Newark. New Jersey is the only U.S. state in which every county is deemed urban by the U.S. Census Bureau. It is the most densely populated U.S. state.",
       "sourceUrl": "https://en.wikipedia.org/wiki/New_Jersey"
-    }
+    },
+    "emblemUrl": "/emblems/us-nj.svg",
+    "established": "1787",
+    "highestPoint": "High Point (550 m)",
+    "namedAfter": "Province of New Jersey"
   },
   {
     "wikiId": "Q1522",
@@ -1527,7 +1931,11 @@
       "title": "New Mexico",
       "summary": "New Mexico is a landlocked state in the Southwestern region of the United States. It is one of the Mountain States of the southern Rocky Mountains, sharing the Four Corners region with Utah, Colorado, and Arizona. It also borders the state of Texas to the east and southeast, Oklahoma to the northeast, and shares an international border with the Mexican states of Chihuahua and Sonora to the south. New Mexico's largest city is Albuquerque, and its state capital is Santa Fe, the oldest state capital in the U.S.—founded in 1610 as the government seat of Nuevo México in New Spain—and the highest in elevation, at 6,998 feet (2,133 m).",
       "sourceUrl": "https://en.wikipedia.org/wiki/New_Mexico"
-    }
+    },
+    "emblemUrl": "/emblems/us-nm.png",
+    "established": "1912",
+    "highestPoint": "Wheeler Peak (4,011 m)",
+    "namedAfter": "Santa Fe de Nuevo México"
   },
   {
     "wikiId": "Q1227",
@@ -1542,7 +1950,11 @@
       "title": "Nevada",
       "summary": "Nevada is a landlocked state in the Western United States. It is also sometimes placed in the Mountain West and Southwestern United States. It borders Idaho to the northeast, Oregon to the northwest, California to the west, Arizona to the southeast, and Utah to the east. Nevada is the seventh-most extensive and the 31st-most populous U.S. state. Nearly three-quarters of Nevada's population live in Clark County, which contains the Las Vegas–Paradise metropolitan area. Nevada's capital is Carson City. Las Vegas is the largest city in the state.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Nevada"
-    }
+    },
+    "emblemUrl": "/emblems/us-nv.svg",
+    "established": "1864",
+    "highestPoint": "Boundary Peak (4,007 m)",
+    "namedAfter": "Sierra Nevada"
   },
   {
     "wikiId": "Q1384",
@@ -1557,7 +1969,11 @@
       "title": "New York (state)",
       "summary": "New York, also called New York State, is a state located in the northeastern United States. Bordering New England to its east, Canada to its north, and Pennsylvania and New Jersey to its south, it extends into both the Atlantic Ocean and the Great Lakes. New York is the fourth-most populous state in the United States, with over 20 million residents, and the 27th-largest state by area, with a total area of 54,556 square miles (141,300 km2).",
       "sourceUrl": "https://en.wikipedia.org/wiki/New_York_(state)"
-    }
+    },
+    "emblemUrl": "/emblems/us-ny.svg",
+    "established": "1788",
+    "highestPoint": "Mount Marcy (1,629 m)",
+    "namedAfter": "Duke of York"
   },
   {
     "wikiId": "Q1397",
@@ -1572,7 +1988,11 @@
       "title": "Ohio",
       "summary": "Ohio is a state in the Midwestern region of the United States. It borders the Canadian province of Ontario to the north, Pennsylvania to the east, West Virginia to the southeast, Kentucky to the southwest, Indiana to the west, and Michigan to the northwest. Ohio is the 34th-largest state by area, at 44,825 sq mi (116,100 km2), and the seventh-most populous state, with a population of nearly 11.9 million. Its capital and most populous city is Columbus, with other major metropolitan cities including Cleveland, Cincinnati, Dayton, Akron, and Toledo.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Ohio"
-    }
+    },
+    "emblemUrl": "/emblems/us-oh.svg",
+    "established": "1803",
+    "highestPoint": "Campbell Hill (472 m)",
+    "namedAfter": "Ohio River"
   },
   {
     "wikiId": "Q1649",
@@ -1587,7 +2007,11 @@
       "title": "Oklahoma",
       "summary": "Oklahoma is a landlocked state in the South Central and Southwestern regions of the United States. It borders Texas to the southwest, Kansas to the north, Missouri to the northeast, Arkansas to the southeast, New Mexico to the west, and Colorado to the northwest. Partially in the western extreme of the Upland South, it is the 20th-most extensive and the 28th-most populous of the 50 United States. Its residents are known as Oklahomans, and its capital and largest city is Oklahoma City.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Oklahoma"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1907",
+    "highestPoint": "Black Mesa (1,737 m)",
+    "namedAfter": "Oklahoma Territory"
   },
   {
     "wikiId": "Q824",
@@ -1602,7 +2026,11 @@
       "title": "Oregon",
       "summary": "Oregon is a state in the Pacific Northwest region of the United States. It is a part of the Western United States, with the Columbia River delineating much of Oregon's northern boundary with Washington, while the Snake River delineates much of its eastern boundary with Idaho. The 42° north parallel delineates the southern boundary with California and Nevada. The western boundary is formed by the Pacific Ocean.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Oregon"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1859",
+    "highestPoint": "Mount Hood (3,425 m)",
+    "namedAfter": null
   },
   {
     "wikiId": "Q1400",
@@ -1617,7 +2045,11 @@
       "title": "Pennsylvania",
       "summary": "Pennsylvania, officially the Commonwealth of Pennsylvania, is a state located in the Mid-Atlantic, Northeastern, Appalachian, and Great Lakes regions of the United States. It borders Delaware to its southeast, Maryland to its south, forming the Mason-Dixon Line, West Virginia to its southwest, Ohio to its west, the Canadian province of Ontario to its northwest via Lake Erie, New York to its north, and the Delaware River and New Jersey to its east. Pennsylvania's most populous city is Philadelphia, and the state capital is Harrisburg. Pennsylvania is the fifth-most populous state in the country, with over 13 million residents as of the 2020 United States census. Pennsylvania has the ninth-highest by population density, and is the 33rd-largest by land area. The largest metropolitan statistical area is the Philadelphia metropolitan area, also known as the Delaware Valley and centered on Philadelphia, the sixth-most populous U.S. city. Pennsylvania's second-largest metropolitan area, Greater Pittsburgh, is centered in and around Pittsburgh, the commonwealth's second-largest city.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Pennsylvania"
-    }
+    },
+    "emblemUrl": "/emblems/us-pa.svg",
+    "established": "1787",
+    "highestPoint": "Mount Davis (979 m)",
+    "namedAfter": "William Penn"
   },
   {
     "wikiId": "Q1387",
@@ -1632,7 +2064,11 @@
       "title": "Rhode Island",
       "summary": "Rhode Island is a state in the New England region of the Northeastern United States. It borders Connecticut to its west; Massachusetts to its north and east; and the Atlantic Ocean to its south via Rhode Island Sound and Block Island Sound; and shares a small maritime border with New York, east of Long Island. Rhode Island is the smallest U.S. state by area and the seventh-least populous, with slightly more than 1.11 million residents as of 2025. The state's population, however, has continually recorded growth in every decennial census since 1790, and it is the second-most densely populated state after New Jersey. The state takes its name from the eponymous island, though most of its land area is on the mainland. Providence is its capital and most populous city.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Rhode_Island"
-    }
+    },
+    "emblemUrl": "/emblems/us-ri.svg",
+    "established": "1790",
+    "highestPoint": "Jerimoth Hill (247 m)",
+    "namedAfter": "Aquidneck Island"
   },
   {
     "wikiId": "Q1456",
@@ -1647,7 +2083,11 @@
       "title": "South Carolina",
       "summary": "South Carolina is a state in the Southeastern, South Atlantic and Deep South regions of the United States. It borders North Carolina to the north and northeast, the Atlantic Ocean to the southeast, and Georgia to the west and south across the Savannah River. Along with North Carolina, it makes up the Carolinas region of the East Coast. South Carolina is the 11th-smallest and 23rd-most populous U.S. state, with a population of 5.12 million at the 2020 census. South Carolina is composed of 46 counties. Its capital is Columbia, while its most populous city is Charleston. Other urban areas include the Upstate, the state's largest metropolitan area which includes Greenville and Spartanburg, as well as Myrtle Beach.",
       "sourceUrl": "https://en.wikipedia.org/wiki/South_Carolina"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1788",
+    "highestPoint": "Sassafras Mountain (1,085 m)",
+    "namedAfter": "Province of Carolina"
   },
   {
     "wikiId": "Q1211",
@@ -1662,7 +2102,11 @@
       "title": "South Dakota",
       "summary": "South Dakota is a landlocked state in the North Central region of the United States. It is also part of the Great Plains. South Dakota is named after the Dakota Sioux tribe, which comprises a large portion of the population and has historically dominated the territory. South Dakota is the 17th-largest by area, the fifth-least populous, and the fifth-least densely populated of the 50 United States. Pierre is the state capital, and Sioux Falls, with a population of about 213,900, is the most populous city. The Missouri River bisects the state into two geographically and socially distinct halves colloquially known as \"East River\" and \"West River\". South Dakota is bordered by North Dakota to the north, Minnesota to the east, Iowa to the southeast, Nebraska to the south, Wyoming to the west, and Montana to the northwest.",
       "sourceUrl": "https://en.wikipedia.org/wiki/South_Dakota"
-    }
+    },
+    "emblemUrl": "/emblems/us-sd.svg",
+    "established": "1889",
+    "highestPoint": "Black Elk Peak (2,208 m)",
+    "namedAfter": "Dakota people"
   },
   {
     "wikiId": "Q1509",
@@ -1677,7 +2121,11 @@
       "title": "Tennessee",
       "summary": "Tennessee, officially the State of Tennessee, is a landlocked state in the Southeastern region of the United States. It borders Kentucky to the north, Virginia to the northeast, North Carolina to the east, Georgia, Alabama, and Mississippi to the south, Arkansas to the southwest, and Missouri to the northwest. Tennessee is the 36th-largest by area and the 15th-most populous of the 50 states. According to the United States Census Bureau, the state's estimated population as of 2024 is 7.22 million.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Tennessee"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1796",
+    "highestPoint": "Kuwohi (2,025 m)",
+    "namedAfter": "Tanasi"
   },
   {
     "wikiId": "Q1439",
@@ -1692,7 +2140,11 @@
       "title": "Texas",
       "summary": "Texas is the most populous state in the Southern United States. It borders the American states of Louisiana to the east, Arkansas to the northeast, Oklahoma to the north, and New Mexico to the west. To the south and southwest, it has an international border with the Mexican states of Chihuahua, Coahuila, Nuevo León, and Tamaulipas, which is a natural boundary formed by the Rio Grande River. Texas has a coastline on the Gulf of Mexico to the southeast. Covering 268,596 square miles (695,660 km2) and having an estimated population of 31.7 million residents in 2025, it is the second-largest U.S. state both by area and by population. Texas is nicknamed the \"Lone Star State\" for the single star on its flag, symbolic of its former status as an independent country, the Republic of Texas.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Texas"
-    }
+    },
+    "emblemUrl": "/emblems/us-tx.svg",
+    "established": "1845",
+    "highestPoint": "Guadalupe Peak (2,667 m)",
+    "namedAfter": "friend"
   },
   {
     "wikiId": "Q829",
@@ -1707,7 +2159,11 @@
       "title": "Utah",
       "summary": "Utah is a landlocked state in the Mountain West subregion of the Western United States. It is one of the Four Corners states, sharing a border with Arizona, Colorado, and New Mexico. It also borders Wyoming to the northeast, Idaho to the north, and Nevada to the west. In comparison to all the U.S. states and territories, Utah, with a population of just over three million, is the 13th-largest by area, the 30th-most populous, and the 11th-least densely populated. Urban development is mostly concentrated in two regions: the Wasatch Front in the north-central part of the state, which includes the state capital, Salt Lake City, and is home to roughly two-thirds of the population; and Washington County in the southwest, which has approximately 180,000 residents. Most of the western half of Utah lies in the Great Basin.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Utah"
-    }
+    },
+    "emblemUrl": "/emblems/us-ut.svg",
+    "established": "1896",
+    "highestPoint": "King's Peak (4,123 m)",
+    "namedAfter": "Ute"
   },
   {
     "wikiId": "Q1370",
@@ -1722,7 +2178,11 @@
       "title": "Virginia",
       "summary": "Virginia, officially the Commonwealth of Virginia, is a state in the Southeastern and Mid-Atlantic regions of the United States between the Atlantic Coast and the Appalachian Mountains. It borders Kentucky to the west, Tennessee to the south-west, North Carolina to the south, West Virginia to the north-west, and Maryland to the north. The state's capital is Richmond and its most populous city is Virginia Beach. With a population of 8.8 million, it is the 12th-most populous and 15th-most densely populated state. More than one-third of Virginia's population lives in Northern Virginia, which includes the most populous jurisdiction in the state, Fairfax County.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Virginia"
-    }
+    },
+    "emblemUrl": "/emblems/us-va.png",
+    "established": "1788",
+    "highestPoint": "Mount Rogers (1,825 m)",
+    "namedAfter": "Colony of Virginia"
   },
   {
     "wikiId": "Q16551",
@@ -1737,7 +2197,11 @@
       "title": "Vermont",
       "summary": "Vermont is a landlocked state in the New England region of the Northeastern United States. It borders Massachusetts to the south, New Hampshire to the east, New York to the west, and the Canadian province of Quebec to the north. According to the most recent U.S. census estimates, the state has an estimated population of 644,663, making it the second-least populated of all U.S. states. It is the nation's sixth-smallest state by total area. The state's capital, Montpelier, is the least populous U.S. state capital. No other U.S. state has a most populous city with fewer residents than Burlington.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Vermont"
-    }
+    },
+    "emblemUrl": "/emblems/us-vt.svg",
+    "established": "1791",
+    "highestPoint": "Mount Mansfield (1,340 m)",
+    "namedAfter": "Green Mountains"
   },
   {
     "wikiId": "Q1223",
@@ -1752,7 +2216,11 @@
       "title": "Washington (state)",
       "summary": "Washington is a state in the Pacific Northwest region of the United States. It is often referred to as Washington state to distinguish it from the national capital; both are named after George Washington, a U.S. Founding Father and the first U.S. president. Washington borders the Pacific Ocean to the west, Oregon to the south, and Idaho to the east; it shares an international border with the Canadian province of British Columbia to the north. Olympia is the state capital, and the state's most populous city is Seattle.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Washington_(state)"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1889",
+    "highestPoint": "Mount Rainier (4,389 m)",
+    "namedAfter": "George Washington"
   },
   {
     "wikiId": "Q1537",
@@ -1767,7 +2235,11 @@
       "title": "Wisconsin",
       "summary": "Wisconsin is a state in the Upper Midwest and Great Lakes regions of the United States. It borders Minnesota to the west, Iowa to the southwest, Illinois to the south, Lake Michigan to the east, Michigan to the northeast, and Lake Superior to the north. With a population of about 6 million, and an area of about 65,500 square miles (170,000 km2), Wisconsin is the 21st-largest state by population and the 23rd-largest by area. Wisconsin has 72 counties. The state's most populous city is Milwaukee. Its capital and second-most populous city is Madison. Other urban areas include Green Bay and the Fox Cities.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Wisconsin"
-    }
+    },
+    "emblemUrl": "/emblems/us-wi.svg",
+    "established": "1848",
+    "highestPoint": "Timms Hill (595 m)",
+    "namedAfter": "Wisconsin River"
   },
   {
     "wikiId": "Q1371",
@@ -1782,7 +2254,11 @@
       "title": "West Virginia",
       "summary": "West Virginia is a mountainous, landlocked state in the Southern and Mid-Atlantic regions of the United States. It is bordered by Pennsylvania and Maryland to the northeast, Virginia to the southeast, Kentucky to the southwest, and Ohio to the northwest. West Virginia is the 10th-smallest state by area and ranks as the 12th-least populous state, with a population of 1,769,979 residents. The capital and most populous city is Charleston with a population of 49,055.",
       "sourceUrl": "https://en.wikipedia.org/wiki/West_Virginia"
-    }
+    },
+    "emblemUrl": "/emblems/us-wv.svg",
+    "established": "1863",
+    "highestPoint": "Spruce Knob (1,482 m)",
+    "namedAfter": "Colony of Virginia"
   },
   {
     "wikiId": "Q1214",
@@ -1797,6 +2273,10 @@
       "title": "Wyoming",
       "summary": "Wyoming is a landlocked state in the Mountain West subregion of the Western United States. It borders Montana to the north and northwest, South Dakota and Nebraska to the east, Idaho to the west, Utah to the southwest, and Colorado to the south. With an estimated population of 587,618 as of 2024, Wyoming is the least populous state despite being the tenth-largest by area, and it has the second-lowest population density. The state capital and most populous city is Cheyenne.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Wyoming"
-    }
+    },
+    "emblemUrl": null,
+    "established": "1890",
+    "highestPoint": "Gannett Peak (4,207 m)",
+    "namedAfter": "Wyoming Valley"
   }
 ]

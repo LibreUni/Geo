@@ -97,6 +97,10 @@ type Country = {
     summary: string;
     sourceUrl: string;
   };
+  emblemUrl?: string | null;
+  established?: string | null;
+  highestPoint?: string | null;
+  namedAfter?: string | null;
 };
 
 type Geography = GeoJSON.Feature<GeoJSON.Geometry, { id?: string; name?: string }>;
@@ -914,7 +918,11 @@ function App() {
             label: sovereigntyLabel,
             sovereignState: parentName
           },
-          wikipedia: sub.wikipedia || null
+          wikipedia: sub.wikipedia || null,
+          emblemUrl: sub.emblemUrl || null,
+          established: sub.established || null,
+          highestPoint: sub.highestPoint || null,
+          namedAfter: sub.namedAfter || null
         };
       });
       
@@ -2315,7 +2323,7 @@ function WorldMap({
                   y={y0}
                   width={Math.max(1, x1 - x0)}
                   height={Math.max(1, y1 - y0)}
-                  href={`/flags/${country.alpha2.toLowerCase()}.svg`}
+                  href={country.cca3.includes("-") ? `/flags/${country.cca3.toLowerCase()}.svg` : `/flags/${country.alpha2.toLowerCase()}.svg`}
                   preserveAspectRatio="xMidYMid slice"
                   clipPath={`url(#${geo.clipId}-${idx}${offsetKey})`}
                 />
@@ -2662,9 +2670,25 @@ function PracticePanel({
     return (
       <aside className="mobile-info-panel side-panel">
         <div className="country-card">
-          <div className="flag-frame">
-            <FlagIcon country={selectedCountry} />
-          </div>
+          {selectedCountry.emblemUrl ? (
+            <div className="banner-frame">
+              <div className="flag-frame">
+                <FlagIcon country={selectedCountry} />
+              </div>
+              <div className="emblem-frame">
+                <img
+                  src={selectedCountry.emblemUrl}
+                  alt={`${selectedCountry.name} coat of arms`}
+                  title={`${selectedCountry.name} coat of arms`}
+                  className="emblem-img"
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="flag-frame">
+              <FlagIcon country={selectedCountry} />
+            </div>
+          )}
           <h2>{selectedCountry.name}</h2>
           <p>{selectedCountry.official}</p>
           <dl>
@@ -2702,6 +2726,24 @@ function PracticePanel({
                   <dt>Currencies</dt>
                   <dd>{selectedCountry.currencies.join(", ") || "Not listed"}</dd>
                 </div>
+                {selectedCountry.established && (
+                  <div>
+                    <dt>Established</dt>
+                    <dd>{selectedCountry.established}</dd>
+                  </div>
+                )}
+                {selectedCountry.highestPoint && (
+                  <div>
+                    <dt>Highest Point</dt>
+                    <dd>{selectedCountry.highestPoint}</dd>
+                  </div>
+                )}
+                {selectedCountry.namedAfter && (
+                  <div>
+                    <dt>Named After</dt>
+                    <dd>{selectedCountry.namedAfter}</dd>
+                  </div>
+                )}
               </>
             )}
           </dl>
@@ -2771,9 +2813,25 @@ function PracticePanel({
       {/* Left Panel - Core Facts & Cultural Phrases */}
       <aside className="left-info-panel side-panel">
         <div className="country-card">
-          <div className="flag-frame">
-            <FlagIcon country={selectedCountry} />
-          </div>
+          {selectedCountry.emblemUrl ? (
+            <div className="banner-frame">
+              <div className="flag-frame">
+                <FlagIcon country={selectedCountry} />
+              </div>
+              <div className="emblem-frame">
+                <img
+                  src={selectedCountry.emblemUrl}
+                  alt={`${selectedCountry.name} coat of arms`}
+                  title={`${selectedCountry.name} coat of arms`}
+                  className="emblem-img"
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="flag-frame">
+              <FlagIcon country={selectedCountry} />
+            </div>
+          )}
           <h2>{selectedCountry.name}</h2>
           <p>{selectedCountry.official}</p>
           <dl>
@@ -2811,6 +2869,24 @@ function PracticePanel({
                   <dt>Currencies</dt>
                   <dd>{selectedCountry.currencies.join(", ") || "Not listed"}</dd>
                 </div>
+                {selectedCountry.established && (
+                  <div>
+                    <dt>Established</dt>
+                    <dd>{selectedCountry.established}</dd>
+                  </div>
+                )}
+                {selectedCountry.highestPoint && (
+                  <div>
+                    <dt>Highest Point</dt>
+                    <dd>{selectedCountry.highestPoint}</dd>
+                  </div>
+                )}
+                {selectedCountry.namedAfter && (
+                  <div>
+                    <dt>Named After</dt>
+                    <dd>{selectedCountry.namedAfter}</dd>
+                  </div>
+                )}
               </>
             )}
           </dl>
@@ -3011,6 +3087,23 @@ function LanguageList({ country }: { country: Country }) {
 }
 
 function FlagIcon({ country }: { country: Country }) {
+  if (country.cca3.includes("-")) {
+    const flagUrl = `/flags/${country.cca3.toLowerCase()}.svg`;
+    return (
+      <img
+        src={flagUrl}
+        alt={`${country.name} flag`}
+        title={`${country.name} flag`}
+        style={{ width: "100%", height: "100%", objectFit: "contain" }}
+        onError={(e) => {
+          if (country.alpha2) {
+            e.currentTarget.src = `/flags/${country.alpha2.toLowerCase()}.svg`;
+          }
+        }}
+      />
+    );
+  }
+
   if (!country.alpha2) {
     return (
       <span

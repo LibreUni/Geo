@@ -1,12 +1,16 @@
-import { writeFileSync, readFileSync, mkdirSync } from "node:fs";
+import { writeFileSync, readFileSync, mkdirSync, existsSync, copyFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { feature } from "topojson-client";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const dataDir = join(__dirname, "../src/data");
+const flagsDir = join(__dirname, "../public/flags");
+const emblemsDir = join(__dirname, "../public/emblems");
 
 mkdirSync(dataDir, { recursive: true });
+mkdirSync(flagsDir, { recursive: true });
+mkdirSync(emblemsDir, { recursive: true });
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -19,6 +23,44 @@ async function downloadFile(url, destName) {
   const text = await res.text();
   writeFileSync(join(dataDir, destName), text);
   console.log(`Saved ${destName}`);
+}
+
+async function downloadImage(url, destPath) {
+  let retries = 3;
+  let delayMs = 3000;
+  
+  while (retries > 0) {
+    try {
+      const res = await fetch(url, {
+        headers: {
+          "User-Agent": "GeoLearn/1.0 (geography learning app; mailto:admin@example.local)"
+        }
+      });
+      
+      if (res.status === 429) {
+        console.warn(`Rate limited (429) on ${url}. Retrying in ${delayMs}ms...`);
+        await delay(delayMs);
+        retries--;
+        delayMs *= 2;
+        continue;
+      }
+      
+      if (!res.ok) {
+        console.warn(`Failed to download image ${url}: ${res.statusText} (${res.status})`);
+        return false;
+      }
+      
+      const buffer = await res.arrayBuffer();
+      writeFileSync(destPath, Buffer.from(buffer));
+      return true;
+    } catch (err) {
+      console.warn(`Error downloading image ${url} to ${destPath}:`, err);
+      retries--;
+      await delay(delayMs);
+      delayMs *= 2;
+    }
+  }
+  return false;
 }
 
 async function fetchWikipediaSummary(title) {
@@ -87,10 +129,10 @@ async function main() {
     nameByIso.set("RU-SEV", "Sevastopol");
     nameByIso.set("US-DC", "District of Columbia");
 
-    // 3. Query Wikidata for details
+    // 3. Query Wikidata for details, including flag, emblem, inception, highest point, and named after
     console.log("Fetching subnational metadata from Wikidata...");
     const query = `
-SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikipediaTitle ?parent WHERE {
+SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikipediaTitle ?parent ?flag ?coatOfArms ?inception ?highestPointLabel ?elevation ?namedAfterLabel WHERE {
   {
     ?item wdt:P31 wd:Q35657. # US State
     BIND("USA" AS ?parent)
@@ -124,6 +166,20 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
   OPTIONAL { ?item wdt:P36 ?capital. ?capital rdfs:label ?capitalLabel. FILTER(LANG(?capitalLabel) = "en") }
   OPTIONAL { ?item wdt:P1082 ?population. }
   OPTIONAL { ?item wdt:P2046 ?area. }
+  OPTIONAL { ?item wdt:P41 ?flag. }
+  OPTIONAL { ?item wdt:P94 ?coatOfArms. }
+  OPTIONAL { ?item wdt:P571 ?inception. }
+  OPTIONAL {
+    ?item wdt:P610 ?highestPoint.
+    ?highestPoint rdfs:label ?highestPointLabel.
+    FILTER(LANG(?highestPointLabel) = "en")
+    OPTIONAL { ?highestPoint wdt:P2044 ?elevation. }
+  }
+  OPTIONAL {
+    ?item wdt:P138 ?namedAfter.
+    ?namedAfter rdfs:label ?namedAfterLabel.
+    FILTER(LANG(?namedAfterLabel) = "en")
+  }
   
   OPTIONAL {
     ?wikipediaTitleLink schema:about ?item;
@@ -156,15 +212,41 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
       population: b.population ? parseInt(b.population.value, 10) : 0,
       area: b.area ? Math.round(parseFloat(b.area.value)) : 0,
       wikipediaTitle: b.wikipediaTitle ? b.wikipediaTitle.value : "",
-      parent: b.parent ? b.parent.value : ""
+      parent: b.parent ? b.parent.value : "",
+      flag: b.flag ? b.flag.value : "",
+      coatOfArms: b.coatOfArms ? b.coatOfArms.value : "",
+      inception: b.inception ? b.inception.value : "",
+      highestPointLabel: b.highestPointLabel ? b.highestPointLabel.value : "",
+      elevation: b.elevation ? Math.round(parseFloat(b.elevation.value)) : null,
+      namedAfterLabel: b.namedAfterLabel ? b.namedAfterLabel.value : ""
     }));
 
-    // Resolve duplicates (sometimes item has multiple capitals/populations in history)
+    // Resolve duplicates (wikidata can return multiple rows due to multiple historical population values or inceptions)
     const uniqueMap = new Map();
     rawResults.forEach(r => {
       const existing = uniqueMap.get(r.iso);
-      if (!existing || (r.population > existing.population)) {
+      if (!existing) {
         uniqueMap.set(r.iso, r);
+      } else {
+        // Keep the one with larger population, or fill missing fields if available
+        const updatePop = r.population > existing.population;
+        const updateFlag = !existing.flag && r.flag;
+        const updateArms = !existing.coatOfArms && r.coatOfArms;
+        
+        if (updatePop || updateFlag || updateArms) {
+          uniqueMap.set(r.iso, {
+            ...existing,
+            ...r,
+            population: Math.max(existing.population, r.population),
+            area: Math.max(existing.area, r.area),
+            flag: r.flag || existing.flag,
+            coatOfArms: r.coatOfArms || existing.coatOfArms,
+            inception: r.inception || existing.inception,
+            highestPointLabel: r.highestPointLabel || existing.highestPointLabel,
+            elevation: r.elevation !== null ? r.elevation : existing.elevation,
+            namedAfterLabel: r.namedAfterLabel || existing.namedAfterLabel
+          });
+        }
       }
     });
 
@@ -178,7 +260,13 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
         population: 1912000,
         area: 26100,
         wikipediaTitle: "Republic of Crimea",
-        parent: "RUS"
+        parent: "RUS",
+        flag: "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Crimea.svg",
+        coatOfArms: "https://commons.wikimedia.org/wiki/Special:FilePath/Coat%20of%20Arms%20of%20Crimea.svg",
+        inception: "1991-02-12T00:00:00Z",
+        highestPointLabel: "Roman-Kosh",
+        elevation: 1545,
+        namedAfterLabel: ""
       });
     }
 
@@ -212,13 +300,15 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
       if (sub.name === "Chuvash Republic") sub.name = "Chuvashia";
     });
 
-    // 4. Fetch Wikipedia summaries sequentially
-    console.log(`Enriching ${finalSubdivisions.length} subdivisions with Wikipedia summaries...`);
+    // 4. Fetch Wikipedia summaries and download flags/emblems sequentially
+    console.log(`Enriching ${finalSubdivisions.length} subdivisions with Wikipedia summaries and assets...`);
+    
     for (let i = 0; i < finalSubdivisions.length; i++) {
       const sub = finalSubdivisions[i];
       const wikiTitle = sub.wikipediaTitle || sub.name;
-      console.log(`[${i+1}/${finalSubdivisions.length}] Fetching summary for: "${wikiTitle}"...`);
+      console.log(`[${i+1}/${finalSubdivisions.length}] Processing: "${sub.name}"...`);
       
+      // A. Wikipedia Summary
       let summaryData = await fetchWikipediaSummary(wikiTitle);
       
       // Fallback to name if wikiTitle failed
@@ -226,7 +316,7 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
         summaryData = await fetchWikipediaSummary(sub.name);
       }
       
-      // Secondary fallback (e.g. "Washington, D.C." -> "Washington D.C." or adding (state) for US states if needed)
+      // Secondary fallback
       if (!summaryData && sub.parent === "USA") {
         summaryData = await fetchWikipediaSummary(`${sub.name} (state)`);
       }
@@ -244,23 +334,114 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
           sourceUrl: `https://en.wikipedia.org/wiki/${encodeURIComponent(sub.name)}`
         };
       }
+
+      // B. Determine parent alpha2 code for fallbacks
+      let parentAlpha2 = "US";
+      if (sub.parent === "CAN") parentAlpha2 = "CA";
+      if (sub.parent === "AUS") parentAlpha2 = "AU";
+      if (sub.parent === "BRA") parentAlpha2 = "BR";
+      if (sub.parent === "RUS") parentAlpha2 = "RU";
+
+      // C. Download Flag SVG
+      const flagDest = join(flagsDir, `${sub.iso.toLowerCase()}.svg`);
+      let flagDownloaded = false;
+      if (sub.flag) {
+        flagDownloaded = await downloadImage(sub.flag, flagDest);
+      }
       
-      await delay(50); // Be polite to Wikipedia
+      if (!flagDownloaded) {
+        // Fallback: Copy parent country's flag SVG
+        const parentFlagPath = join(flagsDir, `${parentAlpha2.toLowerCase()}.svg`);
+        if (existsSync(parentFlagPath)) {
+          copyFileSync(parentFlagPath, flagDest);
+          console.log(`  -> Copied parent flag (${parentAlpha2.toLowerCase()}.svg) as fallback`);
+        } else {
+          console.warn(`  -> Parent flag not found for fallback!`);
+        }
+      } else {
+        console.log(`  -> Downloaded subdivision flag`);
+      }
+
+      // D. Download Coat of Arms / Emblem
+      let emblemPath = null;
+      if (sub.coatOfArms) {
+        let ext = "svg";
+        const cleanUrl = sub.coatOfArms.split("?")[0];
+        const parts = cleanUrl.split(".");
+        if (parts.length > 1) {
+          const parsedExt = parts.pop().toLowerCase();
+          if (["svg", "png", "jpg", "jpeg", "webp"].includes(parsedExt)) {
+            ext = parsedExt;
+          }
+        }
+        
+        const emblemDest = join(emblemsDir, `${sub.iso.toLowerCase()}.${ext}`);
+        const emblemDownloaded = await downloadImage(sub.coatOfArms, emblemDest);
+        if (emblemDownloaded) {
+          emblemPath = `/emblems/${sub.iso.toLowerCase()}.${ext}`;
+          console.log(`  -> Downloaded emblem: ${emblemPath}`);
+        }
+      }
+      sub.emblemUrl = emblemPath;
+
+      // E. Format Inception Date
+      let established = null;
+      if (sub.inception) {
+        const dateStr = sub.inception.split("T")[0];
+        const yearStr = dateStr.split("-")[0];
+        const yearVal = parseInt(yearStr, 10);
+        if (!isNaN(yearVal)) {
+          established = yearVal < 0 ? `${Math.abs(yearVal)} BC` : `${yearVal}`;
+        }
+      }
+      sub.established = established;
+
+      // F. Format Highest Point
+      let highestPoint = null;
+      if (sub.highestPointLabel) {
+        highestPoint = sub.highestPointLabel;
+        if (sub.elevation !== null && sub.elevation !== undefined) {
+          highestPoint += ` (${sub.elevation.toLocaleString()} m)`;
+        }
+      }
+      sub.highestPoint = highestPoint;
+
+      // G. Format Named After
+      sub.namedAfter = sub.namedAfterLabel || null;
+
+      await delay(1000); // Be polite to Wikidata/Wikipedia
     }
 
     // Save subdivisions metadata
     finalSubdivisions.sort((a, b) => a.iso.localeCompare(b.iso));
+    
+    // Clean up temporary query fields from final JSON file
+    const outputSubdivisions = finalSubdivisions.map(sub => ({
+      wikiId: sub.wikiId,
+      name: sub.name,
+      iso: sub.iso,
+      capital: sub.capital,
+      population: sub.population,
+      area: sub.area,
+      wikipediaTitle: sub.wikipediaTitle,
+      parent: sub.parent,
+      wikipedia: sub.wikipedia,
+      emblemUrl: sub.emblemUrl,
+      established: sub.established,
+      highestPoint: sub.highestPoint,
+      namedAfter: sub.namedAfter
+    }));
+
     writeFileSync(
       join(dataDir, "subdivisions-metadata.json"),
-      JSON.stringify(finalSubdivisions, null, 2) + "\n"
+      JSON.stringify(outputSubdivisions, null, 2) + "\n"
     );
-    console.log(`Saved subdivisions-metadata.json (${finalSubdivisions.length} items)`);
+    console.log(`Saved subdivisions-metadata.json (${outputSubdivisions.length} items)`);
 
     // 5. Generate unified subdivisions-shapes.json (GeoJSON file)
     console.log("Filtering and combining shapes into subdivisions-shapes.json...");
     const combinedFeatures = [];
-    
-    const validSubdivisionIsos = new Set(finalSubdivisions.map(sub => sub.iso));
+    const validSubdivisionIsos = new Set(outputSubdivisions.map(sub => sub.iso));
     
     // Extract US, Canada, Australia, and Brazil from Natural Earth GeoJSON
     globalAdmin1Data.features.forEach(f => {
@@ -272,9 +453,7 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
         let finalId = iso;
         let finalName = props.name || "";
         
-        // Exclude features that are not in our metadata (e.g. tiny external islands or Jervis Bay)
         if (!validSubdivisionIsos.has(iso)) {
-          // Map to parent sovereign code so it highlights/belongs to parent
           finalId = adminCode;
         }
         
@@ -303,7 +482,7 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
       const name = f.properties.NAME_1 || "";
       const isoCode = `RU-${iso2}`;
       
-      let finalId = "643"; // "643" is the numeric code of Russia in the world atlas (maps to parent "RUS")
+      let finalId = "643"; // "643" maps to parent "RUS"
       if (republicsList.has(isoCode)) {
         finalId = isoCode;
       }
