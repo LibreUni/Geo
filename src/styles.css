@@ -227,6 +227,7 @@ button {
   fill: transparent;
   pointer-events: all;
   stroke: transparent;
+  vector-effect: non-scaling-stroke;
 }
 
 .country.visible {
@@ -289,6 +290,7 @@ button {
   stroke: #df6148;
   stroke-width: 2.2;
   opacity: 0.9;
+  vector-effect: non-scaling-stroke;
 }
 
 .quiz-target-marker path {
@@ -296,6 +298,7 @@ button {
   stroke-width: 2;
   stroke-linecap: round;
   pointer-events: none;
+  vector-effect: non-scaling-stroke;
 }
 
 .country-flag-fill {
@@ -423,6 +426,12 @@ button {
 
 .select-trigger.stretch {
   width: 100%;
+}
+
+.select-trigger[data-disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background: rgba(21, 53, 63, 0.05) !important;
 }
 
 .select-chevron {
@@ -1070,8 +1079,8 @@ dd {
 /* Wrong Guess Flash Animation */
 @keyframes flash-wrong {
   0% {
-    fill: #e74c3c;
-    stroke: #c0392b;
+    fill: #6c757d;
+    stroke: #495057;
   }
   100% {
     /* Transitions back to original country color */
@@ -1080,14 +1089,14 @@ dd {
 
 .country.quiz-wrong-guess {
   animation: flash-wrong 0.8s ease-out;
-  fill: #e74c3c !important;
-  stroke: #c0392b !important;
+  fill: #6c757d !important;
+  stroke: #495057 !important;
 }
 
 .island-hitbox.quiz-wrong-guess {
   animation: flash-wrong 0.8s ease-out;
-  fill: rgba(231, 76, 60, 0.6) !important;
-  stroke: #c0392b !important;
+  fill: rgba(108, 117, 125, 0.6) !important;
+  stroke: #495057 !important;
   stroke-width: 2px !important;
 }
 
@@ -1095,7 +1104,6 @@ dd {
 .quiz-playing-mode .country:hover {
   filter: brightness(1.15);
   stroke: #ffffff !important;
-  stroke-width: 1.5px !important;
 }
 
 .quiz-playing-mode .country.quiz-first-try:hover,
@@ -1422,6 +1430,30 @@ dd {
 
 .exit-quiz-btn:hover {
   background: #c0392b;
+}
+
+.dont-know-btn {
+  background: #e67e22;
+  color: white;
+  border: 0;
+  border-radius: 6px;
+  height: 38px;
+  padding: 0 14px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s ease;
+}
+
+.dont-know-btn:hover {
+  background: #d35400;
+}
+
+.dont-know-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Quiz Summary Styles */

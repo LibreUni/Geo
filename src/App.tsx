@@ -6,6 +6,8 @@ import { geoEqualEarth, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
 import atlas from "world-atlas/countries-50m.json";
 import countryData from "./data/countries.json";
+import subdivisionsAtlas from "./data/subdivisions-shapes.json";
+import subdivisionsMetadata from "./data/subdivisions-metadata.json";
 import {
   CheckCircle2,
   Check,
@@ -38,6 +40,31 @@ type MapView = "borders" | "flagFills";
 type ResultState = "idle" | "correct" | "wrong";
 type RelationshipKind = "self" | "tension" | "mild-tension" | "ally" | "union" | "territory";
 type DetailLevel = "full" | "basic" | "minimal";
+type MapDetailLevel = "minimal" | "standard" | "detailed";
+
+const sovereignToParentCode: Record<string, string> = {
+  "Finland": "FIN",
+  "United States": "USA",
+  "France": "FRA",
+  "Netherlands": "NLD",
+  "Kingdom of the Netherlands": "NLD",
+  "Kingdom of Denmark": "DNK",
+  "Denmark": "DNK",
+  "United Kingdom": "GBR",
+  "Australia": "AUS",
+  "New Zealand": "NZL",
+  "Norway": "NOR",
+  "China": "CHN",
+  "India": "IND",
+  "Canada": "CAN",
+  "Brazil": "BRA",
+  "Russia": "RUS"
+};
+
+function getParentCode(country: Country): string | null {
+  if (!country.sovereignty?.sovereignState) return null;
+  return sovereignToParentCode[country.sovereignty.sovereignState] ?? null;
+}
 
 type Country = {
   cca3: string;
@@ -98,7 +125,21 @@ const projection = geoEqualEarth().fitExtent(
   { type: "Sphere" },
 );
 const path = geoPath(projection);
-const geographies = (
+const usStateNameToCode: Record<string, string> = {
+  "Alabama": "AL", "Alaska": "AK", "Arizona": "AZ", "Arkansas": "AR", "California": "CA",
+  "Colorado": "CO", "Connecticut": "CT", "Delaware": "DE", "Florida": "FL", "Georgia": "GA",
+  "Hawaii": "HI", "Idaho": "ID", "Illinois": "IL", "Indiana": "IN", "Iowa": "IA",
+  "Kansas": "KS", "Kentucky": "KY", "Louisiana": "LA", "Maine": "ME", "Maryland": "MD",
+  "Massachusetts": "MA", "Michigan": "MI", "Minnesota": "MN", "Mississippi": "MS", "Missouri": "MO",
+  "Montana": "MT", "Nebraska": "NE", "Nevada": "NV", "New Hampshire": "NH", "New Jersey": "NJ",
+  "New Mexico": "NM", "New York": "NY", "North Carolina": "NC", "North Dakota": "ND", "Ohio": "OH",
+  "Oklahoma": "OK", "Oregon": "OR", "Pennsylvania": "PA", "Rhode Island": "RI", "South Carolina": "SC",
+  "South Dakota": "SD", "Tennessee": "TN", "Texas": "TX", "Utah": "UT", "Vermont": "VT",
+  "Virginia": "VA", "Washington": "WA", "West Virginia": "WV", "Wisconsin": "WI", "Wyoming": "WY",
+  "District of Columbia": "DC"
+};
+
+const baseGeographies = (
   feature(
     atlas as unknown as Parameters<typeof feature>[0],
     (atlas as { objects: { countries: unknown } }).objects.countries as Parameters<typeof feature>[1],
@@ -107,7 +148,10 @@ const geographies = (
 
 function geoId(geo: Geography) {
   const rawId = geo.id;
-  if (rawId !== undefined && rawId !== null) return String(rawId).padStart(3, "0");
+  if (rawId !== undefined && rawId !== null) {
+    const s = String(rawId);
+    return /^\d+$/.test(s) ? s.padStart(3, "0") : s;
+  }
   return `geo:${geo.properties?.name ?? "Unknown"}`;
 }
 
@@ -129,11 +173,24 @@ function projectedGeometry(geo: Geography): MapGeometry {
   };
 }
 
-const mapGeographies = geographies.map(projectedGeometry);
-const geographyByNumeric = new Map(mapGeographies.map((geo) => [geo.id, geo]));
+const baseMapGeographies = baseGeographies.map(projectedGeometry);
+const baseGeographyByNumeric = new Map(baseMapGeographies.map((geo) => [geo.id, geo]));
+
+const subdivisionsGeographies = (subdivisionsAtlas.features || []) as Geography[];
+
+const subdivisionsMapGeographies = subdivisionsGeographies
+  .map((geo) => {
+    const id = geo.properties?.id;
+    if (!id) return null;
+    const projected = projectedGeometry(geo);
+    projected.id = id;
+    projected.clipId = clipId(projected.id);
+    return projected;
+  })
+  .filter((g): g is MapGeometry => g !== null);
 const formatNumber = new Intl.NumberFormat("en", { maximumFractionDigits: 0 });
 const formatArea = (area: number) => `${formatNumber.format(Math.round(area))} km2`;
-const regions = ["All", "Africa", "Americas", "Asia", "Europe", "Oceania", "Antarctic"];
+const regions = ["All", "Africa", "Americas", "Asia", "Europe", "Oceania", "Antarctic", "United States (States)", "Canada (Provinces/Territories)", "Russia (Republics)"];
 
 type Phrase = { english: string; local: string; phonetic: string };
 
@@ -705,9 +762,6 @@ function hasHistoricalTension(selectedCode: string, code: string) {
   );
 }
 
-function loadCountries(): Country[] {
-  return (countryData as Country[]).filter((country) => country.ccn3 && geographyByNumeric.has(country.ccn3));
-}
 
 function findPhrasebook(country: Country) {
   // Try to find a non-English primary language with a phrasebook first
@@ -779,7 +833,162 @@ function shuffled<T>(items: T[]): T[] {
 }
 
 function App() {
-  const countries = useMemo(loadCountries, []);
+  const [mapDetailLevel, setMapDetailLevel] = useState<MapDetailLevel>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_map_detail_level");
+      if (saved === "minimal" || saved === "standard" || saved === "detailed") {
+        return saved;
+      }
+    } catch (e) {
+      console.error("Failed to load map detail level", e);
+    }
+    return "standard";
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_map_detail_level", mapDetailLevel);
+    } catch (e) {
+      console.error("Failed to save map detail level", e);
+    }
+  }, [mapDetailLevel]);
+
+  const mapGeographies = useMemo(() => {
+    if (mapDetailLevel === "detailed") {
+      const baseFiltered = baseMapGeographies.filter(
+        (g) => g.id !== "840" && g.id !== "643" && g.id !== "124" && g.id !== "036" && g.id !== "076"
+      );
+      return [...baseFiltered, ...subdivisionsMapGeographies];
+    }
+    return baseMapGeographies;
+  }, [mapDetailLevel]);
+
+  const geographyByNumeric = useMemo(() => {
+    return new Map(mapGeographies.map((geo) => [geo.id, geo]));
+  }, [mapGeographies]);
+
+  const countries = useMemo(() => {
+    const base = (countryData as Country[]).filter((c) => c.ccn3 && baseGeographyByNumeric.has(c.ccn3));
+    
+    if (mapDetailLevel === "minimal") {
+      return base.filter(c => !getParentCode(c));
+    }
+    
+    if (mapDetailLevel === "detailed") {
+      // Exclude split parent countries (USA, Canada, Australia, Brazil).
+      // Keep Russia (RUS) as the base entry for the rest of Russia.
+      const baseFiltered = base.filter(c => c.cca3 !== "USA" && c.cca3 !== "CAN" && c.cca3 !== "AUS" && c.cca3 !== "BRA");
+      
+      const subsMapped = (subdivisionsMetadata as any[]).map(sub => {
+        const pCode = sub.parent;
+        let parentName = "";
+        let alpha2 = "";
+        let region = "";
+        let subregion = "";
+        let primaryLanguages = ["English"];
+        let currencies = ["USD"];
+        let emoji = "";
+        let sovereigntyLabel = "";
+        
+        if (pCode === "USA") {
+          parentName = "United States";
+          alpha2 = "US";
+          region = "Americas";
+          subregion = "North America";
+          primaryLanguages = ["English"];
+          currencies = ["United States dollar"];
+          emoji = "🇺🇸";
+          sovereigntyLabel = "State of the USA";
+        } else if (pCode === "CAN") {
+          parentName = "Canada";
+          alpha2 = "CA";
+          region = "Americas";
+          subregion = "North America";
+          primaryLanguages = ["English", "French"];
+          currencies = ["Canadian dollar"];
+          emoji = "🇨🇦";
+          sovereigntyLabel = sub.iso.startsWith("CA-NT") || sub.iso.startsWith("CA-NU") || sub.iso.startsWith("CA-YT") ? "Territory of Canada" : "Province of Canada";
+        } else if (pCode === "AUS") {
+          parentName = "Australia";
+          alpha2 = "AU";
+          region = "Oceania";
+          subregion = "Australia and New Zealand";
+          primaryLanguages = ["English"];
+          currencies = ["Australian dollar"];
+          emoji = "🇦🇺";
+          sovereigntyLabel = sub.iso.startsWith("AU-NT") || sub.iso.startsWith("AU-ACT") ? "Territory of Australia" : "State of Australia";
+        } else if (pCode === "BRA") {
+          parentName = "Brazil";
+          alpha2 = "BR";
+          region = "Americas";
+          subregion = "South America";
+          primaryLanguages = ["Portuguese"];
+          currencies = ["Brazilian real"];
+          emoji = "🇧🇷";
+          sovereigntyLabel = sub.iso.startsWith("BR-DF") ? "Federal District of Brazil" : "State of Brazil";
+        } else if (pCode === "RUS") {
+          parentName = "Russia";
+          alpha2 = "RU";
+          region = (sub.iso === "RU-AD" || sub.iso === "RU-CRI" || sub.iso === "RU-DA" || sub.iso === "RU-IN" || sub.iso === "RU-KB" || sub.iso === "RU-KC" || sub.iso === "RU-KR" || sub.iso === "RU-SE" || sub.iso === "RU-TA" || sub.iso === "RU-CE" || sub.iso === "RU-CU") ? "Europe" : "Asia";
+          subregion = region === "Europe" ? "Eastern Europe" : "Northern Asia";
+          primaryLanguages = ["Russian"];
+          currencies = ["Russian ruble"];
+          emoji = "🇷🇺";
+          sovereigntyLabel = "Republic of Russia";
+        }
+        
+        return {
+          cca3: sub.iso,
+          alpha2,
+          ccn3: sub.iso,
+          mapName: sub.name,
+          name: sub.name,
+          official: `${sub.name}, ${parentName}`,
+          capital: sub.capital,
+          region,
+          subregion,
+          population: sub.population,
+          area: sub.area,
+          primaryLanguages,
+          otherLanguages: [],
+          currencies,
+          emoji,
+          latlng: null,
+          sovereignty: {
+            label: sovereigntyLabel,
+            sovereignState: parentName
+          },
+          wikipedia: sub.wikipedia || null
+        };
+      });
+      
+      return [...baseFiltered, ...subsMapped];
+    }
+    
+    return base;
+  }, [mapDetailLevel]);
+
+  const countryByNumeric = useMemo(() => {
+    const m = new Map();
+    countries.forEach((country) => {
+      m.set(country.ccn3, country);
+    });
+    
+    if (mapDetailLevel === "minimal") {
+      const base = (countryData as Country[]).filter((c) => c.ccn3 && baseGeographyByNumeric.has(c.ccn3));
+      base.forEach((c) => {
+        const parentCode = getParentCode(c);
+        if (parentCode) {
+          const parent = countries.find((p) => p.cca3 === parentCode);
+          if (parent) {
+            m.set(c.ccn3, parent);
+          }
+        }
+      });
+    }
+    
+    return m;
+  }, [countries, mapDetailLevel]);
   const [view, setView] = useState<ViewMode>("practice");
   const [countryBrowserOpen, setCountryBrowserOpen] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState("All");
@@ -833,10 +1042,7 @@ function App() {
   const [timerActive, setTimerActive] = useState(false);
   const [savedScores, setSavedScores] = useState<any[]>([]);
 
-  const countryByNumeric = useMemo(
-    () => new Map(countries.map((country) => [country.ccn3, country])),
-    [countries],
-  );
+
   const countryByCode = useMemo(
     () => new Map(countries.map((country) => [country.cca3, country])),
     [countries],
@@ -845,7 +1051,16 @@ function App() {
   const filteredCountries = useMemo(() => {
     const terms = query.trim().toLowerCase();
     return countries.filter((country) => {
-      const regionMatch = selectedRegion === "All" || country.region === selectedRegion;
+      let regionMatch = false;
+      if (selectedRegion === "United States (States)") {
+        regionMatch = country.sovereignty?.sovereignState === "United States";
+      } else if (selectedRegion === "Canada (Provinces/Territories)") {
+        regionMatch = country.sovereignty?.sovereignState === "Canada";
+      } else if (selectedRegion === "Russia (Republics)") {
+        regionMatch = country.sovereignty?.sovereignState === "Russia" && country.cca3 !== "RUS";
+      } else {
+        regionMatch = selectedRegion === "All" || country.region === selectedRegion;
+      }
       const queryMatch =
         !terms ||
         country.name.toLowerCase().includes(terms) ||
@@ -866,10 +1081,39 @@ function App() {
   }, [countries, selectedCountry, view, quizStatus, detailLevel]);
 
   const currentQuizPool = useMemo(() => {
-    return countries.filter(
-      (country) => Boolean(country.alpha2) && (quizRegion === "All" || country.region === quizRegion)
-    );
-  }, [countries, quizRegion]);
+    return countries.filter((country) => {
+      let isSubdivisionMode = false;
+      let matchesSubdivision = false;
+
+      if (quizRegion === "United States (States)") {
+        isSubdivisionMode = true;
+        matchesSubdivision = country.sovereignty?.sovereignState === "United States";
+      } else if (quizRegion === "Canada (Provinces/Territories)") {
+        isSubdivisionMode = true;
+        matchesSubdivision = country.sovereignty?.sovereignState === "Canada";
+      } else if (quizRegion === "Russia (Republics)") {
+        isSubdivisionMode = true;
+        matchesSubdivision = country.sovereignty?.sovereignState === "Russia" && country.cca3 !== "RUS";
+      }
+
+      if (isSubdivisionMode) {
+        if (!matchesSubdivision) return false;
+        // In flag quiz, filter out subdivisions since they do not have distinct country flags
+        if (quizMode === "flag" && country.cca3.includes("-")) {
+          return false;
+        }
+        return true;
+      }
+
+      const regionMatch = quizRegion === "All" || country.region === quizRegion;
+      if (!regionMatch) return false;
+      // In flag quiz, filter out subdivisions since they do not have distinct country flags
+      if (quizMode === "flag" && country.cca3.includes("-")) {
+        return false;
+      }
+      return Boolean(country.alpha2);
+    });
+  }, [countries, quizRegion, quizMode]);
 
   const quizPoolCodes = useMemo(() => {
     return new Set(currentQuizPool.map((c) => c.cca3));
@@ -900,6 +1144,17 @@ function App() {
     }
   }, [view]);
 
+  // Force max detail level when playing subdivision modes
+  useEffect(() => {
+    const isSubdivisionMode =
+      quizRegion === "United States (States)" ||
+      quizRegion === "Canada (Provinces/Territories)" ||
+      quizRegion === "Russia (Republics)";
+    if (isSubdivisionMode && mapDetailLevel !== "detailed") {
+      setMapDetailLevel("detailed");
+    }
+  }, [quizRegion, mapDetailLevel]);
+
   // Timer Effect
   useEffect(() => {
     let interval: any = null;
@@ -919,6 +1174,7 @@ function App() {
       date: new Date().toLocaleDateString(),
       region: quizRegion,
       mode: quizMode,
+      mapDetail: mapDetailLevel,
       correct: correctFirst,
       total: total,
       time: timeSpent,
@@ -1057,11 +1313,7 @@ function App() {
           if (nextAttempts >= 3) {
             const newHistory = { ...quizHistory, [quizCountry.cca3]: "failed" as const };
             setQuizHistory(newHistory);
-            setRevealingTarget(true);
-            setTimeout(() => {
-              setRevealingTarget(false);
-              advanceQuiz(newHistory);
-            }, 1500);
+            advanceQuiz(newHistory);
           } else {
             setQuizAttempts(nextAttempts);
           }
@@ -1093,16 +1345,21 @@ function App() {
       setWrongGuesses((prev) => [...prev, choice.cca3]);
       
       if (nextAttempts >= 3) {
-        setResult("wrong");
         const newHistory = { ...quizHistory, [quizCountry.cca3]: "failed" as const };
         setQuizHistory(newHistory);
-        setTimeout(() => {
-          advanceQuiz(newHistory);
-        }, 1500);
+        advanceQuiz(newHistory);
       } else {
         setQuizAttempts(nextAttempts);
       }
     }
+  }
+
+  function handleDontKnow() {
+    if (quizStatus !== "playing" || revealingTarget || result !== "idle" || !quizCountry) return;
+
+    const newHistory = { ...quizHistory, [quizCountry.cca3]: "failed" as const };
+    setQuizHistory(newHistory);
+    advanceQuiz(newHistory);
   }
 
   return (
@@ -1137,7 +1394,7 @@ function App() {
           <div className="quiz-hud-prompt">
             {quizMode === "locate" && (
               <>
-                <span>Locate on Map</span>
+                <span>Locate on Map (Guesses left: {3 - quizAttempts})</span>
                 <h2 className="quiz-hud-target-name">{quizCountry?.name}</h2>
               </>
             )}
@@ -1175,6 +1432,14 @@ function App() {
               <Clock size={16} />
               {formatQuizTime(quizTime)}
             </span>
+            <button
+              className="dont-know-btn"
+              onClick={handleDontKnow}
+              disabled={revealingTarget || result !== "idle"}
+            >
+              <HelpCircle size={15} />
+              Don't Know
+            </button>
             <button className="exit-quiz-btn" onClick={exitQuiz}>
               <X size={15} />
               Exit
@@ -1228,6 +1493,17 @@ function App() {
                     ]}
                     onChange={(value) => setDetailLevel(value as DetailLevel)}
                   />
+                  <AppSelect
+                    ariaLabel="Map detail"
+                    icon={<Globe2 size={18} aria-hidden="true" />}
+                    value={mapDetailLevel}
+                    options={[
+                      { value: "minimal", label: "Minimal Detail" },
+                      { value: "standard", label: "Standard Detail" },
+                      { value: "detailed", label: "Max Detail" },
+                    ]}
+                    onChange={(value) => setMapDetailLevel(value as MapDetailLevel)}
+                  />
                 </div>
               </>
             )}
@@ -1257,6 +1533,7 @@ function App() {
       <WorldMap
         countries={countries}
         countryByNumeric={countryByNumeric}
+        mapGeographies={mapGeographies}
         filteredCountries={filteredCountries}
         selectedCountry={selectedCountry}
         selectedRelationships={selectedRelationships}
@@ -1305,6 +1582,22 @@ function App() {
             ]}
             onChange={(value) => setDetailLevel(value as DetailLevel)}
           />
+          <AppSelect
+            ariaLabel="Map detail"
+            icon={<Globe2 size={18} aria-hidden="true" />}
+            value={mapDetailLevel}
+            disabled={
+              selectedRegion === "United States (States)" ||
+              selectedRegion === "Canada (Provinces/Territories)" ||
+              selectedRegion === "Russia (Republics)"
+            }
+            options={[
+              { value: "minimal", label: "Minimal Detail" },
+              { value: "standard", label: "Standard Detail" },
+              { value: "detailed", label: "Max Detail" },
+            ]}
+            onChange={(value) => setMapDetailLevel(value as MapDetailLevel)}
+          />
         </section>
       )}
 
@@ -1316,7 +1609,16 @@ function App() {
         selectedRegion={selectedRegion}
         onOpenChange={setCountryBrowserOpen}
         onQueryChange={setQuery}
-        onRegionChange={setSelectedRegion}
+        onRegionChange={(v) => {
+          setSelectedRegion(v);
+          if (
+            v === "United States (States)" ||
+            v === "Canada (Provinces/Territories)" ||
+            v === "Russia (Republics)"
+          ) {
+            setMapDetailLevel("detailed");
+          }
+        }}
         onSelect={(country) => {
           setSelectedCode(country.cca3);
           setCountryBrowserOpen(false);
@@ -1360,8 +1662,40 @@ function App() {
                   ariaLabel="Target Region"
                   icon={<ListFilter size={18} />}
                   value={quizRegion}
-                  options={regions.map((r) => ({ value: r, label: r === "All" ? "All Countries" : r }))}
-                  onChange={setQuizRegion}
+                  options={regions.map((r) => ({
+                    value: r,
+                    label: r === "All" ? "All Countries" : r
+                  }))}
+                  onChange={(v) => {
+                    setQuizRegion(v);
+                    if (
+                      v === "United States (States)" ||
+                      v === "Canada (Provinces/Territories)" ||
+                      v === "Russia (Republics)"
+                    ) {
+                      setMapDetailLevel("detailed");
+                    }
+                  }}
+                />
+              </div>
+
+              <div className="quiz-config-group">
+                <label>Map Detail</label>
+                <AppSelect
+                  ariaLabel="Map Detail"
+                  icon={<Globe2 size={18} />}
+                  value={mapDetailLevel}
+                  disabled={
+                    quizRegion === "United States (States)" ||
+                    quizRegion === "Canada (Provinces/Territories)" ||
+                    quizRegion === "Russia (Republics)"
+                  }
+                  options={[
+                    { value: "minimal", label: "Minimal (Colonies merged)" },
+                    { value: "standard", label: "Standard" },
+                    { value: "detailed", label: "Max Detail (States & Regions)" },
+                  ]}
+                  onChange={(v) => setMapDetailLevel(v as MapDetailLevel)}
                 />
               </div>
 
@@ -1406,7 +1740,9 @@ function App() {
                   savedScores.map((s) => (
                     <div key={s.id} className="score-row-item">
                       <div className="score-row-left">
-                        <span className="score-row-region">{s.region} ({s.mode})</span>
+                        <span className="score-row-region">
+                          {s.region} ({s.mode}) · <small style={{ opacity: 0.85, fontWeight: "normal" }}>{s.mapDetail ? (s.mapDetail === "detailed" ? "Max Detail" : s.mapDetail === "minimal" ? "Min Detail" : "Standard") : "Standard"}</small>
+                        </span>
                         <span className="score-row-meta">
                           {s.date} · first-try: {s.breakdown?.firstTry ?? s.correct}/{s.total}
                         </span>
@@ -1429,7 +1765,7 @@ function App() {
           <div className="quiz-summary-card">
             <h2 className="quiz-summary-title">Quiz Complete!</h2>
             <p className="quiz-summary-subtitle">
-              {quizRegion} region · {quizMode} mode
+              {quizRegion} region · {quizMode} mode · {mapDetailLevel === "detailed" ? "Max Detail" : mapDetailLevel === "minimal" ? "Min Detail" : "Standard"}
             </p>
 
             {(() => {
@@ -1609,6 +1945,7 @@ function App() {
 function WorldMap({
   countries,
   countryByNumeric,
+  mapGeographies,
   filteredCountries,
   selectedCountry,
   selectedRelationships,
@@ -1626,6 +1963,7 @@ function WorldMap({
 }: {
   countries: Country[];
   countryByNumeric: Map<string, Country>;
+  mapGeographies: MapGeometry[];
   filteredCountries: Country[];
   selectedCountry: Country | null;
   selectedRelationships: ReturnType<typeof relationshipSummary> | null;
@@ -1642,6 +1980,9 @@ function WorldMap({
   revealingTarget?: boolean;
 }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const geographyByNumeric = useMemo(() => {
+    return new Map(mapGeographies.map((geo) => [geo.id, geo]));
+  }, [mapGeographies]);
   const dragRef = useRef<{
     pointerId: number;
     startX: number;
@@ -1661,18 +2002,36 @@ function WorldMap({
   }, [isQuizMode, quizStatus, quizPoolCodes, filteredCodes]);
 
   const smallCountryHitboxes = useMemo(
-    () =>
-      mapGeographies
-        .map((geo) => ({ geo, country: countryByNumeric.get(geo.id) }))
+    () => {
+      // Calculate total area for each country code in the current map view
+      const countryTotalAreas = new Map<string, number>();
+      mapGeographies.forEach((geo) => {
+        const country = countryByNumeric.get(geo.id);
+        if (country && country.ccn3 === geo.id) {
+          const code = country.cca3;
+          countryTotalAreas.set(code, (countryTotalAreas.get(code) || 0) + geo.area);
+        }
+      });
+
+      return mapGeographies
+        .map((geo) => {
+          const rawCountry = countryByNumeric.get(geo.id);
+          if (rawCountry && rawCountry.ccn3 !== geo.id) return { geo, country: undefined };
+          return { geo, country: rawCountry };
+        })
         .filter(
-          (item): item is { geo: MapGeometry; country: Country } =>
-            Boolean(item.country) &&
-            targetCodes.has(item.country!.cca3) &&
-            item.geo.area > 0 &&
-            item.geo.area < SMALL_COUNTRY_HIT_AREA &&
-            Boolean(item.geo.centroid),
-        ),
-    [countryByNumeric, targetCodes],
+          (item): item is { geo: MapGeometry; country: Country } => {
+            if (!item.country || !targetCodes.has(item.country.cca3)) return false;
+            const totalArea = countryTotalAreas.get(item.country.cca3) || 0;
+            return (
+              totalArea > 0 &&
+              totalArea < SMALL_COUNTRY_HIT_AREA &&
+              Boolean(item.geo.centroid)
+            );
+          }
+        );
+    },
+    [mapGeographies, countryByNumeric, targetCodes],
   );
 
   function clampZoom(scale: number) {
@@ -1907,8 +2266,8 @@ function WorldMap({
               transform={`translate(${quizMarkerPoint[0]} ${quizMarkerPoint[1]})`}
               onClick={() => (!isQuizPlayingActive || quizPoolCodes.has(quizCountry.cca3)) && selectCountry(quizCountry)}
             >
-              <circle r="18" />
-              <path d="M0 -8v16M-8 0h16" />
+              <circle r={Math.max(1.5, 18 / mapTransform.scale)} />
+              <path d={`M0 -${Math.max(0.7, 8 / mapTransform.scale)}v${Math.max(0.7, 8 / mapTransform.scale) * 2}M-${Math.max(0.7, 8 / mapTransform.scale)} 0h${Math.max(0.7, 8 / mapTransform.scale) * 2}`} />
               {!isQuizPlayingActive && <title>{quizCountry.name}</title>}
             </g>
           )}
@@ -2360,11 +2719,14 @@ function CountryBrowser({
                 placeholder="Search country, capital, or region"
               />
             </label>
-            <AppSelect
+             <AppSelect
               ariaLabel="Region"
               icon={<ListFilter size={18} aria-hidden="true" />}
               value={selectedRegion}
-              options={regions.map((region) => ({ value: region, label: region }))}
+              options={regions.map((region) => ({
+                value: region,
+                label: region === "US/Canada/Russia" ? "US / Canada / Russia (Territories)" : region
+              }))}
               onChange={onRegionChange}
               stretch
             />
@@ -2457,6 +2819,7 @@ function AppSelect({
   value,
   onChange,
   stretch = false,
+  disabled = false,
 }: {
   ariaLabel: string;
   icon: ReactNode;
@@ -2464,9 +2827,10 @@ function AppSelect({
   value: string;
   onChange: (value: string) => void;
   stretch?: boolean;
+  disabled?: boolean;
 }) {
   return (
-    <Select.Root value={value} onValueChange={onChange}>
+    <Select.Root value={value} onValueChange={onChange} disabled={disabled}>
       <Select.Trigger className={stretch ? "select-trigger stretch" : "select-trigger"} aria-label={ariaLabel}>
         {icon}
         <Select.Value />
