@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState, type PointerEvent, type ReactNode
 import "flag-icons/css/flag-icons.min.css";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Select from "@radix-ui/react-select";
-import { geoEqualEarth, geoPath } from "d3-geo";
+import { geoEqualEarth, geoMercator, geoOrthographic, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
 import atlas from "world-atlas/countries-50m.json";
 import countryData from "./data/countries.json";
@@ -32,6 +32,8 @@ import {
   Award,
   ArrowRight,
   Info,
+  Compass,
+  Repeat,
 } from "lucide-react";
 
 type ViewMode = "practice" | "quiz";
@@ -41,6 +43,7 @@ type ResultState = "idle" | "correct" | "wrong";
 type RelationshipKind = "self" | "tension" | "mild-tension" | "ally" | "union" | "territory";
 type DetailLevel = "full" | "basic" | "minimal";
 type MapDetailLevel = "minimal" | "standard" | "detailed";
+type ProjectionType = "equal-earth" | "mercator" | "orthographic";
 
 const sovereignToParentCode: Record<string, string> = {
   "Finland": "FIN",
@@ -117,14 +120,7 @@ const SMALL_COUNTRY_HIT_RADIUS = 9;
 const MIN_SMALL_COUNTRY_HIT_RADIUS = 0.65;
 const BASE_COUNTRY_STROKE_WIDTH = 0.55;
 const MIN_COUNTRY_STROKE_WIDTH = 0.08;
-const projection = geoEqualEarth().fitExtent(
-  [
-    [20, 20],
-    [WIDTH - 20, HEIGHT - 20],
-  ],
-  { type: "Sphere" },
-);
-const path = geoPath(projection);
+
 const usStateNameToCode: Record<string, string> = {
   "Alabama": "AL", "Alaska": "AK", "Arizona": "AZ", "Arkansas": "AR", "California": "CA",
   "Colorado": "CO", "Connecticut": "CT", "Delaware": "DE", "Florida": "FL", "Georgia": "GA",
@@ -159,35 +155,9 @@ function clipId(id: string) {
   return `flag-clip-${id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
 }
 
-function projectedGeometry(geo: Geography): MapGeometry {
-  const id = geoId(geo);
-  const [x, y] = path.centroid(geo);
-  return {
-    id,
-    clipId: clipId(id),
-    name: geo.properties?.name ?? "Unknown",
-    d: path(geo) ?? undefined,
-    area: path.area(geo),
-    bounds: path.bounds(geo),
-    centroid: Number.isFinite(x) && Number.isFinite(y) ? [x, y] : null,
-  };
-}
-
-const baseMapGeographies = baseGeographies.map(projectedGeometry);
-const baseGeographyByNumeric = new Map(baseMapGeographies.map((geo) => [geo.id, geo]));
+const baseGeographyIds = new Set(baseGeographies.map(geoId));
 
 const subdivisionsGeographies = (subdivisionsAtlas.features || []) as Geography[];
-
-const subdivisionsMapGeographies = subdivisionsGeographies
-  .map((geo) => {
-    const id = geo.properties?.id;
-    if (!id) return null;
-    const projected = projectedGeometry(geo);
-    projected.id = id;
-    projected.clipId = clipId(projected.id);
-    return projected;
-  })
-  .filter((g): g is MapGeometry => g !== null);
 const formatNumber = new Intl.NumberFormat("en", { maximumFractionDigits: 0 });
 const formatArea = (area: number) => `${formatNumber.format(Math.round(area))} km2`;
 const regions = ["All", "Africa", "Americas", "Asia", "Europe", "Oceania", "Antarctic", "United States (States)", "Canada (Provinces/Territories)", "Russia (Republics)"];
@@ -853,22 +823,8 @@ function App() {
     }
   }, [mapDetailLevel]);
 
-  const mapGeographies = useMemo(() => {
-    if (mapDetailLevel === "detailed") {
-      const baseFiltered = baseMapGeographies.filter(
-        (g) => g.id !== "840" && g.id !== "643" && g.id !== "124" && g.id !== "036" && g.id !== "076"
-      );
-      return [...baseFiltered, ...subdivisionsMapGeographies];
-    }
-    return baseMapGeographies;
-  }, [mapDetailLevel]);
-
-  const geographyByNumeric = useMemo(() => {
-    return new Map(mapGeographies.map((geo) => [geo.id, geo]));
-  }, [mapGeographies]);
-
   const countries = useMemo(() => {
-    const base = (countryData as Country[]).filter((c) => c.ccn3 && baseGeographyByNumeric.has(c.ccn3));
+    const base = (countryData as Country[]).filter((c) => c.ccn3 && baseGeographyIds.has(c.ccn3));
     
     if (mapDetailLevel === "minimal") {
       return base.filter(c => !getParentCode(c));
@@ -975,7 +931,7 @@ function App() {
     });
     
     if (mapDetailLevel === "minimal") {
-      const base = (countryData as Country[]).filter((c) => c.ccn3 && baseGeographyByNumeric.has(c.ccn3));
+      const base = (countryData as Country[]).filter((c) => c.ccn3 && baseGeographyIds.has(c.ccn3));
       base.forEach((c) => {
         const parentCode = getParentCode(c);
         if (parentCode) {
@@ -1023,6 +979,46 @@ function App() {
       console.error("Failed to save detail level", e);
     }
   }, [detailLevel]);
+
+  const [projectionType, setProjectionType] = useState<ProjectionType>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_projection_type");
+      if (saved === "mercator" || saved === "orthographic" || saved === "equal-earth") {
+        return saved as ProjectionType;
+      }
+    } catch (e) {
+      console.error("Failed to load projection type", e);
+    }
+    return "equal-earth";
+  });
+
+  const [repeatMap, setRepeatMap] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_repeat_map");
+      if (saved !== null) {
+        return saved === "true";
+      }
+    } catch (e) {
+      console.error("Failed to load repeat map", e);
+    }
+    return true;
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_projection_type", projectionType);
+    } catch (e) {
+      console.error("Failed to save projection type", e);
+    }
+  }, [projectionType]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_repeat_map", String(repeatMap));
+    } catch (e) {
+      console.error("Failed to save repeat map", e);
+    }
+  }, [repeatMap]);
   const [quizMode, setQuizMode] = useState<QuizMode>("locate");
   const [quizCountry, setQuizCountry] = useState<Country | null>(null);
   const [choices, setChoices] = useState<Country[]>([]);
@@ -1504,6 +1500,27 @@ function App() {
                     ]}
                     onChange={(value) => setMapDetailLevel(value as MapDetailLevel)}
                   />
+                  <AppSelect
+                    ariaLabel="Projection"
+                    icon={<Compass size={18} aria-hidden="true" />}
+                    value={projectionType}
+                    options={[
+                      { value: "equal-earth", label: "Equal Earth" },
+                      { value: "mercator", label: "Mercator" },
+                      { value: "orthographic", label: "3D Globe" },
+                    ]}
+                    onChange={(value) => setProjectionType(value as ProjectionType)}
+                  />
+                  {(projectionType === "equal-earth" || projectionType === "mercator") && (
+                    <button
+                      className={`control-button ${repeatMap ? "primary" : ""}`}
+                      type="button"
+                      onClick={() => setRepeatMap((prev) => !prev)}
+                    >
+                      <Repeat size={18} aria-hidden="true" />
+                      Repeat Map
+                    </button>
+                  )}
                 </div>
               </>
             )}
@@ -1533,7 +1550,9 @@ function App() {
       <WorldMap
         countries={countries}
         countryByNumeric={countryByNumeric}
-        mapGeographies={mapGeographies}
+        projectionType={projectionType}
+        repeatMap={repeatMap}
+        mapDetailLevel={mapDetailLevel}
         filteredCountries={filteredCountries}
         selectedCountry={selectedCountry}
         selectedRelationships={selectedRelationships}
@@ -1598,6 +1617,26 @@ function App() {
             ]}
             onChange={(value) => setMapDetailLevel(value as MapDetailLevel)}
           />
+          <AppSelect
+            ariaLabel="Projection"
+            icon={<Compass size={18} aria-hidden="true" />}
+            value={projectionType}
+            options={[
+              { value: "equal-earth", label: "Equal Earth" },
+              { value: "mercator", label: "Mercator" },
+              { value: "orthographic", label: "3D Globe" },
+            ]}
+            onChange={(value) => setProjectionType(value as ProjectionType)}
+          />
+          {(projectionType === "equal-earth" || projectionType === "mercator") && (
+            <button
+              className={`control-button ${repeatMap ? "primary" : ""}`}
+              type="button"
+              onClick={() => setRepeatMap((prev) => !prev)}
+            >
+              <Repeat size={18} aria-hidden="true" />
+            </button>
+          )}
         </section>
       )}
 
@@ -1945,7 +1984,9 @@ function App() {
 function WorldMap({
   countries,
   countryByNumeric,
-  mapGeographies,
+  projectionType,
+  repeatMap,
+  mapDetailLevel,
   filteredCountries,
   selectedCountry,
   selectedRelationships,
@@ -1963,7 +2004,9 @@ function WorldMap({
 }: {
   countries: Country[];
   countryByNumeric: Map<string, Country>;
-  mapGeographies: MapGeometry[];
+  projectionType: ProjectionType;
+  repeatMap: boolean;
+  mapDetailLevel: MapDetailLevel;
   filteredCountries: Country[];
   selectedCountry: Country | null;
   selectedRelationships: ReturnType<typeof relationshipSummary> | null;
@@ -1980,16 +2023,102 @@ function WorldMap({
   revealingTarget?: boolean;
 }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
+  
+  const [globeRotation, setGlobeRotation] = useState<[number, number]>([0, 0]);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const activeGeographies = useMemo(() => {
+    if (mapDetailLevel === "detailed") {
+      const baseFiltered = baseGeographies.filter(
+        (g) => {
+          const id = geoId(g);
+          return id !== "840" && id !== "643" && id !== "124" && id !== "036" && id !== "076";
+        }
+      );
+      return [...baseFiltered, ...subdivisionsGeographies];
+    }
+    return baseGeographies;
+  }, [mapDetailLevel]);
+
+  const projection = useMemo(() => {
+    let proj;
+    if (projectionType === "mercator") {
+      proj = geoMercator();
+    } else if (projectionType === "orthographic") {
+      proj = geoOrthographic().rotate([globeRotation[0], globeRotation[1], 0]);
+    } else {
+      proj = geoEqualEarth();
+    }
+
+    proj.fitExtent(
+      [
+        [20, 20],
+        [WIDTH - 20, HEIGHT - 20],
+      ],
+      { type: "Sphere" }
+    );
+    
+    // Set higher resampling threshold (precision) for vastly improved performance during interaction
+    proj.precision(1.8);
+    
+    return proj;
+  }, [projectionType, globeRotation]);
+
+  const path = useMemo(() => geoPath(projection), [projection]);
+
+  const mapGeographies = useMemo((): MapGeometry[] => {
+    return activeGeographies.map((geo): MapGeometry => {
+      const isSub = geo.properties && ("id" in geo.properties);
+      const id = isSub ? String(geo.properties.id) : geoId(geo);
+      const d = path(geo) ?? undefined;
+      
+      let centroid: [number, number] | null = null;
+      let area = 0;
+      let bounds: [[number, number], [number, number]] = [[0, 0], [0, 0]];
+      
+      // Calculate geometric attributes only if the shape is on the visible side of the globe/map
+      if (d) {
+        const [x, y] = path.centroid(geo);
+        centroid = Number.isFinite(x) && Number.isFinite(y) ? [x, y] : null;
+        area = path.area(geo);
+        bounds = path.bounds(geo);
+      }
+      
+      return {
+        id,
+        clipId: clipId(id),
+        name: geo.properties?.name ?? "Unknown",
+        d,
+        area,
+        bounds,
+        centroid,
+      };
+    });
+  }, [activeGeographies, path]);
+
   const geographyByNumeric = useMemo(() => {
     return new Map(mapGeographies.map((geo) => [geo.id, geo]));
   }, [mapGeographies]);
+
+  const worldWidth = useMemo(() => {
+    if (projectionType === "orthographic") return 0;
+    const pt180 = projection([180, 0]);
+    const ptMinus180 = projection([-180, 0]);
+    const x180 = pt180 ? pt180[0] : 0;
+    const xMinus180 = ptMinus180 ? ptMinus180[0] : 0;
+    return Math.abs(x180 - xMinus180);
+  }, [projection, projectionType]);
+
   const dragRef = useRef<{
     pointerId: number;
     startX: number;
     startY: number;
     originX: number;
     originY: number;
+    originLon?: number;
+    originLat?: number;
   } | null>(null);
+  
   const wasDraggingRef = useRef(false);
   const [mapTransform, setMapTransform] = useState({ scale: 1, x: 0, y: 0 });
   const filteredCodes = useMemo(() => new Set(filteredCountries.map((country) => country.cca3)), [filteredCountries]);
@@ -2003,7 +2132,6 @@ function WorldMap({
 
   const smallCountryHitboxes = useMemo(
     () => {
-      // Calculate total area for each country code in the current map view
       const countryTotalAreas = new Map<string, number>();
       mapGeographies.forEach((geo) => {
         const country = countryByNumeric.get(geo.id);
@@ -2073,8 +2201,11 @@ function WorldMap({
       startY: event.clientY,
       originX: mapTransform.x,
       originY: mapTransform.y,
+      originLon: globeRotation[0],
+      originLat: globeRotation[1],
     };
     wasDraggingRef.current = false;
+    setIsDragging(true);
   }
 
   function handlePointerMove(event: PointerEvent<SVGSVGElement>) {
@@ -2085,7 +2216,16 @@ function WorldMap({
     const dx = ((event.clientX - drag.startX) * WIDTH) / rect.width;
     const dy = ((event.clientY - drag.startY) * HEIGHT) / rect.height;
     if (Math.abs(dx) > 3 || Math.abs(dy) > 3) wasDraggingRef.current = true;
-    setMapTransform((current) => ({ ...current, x: drag.originX + dx, y: drag.originY + dy }));
+
+    if (projectionType === "orthographic") {
+      const sensitivity = 0.45;
+      const scale = mapTransform.scale;
+      const newLon = (drag.originLon ?? 0) + (dx / scale) * sensitivity;
+      const newLat = Math.max(-80, Math.min(80, (drag.originLat ?? 0) - (dy / scale) * sensitivity));
+      setGlobeRotation([newLon, newLat]);
+    } else {
+      setMapTransform((current) => ({ ...current, x: drag.originX + dx, y: drag.originY + dy }));
+    }
   }
 
   function handlePointerUp(event: PointerEvent<SVGSVGElement>) {
@@ -2095,6 +2235,7 @@ function WorldMap({
         wasDraggingRef.current = false;
       }, 0);
     }
+    setIsDragging(false);
   }
 
   function selectCountry(country: Country) {
@@ -2110,7 +2251,8 @@ function WorldMap({
   function getMarkerPoint(country: Country) {
     if (country.latlng) {
       const [lat, lon] = country.latlng;
-      return projection([lon, lat]);
+      const pt = projection([lon, lat]);
+      return pt && Number.isFinite(pt[0]) && Number.isFinite(pt[1]) ? pt : null;
     }
     const geo = geographyByNumeric.get(country.ccn3);
     return geo?.centroid ?? null;
@@ -2133,8 +2275,141 @@ function WorldMap({
 
   const isQuizPlayingActive = isQuizMode && (quizStatus === "playing" || quizStatus === "summary");
 
+  let renderX = mapTransform.x;
+  const isFlatRepeat = repeatMap && projectionType !== "orthographic" && worldWidth > 0;
+  if (isFlatRepeat) {
+    const scaledWidth = worldWidth * mapTransform.scale;
+    renderX = ((mapTransform.x + scaledWidth / 2) % scaledWidth);
+    if (renderX < 0) renderX += scaledWidth;
+    renderX -= scaledWidth / 2;
+  }
+
+  function renderMapElements(xOffset = 0, keySuffix = "center", isVisible = true) {
+    if (!isVisible) return null;
+    const offsetKey = keySuffix !== "center" ? `-${keySuffix}` : "";
+    return (
+      <g key={`map-elements${offsetKey}`} transform={`translate(${xOffset}, 0)`}>
+        {showFlagFills && (
+          <>
+            <defs>
+              {mapGeographies.map((geo, idx) => {
+                const country = countryByNumeric.get(geo.id);
+                if (!country?.alpha2 || !targetCodes.has(country.cca3) || !geo.d) return null;
+                return (
+                  <clipPath key={`clip-${geo.id}-${idx}${offsetKey}`} id={`${geo.clipId}-${idx}${offsetKey}`}>
+                    <path d={geo.d} />
+                  </clipPath>
+                );
+              })}
+            </defs>
+            {mapGeographies.map((geo, idx) => {
+              const country = countryByNumeric.get(geo.id);
+              if (!country?.alpha2 || !targetCodes.has(country.cca3)) return null;
+              const [[x0, y0], [x1, y1]] = geo.bounds;
+              if (![x0, y0, x1, y1].every(Number.isFinite)) return null;
+              return (
+                <image
+                  key={`flag-${geo.id}-${idx}${offsetKey}`}
+                  className="country-flag-fill"
+                  x={x0}
+                  y={y0}
+                  width={Math.max(1, x1 - x0)}
+                  height={Math.max(1, y1 - y0)}
+                  href={`/flags/${country.alpha2.toLowerCase()}.svg`}
+                  preserveAspectRatio="xMidYMid slice"
+                  clipPath={`url(#${geo.clipId}-${idx}${offsetKey})`}
+                />
+              );
+            })}
+          </>
+        )}
+        {mapGeographies.map((geo, idx) => {
+          const country = countryByNumeric.get(geo.id);
+          const visible = country ? targetCodes.has(country.cca3) : false;
+          
+          const isSelected = !isQuizPlayingActive && country?.cca3 === selectedCountry?.cca3;
+          const relation = !isQuizPlayingActive && selectedRelationships ? relationshipKind(selectedCountry, country) : null;
+          
+          const isTarget = country?.cca3 === quizCountry?.cca3;
+          const quizColor = (isQuizMode && country) ? quizHistory[country.cca3] : undefined;
+          const isWrongGuess = (isQuizMode && country) ? wrongGuesses.includes(country.cca3) : false;
+          const isRevealed = isQuizMode && revealingTarget && isTarget;
+          
+          const hasSaneHitArea = geo.area < MAX_COUNTRY_HIT_AREA;
+          
+          const className = [
+            "country",
+            !hasSaneHitArea ? "no-hit" : "",
+            showFlagFills && country?.alpha2 && visible ? "flagged" : "",
+            visible ? "visible" : "muted",
+            relation ? `relationship-${relation}` : "",
+            isSelected ? "selected" : "",
+            quizColor ? `quiz-${quizColor}` : "",
+            isWrongGuess ? "quiz-wrong-guess" : "",
+            isRevealed ? "quiz-failed" : "",
+          ]
+            .filter(Boolean)
+            .join(" ");
+          
+          return (
+            <path
+              key={`path-${geo.id}-${idx}${offsetKey}`}
+              className={className}
+              d={geo.d}
+              strokeWidth={countryStrokeWidth}
+              onClick={() =>
+                country &&
+                hasSaneHitArea &&
+                (!isQuizPlayingActive || quizPoolCodes.has(country.cca3)) &&
+                selectCountry(country)
+              }
+            >
+              {!isQuizPlayingActive && <title>{country?.name ?? geo.name}</title>}
+            </path>
+          );
+        })}
+        {smallCountryHitboxes.map(({ geo, country }) => {
+          const quizColor = isQuizMode ? quizHistory[country.cca3] : undefined;
+          const isWrongGuess = isQuizMode ? wrongGuesses.includes(country.cca3) : false;
+          const isRevealed = isQuizMode && revealingTarget && country.cca3 === quizCountry?.cca3;
+          
+          const className = [
+            "island-hitbox",
+            quizColor ? `quiz-${quizColor}` : "",
+            isWrongGuess ? "quiz-wrong-guess" : "",
+            isRevealed ? "quiz-failed" : "",
+          ].filter(Boolean).join(" ");
+          
+          return (
+            <circle
+              key={`hit-${country.cca3}${offsetKey}`}
+              className={className}
+              cx={geo.centroid![0]}
+              cy={geo.centroid![1]}
+              r={smallCountryHitRadius()}
+              onClick={() => (!isQuizPlayingActive || quizPoolCodes.has(country.cca3)) && selectCountry(country)}
+            >
+              {!isQuizPlayingActive && <title>{country.name}</title>}
+            </circle>
+          );
+        })}
+        {isQuizMode && quizCountry && quizMarkerPoint && (!isQuizPlayingActive || revealingTarget) && (
+          <g
+            className="quiz-target-marker"
+            transform={`translate(${quizMarkerPoint[0]} ${quizMarkerPoint[1]})`}
+            onClick={() => (!isQuizPlayingActive || quizPoolCodes.has(quizCountry.cca3)) && selectCountry(quizCountry)}
+          >
+            <circle r={Math.max(1.5, 18 / mapTransform.scale)} />
+            <path d={`M0 -${Math.max(0.7, 8 / mapTransform.scale)}v${Math.max(0.7, 8 / mapTransform.scale) * 2}M-${Math.max(0.7, 8 / mapTransform.scale)} 0h${Math.max(0.7, 8 / mapTransform.scale) * 2}`} />
+            {!isQuizPlayingActive && <title>{quizCountry.name}</title>}
+          </g>
+        )}
+      </g>
+    );
+  }
+
   return (
-    <section className={`map-panel ${isQuizPlayingActive ? "quiz-playing-mode" : ""}`} aria-label="World map">
+    <section className={`map-panel ${isQuizPlayingActive ? "quiz-playing-mode" : ""} ${isDragging ? "is-dragging" : ""}`} aria-label="World map">
       <div className="map-tools" aria-label="Map zoom controls">
         <button type="button" onClick={() => zoomAt(mapTransform.scale * 1.45)} aria-label="Zoom in">
           <ZoomIn size={18} />
@@ -2142,7 +2417,14 @@ function WorldMap({
         <button type="button" onClick={() => zoomAt(mapTransform.scale / 1.45)} aria-label="Zoom out">
           <ZoomOut size={18} />
         </button>
-        <button type="button" onClick={() => setMapTransform({ scale: 1, x: 0, y: 0 })} aria-label="Reset map zoom">
+        <button
+          type="button"
+          onClick={() => {
+            setMapTransform({ scale: 1, x: 0, y: 0 });
+            setGlobeRotation([0, 0]);
+          }}
+          aria-label="Reset map zoom"
+        >
           <Maximize2 size={18} />
         </button>
       </div>
@@ -2158,118 +2440,58 @@ function WorldMap({
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
       >
-        <rect className="ocean" width={WIDTH} height={HEIGHT} rx="0" onClick={clearMapSelection} />
-        <g transform={`translate(${mapTransform.x} ${mapTransform.y}) scale(${mapTransform.scale})`}>
-          {showFlagFills && (
-            <>
-              <defs>
-                {mapGeographies.map((geo) => (
-                  <clipPath key={geo.id} id={geo.clipId}>
-                    <path d={geo.d} />
-                  </clipPath>
-                ))}
-              </defs>
-              {mapGeographies.map((geo) => {
-                const country = countryByNumeric.get(geo.id);
-                if (!country?.alpha2 || !targetCodes.has(country.cca3)) return null;
-                const [[x0, y0], [x1, y1]] = geo.bounds;
-                if (![x0, y0, x1, y1].every(Number.isFinite)) return null;
-                return (
-                  <foreignObject
-                    key={`flag-${geo.id}`}
-                    className="country-flag-fill"
-                    x={x0}
-                    y={y0}
-                    width={Math.max(1, x1 - x0)}
-                    height={Math.max(1, y1 - y0)}
-                    clipPath={`url(#${geo.clipId})`}
-                  >
-                    <span className={`fi fi-${country.alpha2.toLowerCase()}`} />
-                  </foreignObject>
-                );
-              })}
-            </>
+        <defs>
+          <radialGradient id="globe-ocean-gradient" cx="30%" cy="30%" r="70%">
+            <stop offset="0%" stopColor="#f0f8fa" />
+            <stop offset="60%" stopColor="#d8edf3" />
+            <stop offset="100%" stopColor="#b2dae5" />
+          </radialGradient>
+          <radialGradient id="globe-highlight-gradient" cx="30%" cy="30%" r="70%">
+            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.4)" stopOpacity="0.4" />
+            <stop offset="50%" stopColor="rgba(255, 255, 255, 0)" stopOpacity="0" />
+            <stop offset="100%" stopColor="rgba(0, 0, 0, 0.15)" stopOpacity="0.15" />
+          </radialGradient>
+        </defs>
+
+        {projectionType !== "orthographic" && (
+          <rect className="ocean" width={WIDTH} height={HEIGHT} rx="0" onClick={clearMapSelection} />
+        )}
+
+        <g transform={`translate(${renderX} ${mapTransform.y}) scale(${mapTransform.scale})`}>
+          {projectionType === "orthographic" && (
+            <circle
+              cx={WIDTH / 2}
+              cy={HEIGHT / 2}
+              r={projection.scale()}
+              fill="url(#globe-ocean-gradient)"
+              onClick={clearMapSelection}
+              style={{ cursor: "pointer" }}
+            />
           )}
-          {mapGeographies.map((geo) => {
-            const country = countryByNumeric.get(geo.id);
-            const visible = country ? targetCodes.has(country.cca3) : false;
-            
-            const isSelected = !isQuizPlayingActive && country?.cca3 === selectedCountry?.cca3;
-            const relation = !isQuizPlayingActive && selectedRelationships ? relationshipKind(selectedCountry, country) : null;
-            
-            const isTarget = country?.cca3 === quizCountry?.cca3;
-            const quizColor = (isQuizMode && country) ? quizHistory[country.cca3] : undefined;
-            const isWrongGuess = (isQuizMode && country) ? wrongGuesses.includes(country.cca3) : false;
-            const isRevealed = isQuizMode && revealingTarget && isTarget;
-            
-            const hasSaneHitArea = geo.area < MAX_COUNTRY_HIT_AREA;
-            
-            const className = [
-              "country",
-              !hasSaneHitArea ? "no-hit" : "",
-              showFlagFills && country?.alpha2 && visible ? "flagged" : "",
-              visible ? "visible" : "muted",
-              relation ? `relationship-${relation}` : "",
-              isSelected ? "selected" : "",
-              quizColor ? `quiz-${quizColor}` : "",
-              isWrongGuess ? "quiz-wrong-guess" : "",
-              isRevealed ? "quiz-failed" : "",
-            ]
-              .filter(Boolean)
-              .join(" ");
-            
-            return (
-              <path
-                key={geo.id}
-                className={className}
-                d={geo.d}
-                strokeWidth={countryStrokeWidth}
-                onClick={() =>
-                  country &&
-                  hasSaneHitArea &&
-                  (!isQuizPlayingActive || quizPoolCodes.has(country.cca3)) &&
-                  selectCountry(country)
-                }
-              >
-                {!isQuizPlayingActive && <title>{country?.name ?? geo.name}</title>}
-              </path>
-            );
-          })}
-          {smallCountryHitboxes.map(({ geo, country }) => {
-            const quizColor = isQuizMode ? quizHistory[country.cca3] : undefined;
-            const isWrongGuess = isQuizMode ? wrongGuesses.includes(country.cca3) : false;
-            const isRevealed = isQuizMode && revealingTarget && country.cca3 === quizCountry?.cca3;
-            
-            const className = [
-              "island-hitbox",
-              quizColor ? `quiz-${quizColor}` : "",
-              isWrongGuess ? "quiz-wrong-guess" : "",
-              isRevealed ? "quiz-failed" : "",
-            ].filter(Boolean).join(" ");
-            
-            return (
+
+          {renderMapElements(-worldWidth, "left", isFlatRepeat)}
+          {renderMapElements(0, "center", true)}
+          {renderMapElements(worldWidth, "right", isFlatRepeat)}
+
+          {projectionType === "orthographic" && (
+            <>
               <circle
-                key={`hit-${country.cca3}`}
-                className={className}
-                cx={geo.centroid![0]}
-                cy={geo.centroid![1]}
-                r={smallCountryHitRadius()}
-                onClick={() => (!isQuizPlayingActive || quizPoolCodes.has(country.cca3)) && selectCountry(country)}
-              >
-                {!isQuizPlayingActive && <title>{country.name}</title>}
-              </circle>
-            );
-          })}
-          {isQuizMode && quizCountry && quizMarkerPoint && (!isQuizPlayingActive || revealingTarget) && (
-            <g
-              className="quiz-target-marker"
-              transform={`translate(${quizMarkerPoint[0]} ${quizMarkerPoint[1]})`}
-              onClick={() => (!isQuizPlayingActive || quizPoolCodes.has(quizCountry.cca3)) && selectCountry(quizCountry)}
-            >
-              <circle r={Math.max(1.5, 18 / mapTransform.scale)} />
-              <path d={`M0 -${Math.max(0.7, 8 / mapTransform.scale)}v${Math.max(0.7, 8 / mapTransform.scale) * 2}M-${Math.max(0.7, 8 / mapTransform.scale)} 0h${Math.max(0.7, 8 / mapTransform.scale) * 2}`} />
-              {!isQuizPlayingActive && <title>{quizCountry.name}</title>}
-            </g>
+                cx={WIDTH / 2}
+                cy={HEIGHT / 2}
+                r={projection.scale()}
+                fill="url(#globe-highlight-gradient)"
+                pointerEvents="none"
+              />
+              <circle
+                cx={WIDTH / 2}
+                cy={HEIGHT / 2}
+                r={projection.scale()}
+                fill="none"
+                stroke="rgba(21, 53, 63, 0.22)"
+                strokeWidth="1.2"
+                pointerEvents="none"
+              />
+            </>
           )}
         </g>
       </svg>

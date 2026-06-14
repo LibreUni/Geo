@@ -325,6 +325,13 @@ button {
   align-items: center;
   padding: 6px;
   border-radius: 8px;
+  max-width: calc(100vw - 36px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.floating-controls::-webkit-scrollbar {
+  display: none;
 }
 
 .map-legend {
@@ -1918,4 +1925,24 @@ dd {
     border-radius: 8px;
   }
 }
+
+/* 3D Globe custom styles */
+.globe-ocean {
+  cursor: pointer;
+  transition: fill 0.3s ease;
+}
+
+.globe-highlight {
+  pointer-events: none;
+}
+
+.map-panel svg {
+  background: transparent;
+}
+
+/* Disable transitions during drag interaction to maintain high frame rate */
+.map-panel.is-dragging .country {
+  transition: none !important;
+}
+
 
