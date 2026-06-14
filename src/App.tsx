@@ -165,7 +165,120 @@ const baseGeographyIds = new Set(baseGeographies.map(geoId));
 const subdivisionsGeographies = (subdivisionsAtlas.features || []) as Geography[];
 const formatNumber = new Intl.NumberFormat("en", { maximumFractionDigits: 0 });
 const formatArea = (area: number) => `${formatNumber.format(Math.round(area))} km2`;
-const regions = ["All", "Africa", "Americas", "Asia", "Europe", "Oceania", "Antarctic", "United States (States)", "Canada (Provinces/Territories)", "Russia (Republics)"];
+const RUSSIA_SUBDIVISION_REGION = "Russia (Federal Subjects)";
+const LEGACY_RUSSIA_SUBDIVISION_REGION = "Russia (Republics)";
+const regions = ["All", "Africa", "Americas", "Asia", "Europe", "Oceania", "Antarctic", "United States (States)", "Canada (Provinces/Territories)", RUSSIA_SUBDIVISION_REGION];
+
+function isRussiaSubdivisionRegion(region: string) {
+  return region === RUSSIA_SUBDIVISION_REGION || region === LEGACY_RUSSIA_SUBDIVISION_REGION;
+}
+
+const russianRepublicIsoCodes = new Set([
+  "RU-AD", "RU-AL", "RU-BA", "RU-BU", "RU-CE", "RU-CU", "RU-DA", "RU-IN",
+  "RU-KB", "RU-KC", "RU-KK", "RU-KL", "RU-KO", "RU-KR", "RU-ME", "RU-MO",
+  "RU-SA", "RU-SE", "RU-TA", "RU-TY", "RU-UD", "RU-CRI",
+]);
+
+const russianFederalCityIsoCodes = new Set(["RU-MOW", "RU-SPE", "RU-SEV"]);
+const russianAutonomousOkrugIsoCodes = new Set(["RU-KHM", "RU-NEN", "RU-CHU", "RU-YAN"]);
+const russianAutonomousOblastIsoCodes = new Set(["RU-YEV"]);
+const russianKraiIsoCodes = new Set(["RU-ALT", "RU-KAM", "RU-KHA", "RU-KDA", "RU-KYA", "RU-PER", "RU-PRI", "RU-STA", "RU-ZAB"]);
+
+const russianEuropeIsoCodes = new Set([
+  "RU-AD", "RU-ARK", "RU-AST", "RU-BA", "RU-BEL", "RU-BRY", "RU-CE", "RU-CRI",
+  "RU-CU", "RU-DA", "RU-IN", "RU-IVA", "RU-KB", "RU-KC", "RU-KDA", "RU-KGD",
+  "RU-KIR", "RU-KL", "RU-KLU", "RU-KO", "RU-KOS", "RU-KR", "RU-KRS", "RU-LEN",
+  "RU-LIP", "RU-ME", "RU-MO", "RU-MOW", "RU-MOS", "RU-MUR", "RU-NEN", "RU-NGR",
+  "RU-NIZ", "RU-ORL", "RU-ORE", "RU-PE", "RU-PNZ", "RU-PSK", "RU-ROS", "RU-RYA",
+  "RU-SA", "RU-SAM", "RU-SAR", "RU-SE", "RU-SEV", "RU-SMO", "RU-SPE", "RU-STA",
+  "RU-TA", "RU-TAM", "RU-TUL", "RU-TVE", "RU-UD", "RU-ULY", "RU-VGG", "RU-VLA",
+  "RU-VLG", "RU-VOR", "RU-YAR",
+]);
+
+const russianShapeNameOverrides: Record<string, string> = {
+  "RU-AD": "Adygea",
+  "RU-AL": "Altai Republic",
+  "RU-ARK": "Arkhangelsk Oblast",
+  "RU-AST": "Astrakhan Oblast",
+  "RU-BU": "Buryatia",
+  "RU-CE": "Chechnya",
+  "RU-CHU": "Chukotka Autonomous Okrug",
+  "RU-CU": "Chuvashia",
+  "RU-KB": "Kabardino-Balkaria",
+  "RU-KC": "Karachay-Cherkessia",
+  "RU-KDA": "Krasnodar Krai",
+  "RU-KGD": "Kaliningrad Oblast",
+  "RU-KHA": "Khabarovsk Krai",
+  "RU-KHM": "Khanty-Mansi Autonomous Okrug",
+  "RU-KK": "Khakassia",
+  "RU-KL": "Kalmykia",
+  "RU-KR": "Karelia",
+  "RU-KYA": "Krasnoyarsk Krai",
+  "RU-ME": "Mari El",
+  "RU-MO": "Mordovia",
+  "RU-MOW": "Moscow",
+  "RU-MOS": "Moscow Oblast",
+  "RU-NIZ": "Nizhny Novgorod Oblast",
+  "RU-ORE": "Orenburg Oblast",
+  "RU-ORL": "Oryol Oblast",
+  "RU-PER": "Perm Krai",
+  "RU-PRI": "Primorsky Krai",
+  "RU-SE": "North Ossetia-Alania",
+  "RU-SEV": "Sevastopol",
+  "RU-SPE": "Saint Petersburg",
+  "RU-TVE": "Tver Oblast",
+  "RU-TY": "Tuva",
+  "RU-TYU": "Tyumen Oblast",
+  "RU-UD": "Udmurtia",
+  "RU-ULY": "Ulyanovsk Oblast",
+  "RU-YAN": "Yamalo-Nenets Autonomous Okrug",
+  "RU-YEV": "Jewish Autonomous Oblast",
+  "RU-ZAB": "Zabaykalsky Krai",
+};
+
+function russianSubdivisionType(iso: string) {
+  if (russianRepublicIsoCodes.has(iso)) return "Republic of Russia";
+  if (russianFederalCityIsoCodes.has(iso)) return "Federal city of Russia";
+  if (russianAutonomousOkrugIsoCodes.has(iso)) return "Autonomous okrug of Russia";
+  if (russianAutonomousOblastIsoCodes.has(iso)) return "Autonomous oblast of Russia";
+  if (russianKraiIsoCodes.has(iso)) return "Krai of Russia";
+  return "Oblast of Russia";
+}
+
+function russianSubdivisionName(iso: string, name: string) {
+  if (russianShapeNameOverrides[iso]) return russianShapeNameOverrides[iso];
+  if (russianRepublicIsoCodes.has(iso) || russianFederalCityIsoCodes.has(iso) || russianAutonomousOkrugIsoCodes.has(iso) || russianAutonomousOblastIsoCodes.has(iso) || russianKraiIsoCodes.has(iso)) {
+    return name;
+  }
+  return `${name.replace(/'$/, "")} Oblast`;
+}
+
+function makeRussiaSubdivisionFromShape(geo: Geography): any | null {
+  const iso = String(geo.properties?.id ?? "");
+  if (!iso.startsWith("RU-")) return null;
+  const name = russianSubdivisionName(iso, geo.properties?.name ?? iso);
+  const region = russianEuropeIsoCodes.has(iso) ? "Europe" : "Asia";
+  return {
+    wikiId: "",
+    name,
+    iso,
+    capital: "",
+    population: 0,
+    area: 0,
+    wikipediaTitle: name,
+    parent: "RUS",
+    wikipedia: {
+      title: name,
+      summary: `${name} is a federal subject of Russia.`,
+      sourceUrl: `https://en.wikipedia.org/wiki/${encodeURIComponent(name.replaceAll(" ", "_"))}`,
+    },
+    emblemUrl: null,
+    established: null,
+    highestPoint: null,
+    namedAfter: null,
+    inferredRegion: region,
+  };
+}
 
 type Phrase = { english: string; local: string; phonetic: string };
 
@@ -836,11 +949,18 @@ function App() {
     }
     
     if (mapDetailLevel === "detailed") {
-      // Exclude split parent countries (USA, Canada, Australia, Brazil).
-      // Keep Russia (RUS) as the base entry for the rest of Russia.
-      const baseFiltered = base.filter(c => c.cca3 !== "USA" && c.cca3 !== "CAN" && c.cca3 !== "AUS" && c.cca3 !== "BRA");
+      const baseFiltered = base.filter(c => c.cca3 !== "USA" && c.cca3 !== "CAN" && c.cca3 !== "AUS" && c.cca3 !== "BRA" && c.cca3 !== "RUS");
+      const subdivisionRows = [...(subdivisionsMetadata as any[])];
+      const metadataByIso = new Set(subdivisionRows.map((sub) => sub.iso));
+      subdivisionsGeographies.forEach((geo) => {
+        const fallback = makeRussiaSubdivisionFromShape(geo);
+        if (fallback && !metadataByIso.has(fallback.iso)) {
+          subdivisionRows.push(fallback);
+          metadataByIso.add(fallback.iso);
+        }
+      });
       
-      const subsMapped = (subdivisionsMetadata as any[]).map(sub => {
+      const subsMapped = subdivisionRows.map(sub => {
         const pCode = sub.parent;
         let parentName = "";
         let alpha2 = "";
@@ -890,12 +1010,12 @@ function App() {
         } else if (pCode === "RUS") {
           parentName = "Russia";
           alpha2 = "RU";
-          region = (sub.iso === "RU-AD" || sub.iso === "RU-CRI" || sub.iso === "RU-DA" || sub.iso === "RU-IN" || sub.iso === "RU-KB" || sub.iso === "RU-KC" || sub.iso === "RU-KR" || sub.iso === "RU-SE" || sub.iso === "RU-TA" || sub.iso === "RU-CE" || sub.iso === "RU-CU") ? "Europe" : "Asia";
+          region = sub.inferredRegion || (russianEuropeIsoCodes.has(sub.iso) ? "Europe" : "Asia");
           subregion = region === "Europe" ? "Eastern Europe" : "Northern Asia";
           primaryLanguages = ["Russian"];
           currencies = ["Russian ruble"];
           emoji = "🇷🇺";
-          sovereigntyLabel = "Republic of Russia";
+          sovereigntyLabel = russianSubdivisionType(sub.iso);
         }
         
         return {
@@ -1081,7 +1201,7 @@ function App() {
         regionMatch = country.sovereignty?.sovereignState === "United States";
       } else if (selectedRegion === "Canada (Provinces/Territories)") {
         regionMatch = country.sovereignty?.sovereignState === "Canada";
-      } else if (selectedRegion === "Russia (Republics)") {
+      } else if (isRussiaSubdivisionRegion(selectedRegion)) {
         regionMatch = country.sovereignty?.sovereignState === "Russia" && country.cca3 !== "RUS";
       } else {
         regionMatch = selectedRegion === "All" || country.region === selectedRegion;
@@ -1116,7 +1236,7 @@ function App() {
       } else if (quizRegion === "Canada (Provinces/Territories)") {
         isSubdivisionMode = true;
         matchesSubdivision = country.sovereignty?.sovereignState === "Canada";
-      } else if (quizRegion === "Russia (Republics)") {
+      } else if (isRussiaSubdivisionRegion(quizRegion)) {
         isSubdivisionMode = true;
         matchesSubdivision = country.sovereignty?.sovereignState === "Russia" && country.cca3 !== "RUS";
       }
@@ -1174,7 +1294,7 @@ function App() {
     const isSubdivisionMode =
       quizRegion === "United States (States)" ||
       quizRegion === "Canada (Provinces/Territories)" ||
-      quizRegion === "Russia (Republics)";
+      isRussiaSubdivisionRegion(quizRegion);
     if (isSubdivisionMode && mapDetailLevel !== "detailed") {
       setMapDetailLevel("detailed");
     }
@@ -1646,7 +1766,7 @@ function App() {
             disabled={
               selectedRegion === "United States (States)" ||
               selectedRegion === "Canada (Provinces/Territories)" ||
-              selectedRegion === "Russia (Republics)"
+              isRussiaSubdivisionRegion(selectedRegion)
             }
             options={[
               { value: "minimal", label: "Minimal Detail" },
@@ -1699,7 +1819,7 @@ function App() {
           if (
             v === "United States (States)" ||
             v === "Canada (Provinces/Territories)" ||
-            v === "Russia (Republics)"
+            isRussiaSubdivisionRegion(v)
           ) {
             setMapDetailLevel("detailed");
           }
@@ -1756,7 +1876,7 @@ function App() {
                     if (
                       v === "United States (States)" ||
                       v === "Canada (Provinces/Territories)" ||
-                      v === "Russia (Republics)"
+                      isRussiaSubdivisionRegion(v)
                     ) {
                       setMapDetailLevel("detailed");
                     }
@@ -1773,7 +1893,7 @@ function App() {
                   disabled={
                     quizRegion === "United States (States)" ||
                     quizRegion === "Canada (Provinces/Territories)" ||
-                    quizRegion === "Russia (Republics)"
+                    isRussiaSubdivisionRegion(quizRegion)
                   }
                   options={[
                     { value: "minimal", label: "Minimal (Colonies merged)" },
@@ -3155,7 +3275,7 @@ function CountryBrowser({
               value={selectedRegion}
               options={regions.map((region) => ({
                 value: region,
-                label: region === "US/Canada/Russia" ? "US / Canada / Russia (Territories)" : region
+                label: region
               }))}
               onChange={onRegionChange}
               stretch

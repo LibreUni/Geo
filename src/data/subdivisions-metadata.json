@@ -950,6 +950,86 @@
     "namedAfter": null
   },
   {
+    "wikiId": "Q5942",
+    "name": "Altai Krai",
+    "iso": "RU-ALT",
+    "capital": "Barnaul",
+    "population": 2099186,
+    "area": 169100,
+    "wikipediaTitle": "Altai Krai",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Altai Krai",
+      "summary": "Altai Krai is a federal subject of Russia. It borders, clockwise from the west, Kazakhstan, Novosibirsk and Kemerovo, and the Altai Republic. Its administrative centre is the city of Barnaul. As of the 2021 Census, the population of the krai was 2,163,693.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Altai_Krai"
+    },
+    "emblemUrl": "/emblems/ru-alt.svg",
+    "established": "1937",
+    "highestPoint": "Mayak Shangina (2,490 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q6886",
+    "name": "Amur Oblast",
+    "iso": "RU-AMU",
+    "capital": "Blagoveshchensk",
+    "population": 750083,
+    "area": 361913,
+    "wikipediaTitle": "Amur Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Amur Oblast",
+      "summary": "Amur Oblast is a federal subject of Russia, located on the banks of the Amur and Zeya rivers in the Russian Far East. The oblast borders Heilongjiang province of the People's Republic of China (PRC) to the south.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Amur_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-amu.svg",
+    "established": "1932",
+    "highestPoint": "Gorod-Makit (2,290 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q1875",
+    "name": "Arkhangelsk Oblast",
+    "iso": "RU-ARK",
+    "capital": "Arkhangelsk",
+    "population": 989434,
+    "area": 587400,
+    "wikipediaTitle": "Arkhangelsk Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Arkhangelsk Oblast",
+      "summary": "Arkhangelsk Oblast is a federal subject of Russia. It includes the Arctic archipelagos of Franz Josef Land and Novaya Zemlya, as well as the Solovetsky Islands in the White Sea. Arkhangelsk Oblast also has administrative jurisdiction over the Nenets Autonomous Okrug (NAO). Including the NAO, Arkhangelsk Oblast has an area of 587,400 square kilometres (226,800 sq mi), it is the largest of first-level administrative divisions in Europe. Its population was 1,227,626 as of the 2010 Census.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Arkhangelsk_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-ark.svg",
+    "established": "1937",
+    "highestPoint": "Mount Kruzenshtern (1,547 m)",
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q3941",
+    "name": "Astrakhan Oblast",
+    "iso": "RU-AST",
+    "capital": "Astrakhan",
+    "population": 946429,
+    "area": 44100,
+    "wikipediaTitle": "Astrakhan Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Astrakhan Oblast",
+      "summary": "Astrakhan Oblast is a federal subject of Russia located in southern Russia. Its administrative center is the city of Astrakhan. As of the 2010 Census, its population was 1,010,073.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Astrakhan_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-ast.svg",
+    "established": "1943",
+    "highestPoint": "Bolshoye Bogdo (151 m)",
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
     "wikiId": "Q5710",
     "name": "Bashkortostan",
     "iso": "RU-BA",
@@ -967,6 +1047,46 @@
     "established": "1990",
     "highestPoint": "Mount Yamantau (1,640 m)",
     "namedAfter": "Bashkir people"
+  },
+  {
+    "wikiId": "Q3329",
+    "name": "Belgorod Oblast",
+    "iso": "RU-BEL",
+    "capital": "Belgorod",
+    "population": 1482025,
+    "area": 27134,
+    "wikipediaTitle": "Belgorod Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Belgorod Oblast",
+      "summary": "Belgorod Oblast is a federal subject of Russia. Its administrative center is the city of Belgorod. As of 2021, the population is 1,540,486.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Belgorod_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-bel.svg",
+    "established": "1954",
+    "highestPoint": "Prokhorovsky District (277 m)",
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q2810",
+    "name": "Bryansk Oblast",
+    "iso": "RU-BRY",
+    "capital": "Bryansk",
+    "population": 1132795,
+    "area": 34900,
+    "wikipediaTitle": "Bryansk Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Bryansk Oblast",
+      "summary": "Bryansk Oblast, also known as Bryanshchina, is a federal subject of Russia. Its administrative center is the city of Bryansk. As of the 2021 Census, its population was 1,169,161.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Bryansk_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-bry.svg",
+    "established": "1944",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
   },
   {
     "wikiId": "Q6809",
@@ -1007,6 +1127,46 @@
     "namedAfter": null
   },
   {
+    "wikiId": "Q5714",
+    "name": "Chelyabinsk Oblast",
+    "iso": "RU-CHE",
+    "capital": "Chelyabinsk",
+    "population": 3385124,
+    "area": 87900,
+    "wikipediaTitle": "Chelyabinsk Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Chelyabinsk Oblast",
+      "summary": "Chelyabinsk Oblast is a federal subject of Russia in the Ural Mountains region, on the border of Europe and Asia. Its administrative center is the city of Chelyabinsk.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Chelyabinsk_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-che.svg",
+    "established": "1934",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q7984",
+    "name": "Chukotka Autonomous Okrug",
+    "iso": "RU-CHU",
+    "capital": "Anadyr",
+    "population": 47778,
+    "area": 721481,
+    "wikipediaTitle": "Chukotka Autonomous Okrug",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Chukotka Autonomous Okrug",
+      "summary": "Chukotka, officially the Chukotka Autonomous Okrug, is the easternmost federal subject of Russia. It is an autonomous okrug situated in the Russian Far East. It shares a border with the Sakha Republic to the west, Magadan Oblast to the south-west, and Kamchatka Krai to the south, as well as a maritime border on the Bering Strait with the U.S. state of Alaska to the east. Anadyr is the largest town and the capital, and the easternmost settlement to have town status in Russia. It is the closest point from Russia to the United States, measuring at 88.51 kilometres or 55 miles.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Chukotka_Autonomous_Okrug"
+    },
+    "emblemUrl": "/emblems/ru-chu.svg",
+    "established": "1930",
+    "highestPoint": "Iskhodnaya (1,843 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
     "wikiId": "Q144709",
     "name": "Crimea",
     "iso": "RU-CRI",
@@ -1020,7 +1180,7 @@
       "summary": "Crimea, or the Crimean Peninsula, historically also known as the Tauric Chersonese, is a major peninsula in the north of the Black Sea.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Crimea_(disambiguation)"
     },
-    "emblemUrl": null,
+    "emblemUrl": "/emblems/ru-cri.svg",
     "established": "1991",
     "highestPoint": "Roman-Kosh (1,545 m)",
     "namedAfter": null
@@ -1083,6 +1243,66 @@
     "namedAfter": null
   },
   {
+    "wikiId": "Q6585",
+    "name": "Irkutsk Oblast",
+    "iso": "RU-IRK",
+    "capital": "Irkutsk",
+    "population": 2322292,
+    "area": 774846,
+    "wikipediaTitle": "Irkutsk Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Irkutsk Oblast",
+      "summary": "Irkutsk Oblast is a federal subject of Russia, located in southeastern Siberia in the basins of the Angara, Lena, and Nizhnyaya Tunguska Rivers. The administrative center is the city of Irkutsk. It had a population of 2,370,102 at the 2021 Census.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Irkutsk_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-irk.svg",
+    "established": "1937",
+    "highestPoint": "Pik Martena (2,988 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q2654",
+    "name": "Ivanovo Oblast",
+    "iso": "RU-IVA",
+    "capital": "Ivanovo",
+    "population": 905900,
+    "area": 23900,
+    "wikipediaTitle": "Ivanovo Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Ivanovo Oblast",
+      "summary": "Ivanovo Oblast is a federal subject of Russia. It had a population of 927,828 as of the 2021 Russian Census.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Ivanovo_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-iva.svg",
+    "established": "1936",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q7948",
+    "name": "Kamchatka Krai",
+    "iso": "RU-KAM",
+    "capital": "Petropavlovsk-Kamchatsky",
+    "population": 288947,
+    "area": 472300,
+    "wikipediaTitle": "Kamchatka Krai",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Kamchatka Krai",
+      "summary": "Kamchatka Krai is a federal subject of Russia, situated in the Russian Far East. It is administratively part of the Far Eastern Federal District. Its administrative center and largest city is Petropavlovsk-Kamchatsky, home to over half of its population of 291,705.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kamchatka_Krai"
+    },
+    "emblemUrl": "/emblems/ru-kam.svg",
+    "established": "2007",
+    "highestPoint": "Klyuchevskaya Sopka (4,800 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
     "wikiId": "Q5267",
     "name": "Kabardino-Balkaria",
     "iso": "RU-KB",
@@ -1119,6 +1339,146 @@
     "established": "1992",
     "highestPoint": "Mount Elbrus (5,642 m)",
     "namedAfter": null
+  },
+  {
+    "wikiId": "Q3680",
+    "name": "Krasnodar Krai",
+    "iso": "RU-KDA",
+    "capital": "Krasnodar",
+    "population": 5842238,
+    "area": 75485,
+    "wikipediaTitle": "Krasnodar Krai",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Krasnodar Krai",
+      "summary": "Krasnodar Krai is a federal subject of Russia, located in the North Caucasus region in Southern Russia and is administratively a part of the Southern Federal District. Its administrative center is the city of Krasnodar. The third most populous federal subject in Russia, it had a population of 5,838,273 as of the 2021 Census.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Krasnodar_Krai"
+    },
+    "emblemUrl": "/emblems/ru-kda.svg",
+    "established": "1937",
+    "highestPoint": "Tsakhvoa (3,346 m)",
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q6076",
+    "name": "Kemerovo Oblast",
+    "iso": "RU-KEM",
+    "capital": "Kemerovo",
+    "population": 2527219,
+    "area": 95500,
+    "wikipediaTitle": "Kemerovo Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Kemerovo Oblast",
+      "summary": "Kemerovo Oblast, also known as Kuzbass, after the Kuznetsk Basin, is a federal subject of Russia. Kemerovo is the administrative center and largest city of the oblast. Kemerovo Oblast is one of Russia's most urbanized regions, with over 70% of the population living in its nine principal cities. Its ethnic composition is predominantly Russian, but native Shors and Kalmak Siberian Tatars also live in the oblast, along with Ukrainians, Volga Tatars, and Chuvash. The population recorded during the 2021 Census was 2,600,923.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kemerovo_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-kem.svg",
+    "established": "1943",
+    "highestPoint": "Verkhny Zub (2,178 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q1749",
+    "name": "Kaliningrad Oblast",
+    "iso": "RU-KGD",
+    "capital": "Kaliningrad",
+    "population": 994599,
+    "area": 15100,
+    "wikipediaTitle": "Kaliningrad Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Kaliningrad Oblast",
+      "summary": "Kaliningrad Oblast is the westernmost federal subject of Russia. It is a semi-exclave on the Baltic Sea within the historical Baltic region of Prussia, bordered by Poland to the south, Lithuania to the north and east, and the Baltic Sea to the west. The largest city and administrative centre is the city of Kaliningrad. The port city of Baltiysk is Russia's only port on the Baltic Sea that remains ice-free in winter. Kaliningrad Oblast had a population of roughly one million in the 2021 Russian census. It has an area of 15,125 square kilometres (5,840 sq mi).",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kaliningrad_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-kgd.svg",
+    "established": "1946",
+    "highestPoint": "Gora Dozor (231 m)",
+    "namedAfter": "Mikhail Ivanovich Kalinin",
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q5741",
+    "name": "Kurgan Oblast",
+    "iso": "RU-KGN",
+    "capital": "Kurgan",
+    "population": 744465,
+    "area": 71488,
+    "wikipediaTitle": "Kurgan Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Kurgan Oblast",
+      "summary": "Kurgan Oblast is a federal subject of Russia. Its administrative center is the city of Kurgan. According to the 2021 Census, the population was 776,661, down from 910,807 recorded in the 2010 Census.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kurgan_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-kgn.svg",
+    "established": "1943",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q7788",
+    "name": "Khabarovsk Krai",
+    "iso": "RU-KHA",
+    "capital": "Khabarovsk",
+    "population": 1273488,
+    "area": 787633,
+    "wikipediaTitle": "Khabarovsk Krai",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Khabarovsk Krai",
+      "summary": "Khabarovsk Krai is a federal subject of Russia. It is located in the Russian Far East and is administratively part of the Far Eastern Federal District. The administrative centre of the krai is the city of Khabarovsk, which is home to roughly half of the krai's population and the largest city in the Russian Far East. Khabarovsk Krai is the third-largest federal subject by area, and had a population of 1,343,869 as of 2010.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Khabarovsk_Krai"
+    },
+    "emblemUrl": "/emblems/ru-kha.svg",
+    "established": "1938",
+    "highestPoint": "Berill Mountain (2,933 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q6320",
+    "name": "Khanty-Mansi Autonomous Okrug",
+    "iso": "RU-KHM",
+    "capital": "Khanty-Mansiysk",
+    "population": 1759356,
+    "area": 534500,
+    "wikipediaTitle": "Khanty-Mansi Autonomous Okrug",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Khanty-Mansi Autonomous Okrug",
+      "summary": "Khanty-Mansi Autonomous Okrug–Yugra, also known as Khanty-Mansia (Khantia-Mansia), is a federal subject of Russia. It has a population of 1,532,243 as of the 2010 Census. Its administrative center is Khanty-Mansiysk.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Khanty-Mansi_Autonomous_Okrug"
+    },
+    "emblemUrl": "/emblems/ru-khm.svg",
+    "established": "1930",
+    "highestPoint": "Mount Narodnaya (1,894 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q5387",
+    "name": "Kirov Oblast",
+    "iso": "RU-KIR",
+    "capital": "Kirov",
+    "population": 1129935,
+    "area": 120800,
+    "wikipediaTitle": "Kirov Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Kirov Oblast",
+      "summary": "Kirov Oblast is a federal subject of Russia located in Eastern Europe. Its administrative centre is the city of Kirov. As of the 2021 census, the population is 1,153,680.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kirov_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-kir.svg",
+    "established": "1936",
+    "highestPoint": null,
+    "namedAfter": "Sergei Kirov",
+    "inferredRegion": "Europe"
   },
   {
     "wikiId": "Q6543",
@@ -1159,8 +1519,28 @@
     "namedAfter": "Kalmyks"
   },
   {
+    "wikiId": "Q2842",
+    "name": "Kaluga Oblast",
+    "iso": "RU-KLU",
+    "capital": "Kaluga",
+    "population": 1000980,
+    "area": 29800,
+    "wikipediaTitle": "Kaluga Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Kaluga Oblast",
+      "summary": "Kaluga Oblast is a federal subject of Russia. Its administrative center is the city of Kaluga. The 2021 Russian Census found a population of 1,069,904.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kaluga_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-klu.svg",
+    "established": "1944",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
     "wikiId": "Q2073",
-    "name": "Komi",
+    "name": "Komi Republic",
     "iso": "RU-KO",
     "capital": "Syktyvkar",
     "population": 714785,
@@ -1176,6 +1556,26 @@
     "established": "1991",
     "highestPoint": "Mount Karpinsky (1,803 m)",
     "namedAfter": null
+  },
+  {
+    "wikiId": "Q2596",
+    "name": "Kostroma Oblast",
+    "iso": "RU-KOS",
+    "capital": "Kostroma",
+    "population": 566266,
+    "area": 60200,
+    "wikipediaTitle": "Kostroma Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Kostroma Oblast",
+      "summary": "Kostroma Oblast is a federal subject of Russia. Its administrative center is the city of Kostroma and its population as of the 2021 Census is 580,976. It was formed on August 13, 1944 on the territory detached from neighboring Yaroslavl Oblast.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kostroma_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-kos.svg",
+    "established": "1944",
+    "highestPoint": "Sondoba (293 m)",
+    "namedAfter": "Kostroma",
+    "inferredRegion": "Europe"
   },
   {
     "wikiId": "Q1914",
@@ -1195,6 +1595,106 @@
     "established": "1991",
     "highestPoint": "Nuorunen (577 m)",
     "namedAfter": null
+  },
+  {
+    "wikiId": "Q3178",
+    "name": "Kursk Oblast",
+    "iso": "RU-KRS",
+    "capital": "Kursk",
+    "population": 1049783,
+    "area": 29800,
+    "wikipediaTitle": "Kursk Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Kursk Oblast",
+      "summary": "Kursk Oblast is a federal subject of Russia. Its administrative center is the city of Kursk. As of the 2021 census, Kursk Oblast had a population of 1,082,458.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kursk_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-krs.svg",
+    "established": "1934",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q6563",
+    "name": "Krasnoyarsk Krai",
+    "iso": "RU-KYA",
+    "capital": "Krasnoyarsk",
+    "population": 2837988,
+    "area": 2339700,
+    "wikipediaTitle": "Krasnoyarsk Krai",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Krasnoyarsk Krai",
+      "summary": "Krasnoyarsk Krai is a federal subject of Russia located in Siberia. Its administrative center is the city of Krasnoyarsk, the second-largest city in Siberia after Novosibirsk. Comprising half of the Siberian Federal District, Krasnoyarsk Krai is the largest krai in Russia, the second-largest federal subject in the country after neighboring Sakha, and the third-largest country subdivision by area in the world. The krai covers an area of 2,366,797 square kilometers (913,825 sq mi), constituting roughly 13% of Russia's total area. Krasnoyarsk Krai has a population of 2,856,971 as of the 2021 census.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Krasnoyarsk_Krai"
+    },
+    "emblemUrl": "/emblems/ru-kya.svg",
+    "established": "1934",
+    "highestPoint": "Grandiozny Peak (2,922 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q2191",
+    "name": "Leningrad Oblast",
+    "iso": "RU-LEN",
+    "capital": "Gatchina",
+    "population": 2035762,
+    "area": 83908,
+    "wikipediaTitle": "Leningrad Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Leningrad Oblast",
+      "summary": "Leningrad Oblast is a federal subject of Russia. The oblast has an area of 84,500 square kilometres (32,600 sq mi) and a population of 2,000,997 ; up from 1,716,868 recorded in the 2010 Census. Leningrad Oblast is highly industrialized. Its administrative center and largest city is Gatchina.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Leningrad_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-len.svg",
+    "established": "1927",
+    "highestPoint": "Gapselga (291 m)",
+    "namedAfter": "Leningrad",
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q3510",
+    "name": "Lipetsk Oblast",
+    "iso": "RU-LIP",
+    "capital": "Lipetsk",
+    "population": 1125921,
+    "area": 24100,
+    "wikipediaTitle": "Lipetsk Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Lipetsk Oblast",
+      "summary": "Lipetsk Oblast is a federal subject of Russia. Its administrative center is the city of Lipetsk. As of the 2021 Census, its population was 1,143,224.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Lipetsk_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-lip.svg",
+    "established": "1954",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q7971",
+    "name": "Magadan Oblast",
+    "iso": "RU-MAG",
+    "capital": "Magadan",
+    "population": 133387,
+    "area": 465464,
+    "wikipediaTitle": "Magadan Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Magadan Oblast",
+      "summary": "Magadan Oblast is a federal subject of Russia. It is geographically located in the Far East region of the country, and is administratively part of the Far Eastern Federal District. Magadan Oblast has a population of 136,085, making it the least populated oblast and the third-least populated federal subject in Russia.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Magadan_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-mag.svg",
+    "established": "1953",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Asia"
   },
   {
     "wikiId": "Q5446",
@@ -1235,6 +1735,326 @@
     "namedAfter": null
   },
   {
+    "wikiId": "Q1697",
+    "name": "Moscow Oblast",
+    "iso": "RU-MOS",
+    "capital": "Krasnogorsk",
+    "population": 7708499,
+    "area": 45800,
+    "wikipediaTitle": "Moscow Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Moscow Oblast",
+      "summary": "Moscow Oblast, informally known as Podmoskovye is a federal subject of Russia. With a population of 8,524,665 living in an area of 44,300 square kilometers (17,100 sq mi), it is one of the most densely populated regions in the country and is the second most populous federal subject. The oblast has no official administrative center; its public authorities are located in Moscow and Krasnogorsk, and also across other locations in the oblast.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Moscow_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-mos.svg",
+    "established": "1929",
+    "highestPoint": "Zamri-Gora (310 m)",
+    "namedAfter": "Moscow",
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q649",
+    "name": "Moscow",
+    "iso": "RU-MOW",
+    "capital": "Moscow",
+    "population": 13274285,
+    "area": 2562,
+    "wikipediaTitle": "Moscow",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Moscow",
+      "summary": "Moscow is the capital and largest city of Russia, standing on the Moskva River in Central Russia. It has a population estimated at over 13 million residents within the city limits, over 19.1 million residents in the urban area, and over 21.5 million residents in its metropolitan area. The city covers an area of 2,511 square kilometers (970 mi2), while the urban area covers 5,891 square kilometers (2,275 mi2), and the metropolitan area covers over 26,000 square kilometers (10,000 mi2). Moscow is among the world's largest cities, being the most populous city entirely in Europe, the largest urban and metropolitan area in Europe, and the largest city by land area on the European continent.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Moscow"
+    },
+    "emblemUrl": "/emblems/ru-mow.svg",
+    "established": "NaN",
+    "highestPoint": null,
+    "namedAfter": "Moskva River",
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q1759",
+    "name": "Murmansk Oblast",
+    "iso": "RU-MUR",
+    "capital": "Murmansk",
+    "population": 656438,
+    "area": 144902,
+    "wikipediaTitle": "Murmansk Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Murmansk Oblast",
+      "summary": "Murmansk Oblast is a federal subject of Russia, located in the northwestern part of the country, with a total land area of 144,900 square kilometres (55,900 sq mi). Its only internal border is the Republic of Karelia to the south, and it is bordered internationally by Finland to the west and Norway to the northwest and the Barents Sea lies to the north and White Sea lies to the south and east. Its administrative center is the city of Murmansk. As of the 2010 Census, its population was 795,409; however, at the 2021 Census, the population had declined to 667,744.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Murmansk_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-mur.svg",
+    "established": "1938",
+    "highestPoint": "Yudychvumchorr (1,201 m)",
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q2164",
+    "name": "Nenets Autonomous Okrug",
+    "iso": "RU-NEN",
+    "capital": "Naryan-Mar",
+    "population": 42224,
+    "area": 176700,
+    "wikipediaTitle": "Nenets Autonomous Okrug",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Nenets Autonomous Okrug",
+      "summary": "The Nenets Autonomous Okrug, also known as Nenetsia, is a federal subject of Russia and an autonomous okrug of Arkhangelsk Oblast. Its administrative center is the town of Naryan-Mar. It has an area of 176,700 square kilometers (68,200 sq mi) and a population of 42,090 as of the 2010 Census, making it the least populous federal subject. It is the only federal subject of Russia that is divided into only one district.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Nenets_Autonomous_Okrug"
+    },
+    "emblemUrl": "/emblems/ru-nen.svg",
+    "established": "1929",
+    "highestPoint": "Gora Moreiz (423 m)",
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q2240",
+    "name": "Novgorod Oblast",
+    "iso": "RU-NGR",
+    "capital": "Veliky Novgorod",
+    "population": 566960,
+    "area": 54501,
+    "wikipediaTitle": "Novgorod Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Novgorod Oblast",
+      "summary": "Novgorod Oblast is a federal subject of Russia. Its administrative center is the city of Veliky Novgorod. Some of the oldest Russian cities, including Veliky Novgorod and Staraya Russa, are located in the oblast. The historic monuments of Veliky Novgorod and surroundings have been declared a UNESCO World Heritage Site. Population: 583,387.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Novgorod_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-ngr.svg",
+    "established": "1944",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q2246",
+    "name": "Nizhny Novgorod Oblast",
+    "iso": "RU-NIZ",
+    "capital": "Nizhny Novgorod",
+    "population": 3039421,
+    "area": 76900,
+    "wikipediaTitle": "Nizhny Novgorod Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Nizhny Novgorod Oblast",
+      "summary": "Nizhny Novgorod Oblast is a federal subject of Russia. Its administrative center is the city of Nizhny Novgorod. It has a population of 3,119,115 as of the 2021 Census. From 1932 to 1990, it was known as Gorky Oblast.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Nizhny_Novgorod_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-niz.svg",
+    "established": "1929",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q5851",
+    "name": "Novosibirsk Oblast",
+    "iso": "RU-NVS",
+    "capital": "Novosibirsk",
+    "population": 2786540,
+    "area": 178200,
+    "wikipediaTitle": "Novosibirsk Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Novosibirsk Oblast",
+      "summary": "Novosibirsk Oblast is a federal subject of Russia located in southwestern Siberia. Its administrative and economic center is the city of Novosibirsk, the third-largest city in the country. As of the 2021 Census, Novosibirsk Oblast had a population of 2,797,176 with the majority, 1.63 million, lives in Novosibirsk.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Novosibirsk_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-nvs.svg",
+    "established": "1937",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q5835",
+    "name": "Omsk Oblast",
+    "iso": "RU-OMS",
+    "capital": "Omsk",
+    "population": 1805806,
+    "area": 139700,
+    "wikipediaTitle": "Omsk Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Omsk Oblast",
+      "summary": "Omsk Oblast is a federal subject of Russia, located in southwestern Siberia. The oblast has an area of 139,700 square kilometers (53,900 sq mi). Its population is 1,977,665 with the majority, 1.12 million, living in Omsk, the administrative center.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Omsk_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-oms.svg",
+    "established": "1934",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q5338",
+    "name": "Orenburg Oblast",
+    "iso": "RU-ORE",
+    "capital": "Orenburg",
+    "population": 1828655,
+    "area": 123702,
+    "wikipediaTitle": "Orenburg Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Orenburg Oblast",
+      "summary": "Orenburg Oblast is a federal subject of Russia, mainly located in Eastern Europe, with some land in the southern and eastern portions of the oblast falling within Asia. Its administrative center is the city of Orenburg. From 1938 to 1957, it bore the name Chkalov Oblast in honor of Valery Chkalov. As of the 2021 Census, the oblast had a population of 1,862,767, down from 2,033,072 in the 2010 Census.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Orenburg_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-ore.svg",
+    "established": "1934",
+    "highestPoint": null,
+    "namedAfter": "Valery Chkalov",
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q3129",
+    "name": "Oryol Oblast",
+    "iso": "RU-ORL",
+    "capital": "Oryol",
+    "population": 692486,
+    "area": 24652,
+    "wikipediaTitle": "Oryol Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Oryol Oblast",
+      "summary": "Oryol Oblast, also known as Orlovshchina, is a federal subject of Russia. Its administrative center is the city of Oryol. As of the 2021 census, Oryol Oblast had a population of 713,374.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Oryol_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-orl.svg",
+    "established": "1937",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q5400",
+    "name": "Perm Krai",
+    "iso": "RU-PER",
+    "capital": "Perm",
+    "population": 2483633,
+    "area": 160236,
+    "wikipediaTitle": "Perm Krai",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Perm Krai",
+      "summary": "Perm Krai is a federal subject of Russia, located in Eastern Europe. Its administrative center is Perm. The population of the krai was 2,532,405.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Perm_Krai"
+    },
+    "emblemUrl": "/emblems/ru-per.svg",
+    "established": "2005",
+    "highestPoint": "Tulymsky Kamen (1,496 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q5545",
+    "name": "Penza Oblast",
+    "iso": "RU-PNZ",
+    "capital": "Penza",
+    "population": 1213113,
+    "area": 43200,
+    "wikipediaTitle": "Penza Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Penza Oblast",
+      "summary": "Penza Oblast is a federal subject of Russia. Its administrative center is the city of Penza. As of the 2010 Census, its population was 1,266,348. It was formed in 1939 on the territory detached from neighboring Tambov Oblast.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Penza_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-pnz.svg",
+    "established": "1939",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q4341",
+    "name": "Primorsky Krai",
+    "iso": "RU-PRI",
+    "capital": "Vladivostok",
+    "population": 1799659,
+    "area": 164673,
+    "wikipediaTitle": "Primorsky Krai",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Primorsky Krai",
+      "summary": "Primorsky Krai, informally known as Primorye, is a federal subject of Russia, part of the Far Eastern Federal District in the Russian Far East. The city of Vladivostok on the southern coast of the krai is its administrative center, and the second largest city in the Russian Far East, behind Khabarovsk in the neighbouring Khabarovsk Krai. Primorsky Krai has the largest economy among the federal subjects in the Russian Far East, and a population of 1,845,165 as of the 2021 Census.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Primorsky_Krai"
+    },
+    "emblemUrl": "/emblems/ru-pri.svg",
+    "established": "1938",
+    "highestPoint": "Anik Mountain (1,933 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q2218",
+    "name": "Pskov Region",
+    "iso": "RU-PSK",
+    "capital": "Pskov",
+    "population": 574480,
+    "area": 55300,
+    "wikipediaTitle": "Pskov Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Pskov Oblast",
+      "summary": "Pskov Oblast is a federal subject of Russia, located in the west of the country. Its administrative center is the city of Pskov. As of the 2021 Census, its population was 599,084.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Pskov_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-psk.svg",
+    "established": "1944",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q3573",
+    "name": "Rostov Oblast",
+    "iso": "RU-ROS",
+    "capital": "Rostov-on-Don",
+    "population": 4137335,
+    "area": 101800,
+    "wikipediaTitle": "Rostov Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Rostov Oblast",
+      "summary": "Rostov Oblast is a federal subject of Russia, located in the Southern Federal District. The oblast has an area of 100,967 square kilometers (38,984 sq mi) and a population of 4,200,729, making it the sixth most populous federal subject in Russia. Its administrative center is the city of Rostov-on-Don, which also became the administrative center of the Southern Federal District in 2002.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Rostov_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-ros.svg",
+    "established": "1937",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q2753",
+    "name": "Ryazan Oblast",
+    "iso": "RU-RYA",
+    "capital": "Ryazan",
+    "population": 1043231,
+    "area": 39600,
+    "wikipediaTitle": "Ryazan Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Ryazan Oblast",
+      "summary": "Ryazan Oblast is a federal subject of Russia. Its administrative center is the city of Ryazan, which is also the oblast's largest city.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Ryazan_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-rya.svg",
+    "established": "1937",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
     "wikiId": "Q6605",
     "name": "Sakha",
     "iso": "RU-SA",
@@ -1252,6 +2072,66 @@
     "established": "1990",
     "highestPoint": "Peak Pobeda, Sakha (3,003 m)",
     "namedAfter": null
+  },
+  {
+    "wikiId": "Q7797",
+    "name": "Sakhalin Oblast",
+    "iso": "RU-SAK",
+    "capital": "Yuzhno-Sakhalinsk",
+    "population": 457590,
+    "area": 87101,
+    "wikipediaTitle": "Sakhalin Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Sakhalin Oblast",
+      "summary": "Sakhalin Oblast is a federal subject of Russia comprising the island of Sakhalin and the Kuril Islands in the Russian Far East. The oblast has an area of 87,100 square kilometers (33,600 sq mi). Its administrative center and largest city is Yuzhno-Sakhalinsk. As of the 2021 Census, the oblast has a population of 466,609.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Sakhalin_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-sak.svg",
+    "established": "1932",
+    "highestPoint": "Alaid (2,285 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q1727",
+    "name": "Samara Oblast",
+    "iso": "RU-SAM",
+    "capital": "Samara",
+    "population": 3112566,
+    "area": 53600,
+    "wikipediaTitle": "Samara Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Samara Oblast",
+      "summary": "Samara Oblast is a federal subject of Russia. Its administrative center is the city of Samara. From 1935 to 1991, it was known as Kuybyshev Oblast. As of the 2021 Census, the population of the oblast was 3,172,925.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Samara_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-sam.svg",
+    "established": "1936",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q5334",
+    "name": "Saratov Oblast",
+    "iso": "RU-SAR",
+    "capital": "Saratov",
+    "population": 2369405,
+    "area": 100830,
+    "wikipediaTitle": "Saratov Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Saratov Oblast",
+      "summary": "Saratov Oblast is a federal subject of Russia, located in the Volga Federal District. Its administrative center is the city of Saratov. As of the 2021 Census, its population was 2,442,575.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Saratov_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-sar.svg",
+    "established": "1936",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
   },
   {
     "wikiId": "Q5237",
@@ -1273,6 +2153,106 @@
     "namedAfter": null
   },
   {
+    "wikiId": "Q7525",
+    "name": "Sevastopol",
+    "iso": "RU-SEV",
+    "capital": "Sevastopol",
+    "population": 547820,
+    "area": 864,
+    "wikipediaTitle": "Sevastopol",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Sevastopol",
+      "summary": "Sevastopol, sometimes written Sebastopol, is the largest city in Crimea and a major port on the Black Sea. Due to its strategic location and the navigability of the city's harbours, Sevastopol has been an important port and naval base throughout its history. Since the city's founding in 1783, it has been a major base for Russia's Black Sea Fleet. During the Cold War of the 20th century, it was a closed city. The total administrative area is 864 square kilometres (334 sq mi) and includes a significant amount of rural land. The urban population, largely concentrated around Sevastopol Bay, is 479,394, and the total population is 547,820.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Sevastopol"
+    },
+    "emblemUrl": "/emblems/ru-sev.svg",
+    "established": null,
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q2347",
+    "name": "Smolensk Oblast",
+    "iso": "RU-SMO",
+    "capital": "Smolensk",
+    "population": 863987,
+    "area": 49779,
+    "wikipediaTitle": "Smolensk Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Smolensk Oblast",
+      "summary": "Smolensk Oblast, informally also called Smolenshchina, is a federal subject of Russia. Its administrative centre is the city of Smolensk. As of the 2021 Census, its population was 888,421.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Smolensk_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-smo.svg",
+    "established": "1937",
+    "highestPoint": "Maryino (320 m)",
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q656",
+    "name": "Saint Petersburg",
+    "iso": "RU-SPE",
+    "capital": "Saint Petersburg",
+    "population": 5652922,
+    "area": 1439,
+    "wikipediaTitle": "Saint Petersburg",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Saint Petersburg",
+      "summary": "Saint Petersburg, formerly known as Petrograd (Петроград) and later Leningrad (Ленинград), is the second-largest city in Russia, after Moscow, the nation's capital. Situated on the Neva River at the head of the Gulf of Finland on the Baltic Sea, its area of \n1,439 square kilometers (556 sq mi) renders it the smallest administrative division of Russia by area. The city had a population of 5,601,911 residents as of 2021, with more than 6.4 million people living in the metropolitan area. Saint Petersburg is the fourth-most populous city in Europe, the most populous city on the Baltic Sea, and the world's northernmost city of more than 1 million residents. As the former capital of the Russian Empire, and a historically strategic Baltic port, it is governed as a federal city.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Saint_Petersburg"
+    },
+    "emblemUrl": "/emblems/ru-spe.svg",
+    "established": "1703",
+    "highestPoint": "Orekhovaya Mountain (176 m)",
+    "namedAfter": "Saint Peter",
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q5207",
+    "name": "Stavropol Krai",
+    "iso": "RU-STA",
+    "capital": "Stavropol",
+    "population": 2884363,
+    "area": 66160,
+    "wikipediaTitle": "Stavropol Krai",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Stavropol Krai",
+      "summary": "Stavropol Krai, also known as Stavropolye, is a federal subject of Russia. It is geographically located in the North Caucasus region in Southern Russia, and is administratively part of the North Caucasian Federal District. Stavropol Krai has a population of 2,907,593, according to the 2021 Census.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Stavropol_Krai"
+    },
+    "emblemUrl": "/emblems/ru-sta.svg",
+    "established": "1924",
+    "highestPoint": null,
+    "namedAfter": "Sergo Ordzhonikidze",
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q5462",
+    "name": "Sverdlovsk Oblast",
+    "iso": "RU-SVE",
+    "capital": "Yekaterinburg",
+    "population": 4221452,
+    "area": 194307,
+    "wikipediaTitle": "Sverdlovsk Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Sverdlovsk Oblast",
+      "summary": "Sverdlovsk Oblast is a federal subject of Russia located in the Ural Federal District. Its administrative center is the city of Yekaterinburg, formerly known as Sverdlovsk. Its population is 4,268,998.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Sverdlovsk_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-sve.svg",
+    "established": "1934",
+    "highestPoint": "Konzhakovsky Kamen (1,569 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
     "wikiId": "Q5481",
     "name": "Tatarstan",
     "iso": "RU-TA",
@@ -1290,6 +2270,86 @@
     "established": "1990",
     "highestPoint": null,
     "namedAfter": "-stan"
+  },
+  {
+    "wikiId": "Q3550",
+    "name": "Tambov Oblast",
+    "iso": "RU-TAM",
+    "capital": "Tambov",
+    "population": 956292,
+    "area": 34300,
+    "wikipediaTitle": "Tambov Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Tambov Oblast",
+      "summary": "Tambov Oblast is a federal subject of Russia. Its administrative center is the city of Tambov. As of the 2010 Census, its population was 1,091,994.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Tambov_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-tam.svg",
+    "established": "1937",
+    "highestPoint": null,
+    "namedAfter": "Tambov",
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q5884",
+    "name": "Tomsk Oblast",
+    "iso": "RU-TOM",
+    "capital": "Tomsk",
+    "population": 1039728,
+    "area": 316900,
+    "wikipediaTitle": "Tomsk Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Tomsk Oblast",
+      "summary": "Tomsk Oblast is a federal subject of Russia. It lies in the southeastern West Siberian Plain, in the southwest of the Siberian Federal District. Its administrative center is the city of Tomsk. Population: 1,047,394.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Tomsk_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-tom.svg",
+    "established": "1944",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q2792",
+    "name": "Tula Oblast",
+    "iso": "RU-TUL",
+    "capital": "Tula",
+    "population": 1471140,
+    "area": 25700,
+    "wikipediaTitle": "Tula Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Tula Oblast",
+      "summary": "Tula Oblast is a federal subject of Russia. It is geographically located in European Russia and is administratively part of the Central Federal District, covering an area of 25,700 square kilometers (9,900 sq mi). It has a population of 1,553,925 (2010 census). Tula is the largest city and the administrative center of the oblast.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Tula_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-tul.svg",
+    "established": "1937",
+    "highestPoint": "Raevo (293 m)",
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q2292",
+    "name": "Tver Oblast",
+    "iso": "RU-TVE",
+    "capital": "Tver",
+    "population": 1190574,
+    "area": 84100,
+    "wikipediaTitle": "Tver Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Tver Oblast",
+      "summary": "Tver Oblast is a federal subject of Russia. Its administrative center is the city of Tver. From 1935 to 1990, it was known as Kalinin Oblast. Population: 1,353,392 (2010 census).",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Tver_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-tve.svg",
+    "established": "1935",
+    "highestPoint": "Makushka Valdaya (347 m)",
+    "namedAfter": null,
+    "inferredRegion": "Europe"
   },
   {
     "wikiId": "Q960",
@@ -1311,6 +2371,26 @@
     "namedAfter": null
   },
   {
+    "wikiId": "Q5824",
+    "name": "Tyumen Oblast",
+    "iso": "RU-TYU",
+    "capital": "Tyumen",
+    "population": 3890800,
+    "area": 1464200,
+    "wikipediaTitle": "Tyumen Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Tyumen Oblast",
+      "summary": "Tyumen Oblast is a federal subject of Russia. It is located in Western Siberia, and is administratively part of the Ural Federal District. The oblast has administrative jurisdiction over two autonomous okrugs: the Khanty-Mansi and Yamalo-Nenets Autonomous Okrug. The oblast, including its autonomous okrugs, is the third-largest federal subject by area, and has a population of 3,395,755 (2010).",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Tyumen_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-tyu.svg",
+    "established": "1944",
+    "highestPoint": "Mount Narodnaya (1,894 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
     "wikiId": "Q5422",
     "name": "Udmurtia",
     "iso": "RU-UD",
@@ -1328,6 +2408,186 @@
     "established": "1991",
     "highestPoint": null,
     "namedAfter": null
+  },
+  {
+    "wikiId": "Q5634",
+    "name": "Ulyanovsk Oblast",
+    "iso": "RU-ULY",
+    "capital": "Ulyanovsk",
+    "population": 1172782,
+    "area": 37300,
+    "wikipediaTitle": "Ulyanovsk Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Ulyanovsk Oblast",
+      "summary": "Ulyanovsk Oblast is a federal subject of Russia. It is located in the Volga Federal District. Its administrative center is the city of Ulyanovsk. It has a population of 1,292,799.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Ulyanovsk_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-uly.svg",
+    "established": "1943",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q3819",
+    "name": "Volgograd Oblast",
+    "iso": "RU-VGG",
+    "capital": "Volgograd",
+    "population": 2434046,
+    "area": 113900,
+    "wikipediaTitle": "Volgograd Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Volgograd Oblast",
+      "summary": "Volgograd Oblast is a federal subject (oblast) of Russia, located in the Lower Volga region of Southern Russia. Its administrative center is Volgograd. The population of the oblast was 2,500,781 in the 2021 Census.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Volgograd_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-vgg.svg",
+    "established": "1936",
+    "highestPoint": "Serpokrylovskaya (359 m)",
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q2702",
+    "name": "Vladimir Oblast",
+    "iso": "RU-VLA",
+    "capital": "Vladimir",
+    "population": 1309942,
+    "area": 29000,
+    "wikipediaTitle": "Vladimir Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Vladimir Oblast",
+      "summary": "Vladimir Oblast is a federal subject of Russia. Its administrative center is the city of Vladimir, which is located 190 kilometers (120 mi) east of Moscow. As of the 2010 Census, the oblast's population was 1,443,693.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Vladimir_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-vla.svg",
+    "established": "1944",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q2015",
+    "name": "Vologda Oblast",
+    "iso": "RU-VLG",
+    "capital": "Vologda",
+    "population": 1160445,
+    "area": 145700,
+    "wikipediaTitle": "Vologda Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Vologda Oblast",
+      "summary": "Vologda Oblast is a federal subject of Russia. Its administrative center is Vologda. The oblast has a population of 1,202,444. The largest city is Cherepovets, the home of the Severstal metallurgical plant, the largest industrial enterprise in the oblast.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Vologda_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-vlg.svg",
+    "established": "1937",
+    "highestPoint": "Malgora (304 m)",
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q3447",
+    "name": "Voronezh Oblast",
+    "iso": "RU-VOR",
+    "capital": "Voronezh",
+    "population": 2260045,
+    "area": 52400,
+    "wikipediaTitle": "Voronezh Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Voronezh Oblast",
+      "summary": "Voronezh Oblast is a federal subject of Russia. Its administrative center is the city of Voronezh. Its population was 2,308,792 as of the 2021 Census.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Voronezh_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-vor.svg",
+    "established": "1934",
+    "highestPoint": null,
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q6407",
+    "name": "Yamalo-Nenets Autonomous Okrug",
+    "iso": "RU-YAN",
+    "capital": "Salekhard",
+    "population": 515960,
+    "area": 683976,
+    "wikipediaTitle": "Yamalo-Nenets Autonomous Okrug",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Yamalo-Nenets Autonomous Okrug",
+      "summary": "The Yamalo-Nenets Autonomous Okrug, also known as Yamalia is a federal subject of Russia and an autonomous okrug of Tyumen Oblast. Its administrative center is the town of Salekhard, and its largest city is Novy Urengoy. The 2021 Russian Census recorded its population as 510,490.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Yamalo-Nenets_Autonomous_Okrug"
+    },
+    "emblemUrl": "/emblems/ru-yan.svg",
+    "established": "1930",
+    "highestPoint": "Gora Payer (1,472 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q2448",
+    "name": "Yaroslavl Oblast",
+    "iso": "RU-YAR",
+    "capital": "Yaroslavl",
+    "population": 1187558,
+    "area": 36400,
+    "wikipediaTitle": "Yaroslavl Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Yaroslavl Oblast",
+      "summary": "Yaroslavl Oblast is a federal subject of Russia, which is located in the Central Federal District, surrounded by the Tver, Moscow, Ivanovo, Vladimir, Kostroma, and Vologda oblasts.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Yaroslavl_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-yar.svg",
+    "established": "1936",
+    "highestPoint": "Tarkhov Kholm (292 m)",
+    "namedAfter": null,
+    "inferredRegion": "Europe"
+  },
+  {
+    "wikiId": "Q7730",
+    "name": "Jewish Autonomous Oblast",
+    "iso": "RU-YEV",
+    "capital": "Birobidzhan",
+    "population": 144428,
+    "area": 36271,
+    "wikipediaTitle": "Jewish Autonomous Oblast",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Jewish Autonomous Oblast",
+      "summary": "The Jewish Autonomous Oblast (JAO) is a federal subject of Russia in the far east of the country, bordering Khabarovsk Krai and Amur Oblast in Russia and Heilongjiang province in China. Its administrative center is the town of Birobidzhan.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Jewish_Autonomous_Oblast"
+    },
+    "emblemUrl": "/emblems/ru-yev.svg",
+    "established": "1934",
+    "highestPoint": null,
+    "namedAfter": "autonomous oblast",
+    "inferredRegion": "Asia"
+  },
+  {
+    "wikiId": "Q6838",
+    "name": "Zabaykalsky Krai",
+    "iso": "RU-ZAB",
+    "capital": "Chita",
+    "population": 984395,
+    "area": 431500,
+    "wikipediaTitle": "Zabaykalsky Krai",
+    "parent": "RUS",
+    "wikipedia": {
+      "title": "Zabaykalsky Krai",
+      "summary": "Zabaykalsky Krai is a federal subject of Russia, located in the Russian Far East. Its administrative center is Chita. As of the 2010 Census, the population was 1,107,107.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Zabaykalsky_Krai"
+    },
+    "emblemUrl": "/emblems/ru-zab.svg",
+    "established": "2008",
+    "highestPoint": "Pik BAM (3,073 m)",
+    "namedAfter": null,
+    "inferredRegion": "Asia"
   },
   {
     "wikiId": "Q797",

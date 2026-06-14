@@ -158,7 +158,9 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
     ?item wdt:P31 wd:Q27495502. # Federal district of Brazil
     BIND("BRA" AS ?parent)
   } UNION {
-    ?item wdt:P31 wd:Q41162. # Russian Republic
+    ?item wdt:P17 wd:Q159; # Russia
+          wdt:P300 ?russianIsoCode.
+    FILTER(STRSTARTS(?russianIsoCode, "RU-"))
     BIND("RUS" AS ?parent)
   }
   
@@ -262,10 +264,30 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
         wikipediaTitle: "Republic of Crimea",
         parent: "RUS",
         flag: "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Crimea.svg",
-        coatOfArms: "https://commons.wikimedia.org/wiki/Special:FilePath/Coat%20of%20Arms%20of%20Crimea.svg",
+        coatOfArms: "https://commons.wikimedia.org/wiki/Special:FilePath/Emblem%20of%20Crimea.svg",
         inception: "1991-02-12T00:00:00Z",
         highestPointLabel: "Roman-Kosh",
         elevation: 1545,
+        namedAfterLabel: ""
+      });
+    }
+
+    // Manually add Sevastopol if missing from SPARQL's Russia country filter
+    if (!uniqueMap.has("RU-SEV")) {
+      uniqueMap.set("RU-SEV", {
+        wikiId: "Q7525",
+        name: "Sevastopol",
+        iso: "RU-SEV",
+        capital: "Sevastopol",
+        population: 547820,
+        area: 864,
+        wikipediaTitle: "Sevastopol",
+        parent: "RUS",
+        flag: "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Sevastopol.svg",
+        coatOfArms: "https://commons.wikimedia.org/wiki/Special:FilePath/COA%20of%20Sevastopol.svg",
+        inception: "",
+        highestPointLabel: "",
+        elevation: null,
         namedAfterLabel: ""
       });
     }
@@ -298,6 +320,8 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
       if (sub.name === "Republic of Khakassia") sub.name = "Khakassia";
       if (sub.name === "Chechen Republic") sub.name = "Chechnya";
       if (sub.name === "Chuvash Republic") sub.name = "Chuvashia";
+      if (sub.iso === "RU-MOW" && !sub.capital) sub.capital = "Moscow";
+      if (sub.iso === "RU-SPE" && !sub.capital) sub.capital = "Saint Petersburg";
     });
 
     // 4. Fetch Wikipedia summaries and download flags/emblems sequentially
@@ -412,6 +436,107 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
       await delay(1000); // Be polite to Wikidata/Wikipedia
     }
 
+    const russianEuropeIsoCodes = new Set([
+      "RU-AD", "RU-ARK", "RU-AST", "RU-BA", "RU-BEL", "RU-BRY", "RU-CE", "RU-CRI",
+      "RU-CU", "RU-DA", "RU-IN", "RU-IVA", "RU-KB", "RU-KC", "RU-KDA", "RU-KGD",
+      "RU-KIR", "RU-KL", "RU-KLU", "RU-KO", "RU-KOS", "RU-KR", "RU-KRS", "RU-LEN",
+      "RU-LIP", "RU-ME", "RU-MO", "RU-MOW", "RU-MOS", "RU-MUR", "RU-NEN", "RU-NGR",
+      "RU-NIZ", "RU-ORL", "RU-ORE", "RU-PE", "RU-PNZ", "RU-PSK", "RU-ROS", "RU-RYA",
+      "RU-SA", "RU-SAM", "RU-SAR", "RU-SE", "RU-SEV", "RU-SMO", "RU-SPE", "RU-STA",
+      "RU-TA", "RU-TAM", "RU-TUL", "RU-TVE", "RU-UD", "RU-ULY", "RU-VGG", "RU-VLA",
+      "RU-VLG", "RU-VOR", "RU-YAR"
+    ]);
+
+    const russianShapeNameOverrides = new Map([
+      ["RU-AD", "Adygea"],
+      ["RU-AL", "Altai Republic"],
+      ["RU-ARK", "Arkhangelsk Oblast"],
+      ["RU-AST", "Astrakhan Oblast"],
+      ["RU-BU", "Buryatia"],
+      ["RU-CE", "Chechnya"],
+      ["RU-CHU", "Chukotka Autonomous Okrug"],
+      ["RU-CU", "Chuvashia"],
+      ["RU-KB", "Kabardino-Balkaria"],
+      ["RU-KC", "Karachay-Cherkessia"],
+      ["RU-KDA", "Krasnodar Krai"],
+      ["RU-KGD", "Kaliningrad Oblast"],
+      ["RU-KHA", "Khabarovsk Krai"],
+      ["RU-KHM", "Khanty-Mansi Autonomous Okrug"],
+      ["RU-KK", "Khakassia"],
+      ["RU-KL", "Kalmykia"],
+      ["RU-KR", "Karelia"],
+      ["RU-KYA", "Krasnoyarsk Krai"],
+      ["RU-ME", "Mari El"],
+      ["RU-MO", "Mordovia"],
+      ["RU-MOW", "Moscow"],
+      ["RU-MOS", "Moscow Oblast"],
+      ["RU-NIZ", "Nizhny Novgorod Oblast"],
+      ["RU-ORE", "Orenburg Oblast"],
+      ["RU-ORL", "Oryol Oblast"],
+      ["RU-PER", "Perm Krai"],
+      ["RU-PRI", "Primorsky Krai"],
+      ["RU-SE", "North Ossetia-Alania"],
+      ["RU-SEV", "Sevastopol"],
+      ["RU-SPE", "Saint Petersburg"],
+      ["RU-TVE", "Tver Oblast"],
+      ["RU-TY", "Tuva"],
+      ["RU-TYU", "Tyumen Oblast"],
+      ["RU-UD", "Udmurtia"],
+      ["RU-ULY", "Ulyanovsk Oblast"],
+      ["RU-YAN", "Yamalo-Nenets Autonomous Okrug"],
+      ["RU-YEV", "Jewish Autonomous Oblast"],
+      ["RU-ZAB", "Zabaykalsky Krai"]
+    ]);
+
+    const republicsList = new Set([
+      "RU-AD", "RU-AL", "RU-BA", "RU-BU", "RU-CE", "RU-CU", "RU-DA", "RU-IN",
+      "RU-KB", "RU-KC", "RU-KK", "RU-KL", "RU-KO", "RU-KR", "RU-ME", "RU-MO",
+      "RU-SA", "RU-SE", "RU-TA", "RU-TY", "RU-UD", "RU-CRI"
+    ]);
+
+    const russianNamedTypes = new Set([
+      ...republicsList,
+      "RU-MOW", "RU-SPE", "RU-SEV",
+      "RU-KHM", "RU-NEN", "RU-CHU", "RU-YAN",
+      "RU-YEV",
+      "RU-ALT", "RU-KAM", "RU-KHA", "RU-KDA", "RU-KYA", "RU-PER", "RU-PRI", "RU-STA", "RU-ZAB"
+    ]);
+
+    function normalizeRussianShapeName(iso, name) {
+      if (russianShapeNameOverrides.has(iso)) return russianShapeNameOverrides.get(iso);
+      if (russianNamedTypes.has(iso)) return name;
+      return `${name.replace(/'$/, "")} Oblast`;
+    }
+
+    const subdivisionIsoSet = new Set(finalSubdivisions.map(sub => sub.iso));
+    russiaGeoJSON.features.forEach(f => {
+      const iso = `RU-${f.properties.ISO_2}`;
+      if (subdivisionIsoSet.has(iso)) return;
+      const name = normalizeRussianShapeName(iso, f.properties.NAME_1 || iso);
+      const wikipediaUrlTitle = name.replaceAll(" ", "_");
+      finalSubdivisions.push({
+        wikiId: "",
+        name,
+        iso,
+        capital: "",
+        population: 0,
+        area: 0,
+        wikipediaTitle: name,
+        parent: "RUS",
+        wikipedia: {
+          title: name,
+          summary: `${name} is a federal subject of Russia.`,
+          sourceUrl: `https://en.wikipedia.org/wiki/${encodeURIComponent(wikipediaUrlTitle)}`
+        },
+        emblemUrl: null,
+        established: null,
+        highestPoint: null,
+        namedAfter: null,
+        inferredRegion: russianEuropeIsoCodes.has(iso) ? "Europe" : "Asia"
+      });
+      subdivisionIsoSet.add(iso);
+    });
+
     // Save subdivisions metadata
     finalSubdivisions.sort((a, b) => a.iso.localeCompare(b.iso));
     
@@ -429,7 +554,8 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
       emblemUrl: sub.emblemUrl,
       established: sub.established,
       highestPoint: sub.highestPoint,
-      namedAfter: sub.namedAfter
+      namedAfter: sub.namedAfter,
+      ...(sub.inferredRegion ? { inferredRegion: sub.inferredRegion } : {})
     }));
 
     writeFileSync(
@@ -470,28 +596,17 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
       }
     });
 
-    // Extract Russia regions ( republics vs rest of Russia )
-    const republicsList = new Set([
-      "RU-AD", "RU-AL", "RU-BA", "RU-BU", "RU-CE", "RU-CU", "RU-DA", "RU-IN", 
-      "RU-KB", "RU-KC", "RU-KK", "RU-KL", "RU-KO", "RU-KR", "RU-ME", "RU-MO", 
-      "RU-SA", "RU-SE", "RU-TA", "RU-TY", "RU-UD", "RU-CRI"
-    ]);
-
+    // Extract every Russian federal subject as its own clickable geography.
     russiaGeoJSON.features.forEach(f => {
       const iso2 = f.properties.ISO_2;
       const name = f.properties.NAME_1 || "";
       const isoCode = `RU-${iso2}`;
       
-      let finalId = "643"; // "643" maps to parent "RUS"
-      if (republicsList.has(isoCode)) {
-        finalId = isoCode;
-      }
-      
       combinedFeatures.push({
         type: "Feature",
-        id: finalId,
+        id: isoCode,
         properties: {
-          id: finalId,
+          id: isoCode,
           name: name,
           parent: "RUS"
         },
