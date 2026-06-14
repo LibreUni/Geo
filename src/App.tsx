@@ -2795,7 +2795,9 @@ function PracticePanel({
           {detailLevel !== "minimal" && selectedCountry.wikipedia && (
             <section className="info-section country-summary">
               <h3>Overview</h3>
-              <p>{selectedCountry.wikipedia.summary}</p>
+              {selectedCountry.wikipedia.summary.split("\n\n").map((para, index) => (
+                <p key={index}>{para}</p>
+              ))}
               <a href={selectedCountry.wikipedia.sourceUrl} target="_blank" rel="noreferrer">
                 Source: Wikipedia, {selectedCountry.wikipedia.title}
                 <ExternalLink size={14} aria-hidden="true" />
@@ -2923,7 +2925,9 @@ function PracticePanel({
           <div className="country-card">
             <section className="country-summary">
               <h3>Overview</h3>
-              <p>{selectedCountry.wikipedia.summary}</p>
+              {selectedCountry.wikipedia.summary.split("\n\n").map((para, index) => (
+                <p key={index}>{para}</p>
+              ))}
               <a href={selectedCountry.wikipedia.sourceUrl} target="_blank" rel="noreferrer">
                 Source: Wikipedia, {selectedCountry.wikipedia.title}
                 <ExternalLink size={14} aria-hidden="true" />

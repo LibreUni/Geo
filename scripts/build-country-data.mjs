@@ -1,4 +1,4 @@
-import { writeFileSync } from "node:fs";
+import { writeFileSync, readFileSync, existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import countries from "world-countries";
 
@@ -7,7 +7,18 @@ const fallbackPopulationRows = require("country-json/src/country-by-population.j
 
 const WORLD_BANK_POPULATION_URL =
   "https://api.worldbank.org/v2/country/all/indicator/SP.POP.TOTL?format=json&date=2024&per_page=400";
-const WIKIPEDIA_SUMMARY_URL = "https://en.wikipedia.org/api/rest_v1/page/summary/";
+const WIKIPEDIA_API_URL = "https://en.wikipedia.org/w/api.php";
+const existingPath = new URL("../src/data/countries.json", import.meta.url);
+let existingData = [];
+try {
+  if (existsSync(existingPath)) {
+    existingData = JSON.parse(readFileSync(existingPath, "utf-8"));
+  }
+} catch (e) {
+  console.warn("Could not read existing countries.json: ", e.message);
+}
+const existingByCode = new Map(existingData.map(c => [c.cca3, c]));
+
 
 const primaryLanguageOverrides = {
   AGO: ["Portuguese"],
@@ -438,27 +449,213 @@ async function fetchPopulationLookup() {
   );
 }
 
+function cleanParagraph(paragraph, isFirst = false) {
+  if (!paragraph) return "";
+  
+  const segmenter = new Intl.Segmenter("en", { granularity: "sentence" });
+  const sentences = Array.from(segmenter.segment(paragraph)).map(s => s.segment.trim());
+  
+  const cleaned = [];
+  
+  for (let i = 0; i < sentences.length; i++) {
+    const s = sentences[i];
+    const lower = s.toLowerCase();
+    
+    // 1. Skip introductory sentence if it's typical redundancy (only for first sentence of first paragraph)
+    if (isFirst && i === 0 && sentences.length > 1) {
+      const isIntro = 
+        lower.includes("officially the") || 
+        lower.includes("is a landlocked") ||
+        lower.includes("is a country") ||
+        lower.includes("is an island") ||
+        lower.includes("is a sovereign") ||
+        lower.includes("is a territory") ||
+        lower.includes("is a constituent") ||
+        lower.includes("comprising the") ||
+        lower.includes("is a federation") ||
+        lower.includes("is a state");
+        
+      if (isIntro) {
+        continue;
+      }
+    }
+    
+    // 2. Skip capital city information, unless it contains cultural/financial/historical details
+    const isCapitalSentence =
+      lower.includes("capital and largest city") ||
+      lower.includes("capital city is") ||
+      (lower.includes("capital is") && !lower.includes("established")) ||
+      (lower.includes("largest city") && lower.includes("capital"));
+      
+    if (isCapitalSentence) {
+      const hasOtherCrucialContext =
+        lower.includes("cultural") ||
+        lower.includes("financial") ||
+        lower.includes("economic") ||
+        lower.includes("tourism") ||
+        lower.includes("history") ||
+        lower.includes("historic") ||
+        lower.includes("second-largest") ||
+        lower.includes("constitutional") ||
+        lower.includes("executive") ||
+        lower.includes("administrative") ||
+        lower.includes("judicial") ||
+        lower.includes("legislative");
+        
+      if (!hasOtherCrucialContext) {
+        continue;
+      }
+    }
+    
+    // 3. Skip population sentences, unless they contain historical or ethnic context
+    if (
+      lower.includes("population of") ||
+      lower.includes("population is") ||
+      (lower.includes("inhabitant") && (lower.includes("million") || lower.includes("thousand") || /\d+/.test(lower)))
+    ) {
+      const hasOtherContext =
+        lower.includes("century") ||
+        lower.includes("dynasty") ||
+        lower.includes("since") ||
+        lower.includes("war") ||
+        lower.includes("ethnic") ||
+        lower.includes("majority") ||
+        lower.includes("minority") ||
+        lower.includes("language") ||
+        lower.includes("religion") ||
+        lower.includes("urban");
+        
+      if (!hasOtherContext) {
+        continue;
+      }
+    }
+    
+    // 4. Skip area sentences, unless they contain historical/geographical context
+    if (
+      lower.includes("square kilometres") ||
+      lower.includes("square kilometers") ||
+      lower.includes("square miles") ||
+      lower.includes("sq mi") ||
+      (lower.includes("covers") && lower.includes("area of")) ||
+      (lower.includes("occupies") && lower.includes("area")) ||
+      (lower.includes("spanning") && lower.includes("area")) ||
+      (lower.includes("land area") && lower.includes("percent"))
+    ) {
+      const hasOtherContext =
+        lower.includes("century") ||
+        lower.includes("history") ||
+        lower.includes("since") ||
+        lower.includes("coastline") ||
+        lower.includes("mountain") ||
+        lower.includes("lake") ||
+        lower.includes("river") ||
+        lower.includes("desert") ||
+        lower.includes("forest") ||
+        lower.includes("island");
+        
+      if (!hasOtherContext) {
+        continue;
+      }
+    }
+    
+    // 5. Skip borders sentences aggressively
+    if (
+      lower.includes("bordered by") ||
+      lower.includes("bordering") ||
+      lower.includes("shares borders") ||
+      lower.includes("shares land borders") ||
+      lower.includes("sharing borders") ||
+      lower.includes("sharing land borders") ||
+      (/\bborders\b/.test(lower) && (lower.includes("north") || lower.includes("south") || lower.includes("east") || lower.includes("west") || lower.includes("to the") || /\bwith\b/.test(lower) || /\bbetween\b/.test(lower)))
+    ) {
+      continue;
+    }
+    
+    cleaned.push(s);
+  }
+  
+  return cleaned.join(" ");
+}
+
+function cleanFullExtract(extract) {
+  if (!extract) return "";
+  
+  const paragraphs = extract.split(/\n+/).map(p => p.trim()).filter(p => p.length > 0);
+  if (paragraphs.length === 0) return "";
+  
+  const cleanedParagraphs = paragraphs.map((p, idx) => cleanParagraph(p, idx === 0));
+  
+  const finalSummary = cleanedParagraphs.filter(p => p.length > 0).join("\n\n");
+  if (!finalSummary) return extract;
+  
+  return finalSummary;
+}
+
 async function fetchWikipediaSummary(country) {
   const title = wikipediaTitleOverrides[country.cca3] ?? country.name;
-  const response = await fetch(`${WIKIPEDIA_SUMMARY_URL}${encodeURIComponent(title)}`, {
-    headers: {
-      "User-Agent": "GeoLearn/1.0 (country learning app; https://example.local)",
-    },
-  });
+  const cached = existingByCode.get(country.cca3);
 
-  if (!response.ok) {
-    console.warn(`Skipping Wikipedia summary for ${country.name}: ${response.status} ${response.statusText}`);
-    return null;
+  // If the cached version is already a detailed, multi-paragraph overview, use it directly to avoid network rate limits
+  if (
+    cached &&
+    cached.wikipedia &&
+    cached.wikipedia.summary &&
+    (cached.wikipedia.isDetailed || cached.wikipedia.summary.includes("\n\n"))
+  ) {
+    return {
+      ...cached.wikipedia,
+      summary: cleanFullExtract(cached.wikipedia.summary)
+    };
+  }
+  
+  try {
+    const params = new URLSearchParams({
+      action: "query",
+      prop: "extracts",
+      exintro: "true",
+      explaintext: "true",
+      titles: title,
+      format: "json",
+      origin: "*"
+    });
+    
+    await new Promise((resolve) => setTimeout(resolve, 100)); // slightly larger delay (100ms) to prevent 429s
+    
+    const response = await fetch(`${WIKIPEDIA_API_URL}?${params.toString()}`, {
+      headers: {
+        "User-Agent": "GeoLearn/1.0 (country learning app; https://example.local)",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const payload = await response.json();
+    const pages = payload.query?.pages || {};
+    const pageId = Object.keys(pages)[0];
+    const extract = pages[pageId]?.extract;
+    
+    if (typeof extract === "string" && extract.trim()) {
+      return {
+        title: pages[pageId]?.title ?? title,
+        summary: cleanFullExtract(extract),
+        sourceUrl: `https://en.wikipedia.org/wiki/${encodeURIComponent(title)}`,
+        isDetailed: true,
+      };
+    }
+  } catch (error) {
+    console.warn(`Wikipedia fetch failed for ${country.name}: ${error.message}. Falling back to cached summary.`);
   }
 
-  const payload = await response.json();
-  if (typeof payload.extract !== "string" || !payload.extract.trim()) return null;
-
-  return {
-    title: payload.title ?? title,
-    summary: payload.extract,
-    sourceUrl: payload.content_urls?.desktop?.page ?? `https://en.wikipedia.org/wiki/${encodeURIComponent(title)}`,
-  };
+  if (cached && cached.wikipedia) {
+    return {
+      ...cached.wikipedia,
+      summary: cleanFullExtract(cached.wikipedia.summary),
+      isDetailed: true,
+    };
+  }
+  return null;
 }
 
 const fallbackPopulationByName = new Map(
