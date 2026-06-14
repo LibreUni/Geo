@@ -206,11 +206,11 @@ button {
 }
 
 .ocean {
-  fill: #c9e4ed;
+  fill: var(--color-ocean, #c9e4ed);
 }
 
 .country {
-  stroke: #ffffff;
+  stroke: var(--color-border, #ffffff);
   vector-effect: non-scaling-stroke;
   stroke-width: 0.65px;
   transition: fill 140ms ease, opacity 140ms ease, stroke 140ms ease, stroke-width 140ms ease;
@@ -240,7 +240,7 @@ button {
 }
 
 .country.visible {
-  fill: #c9d4da;
+  fill: var(--color-land, #c9d4da);
 }
 
 .country.flagged.visible {
@@ -253,16 +253,15 @@ button {
 }
 
 .quiz-playing-mode .ocean {
-  fill: #b9dce8;
+  fill: var(--color-ocean, #b9dce8);
 }
 
 .quiz-playing-mode .country {
-  stroke: #5c7582;
+  stroke: var(--color-border, #5c7582);
 }
 
 .quiz-playing-mode .country.visible {
-  fill: #eef3f0;
-  stroke: #415d6a;
+  fill: var(--color-land, #eef3f0);
 }
 
 .quiz-playing-mode .country.muted {
@@ -271,16 +270,16 @@ button {
 }
 
 .country:hover {
-  fill: #f2b85b;
+  fill: var(--color-hover, #f2b85b);
 }
 
 .country.selected {
-  fill: #2da365;
-  stroke: #102d20;
+  fill: var(--color-selected, #2da365);
+  stroke: var(--color-selected-border, #102d20);
 }
 
 .country.relationship-self {
-  fill: #2da365;
+  fill: var(--color-selected, #2da365);
 }
 
 .country.relationship-ally {
@@ -334,8 +333,8 @@ button {
 }
 
 .selected-country-marker circle {
-  fill: #2da365;
-  stroke: #ffffff;
+  fill: var(--color-selected, #2da365);
+  stroke: var(--color-border, #ffffff);
   stroke-width: 2.2px;
   vector-effect: non-scaling-stroke;
   filter: drop-shadow(0 2px 4px rgb(21 53 63 / 32%));
@@ -2239,4 +2238,66 @@ dd {
   font-weight: 600;
   color: #15353f;
   text-align: right;
+}
+
+/* Color Picker Settings Styles */
+.settings-color-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+}
+
+.color-picker-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgb(21 53 63 / 4%);
+  padding: 4px 8px 4px 6px;
+  border-radius: 6px;
+  border: 1px solid rgb(21 53 63 / 8%);
+}
+
+.color-picker-container input[type="color"] {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid rgb(21 53 63 / 18%);
+  width: 38px;
+  height: 26px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+}
+
+.color-picker-container input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.color-picker-container input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 3px;
+}
+
+.color-picker-container input[type="color"]::-moz-color-swatch {
+  border: none;
+  border-radius: 3px;
+}
+
+.color-picker-value {
+  font-family: monospace;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #15353f;
+  text-transform: uppercase;
+}
+
+.reset-colors-button:hover {
+  background-color: rgb(211 84 0 / 8%) !important;
+}
+
+/* Performance LOD during dragging (Only for 3D orthographic projection) */
+.map-panel.adaptive-dragging.projection-orthographic .subdivision {
+  display: none !important;
 }

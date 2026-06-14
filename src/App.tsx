@@ -46,6 +46,7 @@ type ResultState = "idle" | "correct" | "wrong";
 type RelationshipKind = "self" | "tension" | "mild-tension" | "ally" | "union" | "territory";
 type DetailLevel = "full" | "basic" | "minimal";
 type MapDetailLevel = "minimal" | "standard" | "detailed";
+type MapPerformance = "eco" | "adaptive" | "high";
 type ProjectionType = "equal-earth" | "mercator" | "orthographic";
 
 const sovereignToParentCode: Record<string, string> = {
@@ -115,6 +116,7 @@ type MapGeometry = {
   area: number;
   bounds: [[number, number], [number, number]];
   centroid: [number, number] | null;
+  isSubdivision: boolean;
 };
 
 const WIDTH = 1100;
@@ -936,6 +938,18 @@ function App() {
     return "standard";
   });
 
+  const [mapPerformance, setMapPerformance] = useState<MapPerformance>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_map_performance");
+      if (saved === "eco" || saved === "adaptive" || saved === "high") {
+        return saved;
+      }
+    } catch (e) {
+      console.error("Failed to load map performance level", e);
+    }
+    return "adaptive";
+  });
+
   useEffect(() => {
     try {
       localStorage.setItem("geolearn_map_detail_level", mapDetailLevel);
@@ -943,6 +957,14 @@ function App() {
       console.error("Failed to save map detail level", e);
     }
   }, [mapDetailLevel]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_map_performance", mapPerformance);
+    } catch (e) {
+      console.error("Failed to save map performance level", e);
+    }
+  }, [mapPerformance]);
 
   const countries = useMemo(() => {
     const base = (countryData as Country[]).filter((c) => c.ccn3 && baseGeographyIds.has(c.ccn3));
@@ -1288,6 +1310,57 @@ function App() {
     return 1.0;
   });
 
+  // Customizable Map Colors
+  const [colorOcean, setColorOcean] = useState<string>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_color_ocean");
+      if (saved !== null) return saved;
+    } catch (e) {
+      console.error("Failed to load ocean color", e);
+    }
+    return "#c9e4ed";
+  });
+
+  const [colorLand, setColorLand] = useState<string>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_color_land");
+      if (saved !== null) return saved;
+    } catch (e) {
+      console.error("Failed to load land color", e);
+    }
+    return "#c9d4da";
+  });
+
+  const [colorBorder, setColorBorder] = useState<string>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_color_border");
+      if (saved !== null) return saved;
+    } catch (e) {
+      console.error("Failed to load border color", e);
+    }
+    return "#ffffff";
+  });
+
+  const [colorHover, setColorHover] = useState<string>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_color_hover");
+      if (saved !== null) return saved;
+    } catch (e) {
+      console.error("Failed to load hover color", e);
+    }
+    return "#f2b85b";
+  });
+
+  const [colorSelected, setColorSelected] = useState<string>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_color_selected");
+      if (saved !== null) return saved;
+    } catch (e) {
+      console.error("Failed to load selection color", e);
+    }
+    return "#2da365";
+  });
+
   // Effects to save customizable map settings to localStorage
   useEffect(() => {
     try {
@@ -1360,6 +1433,46 @@ function App() {
       console.error("Failed to save small country marker radius multiplier", e);
     }
   }, [smallCountryMarkerRadiusMultiplier]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_color_ocean", colorOcean);
+    } catch (e) {
+      console.error("Failed to save ocean color", e);
+    }
+  }, [colorOcean]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_color_land", colorLand);
+    } catch (e) {
+      console.error("Failed to save land color", e);
+    }
+  }, [colorLand]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_color_border", colorBorder);
+    } catch (e) {
+      console.error("Failed to save border color", e);
+    }
+  }, [colorBorder]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_color_hover", colorHover);
+    } catch (e) {
+      console.error("Failed to save hover color", e);
+    }
+  }, [colorHover]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_color_selected", colorSelected);
+    } catch (e) {
+      console.error("Failed to save selection color", e);
+    }
+  }, [colorSelected]);
   const [quizMode, setQuizMode] = useState<QuizMode>("locate");
   const [quizCountry, setQuizCountry] = useState<Country | null>(null);
   const [choices, setChoices] = useState<Country[]>([]);
@@ -1701,8 +1814,16 @@ function App() {
     advanceQuiz(newHistory);
   }
 
+  const mapStyles = {
+    "--color-ocean": colorOcean,
+    "--color-land": colorLand,
+    "--color-border": colorBorder,
+    "--color-hover": colorHover,
+    "--color-selected": colorSelected,
+  } as React.CSSProperties;
+
   return (
-    <main className="shell">
+    <main className="shell" style={mapStyles}>
       {view === "quiz" && quizStatus !== "playing" && (
         <button
           className="icon-button"
@@ -1846,6 +1967,7 @@ function App() {
         projectionType={projectionType}
         repeatMap={repeatMap}
         mapDetailLevel={mapDetailLevel}
+        mapPerformance={mapPerformance}
         filteredCountries={filteredCountries}
         selectedCountry={selectedCountry}
         selectedRelationships={selectedRelationships}
@@ -1925,6 +2047,8 @@ function App() {
         setMapView={setMapView}
         mapDetailLevel={mapDetailLevel}
         setMapDetailLevel={setMapDetailLevel}
+        mapPerformance={mapPerformance}
+        setMapPerformance={setMapPerformance}
         detailLevel={detailLevel}
         setDetailLevel={setDetailLevel}
         projectionType={projectionType}
@@ -1953,6 +2077,16 @@ function App() {
         setSmallCountryMarkerMaxScreenArea={setSmallCountryMarkerMaxScreenArea}
         smallCountryMarkerRadiusMultiplier={smallCountryMarkerRadiusMultiplier}
         setSmallCountryMarkerRadiusMultiplier={setSmallCountryMarkerRadiusMultiplier}
+        colorOcean={colorOcean}
+        setColorOcean={setColorOcean}
+        colorLand={colorLand}
+        setColorLand={setColorLand}
+        colorBorder={colorBorder}
+        setColorBorder={setColorBorder}
+        colorHover={colorHover}
+        setColorHover={setColorHover}
+        colorSelected={colorSelected}
+        setColorSelected={setColorSelected}
       />
 
       {view === "practice" && selectedCountry ? (
@@ -2004,6 +2138,7 @@ function App() {
                       isRussiaSubdivisionRegion(v)
                     ) {
                       setMapDetailLevel("detailed");
+                      setMapPerformance("high");
                     }
                   }}
                 />
@@ -2278,6 +2413,7 @@ function WorldMap({
   projectionType,
   repeatMap,
   mapDetailLevel,
+  mapPerformance,
   filteredCountries,
   selectedCountry,
   selectedRelationships,
@@ -2308,6 +2444,7 @@ function WorldMap({
   projectionType: ProjectionType;
   repeatMap: boolean;
   mapDetailLevel: MapDetailLevel;
+  mapPerformance: MapPerformance;
   filteredCountries: Country[];
   selectedCountry: Country | null;
   selectedRelationships: ReturnType<typeof relationshipSummary> | null;
@@ -2334,22 +2471,41 @@ function WorldMap({
   smallCountryMarkerRadiusMultiplier: number;
 }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
+  const mapPanelRef = useRef<HTMLElement | null>(null);
+  const mapGroupRef = useRef<SVGGElement | null>(null);
   
   const [globeRotation, setGlobeRotation] = useState<[number, number]>([0, 0]);
-  const [isDragging, setIsDragging] = useState(false);
+
+  const liveMapTransformRef = useRef({ scale: 1, x: 0, y: 0 });
+  const liveGlobeRotationRef = useRef<[number, number]>([0, 0]);
+  const geographyFeatureMapRef = useRef<Map<string, Geography>>(new Map());
+
+  const allDetailedGeographies = useMemo(() => {
+    const baseFiltered = baseGeographies.filter(
+      (g) => {
+        const id = geoId(g);
+        return id !== "840" && id !== "643" && id !== "124" && id !== "036" && id !== "076";
+      }
+    );
+    return [...baseFiltered, ...subdivisionsGeographies];
+  }, []);
 
   const activeGeographies = useMemo(() => {
     if (mapDetailLevel === "detailed") {
-      const baseFiltered = baseGeographies.filter(
-        (g) => {
-          const id = geoId(g);
-          return id !== "840" && id !== "643" && id !== "124" && id !== "036" && id !== "076";
-        }
-      );
-      return [...baseFiltered, ...subdivisionsGeographies];
+      return allDetailedGeographies;
     }
     return baseGeographies;
-  }, [mapDetailLevel]);
+  }, [mapDetailLevel, allDetailedGeographies]);
+
+  useEffect(() => {
+    const m = new Map<string, Geography>();
+    activeGeographies.forEach((geo) => {
+      const isSub = geo.properties && ("id" in geo.properties);
+      const id = isSub ? String(geo.properties.id) : geoId(geo);
+      m.set(id, geo);
+    });
+    geographyFeatureMapRef.current = m;
+  }, [activeGeographies]);
 
   const projection = useMemo(() => {
     let proj;
@@ -2369,7 +2525,6 @@ function WorldMap({
       { type: "Sphere" }
     );
     
-    // Set higher resampling threshold (precision) for vastly improved performance during interaction
     proj.precision(1.8);
     
     return proj;
@@ -2403,6 +2558,7 @@ function WorldMap({
         area,
         bounds,
         centroid,
+        isSubdivision: !!isSub,
       };
     });
   }, [activeGeographies, path]);
@@ -2436,6 +2592,14 @@ function WorldMap({
   const [mapRenderVersion, setMapRenderVersion] = useState(0);
   const filteredCodes = useMemo(() => new Set(filteredCountries.map((country) => country.cca3)), [filteredCountries]);
   const showFlagFills = mapView === "flagFills";
+
+  useEffect(() => {
+    liveMapTransformRef.current = mapTransform;
+  }, [mapTransform]);
+
+  useEffect(() => {
+    liveGlobeRotationRef.current = globeRotation;
+  }, [globeRotation]);
 
   useEffect(() => {
     return () => {
@@ -2557,13 +2721,12 @@ function WorldMap({
       pointerId: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
-      originX: mapTransform.x,
-      originY: mapTransform.y,
-      originLon: globeRotation[0],
-      originLat: globeRotation[1],
+      originX: liveMapTransformRef.current.x,
+      originY: liveMapTransformRef.current.y,
+      originLon: liveGlobeRotationRef.current[0],
+      originLat: liveGlobeRotationRef.current[1],
     };
     wasDraggingRef.current = false;
-    setIsDragging(true);
   }
 
   function handlePointerMove(event: PointerEvent<SVGSVGElement>) {
@@ -2573,27 +2736,269 @@ function WorldMap({
     const rect = svg.getBoundingClientRect();
     const dx = ((event.clientX - drag.startX) * WIDTH) / rect.width;
     const dy = ((event.clientY - drag.startY) * HEIGHT) / rect.height;
-    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) wasDraggingRef.current = true;
+    
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+      if (!wasDraggingRef.current) {
+        wasDraggingRef.current = true;
+        // Apply is-dragging and adaptive-dragging class directly to the DOM for immediate response
+        if (mapPanelRef.current) {
+          mapPanelRef.current.classList.add("is-dragging");
+          if (mapPerformance !== "high") {
+            mapPanelRef.current.classList.add("adaptive-dragging");
+          }
+        }
+      }
+    }
 
     if (projectionType === "orthographic") {
       const sensitivity = 0.45;
-      const scale = mapTransform.scale;
+      const scale = liveMapTransformRef.current.scale;
       const newLon = (drag.originLon ?? 0) + (dx / scale) * sensitivity;
       const newLat = Math.max(-80, Math.min(80, (drag.originLat ?? 0) - (dy / scale) * sensitivity));
-      setGlobeRotation([newLon, newLat]);
+      
+      liveGlobeRotationRef.current = [newLon, newLat];
+      
+      // Update DOM directly in animation frame
+      requestAnimationFrame(() => {
+        if (!dragRef.current) return;
+        
+        const localProjection = geoOrthographic()
+          .rotate([newLon, newLat, 0])
+          .fitExtent(
+            [
+              [20, 20],
+              [WIDTH - 20, HEIGHT - 20],
+            ],
+            { type: "Sphere" }
+          );
+        localProjection.precision(mapPerformance !== "high" ? 4.0 : 1.8);
+        const localPath = geoPath(localProjection);
+        
+        const targetSelector = mapPerformance === "high" ? "path.country" : "path.country:not(.subdivision)";
+        const pathElements = svgRef.current?.querySelectorAll(targetSelector);
+        if (pathElements) {
+          pathElements.forEach((pathEl) => {
+            const geoIdAttr = pathEl.getAttribute("data-geo-id");
+            if (!geoIdAttr) return;
+            
+            const geo = geographyFeatureMapRef.current.get(geoIdAttr);
+            if (!geo) return;
+            
+            const d = localPath(geo) ?? "";
+            pathEl.setAttribute("d", d);
+            
+            // If the country is on the backside, hide it and accessories
+            const visible = d !== "";
+            
+            // Update the clipPath path if it exists
+            const clipPathEl = svgRef.current?.querySelector(`path[data-clip-id="${geoIdAttr}"]`);
+            if (clipPathEl) {
+              clipPathEl.setAttribute("d", d);
+              if (!visible) {
+                clipPathEl.setAttribute("display", "none");
+              } else {
+                clipPathEl.removeAttribute("display");
+              }
+            }
+            
+            // Update flag image if it exists
+            const flagEl = svgRef.current?.querySelector(`image[data-flag-id="${geoIdAttr}"]`);
+            if (flagEl) {
+              if (!visible) {
+                flagEl.setAttribute("display", "none");
+              } else {
+                flagEl.removeAttribute("display");
+                // Recalculate center/bounds for the flag position
+                const bounds = localPath.bounds(geo);
+                if (bounds && bounds[0] && bounds[1] && bounds[0].every(Number.isFinite) && bounds[1].every(Number.isFinite)) {
+                  const [[x0, y0], [x1, y1]] = bounds;
+                  const maxDim = Math.max(1, Math.max(x1 - x0, y1 - y0));
+                  const centroid = localPath.centroid(geo);
+                  const cx = centroid && Number.isFinite(centroid[0]) ? centroid[0] : (x0 + x1) / 2;
+                  const cy = centroid && Number.isFinite(centroid[1]) ? centroid[1] : (y0 + y1) / 2;
+                  const imgW = maxDim * 1.5;
+                  const imgH = maxDim * 1.5;
+                  flagEl.setAttribute("x", String(cx - imgW / 2));
+                  flagEl.setAttribute("y", String(cy - imgH / 2));
+                  flagEl.setAttribute("width", String(imgW));
+                  flagEl.setAttribute("height", String(imgH));
+                }
+              }
+            }
+            
+            // Update text label if it exists
+            const labelEl = svgRef.current?.querySelector(`text[data-label-id="${geoIdAttr}"]`);
+            if (labelEl) {
+              if (!visible) {
+                labelEl.setAttribute("display", "none");
+              } else {
+                const country = countryByNumeric.get(geoIdAttr);
+                const mapGeoObj = geographyByNumeric.get(geoIdAttr);
+                if (country && mapGeoObj) {
+                  const isSmall = mapGeoObj.area < 18;
+                  const centroid = localPath.centroid(geo);
+                  let labelPt: [number, number] | null = null;
+                  if (isSmall && country.latlng) {
+                    const [lat, lon] = country.latlng;
+                    const pt = localProjection([lon, lat]);
+                    labelPt = pt && Number.isFinite(pt[0]) && Number.isFinite(pt[1]) ? pt : null;
+                  }
+                  if (!labelPt) {
+                    labelPt = centroid;
+                  }
+                  
+                  if (labelPt && Number.isFinite(labelPt[0]) && Number.isFinite(labelPt[1])) {
+                    let textX = labelPt[0];
+                    let textY = labelPt[1];
+                    if (isSmall) {
+                      textX += 11 / liveMapTransformRef.current.scale;
+                      textY += 3 / liveMapTransformRef.current.scale;
+                    } else {
+                      textY -= 3 / liveMapTransformRef.current.scale;
+                    }
+                    labelEl.setAttribute("x", String(textX));
+                    labelEl.setAttribute("y", String(textY));
+                    labelEl.setAttribute("font-size", String(10 / liveMapTransformRef.current.scale));
+                    labelEl.setAttribute("stroke-width", String(2.5 / liveMapTransformRef.current.scale));
+                    
+                    const screenArea = mapGeoObj.area * liveMapTransformRef.current.scale * liveMapTransformRef.current.scale;
+                    let labelVisible = true;
+                    if (isSmall) {
+                      if (liveMapTransformRef.current.scale < 2.2) labelVisible = false;
+                    } else {
+                      if (screenArea < 120) labelVisible = false;
+                    }
+                    
+                    if (labelVisible) {
+                      labelEl.removeAttribute("display");
+                    } else {
+                      labelEl.setAttribute("display", "none");
+                    }
+                  } else {
+                    labelEl.setAttribute("display", "none");
+                  }
+                } else {
+                  labelEl.setAttribute("display", "none");
+                }
+              }
+            }
+            
+            // Update island hitbox if it exists
+            const hitboxEl = svgRef.current?.querySelector(`circle[data-hitbox-id="${geoIdAttr}"]`);
+            if (hitboxEl) {
+              if (!visible) {
+                hitboxEl.setAttribute("display", "none");
+              } else {
+                hitboxEl.removeAttribute("display");
+                const country = countryByNumeric.get(geoIdAttr);
+                if (country) {
+                  let markerPoint: [number, number] | null = null;
+                  if (country.latlng) {
+                    const [lat, lon] = country.latlng;
+                    const pt = localProjection([lon, lat]);
+                    markerPoint = pt && Number.isFinite(pt[0]) && Number.isFinite(pt[1]) ? pt : null;
+                  }
+                  const centroid = localPath.centroid(geo);
+                  const finalPt = markerPoint ?? (centroid && Number.isFinite(centroid[0]) ? centroid : null);
+                  if (finalPt) {
+                    hitboxEl.setAttribute("cx", String(finalPt[0]));
+                    hitboxEl.setAttribute("cy", String(finalPt[1]));
+                  } else {
+                    hitboxEl.setAttribute("display", "none");
+                  }
+                }
+              }
+            }
+          });
+        }
+        
+        // Update quiz target marker
+        const quizTargetEl = svgRef.current?.querySelector(".quiz-target-marker");
+        if (quizTargetEl && quizCountry) {
+          let markerPoint: [number, number] | null = null;
+          if (quizCountry.latlng) {
+            const [lat, lon] = quizCountry.latlng;
+            const pt = localProjection([lon, lat]);
+            markerPoint = pt && Number.isFinite(pt[0]) && Number.isFinite(pt[1]) ? pt : null;
+          }
+          if (markerPoint) {
+            quizTargetEl.removeAttribute("display");
+            quizTargetEl.setAttribute("transform", `translate(${markerPoint[0]} ${markerPoint[1]})`);
+          } else {
+            quizTargetEl.setAttribute("display", "none");
+          }
+        }
+        
+        // Update selected country marker
+        const selectedMarkerEl = svgRef.current?.querySelector(".selected-country-marker");
+        if (selectedMarkerEl && selectedCountry) {
+          let markerPoint: [number, number] | null = null;
+          if (selectedCountry.latlng) {
+            const [lat, lon] = selectedCountry.latlng;
+            const pt = localProjection([lon, lat]);
+            markerPoint = pt && Number.isFinite(pt[0]) && Number.isFinite(pt[1]) ? pt : null;
+          }
+          if (markerPoint) {
+            selectedMarkerEl.removeAttribute("display");
+            selectedMarkerEl.setAttribute("transform", `translate(${markerPoint[0]} ${markerPoint[1]})`);
+          } else {
+            selectedMarkerEl.setAttribute("display", "none");
+          }
+        }
+      });
     } else {
-      setMapTransform((current) => ({ ...current, x: drag.originX + dx, y: drag.originY + dy }));
+      const nextX = drag.originX + dx;
+      const nextY = drag.originY + dy;
+      
+      liveMapTransformRef.current = {
+        ...liveMapTransformRef.current,
+        x: nextX,
+        y: nextY,
+      };
+
+      // Direct DOM update of group translation
+      requestAnimationFrame(() => {
+        if (!dragRef.current) return;
+        
+        let rX = nextX;
+        if (isFlatRepeat) {
+          const scaledWidth = worldWidth * liveMapTransformRef.current.scale;
+          rX = ((nextX + scaledWidth / 2) % scaledWidth);
+          if (rX < 0) rX += scaledWidth;
+          rX -= scaledWidth / 2;
+        }
+        
+        if (mapGroupRef.current) {
+          mapGroupRef.current.style.transform = `translate(${rX}px, ${nextY}px) scale(${liveMapTransformRef.current.scale})`;
+        }
+      });
     }
   }
 
   function handlePointerUp(event: PointerEvent<SVGSVGElement>) {
+    const wasDragging = wasDraggingRef.current;
+    
     if (dragRef.current?.pointerId === event.pointerId) {
       dragRef.current = null;
       window.setTimeout(() => {
         wasDraggingRef.current = false;
       }, 0);
     }
-    setIsDragging(false);
+    
+    // Direct DOM: remove dragging classes
+    if (mapPanelRef.current) {
+      mapPanelRef.current.classList.remove("is-dragging");
+      mapPanelRef.current.classList.remove("adaptive-dragging");
+    }
+    
+    // Single React sync at the end of the dragging interaction (only if we actually dragged)
+    if (wasDragging) {
+      if (projectionType === "orthographic") {
+        setGlobeRotation(liveGlobeRotationRef.current);
+      } else {
+        setMapTransform(liveMapTransformRef.current);
+      }
+    }
   }
 
   function selectCountry(country: Country) {
@@ -2637,7 +3042,10 @@ function WorldMap({
     return Math.max(0.34, 1 - fadeProgress * 0.5);
   }
 
-  const quizMarkerPoint = quizCountry && needsQuizMarker(quizCountry) ? getMarkerPoint(quizCountry) : null;
+  const quizMarkerPoint = useMemo(() => {
+    return quizCountry && needsQuizMarker(quizCountry) ? getMarkerPoint(quizCountry) : null;
+  }, [quizCountry, projection, mapTransform.scale]);
+
   const countryStrokeWidth = Math.max(
     minBorderWidth,
     baseBorderWidth / Math.pow(mapTransform.scale, borderZoomPower),
@@ -2657,17 +3065,22 @@ function WorldMap({
   function renderMapElements(xOffset = 0, keySuffix = "center", isVisible = true) {
     if (!isVisible) return null;
     const offsetKey = keySuffix !== "center" ? `-${keySuffix}` : "";
+    
+    // Use CSS classes to hide flags during adaptive dragging
+    const showFlagsLOD = showFlagFills;
+    const showLabelsLOD = showCountryNames;
+
     return (
       <g key={`map-elements${offsetKey}`} transform={`translate(${xOffset}, 0)`}>
-        {showFlagFills && (
+        {showFlagsLOD && (
           <>
             <defs>
               {mapGeographies.map((geo, idx) => {
                 const country = countryByNumeric.get(geo.id);
-                if (!country?.alpha2 || !targetCodes.has(country.cca3) || !geo.d) return null;
+                if (!country?.alpha2 || !targetCodes.has(country.cca3)) return null;
                 return (
                   <clipPath key={`clip-${geo.id}-${idx}${offsetKey}`} id={`${geo.clipId}-${idx}${offsetKey}`}>
-                    <path d={geo.d} />
+                    <path d={geo.d ?? ""} data-clip-id={geo.id} />
                   </clipPath>
                 );
               })}
@@ -2677,14 +3090,24 @@ function WorldMap({
               if (!country?.alpha2 || !targetCodes.has(country.cca3)) return null;
               const [[x0, y0], [x1, y1]] = geo.bounds;
               if (![x0, y0, x1, y1].every(Number.isFinite)) return null;
+              
+              const maxDim = Math.max(1, Math.max(x1 - x0, y1 - y0));
+              const cx = geo.centroid ? geo.centroid[0] : (x0 + x1) / 2;
+              const cy = geo.centroid ? geo.centroid[1] : (y0 + y1) / 2;
+              
+              // We want a stable square aspect ratio to prevent the SVG from squishing near orthographic edges.
+              const imgW = maxDim * 1.5;
+              const imgH = maxDim * 1.5;
+
               return (
                 <image
                   key={`flag-${geo.id}-${idx}${offsetKey}`}
                   className="country-flag-fill"
-                  x={x0}
-                  y={y0}
-                  width={Math.max(1, x1 - x0)}
-                  height={Math.max(1, y1 - y0)}
+                  data-flag-id={geo.id}
+                  x={cx - imgW / 2}
+                  y={cy - imgH / 2}
+                  width={imgW}
+                  height={imgH}
                   href={country.cca3.includes("-") ? `/flags/${country.cca3.toLowerCase()}.svg` : `/flags/${country.alpha2.toLowerCase()}.svg`}
                   preserveAspectRatio="xMidYMid slice"
                   clipPath={`url(#${geo.clipId}-${idx}${offsetKey})`}
@@ -2709,8 +3132,9 @@ function WorldMap({
           
           const className = [
             "country",
+            geo.isSubdivision ? "subdivision" : "",
             !hasSaneHitArea ? "no-hit" : "",
-            showFlagFills && country?.alpha2 && visible ? "flagged" : "",
+            showFlagsLOD && country?.alpha2 && visible ? "flagged" : "",
             visible ? "visible" : "muted",
             relation ? `relationship-${relation}` : "",
             isSelected ? "selected" : "",
@@ -2725,6 +3149,7 @@ function WorldMap({
             <path
               key={`path-${geo.id}-${idx}${offsetKey}`}
               className={className}
+              data-geo-id={geo.id}
               d={geo.d}
               style={{ strokeWidth: countryStrokeWidth }}
               onClick={() =>
@@ -2775,6 +3200,7 @@ function WorldMap({
             <circle
               key={`hit-${country.cca3}${offsetKey}`}
               className={className}
+              data-hitbox-id={geo.id}
               cx={markerPoint[0]}
               cy={markerPoint[1]}
               r={smallCountryHitRadius()}
@@ -2824,7 +3250,7 @@ function WorldMap({
             <title>{selectedCountry.name}</title>
           </g>
         )}
-        {showCountryNames && !(isQuizMode && quizStatus === "playing") && (() => {
+        {showLabelsLOD && !(isQuizMode && quizStatus === "playing") && (() => {
           const renderedLabels = new Set<string>();
           return mapGeographies.map((geo, idx) => {
             const country = countryByNumeric.get(geo.id);
@@ -2875,6 +3301,7 @@ function WorldMap({
                 key={`label-${country.cca3}-${idx}${offsetKey}`}
                 x={textX}
                 y={textY}
+                data-label-id={geo.id}
                 fontSize={10 / mapTransform.scale}
                 strokeWidth={2.5 / mapTransform.scale}
                 style={{ textAnchor }}
@@ -2893,8 +3320,48 @@ function WorldMap({
     );
   }
 
+  const renderedMapLayers = useMemo(() => {
+    return (
+      <>
+        {renderMapElements(-worldWidth, "left", isFlatRepeat)}
+        {renderMapElements(0, "center", true)}
+        {renderMapElements(worldWidth, "right", isFlatRepeat)}
+      </>
+    );
+  }, [
+    mapGeographies,
+    worldWidth,
+    isFlatRepeat,
+    showFlagFills,
+    mapPerformance,
+    targetCodes,
+    selectedCountry,
+    selectedRelationships,
+    quizCountry,
+    quizHistory,
+    wrongGuesses,
+    revealingTarget,
+    isQuizPlayingActive,
+    quizPoolCodes,
+    smallCountryHitboxes,
+    showSmallCountryMarkersPractice,
+    smallCountryMarkerZoomLimit,
+    smallCountryMarkerMaxScreenArea,
+    smallCountryMarkerRadiusMultiplier,
+    mapTransform.scale,
+    quizMarkerPoint,
+    selectedCountryMarker,
+    showSelectedCountryMarker,
+    showCountryNames,
+    countryStrokeWidth
+  ]);
+
   return (
-    <section className={`map-panel ${isQuizPlayingActive ? "quiz-playing-mode" : ""} ${isDragging ? "is-dragging" : ""}`} aria-label="World map">
+    <section
+      ref={mapPanelRef}
+      className={`map-panel ${isQuizPlayingActive ? "quiz-playing-mode" : ""} projection-${projectionType}`}
+      aria-label="World map"
+    >
       <div className="map-tools" aria-label="Map zoom controls">
         <button type="button" onClick={() => zoomAt(mapTransform.scale * 1.45)} aria-label="Zoom in">
           <ZoomIn size={18} />
@@ -2943,7 +3410,11 @@ function WorldMap({
           <rect className="ocean" width={WIDTH} height={HEIGHT} rx="0" onClick={clearMapSelection} />
         )}
 
-        <g key={`map-render-${mapRenderVersion}`} transform={`translate(${renderX} ${mapTransform.y}) scale(${mapTransform.scale})`}>
+        <g
+          ref={mapGroupRef}
+          key={`map-render-${mapRenderVersion}`}
+          style={{ transform: `translate(${renderX}px, ${mapTransform.y}px) scale(${mapTransform.scale})`, transformOrigin: "0 0" }}
+        >
           {projectionType === "orthographic" && (
             <circle
               cx={WIDTH / 2}
@@ -2955,9 +3426,7 @@ function WorldMap({
             />
           )}
 
-          {renderMapElements(-worldWidth, "left", isFlatRepeat)}
-          {renderMapElements(0, "center", true)}
-          {renderMapElements(worldWidth, "right", isFlatRepeat)}
+          {renderedMapLayers}
 
           {projectionType === "orthographic" && (
             <>
@@ -3540,6 +4009,8 @@ function SettingsDialog({
   setMapView,
   mapDetailLevel,
   setMapDetailLevel,
+  mapPerformance,
+  setMapPerformance,
   detailLevel,
   setDetailLevel,
   projectionType,
@@ -3568,6 +4039,16 @@ function SettingsDialog({
   setSmallCountryMarkerMaxScreenArea,
   smallCountryMarkerRadiusMultiplier,
   setSmallCountryMarkerRadiusMultiplier,
+  colorOcean,
+  setColorOcean,
+  colorLand,
+  setColorLand,
+  colorBorder,
+  setColorBorder,
+  colorHover,
+  setColorHover,
+  colorSelected,
+  setColorSelected,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -3575,6 +4056,8 @@ function SettingsDialog({
   setMapView: (view: MapView) => void;
   mapDetailLevel: MapDetailLevel;
   setMapDetailLevel: (level: MapDetailLevel) => void;
+  mapPerformance: MapPerformance;
+  setMapPerformance: (perf: MapPerformance) => void;
   detailLevel: DetailLevel;
   setDetailLevel: (level: DetailLevel) => void;
   projectionType: ProjectionType;
@@ -3603,6 +4086,16 @@ function SettingsDialog({
   setSmallCountryMarkerMaxScreenArea: (val: number) => void;
   smallCountryMarkerRadiusMultiplier: number;
   setSmallCountryMarkerRadiusMultiplier: (val: number) => void;
+  colorOcean: string;
+  setColorOcean: (val: string) => void;
+  colorLand: string;
+  setColorLand: (val: string) => void;
+  colorBorder: string;
+  setColorBorder: (val: string) => void;
+  colorHover: string;
+  setColorHover: (val: string) => void;
+  colorSelected: string;
+  setColorSelected: (val: string) => void;
 }) {
   const isSubdivisionMode =
     selectedRegion === "United States (States)" ||
@@ -3690,6 +4183,25 @@ function SettingsDialog({
                   type="checkbox"
                   checked={showCountryNames}
                   onChange={(e) => setShowCountryNames(e.target.checked)}
+                />
+              </div>
+
+              <div className="settings-field">
+                <div className="field-info">
+                  <label>Map Rendering Performance</label>
+                  <span>Controls how the map handles complex SVG features during movement.</span>
+                </div>
+                <AppSelect
+                  ariaLabel="Map performance"
+                  icon={<Settings size={18} aria-hidden="true" />}
+                  value={mapPerformance}
+                  options={[
+                    { value: "eco", label: "Eco (Solid colors, no SVG flags)" },
+                    { value: "adaptive", label: "Adaptive (Hides complex SVG during map drag)" },
+                    { value: "high", label: "High Quality (Always render everything)" },
+                  ]}
+                  onChange={(value) => setMapPerformance(value as MapPerformance)}
+                  stretch
                 />
               </div>
             </div>
@@ -3916,6 +4428,111 @@ function SettingsDialog({
                   </div>
                 </div>
               )}
+            </div>
+
+            <div className="settings-section">
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
+                <h3>Map Colors</h3>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setColorOcean("#c9e4ed");
+                    setColorLand("#c9d4da");
+                    setColorBorder("#ffffff");
+                    setColorHover("#f2b85b");
+                    setColorSelected("#2da365");
+                  }}
+                  className="reset-colors-button"
+                  style={{
+                    fontSize: "0.78rem",
+                    background: "none",
+                    border: "none",
+                    color: "#d35400",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    padding: "4px 8px",
+                    borderRadius: "4px",
+                    transition: "background-color 0.2s",
+                  }}
+                >
+                  Reset Colors
+                </button>
+              </div>
+
+              <div className="settings-color-field">
+                <div className="field-info">
+                  <label>Ocean Color</label>
+                  <span>Set background ocean color.</span>
+                </div>
+                <div className="color-picker-container">
+                  <input
+                    type="color"
+                    value={colorOcean}
+                    onChange={(e) => setColorOcean(e.target.value)}
+                  />
+                  <span className="color-picker-value">{colorOcean}</span>
+                </div>
+              </div>
+
+              <div className="settings-color-field">
+                <div className="field-info">
+                  <label>Land Color</label>
+                  <span>Set default visible countries color.</span>
+                </div>
+                <div className="color-picker-container">
+                  <input
+                    type="color"
+                    value={colorLand}
+                    onChange={(e) => setColorLand(e.target.value)}
+                  />
+                  <span className="color-picker-value">{colorLand}</span>
+                </div>
+              </div>
+
+              <div className="settings-color-field">
+                <div className="field-info">
+                  <label>Border Color</label>
+                  <span>Set country boundaries border color.</span>
+                </div>
+                <div className="color-picker-container">
+                  <input
+                    type="color"
+                    value={colorBorder}
+                    onChange={(e) => setColorBorder(e.target.value)}
+                  />
+                  <span className="color-picker-value">{colorBorder}</span>
+                </div>
+              </div>
+
+              <div className="settings-color-field">
+                <div className="field-info">
+                  <label>Hover Color</label>
+                  <span>Set country highlight color on hover.</span>
+                </div>
+                <div className="color-picker-container">
+                  <input
+                    type="color"
+                    value={colorHover}
+                    onChange={(e) => setColorHover(e.target.value)}
+                  />
+                  <span className="color-picker-value">{colorHover}</span>
+                </div>
+              </div>
+
+              <div className="settings-color-field">
+                <div className="field-info">
+                  <label>Selection Color</label>
+                  <span>Set country highlight color when selected.</span>
+                </div>
+                <div className="color-picker-container">
+                  <input
+                    type="color"
+                    value={colorSelected}
+                    onChange={(e) => setColorSelected(e.target.value)}
+                  />
+                  <span className="color-picker-value">{colorSelected}</span>
+                </div>
+              </div>
             </div>
           </div>
         </Dialog.Content>
