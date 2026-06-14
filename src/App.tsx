@@ -2168,9 +2168,19 @@ function WorldMap({
   } | null>(null);
   
   const wasDraggingRef = useRef(false);
+  const zoomRefreshTimeoutRef = useRef<number | null>(null);
   const [mapTransform, setMapTransform] = useState({ scale: 1, x: 0, y: 0 });
+  const [mapRenderVersion, setMapRenderVersion] = useState(0);
   const filteredCodes = useMemo(() => new Set(filteredCountries.map((country) => country.cca3)), [filteredCountries]);
   const showFlagFills = mapView === "flagFills";
+
+  useEffect(() => {
+    return () => {
+      if (zoomRefreshTimeoutRef.current !== null) {
+        window.clearTimeout(zoomRefreshTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const targetCodes = useMemo(() => {
     return isQuizMode && (quizStatus === "playing" || quizStatus === "summary")
@@ -2224,6 +2234,17 @@ function WorldMap({
     return screenMatrix ? point.matrixTransform(screenMatrix.inverse()) : { x: WIDTH / 2, y: HEIGHT / 2 };
   }
 
+  function scheduleZoomRenderRefresh() {
+    if (zoomRefreshTimeoutRef.current !== null) {
+      window.clearTimeout(zoomRefreshTimeoutRef.current);
+    }
+
+    zoomRefreshTimeoutRef.current = window.setTimeout(() => {
+      zoomRefreshTimeoutRef.current = null;
+      setMapRenderVersion((version) => version + 1);
+    }, 120);
+  }
+
   function zoomAt(nextScale: number, center = { x: WIDTH / 2, y: HEIGHT / 2 }) {
     setMapTransform((current) => {
       const scale = clampZoom(nextScale);
@@ -2234,6 +2255,7 @@ function WorldMap({
         y: center.y - (center.y - current.y) * ratio,
       };
     });
+    scheduleZoomRenderRefresh();
   }
 
   function handleWheel(event: WheelEvent<SVGSVGElement>) {
@@ -2535,6 +2557,7 @@ function WorldMap({
           onClick={() => {
             setMapTransform({ scale: 1, x: 0, y: 0 });
             setGlobeRotation([0, 0]);
+            scheduleZoomRenderRefresh();
           }}
           aria-label="Reset map zoom"
         >
@@ -2570,7 +2593,7 @@ function WorldMap({
           <rect className="ocean" width={WIDTH} height={HEIGHT} rx="0" onClick={clearMapSelection} />
         )}
 
-        <g transform={`translate(${renderX} ${mapTransform.y}) scale(${mapTransform.scale})`}>
+        <g key={`map-render-${mapRenderVersion}`} transform={`translate(${renderX} ${mapTransform.y}) scale(${mapTransform.scale})`}>
           {projectionType === "orthographic" && (
             <circle
               cx={WIDTH / 2}
