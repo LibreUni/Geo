@@ -123,6 +123,7 @@ const MAX_COUNTRY_HIT_AREA = WIDTH * HEIGHT * 0.6;
 const SMALL_COUNTRY_HIT_AREA = 16;
 const SMALL_COUNTRY_HIT_RADIUS = 9;
 const MIN_SMALL_COUNTRY_HIT_RADIUS = 0.65;
+const QUIZ_SMALL_COUNTRY_MARKER_SCALE_LIMIT = 11;
 const BASE_COUNTRY_STROKE_WIDTH = 0.55;
 const MIN_COUNTRY_STROKE_WIDTH = 0.08;
 
@@ -2454,8 +2455,18 @@ function WorldMap({
   }
 
   function smallCountryHitRadius() {
-    const screenRadius = Math.min(24, 9 * Math.max(1, Math.sqrt(mapTransform.scale)));
+    const screenRadius = isQuizPlayingActive
+      ? Math.max(5, 18 - Math.max(0, mapTransform.scale - 1) * 1.45)
+      : Math.min(24, 9 * Math.max(1, Math.sqrt(mapTransform.scale)));
     return Math.max(MIN_SMALL_COUNTRY_HIT_RADIUS, screenRadius / mapTransform.scale);
+  }
+
+  function smallCountryMarkerOpacity() {
+    if (!isQuizPlayingActive) return undefined;
+    const fadeStart = QUIZ_SMALL_COUNTRY_MARKER_SCALE_LIMIT * 0.68;
+    if (mapTransform.scale <= fadeStart) return 1;
+    const fadeProgress = (mapTransform.scale - fadeStart) / (QUIZ_SMALL_COUNTRY_MARKER_SCALE_LIMIT - fadeStart);
+    return Math.max(0.34, 1 - fadeProgress * 0.5);
   }
 
   const quizMarkerPoint = quizCountry && needsQuizMarker(quizCountry) ? getMarkerPoint(quizCountry) : null;
@@ -2547,6 +2558,7 @@ function WorldMap({
               key={`path-${geo.id}-${idx}${offsetKey}`}
               className={className}
               d={geo.d}
+              style={{ strokeWidth: countryStrokeWidth }}
               onClick={() =>
                 country &&
                 hasSaneHitArea &&
@@ -2558,13 +2570,16 @@ function WorldMap({
             </path>
           );
         })}
-        {mapTransform.scale < 2.2 && smallCountryHitboxes.map(({ geo, country }) => {
+        {mapTransform.scale < (isQuizPlayingActive ? QUIZ_SMALL_COUNTRY_MARKER_SCALE_LIMIT : 2.2) && smallCountryHitboxes.map(({ geo, country }) => {
+          const markerPoint = getMarkerPoint(country) ?? geo.centroid;
+          if (!markerPoint) return null;
           const quizColor = isQuizMode ? quizHistory[country.cca3] : undefined;
           const isWrongGuess = isQuizMode ? wrongGuesses.includes(country.cca3) : false;
           const isRevealed = isQuizMode && revealingTarget && country.cca3 === quizCountry?.cca3;
           
           const className = [
             "island-hitbox",
+            isQuizPlayingActive ? "quiz-island-marker" : "",
             quizColor ? `quiz-${quizColor}` : "",
             isWrongGuess ? "quiz-wrong-guess" : "",
             isRevealed ? "quiz-failed" : "",
@@ -2574,9 +2589,10 @@ function WorldMap({
             <circle
               key={`hit-${country.cca3}${offsetKey}`}
               className={className}
-              cx={geo.centroid![0]}
-              cy={geo.centroid![1]}
+              cx={markerPoint[0]}
+              cy={markerPoint[1]}
               r={smallCountryHitRadius()}
+              style={{ opacity: smallCountryMarkerOpacity() }}
               onClick={() => (!isQuizPlayingActive || quizPoolCodes.has(country.cca3)) && selectCountry(country)}
             >
               {!isQuizPlayingActive && <title>{country.name}</title>}

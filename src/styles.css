@@ -206,7 +206,7 @@ button {
 }
 
 .ocean {
-  fill: #d8edf3;
+  fill: #c9e4ed;
 }
 
 .country {
@@ -232,8 +232,15 @@ button {
   vector-effect: non-scaling-stroke;
 }
 
+.island-hitbox.quiz-island-marker {
+  fill: rgba(255, 241, 214, 0.78);
+  stroke: #1f4454;
+  stroke-width: 1.7px;
+  filter: drop-shadow(0 1px 2px rgb(21 53 63 / 30%));
+}
+
 .country.visible {
-  fill: #d2dadf;
+  fill: #c9d4da;
 }
 
 .country.flagged.visible {
@@ -243,6 +250,24 @@ button {
 .country.muted {
   fill: #d2dadf;
   opacity: 0.58;
+}
+
+.quiz-playing-mode .ocean {
+  fill: #b9dce8;
+}
+
+.quiz-playing-mode .country {
+  stroke: #5c7582;
+}
+
+.quiz-playing-mode .country.visible {
+  fill: #eef3f0;
+  stroke: #415d6a;
+}
+
+.quiz-playing-mode .country.muted {
+  fill: #c7d2d8;
+  opacity: 0.5;
 }
 
 .country:hover {
@@ -1065,24 +1090,24 @@ dd {
 
 /* Island hitbox styles during quiz */
 .island-hitbox.quiz-first-try {
-  fill: rgba(46, 204, 113, 0.4) !important;
+  fill: rgba(46, 204, 113, 0.72) !important;
   stroke: #27ae60 !important;
-  stroke-width: 1.5px !important;
+  stroke-width: 1.8px !important;
 }
 .island-hitbox.quiz-second-try {
-  fill: rgba(241, 196, 15, 0.4) !important;
+  fill: rgba(241, 196, 15, 0.74) !important;
   stroke: #d9a407 !important;
-  stroke-width: 1.5px !important;
+  stroke-width: 1.8px !important;
 }
 .island-hitbox.quiz-third-try {
-  fill: rgba(230, 126, 34, 0.4) !important;
+  fill: rgba(230, 126, 34, 0.74) !important;
   stroke: #c25e17 !important;
-  stroke-width: 1.5px !important;
+  stroke-width: 1.8px !important;
 }
 .island-hitbox.quiz-failed {
-  fill: rgba(231, 76, 60, 0.4) !important;
+  fill: rgba(231, 76, 60, 0.74) !important;
   stroke: #c0392b !important;
-  stroke-width: 1.5px !important;
+  stroke-width: 1.8px !important;
 }
 
 /* Wrong Guess Flash Animation */
@@ -1112,7 +1137,7 @@ dd {
 /* Hide hover labels and style hover action during active quiz */
 .quiz-playing-mode .country:hover {
   filter: brightness(1.15);
-  stroke: #ffffff !important;
+  stroke: #102d3a !important;
 }
 
 .quiz-playing-mode .country.quiz-first-try:hover,
@@ -1123,8 +1148,9 @@ dd {
 }
 
 .quiz-playing-mode .island-hitbox:hover {
-  stroke: #ffffff !important;
-  stroke-width: 1.5px !important;
+  fill: rgba(242, 184, 91, 0.85);
+  stroke: #102d3a !important;
+  stroke-width: 2.2px !important;
 }
 
 /* Immersive Quiz Dashboard styling */
@@ -2000,5 +2026,3 @@ dd {
   fill: #0e665d;
   opacity: 1;
 }
-
-
