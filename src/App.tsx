@@ -1172,6 +1172,194 @@ function App() {
       console.error("Failed to save country names option", e);
     }
   }, [showCountryNames]);
+
+  // Customizable Map settings
+  const [baseBorderWidth, setBaseBorderWidth] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_base_border_width");
+      if (saved !== null) {
+        const parsed = parseFloat(saved);
+        if (!isNaN(parsed)) return parsed;
+      }
+    } catch (e) {
+      console.error("Failed to load base border width", e);
+    }
+    return 0.55;
+  });
+
+  const [minBorderWidth, setMinBorderWidth] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_min_border_width");
+      if (saved !== null) {
+        const parsed = parseFloat(saved);
+        if (!isNaN(parsed)) return parsed;
+      }
+    } catch (e) {
+      console.error("Failed to load min border width", e);
+    }
+    return 0.08;
+  });
+
+  const [borderZoomPower, setBorderZoomPower] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_border_zoom_power");
+      if (saved !== null) {
+        const parsed = parseFloat(saved);
+        if (!isNaN(parsed)) return parsed;
+      }
+    } catch (e) {
+      console.error("Failed to load border zoom power", e);
+    }
+    return 1.35;
+  });
+
+  const [minMapZoom, setMinMapZoom] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_min_map_zoom");
+      if (saved !== null) {
+        const parsed = parseFloat(saved);
+        if (!isNaN(parsed)) return parsed;
+      }
+    } catch (e) {
+      console.error("Failed to load min map zoom", e);
+    }
+    return 0.82;
+  });
+
+  const [maxMapZoom, setMaxMapZoom] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_max_map_zoom");
+      if (saved !== null) {
+        const parsed = parseFloat(saved);
+        if (!isNaN(parsed)) return parsed;
+      }
+    } catch (e) {
+      console.error("Failed to load max map zoom", e);
+    }
+    return 120.0;
+  });
+
+  const [showSmallCountryMarkersPractice, setShowSmallCountryMarkersPractice] = useState<string>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_show_small_country_markers_practice");
+      if (saved !== null) return saved;
+    } catch (e) {
+      console.error("Failed to load small country markers practice", e);
+    }
+    return "dynamic";
+  });
+
+  const [smallCountryMarkerZoomLimit, setSmallCountryMarkerZoomLimit] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_small_country_marker_zoom_limit");
+      if (saved !== null) {
+        const parsed = parseFloat(saved);
+        if (!isNaN(parsed)) return parsed;
+      }
+    } catch (e) {
+      console.error("Failed to load small country marker zoom limit", e);
+    }
+    return 2.2;
+  });
+
+  const [smallCountryMarkerMaxScreenArea, setSmallCountryMarkerMaxScreenArea] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_small_country_marker_max_screen_area");
+      if (saved !== null) {
+        const parsed = parseFloat(saved);
+        if (!isNaN(parsed)) return parsed;
+      }
+    } catch (e) {
+      console.error("Failed to load small country marker max screen area", e);
+    }
+    return 30.0;
+  });
+
+  const [smallCountryMarkerRadiusMultiplier, setSmallCountryMarkerRadiusMultiplier] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem("geolearn_small_country_marker_radius_multiplier");
+      if (saved !== null) {
+        const parsed = parseFloat(saved);
+        if (!isNaN(parsed)) return parsed;
+      }
+    } catch (e) {
+      console.error("Failed to load small country marker radius multiplier", e);
+    }
+    return 1.0;
+  });
+
+  // Effects to save customizable map settings to localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_base_border_width", String(baseBorderWidth));
+    } catch (e) {
+      console.error("Failed to save base border width", e);
+    }
+  }, [baseBorderWidth]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_min_border_width", String(minBorderWidth));
+    } catch (e) {
+      console.error("Failed to save min border width", e);
+    }
+  }, [minBorderWidth]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_border_zoom_power", String(borderZoomPower));
+    } catch (e) {
+      console.error("Failed to save border zoom power", e);
+    }
+  }, [borderZoomPower]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_min_map_zoom", String(minMapZoom));
+    } catch (e) {
+      console.error("Failed to save min map zoom", e);
+    }
+  }, [minMapZoom]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_max_map_zoom", String(maxMapZoom));
+    } catch (e) {
+      console.error("Failed to save max map zoom", e);
+    }
+  }, [maxMapZoom]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_show_small_country_markers_practice", showSmallCountryMarkersPractice);
+    } catch (e) {
+      console.error("Failed to save small country markers practice", e);
+    }
+  }, [showSmallCountryMarkersPractice]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_small_country_marker_zoom_limit", String(smallCountryMarkerZoomLimit));
+    } catch (e) {
+      console.error("Failed to save small country marker zoom limit", e);
+    }
+  }, [smallCountryMarkerZoomLimit]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_small_country_marker_max_screen_area", String(smallCountryMarkerMaxScreenArea));
+    } catch (e) {
+      console.error("Failed to save small country marker max screen area", e);
+    }
+  }, [smallCountryMarkerMaxScreenArea]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("geolearn_small_country_marker_radius_multiplier", String(smallCountryMarkerRadiusMultiplier));
+    } catch (e) {
+      console.error("Failed to save small country marker radius multiplier", e);
+    }
+  }, [smallCountryMarkerRadiusMultiplier]);
   const [quizMode, setQuizMode] = useState<QuizMode>("locate");
   const [quizCountry, setQuizCountry] = useState<Country | null>(null);
   const [choices, setChoices] = useState<Country[]>([]);
@@ -1673,6 +1861,15 @@ function App() {
         wrongGuesses={wrongGuesses}
         revealingTarget={revealingTarget}
         showCountryNames={showCountryNames}
+        minMapZoom={minMapZoom}
+        maxMapZoom={maxMapZoom}
+        baseBorderWidth={baseBorderWidth}
+        minBorderWidth={minBorderWidth}
+        borderZoomPower={borderZoomPower}
+        showSmallCountryMarkersPractice={showSmallCountryMarkersPractice}
+        smallCountryMarkerZoomLimit={smallCountryMarkerZoomLimit}
+        smallCountryMarkerMaxScreenArea={smallCountryMarkerMaxScreenArea}
+        smallCountryMarkerRadiusMultiplier={smallCountryMarkerRadiusMultiplier}
       />
 
       {isMobile && !(view === "quiz" && quizStatus === "playing") && (
@@ -1738,6 +1935,24 @@ function App() {
         setShowCountryNames={setShowCountryNames}
         selectedRegion={selectedRegion}
         isRussiaSubdivisionRegion={isRussiaSubdivisionRegion}
+        baseBorderWidth={baseBorderWidth}
+        setBaseBorderWidth={setBaseBorderWidth}
+        minBorderWidth={minBorderWidth}
+        setMinBorderWidth={setMinBorderWidth}
+        borderZoomPower={borderZoomPower}
+        setBorderZoomPower={setBorderZoomPower}
+        minMapZoom={minMapZoom}
+        setMinMapZoom={setMinMapZoom}
+        maxMapZoom={maxMapZoom}
+        setMaxMapZoom={setMaxMapZoom}
+        showSmallCountryMarkersPractice={showSmallCountryMarkersPractice}
+        setShowSmallCountryMarkersPractice={setShowSmallCountryMarkersPractice}
+        smallCountryMarkerZoomLimit={smallCountryMarkerZoomLimit}
+        setSmallCountryMarkerZoomLimit={setSmallCountryMarkerZoomLimit}
+        smallCountryMarkerMaxScreenArea={smallCountryMarkerMaxScreenArea}
+        setSmallCountryMarkerMaxScreenArea={setSmallCountryMarkerMaxScreenArea}
+        smallCountryMarkerRadiusMultiplier={smallCountryMarkerRadiusMultiplier}
+        setSmallCountryMarkerRadiusMultiplier={setSmallCountryMarkerRadiusMultiplier}
       />
 
       {view === "practice" && selectedCountry ? (
@@ -2078,6 +2293,15 @@ function WorldMap({
   wrongGuesses = [],
   revealingTarget = false,
   showCountryNames = false,
+  minMapZoom,
+  maxMapZoom,
+  baseBorderWidth,
+  minBorderWidth,
+  borderZoomPower,
+  showSmallCountryMarkersPractice,
+  smallCountryMarkerZoomLimit,
+  smallCountryMarkerMaxScreenArea,
+  smallCountryMarkerRadiusMultiplier,
 }: {
   countries: Country[];
   countryByNumeric: Map<string, Country>;
@@ -2099,6 +2323,15 @@ function WorldMap({
   wrongGuesses?: string[];
   revealingTarget?: boolean;
   showCountryNames?: boolean;
+  minMapZoom: number;
+  maxMapZoom: number;
+  baseBorderWidth: number;
+  minBorderWidth: number;
+  borderZoomPower: number;
+  showSmallCountryMarkersPractice: string;
+  smallCountryMarkerZoomLimit: number;
+  smallCountryMarkerMaxScreenArea: number;
+  smallCountryMarkerRadiusMultiplier: number;
 }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   
@@ -2232,16 +2465,15 @@ function WorldMap({
       return mapGeographies
         .map((geo) => {
           const rawCountry = countryByNumeric.get(geo.id);
-          if (rawCountry && rawCountry.ccn3 !== geo.id) return { geo, country: undefined };
-          return { geo, country: rawCountry };
+          if (rawCountry && rawCountry.ccn3 !== geo.id) return { geo, country: undefined, totalArea: 0 };
+          return { geo, country: rawCountry, totalArea: countryTotalAreas.get(rawCountry?.cca3 || "") || 0 };
         })
         .filter(
-          (item): item is { geo: MapGeometry; country: Country } => {
+          (item): item is { geo: MapGeometry; country: Country; totalArea: number } => {
             if (!item.country || !targetCodes.has(item.country.cca3)) return false;
-            const totalArea = countryTotalAreas.get(item.country.cca3) || 0;
             return (
-              totalArea > 0 &&
-              totalArea < SMALL_COUNTRY_HIT_AREA &&
+              item.totalArea > 0 &&
+              item.totalArea < SMALL_COUNTRY_HIT_AREA &&
               Boolean(item.geo.centroid)
             );
           }
@@ -2277,7 +2509,7 @@ function WorldMap({
   );
 
   function clampZoom(scale: number) {
-    return Math.min(MAX_MAP_ZOOM, Math.max(MIN_MAP_ZOOM, scale));
+    return Math.min(maxMapZoom, Math.max(minMapZoom, scale));
   }
 
   function clientPointToSvg(event: WheelEvent<SVGSVGElement>) {
@@ -2393,7 +2625,8 @@ function WorldMap({
     const screenRadius = isQuizPlayingActive
       ? Math.max(5, 18 - Math.max(0, mapTransform.scale - 1) * 1.45)
       : Math.min(24, 9 * Math.max(1, Math.sqrt(mapTransform.scale)));
-    return Math.max(MIN_SMALL_COUNTRY_HIT_RADIUS, screenRadius / mapTransform.scale);
+    const baseRadius = Math.max(MIN_SMALL_COUNTRY_HIT_RADIUS, screenRadius / mapTransform.scale);
+    return baseRadius * (isQuizPlayingActive ? 1.0 : smallCountryMarkerRadiusMultiplier);
   }
 
   function smallCountryMarkerOpacity() {
@@ -2406,8 +2639,8 @@ function WorldMap({
 
   const quizMarkerPoint = quizCountry && needsQuizMarker(quizCountry) ? getMarkerPoint(quizCountry) : null;
   const countryStrokeWidth = Math.max(
-    MIN_COUNTRY_STROKE_WIDTH,
-    BASE_COUNTRY_STROKE_WIDTH / Math.pow(mapTransform.scale, 1.35),
+    minBorderWidth,
+    baseBorderWidth / Math.pow(mapTransform.scale, borderZoomPower),
   );
 
   const isQuizPlayingActive = isQuizMode && (quizStatus === "playing" || quizStatus === "summary");
@@ -2505,7 +2738,25 @@ function WorldMap({
             </path>
           );
         })}
-        {mapTransform.scale < (isQuizPlayingActive ? QUIZ_SMALL_COUNTRY_MARKER_SCALE_LIMIT : 2.2) && smallCountryHitboxes.map(({ geo, country }) => {
+        {smallCountryHitboxes.map(({ geo, country, totalArea }) => {
+          let visible = true;
+          if (isQuizPlayingActive) {
+            visible = mapTransform.scale < QUIZ_SMALL_COUNTRY_MARKER_SCALE_LIMIT;
+          } else {
+            if (showSmallCountryMarkersPractice === "never") {
+              visible = false;
+            } else if (showSmallCountryMarkersPractice === "always") {
+              visible = true;
+            } else if (showSmallCountryMarkersPractice === "low-zoom") {
+              visible = mapTransform.scale < smallCountryMarkerZoomLimit;
+            } else if (showSmallCountryMarkersPractice === "dynamic") {
+              const screenArea = totalArea * mapTransform.scale * mapTransform.scale;
+              visible = screenArea < smallCountryMarkerMaxScreenArea;
+            }
+          }
+
+          if (!visible) return null;
+
           const markerPoint = getMarkerPoint(country) ?? geo.centroid;
           if (!markerPoint) return null;
           const quizColor = isQuizMode ? quizHistory[country.cca3] : undefined;
@@ -3299,6 +3550,24 @@ function SettingsDialog({
   setShowCountryNames,
   selectedRegion,
   isRussiaSubdivisionRegion,
+  baseBorderWidth,
+  setBaseBorderWidth,
+  minBorderWidth,
+  setMinBorderWidth,
+  borderZoomPower,
+  setBorderZoomPower,
+  minMapZoom,
+  setMinMapZoom,
+  maxMapZoom,
+  setMaxMapZoom,
+  showSmallCountryMarkersPractice,
+  setShowSmallCountryMarkersPractice,
+  smallCountryMarkerZoomLimit,
+  setSmallCountryMarkerZoomLimit,
+  smallCountryMarkerMaxScreenArea,
+  setSmallCountryMarkerMaxScreenArea,
+  smallCountryMarkerRadiusMultiplier,
+  setSmallCountryMarkerRadiusMultiplier,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -3316,6 +3585,24 @@ function SettingsDialog({
   setShowCountryNames: (show: boolean) => void;
   selectedRegion: string;
   isRussiaSubdivisionRegion: (region: string) => boolean;
+  baseBorderWidth: number;
+  setBaseBorderWidth: (val: number) => void;
+  minBorderWidth: number;
+  setMinBorderWidth: (val: number) => void;
+  borderZoomPower: number;
+  setBorderZoomPower: (val: number) => void;
+  minMapZoom: number;
+  setMinMapZoom: (val: number) => void;
+  maxMapZoom: number;
+  setMaxMapZoom: (val: number) => void;
+  showSmallCountryMarkersPractice: string;
+  setShowSmallCountryMarkersPractice: (val: string) => void;
+  smallCountryMarkerZoomLimit: number;
+  setSmallCountryMarkerZoomLimit: (val: number) => void;
+  smallCountryMarkerMaxScreenArea: number;
+  setSmallCountryMarkerMaxScreenArea: (val: number) => void;
+  smallCountryMarkerRadiusMultiplier: number;
+  setSmallCountryMarkerRadiusMultiplier: (val: number) => void;
 }) {
   const isSubdivisionMode =
     selectedRegion === "United States (States)" ||
@@ -3451,6 +3738,184 @@ function SettingsDialog({
                   stretch
                 />
               </div>
+            </div>
+
+            <div className="settings-section">
+              <h3>Map Customization & Borders</h3>
+
+              <div className="settings-slider-field">
+                <div className="field-info">
+                  <label>Base Border Thickness</label>
+                  <span>Set default thickness of country borders.</span>
+                </div>
+                <div className="slider-container">
+                  <input
+                    type="range"
+                    min="0.10"
+                    max="2.50"
+                    step="0.05"
+                    value={baseBorderWidth}
+                    onChange={(e) => setBaseBorderWidth(parseFloat(e.target.value))}
+                  />
+                  <span className="slider-value">{baseBorderWidth.toFixed(2)}px</span>
+                </div>
+              </div>
+
+              <div className="settings-slider-field">
+                <div className="field-info">
+                  <label>Minimum Border Thickness</label>
+                  <span>Ensure borders remain visible when zoomed in.</span>
+                </div>
+                <div className="slider-container">
+                  <input
+                    type="range"
+                    min="0.01"
+                    max="0.80"
+                    step="0.01"
+                    value={minBorderWidth}
+                    onChange={(e) => setMinBorderWidth(parseFloat(e.target.value))}
+                  />
+                  <span className="slider-value">{minBorderWidth.toFixed(2)}px</span>
+                </div>
+              </div>
+
+              <div className="settings-slider-field">
+                <div className="field-info">
+                  <label>Border Zoom Scaling Exponent</label>
+                  <span>Control how fast borders shrink as you zoom in (0 = constant).</span>
+                </div>
+                <div className="slider-container">
+                  <input
+                    type="range"
+                    min="0.00"
+                    max="2.00"
+                    step="0.05"
+                    value={borderZoomPower}
+                    onChange={(e) => setBorderZoomPower(parseFloat(e.target.value))}
+                  />
+                  <span className="slider-value">{borderZoomPower.toFixed(2)}</span>
+                </div>
+              </div>
+
+              <div className="settings-slider-field">
+                <div className="field-info">
+                  <label>Minimum Map Zoom Limit</label>
+                  <span>Restrict how far you can zoom out of the map.</span>
+                </div>
+                <div className="slider-container">
+                  <input
+                    type="range"
+                    min="0.10"
+                    max="3.00"
+                    step="0.05"
+                    value={minMapZoom}
+                    onChange={(e) => setMinMapZoom(parseFloat(e.target.value))}
+                  />
+                  <span className="slider-value">{minMapZoom.toFixed(2)}x</span>
+                </div>
+              </div>
+
+              <div className="settings-slider-field">
+                <div className="field-info">
+                  <label>Maximum Map Zoom Limit</label>
+                  <span>Set magnification ceiling for tiny areas.</span>
+                </div>
+                <div className="slider-container">
+                  <input
+                    type="range"
+                    min="5"
+                    max="300"
+                    step="5"
+                    value={maxMapZoom}
+                    onChange={(e) => setMaxMapZoom(parseInt(e.target.value))}
+                  />
+                  <span className="slider-value">{maxMapZoom}x</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="settings-section">
+              <h3>Small Country Select Circles</h3>
+
+              <div className="settings-field">
+                <div className="field-info">
+                  <label>Practice Marker Display Mode</label>
+                  <span>Show circular markers for small islands and microstates.</span>
+                </div>
+                <AppSelect
+                  ariaLabel="Marker mode"
+                  icon={<Layers size={18} aria-hidden="true" />}
+                  value={showSmallCountryMarkersPractice}
+                  options={[
+                    { value: "dynamic", label: "Dynamic (Hide when shape is large on screen)" },
+                    { value: "always", label: "Always Show Circles" },
+                    { value: "low-zoom", label: "Show Below Zoom Threshold" },
+                    { value: "never", label: "Never Show Circles" },
+                  ]}
+                  onChange={(value) => setShowSmallCountryMarkersPractice(value)}
+                  stretch
+                />
+              </div>
+
+              {showSmallCountryMarkersPractice === "low-zoom" && (
+                <div className="settings-slider-field">
+                  <div className="field-info">
+                    <label>Marker Disappear Zoom Level</label>
+                    <span>Hide selection circles when zoom goes above this scale.</span>
+                  </div>
+                  <div className="slider-container">
+                    <input
+                      type="range"
+                      min="1.0"
+                      max="30.0"
+                      step="0.2"
+                      value={smallCountryMarkerZoomLimit}
+                      onChange={(e) => setSmallCountryMarkerZoomLimit(parseFloat(e.target.value))}
+                    />
+                    <span className="slider-value">{smallCountryMarkerZoomLimit.toFixed(1)}x</span>
+                  </div>
+                </div>
+              )}
+
+              {showSmallCountryMarkersPractice === "dynamic" && (
+                <div className="settings-slider-field">
+                  <div className="field-info">
+                    <label>Marker Disappear Screen Area Threshold</label>
+                    <span>Hide circles when country exceeds this screen pixel area.</span>
+                  </div>
+                  <div className="slider-container">
+                    <input
+                      type="range"
+                      min="5"
+                      max="300"
+                      step="5"
+                      value={smallCountryMarkerMaxScreenArea}
+                      onChange={(e) => setSmallCountryMarkerMaxScreenArea(parseInt(e.target.value))}
+                    />
+                    <span className="slider-value">{smallCountryMarkerMaxScreenArea}px²</span>
+                  </div>
+                </div>
+              )}
+
+              {showSmallCountryMarkersPractice !== "never" && (
+                <div className="settings-slider-field">
+                  <div className="field-info">
+                    <label>Marker Size Multiplier</label>
+                    <span>Customize scale of selection circles.</span>
+                  </div>
+                  <div className="slider-container">
+                    <input
+                      type="range"
+                      min="0.5"
+                      max="3.0"
+                      step="0.1"
+                      value={smallCountryMarkerRadiusMultiplier}
+                      onChange={(e) => setSmallCountryMarkerRadiusMultiplier(parseFloat(e.target.value))}
+                    />
+                    <span className="slider-value">{smallCountryMarkerRadiusMultiplier.toFixed(1)}x</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </Dialog.Content>
