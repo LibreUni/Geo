@@ -240,7 +240,7 @@ button {
 }
 
 .country.visible {
-  fill: var(--color-land, #c9d4da);
+  fill: var(--country-dynamic-fill, var(--color-land, #c9d4da));
 }
 
 .country.flagged.visible {

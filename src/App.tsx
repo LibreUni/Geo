@@ -9,6 +9,12 @@ import countryData from "./data/countries.json";
 import subdivisionsAtlas from "./data/subdivisions-shapes.json";
 import subdivisionsMetadata from "./data/subdivisions-metadata.json";
 import {
+  LEFT_DRIVING_COUNTRIES,
+  CALLING_CODES,
+  LICENSE_PLATES,
+  LICENSE_PLATE_STYLES,
+} from "./data/geoguessr-metadata";
+import {
   CheckCircle2,
   Check,
   ChevronDown,
@@ -41,7 +47,7 @@ import {
 
 type ViewMode = "practice" | "quiz";
 type QuizMode = "locate" | "flag" | "facts";
-type MapView = "borders" | "flagFills";
+type MapView = "borders" | "flagFills" | "drivingSide" | "licensePlates" | "internetTld" | "callingCodes";
 type ResultState = "idle" | "correct" | "wrong";
 type RelationshipKind = "self" | "tension" | "mild-tension" | "ally" | "union" | "territory";
 type DetailLevel = "full" | "basic" | "minimal";
@@ -71,6 +77,75 @@ const sovereignToParentCode: Record<string, string> = {
 function getParentCode(country: Country): string | null {
   if (!country.sovereignty?.sovereignState) return null;
   return sovereignToParentCode[country.sovereignty.sovereignState] ?? null;
+}
+
+function getParentCca3(country: Country | undefined): string | undefined {
+  if (!country) return undefined;
+  if ((country as any).parent) {
+    return (country as any).parent;
+  }
+  if (country.cca3.includes("-")) {
+    return country.cca3.split("-")[0];
+  }
+  return country.cca3;
+}
+
+function getCountryTld(country: Country): string {
+  const code = getParentCca3(country);
+  if (code === "GBR") return ".uk";
+  const alpha2 = country.alpha2 || (code ? code.slice(0, 2) : "");
+  return `.${alpha2.toLowerCase()}`;
+}
+
+function getCountryDrivingSide(country: Country): "Left" | "Right" {
+  const code = getParentCca3(country);
+  if (!code) return "Right";
+  return LEFT_DRIVING_COUNTRIES.has(code) ? "Left" : "Right";
+}
+
+function getCountryDynamicFill(country: Country, mapView: MapView): string | undefined {
+  const parentCode = getParentCca3(country) || country.cca3;
+  
+  if (mapView === "drivingSide") {
+    return LEFT_DRIVING_COUNTRIES.has(parentCode) ? "#818cf8" : "#fcd34d"; // Indigo-400 for Left, Amber-300 for Right
+  }
+  
+  if (mapView === "licensePlates") {
+    const styleKey = LICENSE_PLATES[parentCode] || "white-standard";
+    return LICENSE_PLATE_STYLES[styleKey]?.color || "#e2e8f0";
+  }
+  
+  if (mapView === "internetTld") {
+    switch (country.region) {
+      case "Europe": return "#a5b4fc";
+      case "Asia": return "#fca5a5";
+      case "Americas": return "#fcd34d";
+      case "Africa": return "#6ee7b7";
+      case "Oceania": return "#f9a8d4";
+      case "Antarctic": return "#81e6d9";
+      default: return "#cbd5e1";
+    }
+  }
+  
+  if (mapView === "callingCodes") {
+    const rawCode = CALLING_CODES[parentCode];
+    if (!rawCode) return "#cbd5e1";
+    const firstDigit = rawCode.replace("+", "")[0];
+    switch (firstDigit) {
+      case "1": return "#93c5fd";
+      case "2": return "#6ee7b7";
+      case "3":
+      case "4": return "#a5b4fc";
+      case "5": return "#fde047";
+      case "6": return "#f9a8d4";
+      case "7": return "#c084fc";
+      case "8": return "#2dd4bf";
+      case "9": return "#fca5a5";
+      default: return "#e2e8f0";
+    }
+  }
+  
+  return undefined;
 }
 
 type Country = {
@@ -3068,7 +3143,7 @@ function WorldMap({
     
     // Use CSS classes to hide flags during adaptive dragging
     const showFlagsLOD = showFlagFills;
-    const showLabelsLOD = showCountryNames;
+    const showLabelsLOD = showCountryNames || mapView === "internetTld" || mapView === "callingCodes";
 
     return (
       <g key={`map-elements${offsetKey}`} transform={`translate(${xOffset}, 0)`}>
@@ -3145,13 +3220,19 @@ function WorldMap({
             .filter(Boolean)
             .join(" ");
           
+          const dynamicFill = country ? getCountryDynamicFill(country, mapView) : undefined;
+          const inlineStyle = {
+            strokeWidth: countryStrokeWidth,
+            ...(dynamicFill ? { "--country-dynamic-fill": dynamicFill } : {})
+          } as React.CSSProperties;
+
           return (
             <path
               key={`path-${geo.id}-${idx}${offsetKey}`}
               className={className}
               data-geo-id={geo.id}
               d={geo.d}
-              style={{ strokeWidth: countryStrokeWidth }}
+              style={inlineStyle}
               onClick={() =>
                 country &&
                 hasSaneHitArea &&
@@ -3196,6 +3277,18 @@ function WorldMap({
             isRevealed ? "quiz-failed" : "",
           ].filter(Boolean).join(" ");
           
+          const isDynamicView = mapView !== "borders" && mapView !== "flagFills";
+          const dynamicFill = isDynamicView && !isQuizPlayingActive && country ? getCountryDynamicFill(country, mapView) : undefined;
+          
+          const circleStyle: React.CSSProperties = {
+            opacity: smallCountryMarkerOpacity(),
+            ...(dynamicFill ? {
+              fill: dynamicFill,
+              stroke: "#1f4454",
+              strokeWidth: Math.max(0.5, 1.2 / mapTransform.scale)
+            } : {})
+          };
+
           return (
             <circle
               key={`hit-${country.cca3}${offsetKey}`}
@@ -3204,7 +3297,7 @@ function WorldMap({
               cx={markerPoint[0]}
               cy={markerPoint[1]}
               r={smallCountryHitRadius()}
-              style={{ opacity: smallCountryMarkerOpacity() }}
+              style={circleStyle}
               onClick={() => (!isQuizPlayingActive || quizPoolCodes.has(country.cca3)) && selectCountry(country)}
             >
               {!isQuizPlayingActive && <title>{country.name}</title>}
@@ -3282,7 +3375,13 @@ function WorldMap({
               renderedLabels.add(country.cca3);
             }
             
-            const displayName = country.name;
+            let displayName = country.name;
+            if (mapView === "internetTld") {
+              displayName = getCountryTld(country);
+            } else if (mapView === "callingCodes") {
+              const parent = getParentCca3(country) || country.cca3;
+              displayName = CALLING_CODES[parent] || country.name;
+            }
             
             let textX = labelPt[0];
             let textY = labelPt[1];
@@ -3332,6 +3431,7 @@ function WorldMap({
     mapGeographies,
     worldWidth,
     isFlatRepeat,
+    mapView,
     showFlagFills,
     mapPerformance,
     targetCodes,
@@ -3450,7 +3550,53 @@ function WorldMap({
           )}
         </g>
       </svg>
-      {/* MapLegend has been integrated into the bottom panel in practice mode */}
+      
+      {/* Dynamic Thematic Map Legends */}
+      {!isQuizPlayingActive && (
+        <>
+          {mapView === "drivingSide" && (
+            <div className="map-legend">
+              <span className="legend-title">Driving Side:</span>
+              <span><i style={{ backgroundColor: "#818cf8" }} /> Left-hand traffic (LHT)</span>
+              <span><i style={{ backgroundColor: "#fcd34d" }} /> Right-hand traffic (RHT)</span>
+            </div>
+          )}
+          {mapView === "licensePlates" && (
+            <div className="map-legend">
+              <span className="legend-title">License Plates:</span>
+              {Object.entries(LICENSE_PLATE_STYLES).map(([key, style]) => (
+                <span key={key}>
+                  <i style={{ backgroundColor: style.color }} /> {style.label}
+                </span>
+              ))}
+            </div>
+          )}
+          {mapView === "internetTld" && (
+            <div className="map-legend">
+              <span className="legend-title">Internet ccTLD (Colored by Continent):</span>
+              <span><i style={{ backgroundColor: "#a5b4fc" }} /> Europe</span>
+              <span><i style={{ backgroundColor: "#fca5a5" }} /> Asia</span>
+              <span><i style={{ backgroundColor: "#fcd34d" }} /> Americas</span>
+              <span><i style={{ backgroundColor: "#6ee7b7" }} /> Africa</span>
+              <span><i style={{ backgroundColor: "#f9a8d4" }} /> Oceania</span>
+              <span><i style={{ backgroundColor: "#81e6d9" }} /> Antarctic</span>
+            </div>
+          )}
+          {mapView === "callingCodes" && (
+            <div className="map-legend">
+              <span className="legend-title">Calling Codes (Colored by Zone):</span>
+              <span><i style={{ backgroundColor: "#93c5fd" }} /> Zone 1 (N. America)</span>
+              <span><i style={{ backgroundColor: "#6ee7b7" }} /> Zone 2 (Africa)</span>
+              <span><i style={{ backgroundColor: "#a5b4fc" }} /> Zone 3/4 (Europe)</span>
+              <span><i style={{ backgroundColor: "#fde047" }} /> Zone 5 (S. America)</span>
+              <span><i style={{ backgroundColor: "#f9a8d4" }} /> Zone 6 (SE Asia/Oceania)</span>
+              <span><i style={{ backgroundColor: "#c084fc" }} /> Zone 7 (RU/KAZ)</span>
+              <span><i style={{ backgroundColor: "#2dd4bf" }} /> Zone 8 (East Asia)</span>
+              <span><i style={{ backgroundColor: "#fca5a5" }} /> Zone 9 (West/South Asia/M. East)</span>
+            </div>
+          )}
+        </>
+      )}
     </section>
   );
 }
@@ -3691,6 +3837,28 @@ function PracticePanel({
                     <dd>{selectedCountry.namedAfter}</dd>
                   </div>
                 )}
+                <div style={{ borderTop: "1px solid rgba(21, 53, 63, 0.12)", margin: "10px 0", gridColumn: "1 / -1" }} />
+                <div style={{ gridColumn: "1 / -1", fontWeight: "600", fontSize: "0.86rem", color: "#52616d", textTransform: "uppercase", letterSpacing: "0.05em" }}>Road & Navigation</div>
+                <div>
+                  <dt>Driving Side</dt>
+                  <dd>{getCountryDrivingSide(selectedCountry) === "Left" ? "Left-hand traffic (LHT)" : "Right-hand traffic (RHT)"}</dd>
+                </div>
+                <div>
+                  <dt>License Plate</dt>
+                  <dd>{(() => {
+                    const parent = getParentCca3(selectedCountry) || selectedCountry.cca3;
+                    const styleKey = LICENSE_PLATES[parent] || "white-standard";
+                    return LICENSE_PLATE_STYLES[styleKey]?.label || "Standard White (Universal)";
+                  })()}</dd>
+                </div>
+                <div>
+                  <dt>Internet TLD</dt>
+                  <dd style={{ fontFamily: "monospace", fontWeight: "600", color: "#0e665d" }}>{getCountryTld(selectedCountry)}</dd>
+                </div>
+                <div>
+                  <dt>Calling Code</dt>
+                  <dd>{CALLING_CODES[getParentCca3(selectedCountry) || selectedCountry.cca3] || "Not listed"}</dd>
+                </div>
               </>
             )}
           </dl>
@@ -3836,6 +4004,28 @@ function PracticePanel({
                     <dd>{selectedCountry.namedAfter}</dd>
                   </div>
                 )}
+                <div style={{ borderTop: "1px solid rgba(21, 53, 63, 0.12)", margin: "10px 0", gridColumn: "1 / -1" }} />
+                <div style={{ gridColumn: "1 / -1", fontWeight: "600", fontSize: "0.86rem", color: "#52616d", textTransform: "uppercase", letterSpacing: "0.05em" }}>Road & Navigation</div>
+                <div>
+                  <dt>Driving Side</dt>
+                  <dd>{getCountryDrivingSide(selectedCountry) === "Left" ? "Left-hand traffic (LHT)" : "Right-hand traffic (RHT)"}</dd>
+                </div>
+                <div>
+                  <dt>License Plate</dt>
+                  <dd>{(() => {
+                    const parent = getParentCca3(selectedCountry) || selectedCountry.cca3;
+                    const styleKey = LICENSE_PLATES[parent] || "white-standard";
+                    return LICENSE_PLATE_STYLES[styleKey]?.label || "Standard White (Universal)";
+                  })()}</dd>
+                </div>
+                <div>
+                  <dt>Internet TLD</dt>
+                  <dd style={{ fontFamily: "monospace", fontWeight: "600", color: "#0e665d" }}>{getCountryTld(selectedCountry)}</dd>
+                </div>
+                <div>
+                  <dt>Calling Code</dt>
+                  <dd>{CALLING_CODES[getParentCca3(selectedCountry) || selectedCountry.cca3] || "Not listed"}</dd>
+                </div>
               </>
             )}
           </dl>
@@ -4135,6 +4325,10 @@ function SettingsDialog({
                   options={[
                     { value: "borders", label: "Borders" },
                     { value: "flagFills", label: "Flag fills" },
+                    { value: "drivingSide", label: "Driving Side" },
+                    { value: "licensePlates", label: "License Plates" },
+                    { value: "internetTld", label: "Internet TLDs" },
+                    { value: "callingCodes", label: "Calling Codes" },
                   ]}
                   onChange={(value) => setMapView(value as MapView)}
                   stretch
