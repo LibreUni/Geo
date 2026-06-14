@@ -328,6 +328,46 @@ button {
   vector-effect: non-scaling-stroke;
 }
 
+.selected-country-marker {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.selected-country-marker circle {
+  fill: #2da365;
+  stroke: #ffffff;
+  stroke-width: 2.2px;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 2px 4px rgb(21 53 63 / 32%));
+}
+
+.selected-country-marker line {
+  stroke: #15353f;
+  stroke-width: 2.2px;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 1px 2px rgb(21 53 63 / 28%));
+}
+
+.selected-country-marker-icon {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 84%);
+  border-radius: 999px;
+  color: #ffffff;
+  background: #15353f;
+  box-shadow: 0 8px 18px rgb(21 53 63 / 26%);
+}
+
+.selected-country-marker-icon svg {
+  display: block;
+  width: 64%;
+  height: 64%;
+  stroke-width: 2.6;
+}
+
 .country-flag-fill {
   pointer-events: none;
   opacity: 0.9;

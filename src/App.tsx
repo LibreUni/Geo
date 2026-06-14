@@ -35,6 +35,7 @@ import {
   Compass,
   Repeat,
   Type,
+  MoveDown,
 } from "lucide-react";
 
 type ViewMode = "practice" | "quiz";
@@ -1404,6 +1405,8 @@ function App() {
           } else {
             setView("practice");
           }
+        } else if (selectedCode) {
+          setSelectedCode(null);
         }
       }
     }
@@ -1411,7 +1414,7 @@ function App() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [view, quizStatus]);
+  }, [view, quizStatus, selectedCode]);
 
   function advanceQuiz(history: Record<string, "first-try" | "second-try" | "third-try" | "failed">) {
     const nextIndex = quizCurrentIndex + 1;
@@ -2341,6 +2344,32 @@ function WorldMap({
     [mapGeographies, countryByNumeric, targetCodes],
   );
 
+  const selectedCountryMarker = useMemo(() => {
+    if (!selectedCountry || isQuizMode) return null;
+
+    const selectedGeographies = mapGeographies.filter((geo) => {
+      const country = countryByNumeric.get(geo.id);
+      return country?.cca3 === selectedCountry.cca3 && targetCodes.has(country.cca3);
+    });
+    if (!selectedGeographies.length) return null;
+
+    const totalArea = selectedGeographies.reduce((sum, geo) => sum + geo.area, 0);
+    const largestGeo = selectedGeographies.reduce((largest, geo) => (geo.area > largest.area ? geo : largest), selectedGeographies[0]);
+    const markerPoint = getMarkerPoint(selectedCountry) ?? largestGeo.centroid;
+    if (!markerPoint) return null;
+
+    return {
+      point: markerPoint,
+      screenArea: totalArea * mapTransform.scale * mapTransform.scale,
+    };
+  }, [countryByNumeric, isQuizMode, mapGeographies, mapTransform.scale, selectedCountry, targetCodes]);
+
+  const showSelectedCountryMarker = Boolean(
+    selectedCountryMarker &&
+    selectedCountryMarker.screenArea < 170 &&
+    mapTransform.scale < 18
+  );
+
   function clampZoom(scale: number) {
     return Math.min(MAX_MAP_ZOOM, Math.max(MIN_MAP_ZOOM, scale));
   }
@@ -2608,6 +2637,34 @@ function WorldMap({
             <circle r={Math.max(1.5, 18 / mapTransform.scale)} />
             <path d={`M0 -${Math.max(0.7, 8 / mapTransform.scale)}v${Math.max(0.7, 8 / mapTransform.scale) * 2}M-${Math.max(0.7, 8 / mapTransform.scale)} 0h${Math.max(0.7, 8 / mapTransform.scale) * 2}`} />
             {!isQuizPlayingActive && <title>{quizCountry.name}</title>}
+          </g>
+        )}
+        {!isQuizPlayingActive && selectedCountry && selectedCountryMarker && showSelectedCountryMarker && (
+          <g
+            className="selected-country-marker"
+            transform={`translate(${selectedCountryMarker.point[0]} ${selectedCountryMarker.point[1]})`}
+            onClick={() => selectCountry(selectedCountry)}
+          >
+            <circle r={Math.max(1.8, 3.2 / mapTransform.scale)} />
+            <g transform={`translate(0 ${-34 / mapTransform.scale})`}>
+              <foreignObject
+                x={-14 / mapTransform.scale}
+                y={-17 / mapTransform.scale}
+                width={28 / mapTransform.scale}
+                height={28 / mapTransform.scale}
+              >
+                <div className="selected-country-marker-icon">
+                  <MoveDown size={18} aria-hidden="true" />
+                </div>
+              </foreignObject>
+            </g>
+            <line
+              x1="0"
+              y1={-22 / mapTransform.scale}
+              x2="0"
+              y2={-5 / mapTransform.scale}
+            />
+            <title>{selectedCountry.name}</title>
           </g>
         )}
         {showCountryNames && !(isQuizMode && quizStatus === "playing") && (() => {
