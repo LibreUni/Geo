@@ -361,6 +361,11 @@ const sovereigntyByCode = {
     disputed: true,
     note: "Western Sahara is claimed by Morocco and by the Sahrawi Arab Democratic Republic.",
   },
+  SIA: {
+    label: "Disputed territory",
+    disputed: true,
+    note: "The Siachen Glacier area is controlled by India and claimed by Pakistan.",
+  },
   XKX: {
     label: "Disputed state",
     disputed: true,
@@ -422,6 +427,24 @@ const supplementalCountries = [
     currencies: ["Turkish lira"],
     emoji: "🏳️",
     latlng: [35.28, 33.36],
+  },
+  {
+    cca3: "SIA",
+    alpha2: "",
+    ccn3: "geo:Siachen Glacier",
+    mapName: "Siachen Glacier",
+    name: "Siachen Glacier",
+    official: "Siachen Glacier",
+    capital: "",
+    region: "Asia",
+    subregion: "Southern Asia",
+    population: 0,
+    area: 2500,
+    primaryLanguages: [],
+    otherLanguages: [],
+    currencies: [],
+    emoji: "🏳️",
+    latlng: [35.42, 77.11],
   },
 ];
 

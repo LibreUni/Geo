@@ -6399,6 +6399,37 @@
     }
   },
   {
+    "cca3": "SIA",
+    "alpha2": "",
+    "ccn3": "geo:Siachen Glacier",
+    "mapName": "Siachen Glacier",
+    "name": "Siachen Glacier",
+    "official": "Siachen Glacier",
+    "capital": "",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "population": 0,
+    "area": 2500,
+    "primaryLanguages": [],
+    "otherLanguages": [],
+    "currencies": [],
+    "emoji": "🏳️",
+    "latlng": [
+      35.42,
+      77.11
+    ],
+    "sovereignty": {
+      "label": "Disputed territory",
+      "disputed": true,
+      "note": "The Siachen Glacier area is controlled by India and claimed by Pakistan."
+    },
+    "wikipedia": {
+      "title": "Siachen Glacier",
+      "summary": "The Siachen Glacier is a glacier in the eastern Karakoram range in the Himalayas. The surrounding area is administered by India and claimed by Pakistan, making it one of the highest-altitude disputed regions in the world.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Siachen_Glacier"
+    }
+  },
+  {
     "cca3": "SLE",
     "alpha2": "SL",
     "ccn3": "694",
