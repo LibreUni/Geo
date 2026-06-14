@@ -36,6 +36,7 @@ import {
   Repeat,
   Type,
   MoveDown,
+  Settings,
 } from "lucide-react";
 
 type ViewMode = "practice" | "quiz";
@@ -1078,6 +1079,7 @@ function App() {
   }, [countries, mapDetailLevel]);
   const [view, setView] = useState<ViewMode>("practice");
   const [countryBrowserOpen, setCountryBrowserOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState("All");
   const [query, setQuery] = useState("");
   const [mapView, setMapView] = useState<MapView>("borders");
@@ -1601,11 +1603,6 @@ function App() {
             <Globe2 size={30} aria-hidden="true" />
             <div>
               <h1>Geo.LibreUni.Org</h1>
-              <p>
-                {countries.length
-                  ? `${countries.length} countries loaded`
-                  : "World countries, flags, facts, and map practice"}
-              </p>
             </div>
 
             {!isMobile && !(view === "quiz" && quizStatus === "playing") && (
@@ -1621,66 +1618,13 @@ function App() {
                     Countries
                     <span>{filteredCountries.length}</span>
                   </button>
-                  <AppSelect
-                    ariaLabel="Map style"
-                    icon={<Layers size={18} aria-hidden="true" />}
-                    value={mapView}
-                    options={[
-                      { value: "borders", label: "Borders" },
-                      { value: "flagFills", label: "Flag fills" },
-                    ]}
-                    onChange={(value) => setMapView(value as MapView)}
-                  />
-                  <AppSelect
-                    ariaLabel="Detail level"
-                    icon={<Info size={18} aria-hidden="true" />}
-                    value={detailLevel}
-                    options={[
-                      { value: "full", label: "Full Details" },
-                      { value: "basic", label: "Basic Facts" },
-                      { value: "minimal", label: "Minimal Info" },
-                    ]}
-                    onChange={(value) => setDetailLevel(value as DetailLevel)}
-                  />
-                  <AppSelect
-                    ariaLabel="Map detail"
-                    icon={<Globe2 size={18} aria-hidden="true" />}
-                    value={mapDetailLevel}
-                    options={[
-                      { value: "minimal", label: "Minimal Detail" },
-                      { value: "standard", label: "Standard Detail" },
-                      { value: "detailed", label: "Max Detail" },
-                    ]}
-                    onChange={(value) => setMapDetailLevel(value as MapDetailLevel)}
-                  />
-                  <AppSelect
-                    ariaLabel="Projection"
-                    icon={<Compass size={18} aria-hidden="true" />}
-                    value={projectionType}
-                    options={[
-                      { value: "equal-earth", label: "Equal Earth" },
-                      { value: "mercator", label: "Mercator" },
-                      { value: "orthographic", label: "3D Globe" },
-                    ]}
-                    onChange={(value) => setProjectionType(value as ProjectionType)}
-                  />
-                  {(projectionType === "equal-earth" || projectionType === "mercator") && (
-                    <button
-                      className={`control-button ${repeatMap ? "primary" : ""}`}
-                      type="button"
-                      onClick={() => setRepeatMap((prev) => !prev)}
-                    >
-                      <Repeat size={18} aria-hidden="true" />
-                      Repeat Map
-                    </button>
-                  )}
                   <button
-                    className={`control-button ${showCountryNames ? "primary" : ""}`}
+                    className="control-button"
                     type="button"
-                    onClick={() => setShowCountryNames((prev) => !prev)}
+                    onClick={() => setSettingsOpen(true)}
                   >
-                    <Type size={18} aria-hidden="true" />
-                    Country Names
+                    <Settings size={18} aria-hidden="true" />
+                    Settings
                   </button>
                 </div>
               </>
@@ -1742,70 +1686,13 @@ function App() {
             Countries
             <span>{filteredCountries.length}</span>
           </button>
-          <AppSelect
-            ariaLabel="Map style"
-            icon={<Layers size={18} aria-hidden="true" />}
-            value={mapView}
-            options={[
-              { value: "borders", label: "Borders" },
-              { value: "flagFills", label: "Flag fills" },
-            ]}
-            onChange={(value) => setMapView(value as MapView)}
-          />
-          <AppSelect
-            ariaLabel="Detail level"
-            icon={<Info size={18} aria-hidden="true" />}
-            value={detailLevel}
-            options={[
-              { value: "full", label: "Full Details" },
-              { value: "basic", label: "Basic Facts" },
-              { value: "minimal", label: "Minimal Info" },
-            ]}
-            onChange={(value) => setDetailLevel(value as DetailLevel)}
-          />
-          <AppSelect
-            ariaLabel="Map detail"
-            icon={<Globe2 size={18} aria-hidden="true" />}
-            value={mapDetailLevel}
-            disabled={
-              selectedRegion === "United States (States)" ||
-              selectedRegion === "Canada (Provinces/Territories)" ||
-              isRussiaSubdivisionRegion(selectedRegion)
-            }
-            options={[
-              { value: "minimal", label: "Minimal Detail" },
-              { value: "standard", label: "Standard Detail" },
-              { value: "detailed", label: "Max Detail" },
-            ]}
-            onChange={(value) => setMapDetailLevel(value as MapDetailLevel)}
-          />
-          <AppSelect
-            ariaLabel="Projection"
-            icon={<Compass size={18} aria-hidden="true" />}
-            value={projectionType}
-            options={[
-              { value: "equal-earth", label: "Equal Earth" },
-              { value: "mercator", label: "Mercator" },
-              { value: "orthographic", label: "3D Globe" },
-            ]}
-            onChange={(value) => setProjectionType(value as ProjectionType)}
-          />
-          {(projectionType === "equal-earth" || projectionType === "mercator") && (
-            <button
-              className={`control-button ${repeatMap ? "primary" : ""}`}
-              type="button"
-              onClick={() => setRepeatMap((prev) => !prev)}
-            >
-              <Repeat size={18} aria-hidden="true" />
-            </button>
-          )}
           <button
-            className={`control-button ${showCountryNames ? "primary" : ""}`}
+            className="control-button"
             type="button"
-            onClick={() => setShowCountryNames((prev) => !prev)}
-            title="Country Names"
+            onClick={() => setSettingsOpen(true)}
           >
-            <Type size={18} aria-hidden="true" />
+            <Settings size={18} aria-hidden="true" />
+            Settings
           </button>
         </section>
       )}
@@ -1832,6 +1719,25 @@ function App() {
           setSelectedCode(country.cca3);
           setCountryBrowserOpen(false);
         }}
+      />
+
+      <SettingsDialog
+        open={settingsOpen}
+        onOpenChange={setSettingsOpen}
+        mapView={mapView}
+        setMapView={setMapView}
+        mapDetailLevel={mapDetailLevel}
+        setMapDetailLevel={setMapDetailLevel}
+        detailLevel={detailLevel}
+        setDetailLevel={setDetailLevel}
+        projectionType={projectionType}
+        setProjectionType={setProjectionType}
+        repeatMap={repeatMap}
+        setRepeatMap={setRepeatMap}
+        showCountryNames={showCountryNames}
+        setShowCountryNames={setShowCountryNames}
+        selectedRegion={selectedRegion}
+        isRussiaSubdivisionRegion={isRussiaSubdivisionRegion}
       />
 
       {view === "practice" && selectedCountry ? (
@@ -3369,6 +3275,183 @@ function CountryBrowser({
                 </span>
               </button>
             ))}
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
+
+function SettingsDialog({
+  open,
+  onOpenChange,
+  mapView,
+  setMapView,
+  mapDetailLevel,
+  setMapDetailLevel,
+  detailLevel,
+  setDetailLevel,
+  projectionType,
+  setProjectionType,
+  repeatMap,
+  setRepeatMap,
+  showCountryNames,
+  setShowCountryNames,
+  selectedRegion,
+  isRussiaSubdivisionRegion,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  mapView: MapView;
+  setMapView: (view: MapView) => void;
+  mapDetailLevel: MapDetailLevel;
+  setMapDetailLevel: (level: MapDetailLevel) => void;
+  detailLevel: DetailLevel;
+  setDetailLevel: (level: DetailLevel) => void;
+  projectionType: ProjectionType;
+  setProjectionType: (type: ProjectionType) => void;
+  repeatMap: boolean;
+  setRepeatMap: (repeat: boolean) => void;
+  showCountryNames: boolean;
+  setShowCountryNames: (show: boolean) => void;
+  selectedRegion: string;
+  isRussiaSubdivisionRegion: (region: string) => boolean;
+}) {
+  const isSubdivisionMode =
+    selectedRegion === "United States (States)" ||
+    selectedRegion === "Canada (Provinces/Territories)" ||
+    isRussiaSubdivisionRegion(selectedRegion);
+
+  return (
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="drawer-overlay" />
+        <Dialog.Content className="settings-dialog" aria-describedby={undefined}>
+          <div className="drawer-header">
+            <div>
+              <Dialog.Title style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <Settings size={20} /> Settings
+              </Dialog.Title>
+              <p>Configure map preferences and detail levels</p>
+            </div>
+            <Dialog.Close className="icon-button" aria-label="Close settings">
+              <X size={18} />
+            </Dialog.Close>
+          </div>
+
+          <div className="settings-form">
+            <div className="settings-section">
+              <h3>Map View</h3>
+
+              <div className="settings-field">
+                <div className="field-info">
+                  <label>Map View Mode</label>
+                  <span>Color countries by flag or default borders.</span>
+                </div>
+                <AppSelect
+                  ariaLabel="Map style"
+                  icon={<Layers size={18} aria-hidden="true" />}
+                  value={mapView}
+                  options={[
+                    { value: "borders", label: "Borders" },
+                    { value: "flagFills", label: "Flag fills" },
+                  ]}
+                  onChange={(value) => setMapView(value as MapView)}
+                  stretch
+                />
+              </div>
+
+              <div className="settings-field">
+                <div className="field-info">
+                  <label>Map Projection</label>
+                  <span>Choose mathematical projection grid.</span>
+                </div>
+                <AppSelect
+                  ariaLabel="Projection"
+                  icon={<Compass size={18} aria-hidden="true" />}
+                  value={projectionType}
+                  options={[
+                    { value: "equal-earth", label: "Equal Earth" },
+                    { value: "mercator", label: "Mercator" },
+                    { value: "orthographic", label: "3D Globe" },
+                  ]}
+                  onChange={(value) => setProjectionType(value as ProjectionType)}
+                  stretch
+                />
+              </div>
+
+              {(projectionType === "equal-earth" || projectionType === "mercator") && (
+                <div className="settings-switch-field">
+                  <div className="field-info">
+                    <label>Repeat Map</label>
+                    <span>Allow map to repeat horizontally.</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={repeatMap}
+                    onChange={(e) => setRepeatMap(e.target.checked)}
+                  />
+                </div>
+              )}
+
+              <div className="settings-switch-field">
+                <div className="field-info">
+                  <label>Country Names</label>
+                  <span>Display country names directly on map labels.</span>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={showCountryNames}
+                  onChange={(e) => setShowCountryNames(e.target.checked)}
+                />
+              </div>
+            </div>
+
+            <div className="settings-section">
+              <h3>Details & Granularity</h3>
+
+              <div className="settings-field">
+                <div className="field-info">
+                  <label>Map Boundary Detail</label>
+                  <span>Set geographic granularity (countries vs. states/regions).</span>
+                </div>
+                <AppSelect
+                  ariaLabel="Map detail"
+                  icon={<Globe2 size={18} aria-hidden="true" />}
+                  value={mapDetailLevel}
+                  disabled={isSubdivisionMode}
+                  options={[
+                    { value: "minimal", label: "Minimal Detail (Colonies merged)" },
+                    { value: "standard", label: "Standard Detail (Default country lines)" },
+                    { value: "detailed", label: "Max Detail (Subdivisions & regions)" },
+                  ]}
+                  onChange={(value) => setMapDetailLevel(value as MapDetailLevel)}
+                  stretch
+                />
+                {isSubdivisionMode && (
+                  <span className="field-hint">Locked to Max Detail for sub-national regions.</span>
+                )}
+              </div>
+
+              <div className="settings-field">
+                <div className="field-info">
+                  <label>Practice Sidebar Info Level</label>
+                  <span>Configure volume of facts shown for selected countries.</span>
+                </div>
+                <AppSelect
+                  ariaLabel="Detail level"
+                  icon={<Info size={18} aria-hidden="true" />}
+                  value={detailLevel}
+                  options={[
+                    { value: "full", label: "Full Details (History, phrases, full summary)" },
+                    { value: "basic", label: "Basic Facts (Capital, region, language list)" },
+                    { value: "minimal", label: "Minimal Info (Capital and basic metrics only)" },
+                  ]}
+                  onChange={(value) => setDetailLevel(value as DetailLevel)}
+                  stretch
+                />
+              </div>
+            </div>
           </div>
         </Dialog.Content>
       </Dialog.Portal>
