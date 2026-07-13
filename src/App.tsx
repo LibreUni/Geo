@@ -428,10 +428,39 @@ const formatNumber = new Intl.NumberFormat("en", { maximumFractionDigits: 0 });
 const formatArea = (area: number) => `${formatNumber.format(Math.round(area))} km2`;
 const RUSSIA_SUBDIVISION_REGION = "Russia (Federal Subjects)";
 const LEGACY_RUSSIA_SUBDIVISION_REGION = "Russia (Republics)";
-const regions = ["All", "Africa", "Americas", "Asia", "Europe", "Oceania", "Antarctic", "United States (States)", "Canada (Provinces/Territories)", RUSSIA_SUBDIVISION_REGION];
+const regions = [
+  "All",
+  "Africa",
+  "Americas",
+  "Asia",
+  "Europe",
+  "Oceania",
+  "Antarctic",
+  "United States (States)",
+  "Canada (Provinces/Territories)",
+  "Mexico (States)",
+  "China (Provinces/Municipalities)",
+  "India (States/UTs)",
+  "South Africa (Provinces)",
+  "Nigeria (States)",
+  RUSSIA_SUBDIVISION_REGION,
+];
 
 function isRussiaSubdivisionRegion(region: string) {
   return region === RUSSIA_SUBDIVISION_REGION || region === LEGACY_RUSSIA_SUBDIVISION_REGION;
+}
+
+function isSubdivisionRegion(region: string) {
+  return (
+    region === "United States (States)" ||
+    region === "Canada (Provinces/Territories)" ||
+    region === "Mexico (States)" ||
+    region === "China (Provinces/Municipalities)" ||
+    region === "India (States/UTs)" ||
+    region === "South Africa (Provinces)" ||
+    region === "Nigeria (States)" ||
+    isRussiaSubdivisionRegion(region)
+  );
 }
 
 const russianRepublicIsoCodes = new Set([
@@ -1230,7 +1259,7 @@ function App() {
     }
     
     if (mapDetailLevel === "detailed") {
-      const baseFiltered = base.filter(c => c.cca3 !== "USA" && c.cca3 !== "CAN" && c.cca3 !== "AUS" && c.cca3 !== "BRA" && c.cca3 !== "RUS");
+      const baseFiltered = base.filter(c => c.cca3 !== "USA" && c.cca3 !== "CAN" && c.cca3 !== "AUS" && c.cca3 !== "BRA" && c.cca3 !== "RUS" && c.cca3 !== "MEX" && c.cca3 !== "CHN" && c.cca3 !== "IND" && c.cca3 !== "ZAF" && c.cca3 !== "NGA");
       const subdivisionRows = [...(subdivisionsMetadata as any[])];
       const metadataByIso = new Set(subdivisionRows.map((sub) => sub.iso));
       subdivisionsGeographies.forEach((geo) => {
@@ -1297,6 +1326,60 @@ function App() {
           currencies = ["Russian ruble"];
           emoji = "🇷🇺";
           sovereigntyLabel = russianSubdivisionType(sub.iso);
+        } else if (pCode === "MEX") {
+          parentName = "Mexico";
+          alpha2 = "MX";
+          region = "Americas";
+          subregion = "North America";
+          primaryLanguages = ["Spanish"];
+          currencies = ["Mexican peso"];
+          emoji = "🇲🇽";
+          sovereigntyLabel = sub.iso.endsWith("MEX") || sub.iso.endsWith("CMX") ? "Federal District of Mexico" : "State of Mexico";
+        } else if (pCode === "CHN") {
+          parentName = "China";
+          alpha2 = "CN";
+          region = "Asia";
+          subregion = "Eastern Asia";
+          primaryLanguages = ["Chinese"];
+          currencies = ["Chinese yuan"];
+          emoji = "🇨🇳";
+          if (sub.iso.endsWith("HK") || sub.iso.endsWith("MO")) {
+            sovereigntyLabel = "Special Administrative Region of China";
+          } else if (sub.iso.endsWith("BJ") || sub.iso.endsWith("SH") || sub.iso.endsWith("TJ") || sub.iso.endsWith("CQ")) {
+            sovereigntyLabel = "Municipality of China";
+          } else if (sub.iso.endsWith("XZ") || sub.iso.endsWith("XJ") || sub.iso.endsWith("NM") || sub.iso.endsWith("NX") || sub.iso.endsWith("GX")) {
+            sovereigntyLabel = "Autonomous Region of China";
+          } else {
+            sovereigntyLabel = "Province of China";
+          }
+        } else if (pCode === "IND") {
+          parentName = "India";
+          alpha2 = "IN";
+          region = "Asia";
+          subregion = "Southern Asia";
+          primaryLanguages = ["English"];
+          currencies = ["Indian rupee"];
+          emoji = "🇮🇳";
+          const utCodes = new Set(["IN-DL", "IN-JK", "IN-LA", "IN-PY", "IN-AN", "IN-CH", "IN-DH", "IN-LD"]);
+          sovereigntyLabel = utCodes.has(sub.iso) ? "Union Territory of India" : "State of India";
+        } else if (pCode === "ZAF") {
+          parentName = "South Africa";
+          alpha2 = "ZA";
+          region = "Africa";
+          subregion = "Southern Africa";
+          primaryLanguages = ["Zulu", "Xhosa", "Afrikaans", "English"];
+          currencies = ["South African rand"];
+          emoji = "🇿🇦";
+          sovereigntyLabel = "Province of South Africa";
+        } else if (pCode === "NGA") {
+          parentName = "Nigeria";
+          alpha2 = "NG";
+          region = "Africa";
+          subregion = "Western Africa";
+          primaryLanguages = ["English"];
+          currencies = ["Nigerian naira"];
+          emoji = "🇳🇬";
+          sovereigntyLabel = sub.iso.endsWith("FC") || sub.iso.includes("FCT") ? "Federal Capital Territory of Nigeria" : "State of Nigeria";
         }
         
         return {
@@ -1762,6 +1845,16 @@ function App() {
         regionMatch = country.sovereignty?.sovereignState === "United States";
       } else if (selectedRegion === "Canada (Provinces/Territories)") {
         regionMatch = country.sovereignty?.sovereignState === "Canada";
+      } else if (selectedRegion === "Mexico (States)") {
+        regionMatch = country.sovereignty?.sovereignState === "Mexico";
+      } else if (selectedRegion === "China (Provinces/Municipalities)") {
+        regionMatch = country.sovereignty?.sovereignState === "China";
+      } else if (selectedRegion === "India (States/UTs)") {
+        regionMatch = country.sovereignty?.sovereignState === "India";
+      } else if (selectedRegion === "South Africa (Provinces)") {
+        regionMatch = country.sovereignty?.sovereignState === "South Africa";
+      } else if (selectedRegion === "Nigeria (States)") {
+        regionMatch = country.sovereignty?.sovereignState === "Nigeria";
       } else if (isRussiaSubdivisionRegion(selectedRegion)) {
         regionMatch = country.sovereignty?.sovereignState === "Russia" && country.cca3 !== "RUS";
       } else {
@@ -1797,6 +1890,21 @@ function App() {
       } else if (quizRegion === "Canada (Provinces/Territories)") {
         isSubdivisionMode = true;
         matchesSubdivision = country.sovereignty?.sovereignState === "Canada";
+      } else if (quizRegion === "Mexico (States)") {
+        isSubdivisionMode = true;
+        matchesSubdivision = country.sovereignty?.sovereignState === "Mexico";
+      } else if (quizRegion === "China (Provinces/Municipalities)") {
+        isSubdivisionMode = true;
+        matchesSubdivision = country.sovereignty?.sovereignState === "China";
+      } else if (quizRegion === "India (States/UTs)") {
+        isSubdivisionMode = true;
+        matchesSubdivision = country.sovereignty?.sovereignState === "India";
+      } else if (quizRegion === "South Africa (Provinces)") {
+        isSubdivisionMode = true;
+        matchesSubdivision = country.sovereignty?.sovereignState === "South Africa";
+      } else if (quizRegion === "Nigeria (States)") {
+        isSubdivisionMode = true;
+        matchesSubdivision = country.sovereignty?.sovereignState === "Nigeria";
       } else if (isRussiaSubdivisionRegion(quizRegion)) {
         isSubdivisionMode = true;
         matchesSubdivision = country.sovereignty?.sovereignState === "Russia" && country.cca3 !== "RUS";
@@ -1852,10 +1960,7 @@ function App() {
 
   // Force max detail level when playing subdivision modes
   useEffect(() => {
-    const isSubdivisionMode =
-      quizRegion === "United States (States)" ||
-      quizRegion === "Canada (Provinces/Territories)" ||
-      isRussiaSubdivisionRegion(quizRegion);
+    const isSubdivisionMode = isSubdivisionRegion(quizRegion);
     if (isSubdivisionMode && mapDetailLevel !== "detailed") {
       setMapDetailLevel("detailed");
     }
@@ -2282,11 +2387,7 @@ function App() {
         onQueryChange={setQuery}
         onRegionChange={(v) => {
           setSelectedRegion(v);
-          if (
-            v === "United States (States)" ||
-            v === "Canada (Provinces/Territories)" ||
-            isRussiaSubdivisionRegion(v)
-          ) {
+          if (isSubdivisionRegion(v)) {
             setMapDetailLevel("detailed");
           }
         }}
@@ -2388,11 +2489,7 @@ function App() {
                   }))}
                   onChange={(v) => {
                     setQuizRegion(v);
-                    if (
-                      v === "United States (States)" ||
-                      v === "Canada (Provinces/Territories)" ||
-                      isRussiaSubdivisionRegion(v)
-                    ) {
+                    if (isSubdivisionRegion(v)) {
                       setMapDetailLevel("detailed");
                       setMapPerformance("high");
                     }
@@ -2406,11 +2503,7 @@ function App() {
                   ariaLabel="Map Detail"
                   icon={<Globe2 size={18} />}
                   value={mapDetailLevel}
-                  disabled={
-                    quizRegion === "United States (States)" ||
-                    quizRegion === "Canada (Provinces/Territories)" ||
-                    isRussiaSubdivisionRegion(quizRegion)
-                  }
+                  disabled={isSubdivisionRegion(quizRegion)}
                   options={[
                     { value: "minimal", label: "Minimal (Colonies merged)" },
                     { value: "standard", label: "Standard" },
@@ -2740,7 +2833,18 @@ function WorldMap({
     const baseFiltered = baseGeographies.filter(
       (g) => {
         const id = geoId(g);
-        return id !== "840" && id !== "643" && id !== "124" && id !== "036" && id !== "076";
+        return (
+          id !== "840" && // USA
+          id !== "643" && // RUS
+          id !== "124" && // CAN
+          id !== "036" && // AUS
+          id !== "076" && // BRA
+          id !== "484" && // MEX
+          id !== "156" && // CHN
+          id !== "356" && // IND
+          id !== "710" && // ZAF
+          id !== "566"    // NGA
+        );
       }
     );
     return [...baseFiltered, ...subdivisionsGeographies];
@@ -3364,7 +3468,7 @@ function WorldMap({
                   y={cy - imgH / 2}
                   width={imgW}
                   height={imgH}
-                  href={country.cca3.includes("-") ? `/flags/${country.cca3.toLowerCase()}.svg` : `/flags/${country.alpha2.toLowerCase()}.svg`}
+                  href={country.cca3.includes("-") || country.cca3 === "SOL" ? `/flags/${country.cca3.toLowerCase()}.svg` : `/flags/${country.alpha2.toLowerCase()}.svg`}
                   preserveAspectRatio="xMidYMid slice"
                   clipPath={`url(#${geo.clipId}-${idx}${offsetKey})`}
                 />
@@ -4468,10 +4572,7 @@ function SettingsDialog({
   colorSelected: string;
   setColorSelected: (val: string) => void;
 }) {
-  const isSubdivisionMode =
-    selectedRegion === "United States (States)" ||
-    selectedRegion === "Canada (Provinces/Territories)" ||
-    isRussiaSubdivisionRegion(selectedRegion);
+  const isSubdivisionMode = isSubdivisionRegion(selectedRegion);
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -4952,7 +5053,7 @@ function LanguageList({ country }: { country: Country }) {
 }
 
 function FlagIcon({ country }: { country: Country }) {
-  if (country.cca3.includes("-")) {
+  if (country.cca3.includes("-") || country.cca3 === "SOL") {
     const flagUrl = `/flags/${country.cca3.toLowerCase()}.svg`;
     return (
       <img

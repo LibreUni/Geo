@@ -2,6 +2,7 @@ import { writeFileSync, readFileSync, mkdirSync, existsSync, copyFileSync } from
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { feature } from "topojson-client";
+import shp from "shpjs";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const dataDir = join(__dirname, "../src/data");
@@ -90,15 +91,123 @@ async function fetchWikipediaSummary(title) {
 
 async function main() {
   try {
-    // 1. Download global admin-1 dataset from martynafford
-    await downloadFile(
-      "https://raw.githubusercontent.com/martynafford/natural-earth-geojson/master/50m/cultural/ne_50m_admin_1_states_provinces.json",
-      "global-admin1.json"
-    );
+    // 1. Download official Natural Earth 10m cultural states/provinces Shapefile ZIP
+    const neZipUrl = "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_1_states_provinces.zip";
+    console.log(`Downloading ${neZipUrl}...`);
+    const neZipRes = await fetch(neZipUrl);
+    if (!neZipRes.ok) {
+      throw new Error(`Failed to download ${neZipUrl}: ${neZipRes.statusText}`);
+    }
+    const neZipBuffer = await neZipRes.arrayBuffer();
+    console.log("Parsing Shapefile ZIP...");
+    const parsedGeom = await shp(Buffer.from(neZipBuffer));
+    const rawFc = Array.isArray(parsedGeom) ? parsedGeom[0] : parsedGeom;
     
-    // 2. Load the boundary files to map ISO codes to local English names (failsafe for Wikidata label issues)
+    // Filter and simplify
+    const targetCountries = ["USA", "CAN", "AUS", "BRA", "MEX", "CHN", "IND", "ZAF", "NGA"];
+    const filteredFeatures = rawFc.features.filter(f => {
+      const p = f.properties;
+      const adminCode = p.adm0_a3 || p.ADM0_A3 || p.adm0_a3_is;
+      return targetCountries.includes(adminCode);
+    });
+    
+    console.log(`Filtering complete: ${filteredFeatures.length} features found. Simplifying geometries...`);
+    
+    function getSqSegDist(p, p1, p2) {
+      let x = p1[0], y = p1[1];
+      let dx = p2[0] - x, dy = p2[1] - y;
+      if (dx !== 0 || dy !== 0) {
+        let t = ((p[0] - x) * dx + (p[1] - y) * dy) / (dx * dx + dy * dy);
+        if (t > 1) {
+          x = p2[0]; y = p2[1];
+        } else if (t > 0) {
+          x += dx * t; y += dy * t;
+        }
+      }
+      dx = p[0] - x; dy = p[1] - y;
+      return dx * dx + dy * dy;
+    }
+    
+    function simplifyDPStep(points, first, last, sqTolerance, simplified) {
+      let maxSqDist = sqTolerance, index = -1;
+      for (let i = first + 1; i < last; i++) {
+        const sqDist = getSqSegDist(points[i], points[first], points[last]);
+        if (sqDist > maxSqDist) {
+          index = i;
+          maxSqDist = sqDist;
+        }
+      }
+      if (maxSqDist > sqTolerance) {
+        if (index - first > 1) simplifyDPStep(points, first, index, sqTolerance, simplified);
+        simplified.push(points[index]);
+        if (last - index > 1) simplifyDPStep(points, index, last, sqTolerance, simplified);
+      }
+    }
+    
+    function simplifyRDP(points, sqTolerance) {
+      if (points.length <= 2) return points;
+      const simplified = [points[0]];
+      simplifyDPStep(points, 0, points.length - 1, sqTolerance, simplified);
+      simplified.push(points[points.length - 1]);
+      return simplified;
+    }
+    
+    function simplifyGeometry(geom, tolerance) {
+      if (!geom) return null;
+      const sqTolerance = tolerance * tolerance;
+      const roundCoord = v => Math.round(v * 10000) / 10000;
+      
+      const get2DArea = pts => {
+        let area = 0;
+        for (let i = 0; i < pts.length - 1; i++) {
+          area += (pts[i][0] * pts[i+1][1]) - (pts[i+1][0] * pts[i][1]);
+        }
+        return area / 2;
+      };
+      
+      const simplifyRing = ring => {
+        const simplified = simplifyRDP(ring, sqTolerance);
+        if (simplified.length < 4) {
+          return ring.map(pt => [roundCoord(pt[0]), roundCoord(pt[1])]);
+        }
+        const simpClosed = simplified.map(pt => [roundCoord(pt[0]), roundCoord(pt[1])]);
+        
+        const rawArea = get2DArea(ring);
+        const simpArea = get2DArea(simpClosed);
+        if (Math.sign(rawArea) !== Math.sign(simpArea) && rawArea !== 0 && simpArea !== 0) {
+          simpClosed.reverse();
+        }
+        return simpClosed;
+      };
+      
+      if (geom.type === "Polygon") {
+        return {
+          type: "Polygon",
+          coordinates: geom.coordinates.map(simplifyRing)
+        };
+      } else if (geom.type === "MultiPolygon") {
+        return {
+          type: "MultiPolygon",
+          coordinates: geom.coordinates.map(poly => poly.map(simplifyRing))
+        };
+      }
+      return geom;
+    }
+    
+    const tolerance = 0.01; // degrees
+    const simplifiedFeatures = filteredFeatures.map(f => ({
+      ...f,
+      geometry: simplifyGeometry(f.geometry, tolerance)
+    }));
+    
+    const globalAdmin1Data = {
+      type: "FeatureCollection",
+      features: simplifiedFeatures
+    };
+    
     const globalAdmin1Path = join(dataDir, "global-admin1.json");
-    const globalAdmin1Data = JSON.parse(readFileSync(globalAdmin1Path, "utf8"));
+    writeFileSync(globalAdmin1Path, JSON.stringify(globalAdmin1Data));
+    console.log(`Saved simplified global-admin1.json (${simplifiedFeatures.length} features, tolerance: ${tolerance})`);
     
     const russiaRegionsPath = join(dataDir, "russia-regions-shapes.json");
     const russiaRegionsData = JSON.parse(readFileSync(russiaRegionsPath, "utf8"));
@@ -162,6 +271,31 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
           wdt:P300 ?russianIsoCode.
     FILTER(STRSTARTS(?russianIsoCode, "RU-"))
     BIND("RUS" AS ?parent)
+  } UNION {
+    ?item wdt:P17 wd:Q96; # Mexico
+          wdt:P300 ?mexicanIsoCode.
+    FILTER(STRSTARTS(?mexicanIsoCode, "MX-"))
+    BIND("MEX" AS ?parent)
+  } UNION {
+    ?item wdt:P17 wd:Q148; # China
+          wdt:P300 ?chineseIsoCode.
+    FILTER(STRSTARTS(?chineseIsoCode, "CN-"))
+    BIND("CHN" AS ?parent)
+  } UNION {
+    ?item wdt:P17 wd:Q668; # India
+          wdt:P300 ?indianIsoCode.
+    FILTER(STRSTARTS(?indianIsoCode, "IN-"))
+    BIND("IND" AS ?parent)
+  } UNION {
+    ?item wdt:P17 wd:Q258; # South Africa
+          wdt:P300 ?zaIsoCode.
+    FILTER(STRSTARTS(?zaIsoCode, "ZA-"))
+    BIND("ZAF" AS ?parent)
+  } UNION {
+    ?item wdt:P17 wd:Q1033; # Nigeria
+          wdt:P300 ?ngIsoCode.
+    FILTER(STRSTARTS(?ngIsoCode, "NG-"))
+    BIND("NGA" AS ?parent)
   }
   
   ?item wdt:P300 ?isoCode.
@@ -354,7 +488,18 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
         console.warn(`Could not get Wikipedia summary for: ${sub.name}`);
         sub.wikipedia = {
           title: sub.name,
-          summary: `${sub.name} is a subnational division of ${sub.parent === "USA" ? "the United States" : sub.parent === "CAN" ? "Canada" : sub.parent === "AUS" ? "Australia" : sub.parent === "BRA" ? "Brazil" : "Russia"}.`,
+          summary: `${sub.name} is a subnational division of ${
+            sub.parent === "USA" ? "the United States" :
+            sub.parent === "CAN" ? "Canada" :
+            sub.parent === "AUS" ? "Australia" :
+            sub.parent === "BRA" ? "Brazil" :
+            sub.parent === "MEX" ? "Mexico" :
+            sub.parent === "CHN" ? "China" :
+            sub.parent === "IND" ? "India" :
+            sub.parent === "ZAF" ? "South Africa" :
+            sub.parent === "NGA" ? "Nigeria" :
+            "Russia"
+          }.`,
           sourceUrl: `https://en.wikipedia.org/wiki/${encodeURIComponent(sub.name)}`
         };
       }
@@ -365,6 +510,11 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
       if (sub.parent === "AUS") parentAlpha2 = "AU";
       if (sub.parent === "BRA") parentAlpha2 = "BR";
       if (sub.parent === "RUS") parentAlpha2 = "RU";
+      if (sub.parent === "MEX") parentAlpha2 = "MX";
+      if (sub.parent === "CHN") parentAlpha2 = "CN";
+      if (sub.parent === "IND") parentAlpha2 = "IN";
+      if (sub.parent === "ZAF") parentAlpha2 = "ZA";
+      if (sub.parent === "NGA") parentAlpha2 = "NG";
 
       // C. Download Flag SVG
       const flagDest = join(flagsDir, `${sub.iso.toLowerCase()}.svg`);
@@ -575,7 +725,7 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
       const adminCode = props.adm0_a3; // "USA", "CAN", "AUS", "BRA"
       const iso = props.iso_3166_2;
       
-      if (["USA", "CAN", "AUS", "BRA"].includes(adminCode)) {
+      if (["USA", "CAN", "AUS", "BRA", "MEX", "CHN", "IND", "ZAF", "NGA"].includes(adminCode)) {
         let finalId = iso;
         let finalName = props.name || "";
         
