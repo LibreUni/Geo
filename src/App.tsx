@@ -1,13 +1,15 @@
-import { useEffect, useMemo, useRef, useState, type PointerEvent, type ReactNode, type WheelEvent } from "react";
-import "flag-icons/css/flag-icons.min.css";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent, type ReactNode, type WheelEvent } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Select from "@radix-ui/react-select";
-import { geoEqualEarth, geoMercator, geoOrthographic, geoPath } from "d3-geo";
+import { geoArea, geoCentroid, geoEqualEarth, geoMercator, geoOrthographic, geoPath } from "d3-geo";
 import { feature } from "topojson-client";
 import atlas from "world-atlas/countries-50m.json";
-import countryData from "./data/countries.json";
-import subdivisionsAtlas from "./data/subdivisions-shapes.json";
-import subdivisionsMetadata from "./data/subdivisions-metadata.json";
+import countryData from "./data/countries-core.json";
+import {
+  OrthographicPathWorkerPool,
+  type OrthographicFlagMetric,
+  type OrthographicPathFrame,
+} from "./map/OrthographicPathWorkerPool";
 import {
   LEFT_DRIVING_COUNTRIES,
   CALLING_CODES,
@@ -52,7 +54,6 @@ type ResultState = "idle" | "correct" | "wrong";
 type RelationshipKind = "self" | "tension" | "mild-tension" | "ally" | "union" | "territory";
 type DetailLevel = "full" | "basic" | "minimal";
 type MapDetailLevel = "minimal" | "standard" | "detailed";
-type MapPerformance = "eco" | "adaptive" | "high";
 type ProjectionType = "equal-earth" | "mercator" | "orthographic";
 
 const sovereignToParentCode: Record<string, string> = {
@@ -148,6 +149,12 @@ function getCountryDynamicFill(country: Country, mapView: MapView): string | und
   return undefined;
 }
 
+type CountryWikipedia = {
+  title: string;
+  summary: string;
+  sourceUrl: string;
+};
+
 type Country = {
   cca3: string;
   alpha2: string;
@@ -171,20 +178,45 @@ type Country = {
     disputed?: boolean;
     note?: string;
   };
-  wikipedia?: {
-    title: string;
-    summary: string;
-    sourceUrl: string;
-  };
+  wikipedia?: CountryWikipedia;
   emblemUrl?: string | null;
   established?: string | null;
   highestPoint?: string | null;
   namedAfter?: string | null;
 };
 
+const countryOverviewCache = new Map<string, CountryWikipedia | null>();
+const countryOverviewRequests = new Map<string, Promise<CountryWikipedia | null>>();
+
+function loadCountryOverview(code: string) {
+  if (countryOverviewCache.has(code)) {
+    return Promise.resolve(countryOverviewCache.get(code) ?? null);
+  }
+  const pending = countryOverviewRequests.get(code);
+  if (pending) return pending;
+
+  const request = fetch(`/data/country-details/${code.toLowerCase()}.json`)
+    .then((response) => response.ok ? response.json() as Promise<CountryWikipedia> : null)
+    .catch(() => null)
+    .then((overview) => {
+      countryOverviewRequests.delete(code);
+      // A transient network failure must not poison this country for the rest
+      // of the session. Successful summaries remain cached permanently.
+      if (overview) countryOverviewCache.set(code, overview);
+      return overview;
+    });
+  countryOverviewRequests.set(code, request);
+  return request;
+}
+
 type Geography = GeoJSON.Feature<GeoJSON.Geometry, { id?: string; name?: string }>;
+type SubdivisionData = {
+  geographies: Geography[];
+  metadata: any[];
+};
 type MapGeometry = {
   id: string;
+  renderKey: string;
   clipId: string;
   name: string;
   d?: string;
@@ -194,17 +226,68 @@ type MapGeometry = {
   isSubdivision: boolean;
 };
 
+const geographyMeasurements = new WeakMap<Geography, { area: number; centroid: [number, number] }>();
+
+function getGeographyMeasurements(geo: Geography) {
+  let measurements = geographyMeasurements.get(geo);
+  if (!measurements) {
+    measurements = {
+      area: geoArea(geo),
+      centroid: geoCentroid(geo),
+    };
+    geographyMeasurements.set(geo, measurements);
+  }
+  return measurements;
+}
+
 const WIDTH = 1100;
 const HEIGHT = 620;
 const MIN_MAP_ZOOM = 0.82;
 const MAX_MAP_ZOOM = 120;
 const MAX_COUNTRY_HIT_AREA = WIDTH * HEIGHT * 0.6;
+const EARTH_RADIUS_KM = 6371.0088;
 const SMALL_COUNTRY_HIT_AREA = 16;
 const SMALL_COUNTRY_HIT_RADIUS = 9;
 const MIN_SMALL_COUNTRY_HIT_RADIUS = 0.65;
 const QUIZ_SMALL_COUNTRY_MARKER_SCALE_LIMIT = 11;
 const BASE_COUNTRY_STROKE_WIDTH = 0.55;
 const MIN_COUNTRY_STROKE_WIDTH = 0.08;
+
+function isPointOnVisibleHemisphere(
+  longitude: number,
+  latitude: number,
+  rotation: [number, number],
+) {
+  return projectOrthographicPoint(longitude, latitude, rotation) !== null;
+}
+
+function projectOrthographicPoint(
+  longitude: number,
+  latitude: number,
+  rotation: [number, number],
+): [number, number] | null {
+  const radians = Math.PI / 180;
+  const lon = longitude * radians;
+  const lat = latitude * radians;
+  const rotateLon = rotation[0] * radians;
+  const rotateLat = rotation[1] * radians;
+  const x = Math.cos(lon) * Math.cos(lat);
+  const y = Math.sin(lon) * Math.cos(lat);
+  const z = Math.sin(lat);
+  const front =
+    Math.cos(rotateLat) * Math.cos(rotateLon) * x -
+    Math.cos(rotateLat) * Math.sin(rotateLon) * y -
+    Math.sin(rotateLat) * z;
+  if (front < -1e-7) return null;
+
+  const east = Math.sin(rotateLon) * x + Math.cos(rotateLon) * y;
+  const north =
+    Math.sin(rotateLat) * Math.cos(rotateLon) * x -
+    Math.sin(rotateLat) * Math.sin(rotateLon) * y +
+    Math.cos(rotateLat) * z;
+  const radius = (HEIGHT - 40) / 2;
+  return [WIDTH / 2 + radius * east, HEIGHT / 2 - radius * north];
+}
 
 const usStateNameToCode: Record<string, string> = {
   "Alabama": "AL", "Alaska": "AK", "Arizona": "AZ", "Arkansas": "AR", "California": "CA",
@@ -417,13 +500,43 @@ function geoId(geo: Geography) {
   return `geo:${geo.properties?.name ?? "Unknown"}`;
 }
 
+function mapGeographyId(geo: Geography) {
+  const propertyId = geo.properties?.id;
+  return propertyId === undefined || propertyId === null
+    ? geoId(geo)
+    : String(propertyId);
+}
+
+function mapGeographyRenderKey(geo: Geography, index: number) {
+  return `${mapGeographyId(geo)}:${index}`;
+}
+
 function clipId(id: string) {
   return `flag-clip-${id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
 }
 
+const nonSvgFlagExtensions: Record<string, "gif" | "png"> = {
+  "ng-an": "png",
+  "ng-kn": "png",
+  "ng-la": "gif",
+  "za-ec": "png",
+  "za-fs": "png",
+  "za-nc": "png",
+  "za-nw": "png",
+  "za-wc": "png",
+};
+
+function flagAssetUrl(country: Country) {
+  const stem = (
+    country.cca3.includes("-") || country.cca3 === "SOL"
+      ? country.cca3
+      : country.alpha2
+  ).toLowerCase();
+  return `/flags/${stem}.${nonSvgFlagExtensions[stem] ?? "svg"}`;
+}
+
 const baseGeographyIds = new Set(baseGeographies.map(geoId));
 
-const subdivisionsGeographies = (subdivisionsAtlas.features || []) as Geography[];
 const formatNumber = new Intl.NumberFormat("en", { maximumFractionDigits: 0 });
 const formatArea = (area: number) => `${formatNumber.format(Math.round(area))} km2`;
 const RUSSIA_SUBDIVISION_REGION = "Russia (Federal Subjects)";
@@ -1223,17 +1336,37 @@ function App() {
     return "standard";
   });
 
-  const [mapPerformance, setMapPerformance] = useState<MapPerformance>(() => {
-    try {
-      const saved = localStorage.getItem("geolearn_map_performance");
-      if (saved === "eco" || saved === "adaptive" || saved === "high") {
-        return saved;
-      }
-    } catch (e) {
-      console.error("Failed to load map performance level", e);
-    }
-    return "adaptive";
-  });
+  const [subdivisionData, setSubdivisionData] = useState<SubdivisionData | null>(null);
+  const [subdivisionLoadState, setSubdivisionLoadState] = useState<"idle" | "loading" | "ready" | "error">("idle");
+  const [subdivisionLoadAttempt, setSubdivisionLoadAttempt] = useState(0);
+
+  useEffect(() => {
+    if (mapDetailLevel !== "detailed" || subdivisionData) return;
+
+    let cancelled = false;
+    setSubdivisionLoadState("loading");
+    void import("./data/load-subdivisions")
+      .then((module) => {
+        if (cancelled) return;
+        setSubdivisionData({
+          geographies: (module.subdivisionsAtlas.features || []) as Geography[],
+          metadata: module.subdivisionsMetadata as any[],
+        });
+        setSubdivisionLoadState("ready");
+      })
+      .catch((error) => {
+        if (cancelled) return;
+        console.error("Failed to load detailed map data", error);
+        setSubdivisionLoadState("error");
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [mapDetailLevel, subdivisionData, subdivisionLoadAttempt]);
+
+  const activeMapDetailLevel: MapDetailLevel =
+    mapDetailLevel === "detailed" && !subdivisionData ? "standard" : mapDetailLevel;
 
   useEffect(() => {
     try {
@@ -1243,26 +1376,18 @@ function App() {
     }
   }, [mapDetailLevel]);
 
-  useEffect(() => {
-    try {
-      localStorage.setItem("geolearn_map_performance", mapPerformance);
-    } catch (e) {
-      console.error("Failed to save map performance level", e);
-    }
-  }, [mapPerformance]);
-
   const countries = useMemo(() => {
     const base = (countryData as Country[]).filter((c) => c.ccn3 && baseGeographyIds.has(c.ccn3));
     
-    if (mapDetailLevel === "minimal") {
+    if (activeMapDetailLevel === "minimal") {
       return base.filter(c => !getParentCode(c));
     }
     
-    if (mapDetailLevel === "detailed") {
+    if (activeMapDetailLevel === "detailed" && subdivisionData) {
       const baseFiltered = base.filter(c => c.cca3 !== "USA" && c.cca3 !== "CAN" && c.cca3 !== "AUS" && c.cca3 !== "BRA" && c.cca3 !== "RUS" && c.cca3 !== "MEX" && c.cca3 !== "CHN" && c.cca3 !== "IND" && c.cca3 !== "ZAF" && c.cca3 !== "NGA");
-      const subdivisionRows = [...(subdivisionsMetadata as any[])];
+      const subdivisionRows = [...subdivisionData.metadata];
       const metadataByIso = new Set(subdivisionRows.map((sub) => sub.iso));
-      subdivisionsGeographies.forEach((geo) => {
+      subdivisionData.geographies.forEach((geo) => {
         const fallback = makeRussiaSubdivisionFromShape(geo);
         if (fallback && !metadataByIso.has(fallback.iso)) {
           subdivisionRows.push(fallback);
@@ -1415,7 +1540,7 @@ function App() {
     }
     
     return base;
-  }, [mapDetailLevel]);
+  }, [activeMapDetailLevel, subdivisionData]);
 
   const countryByNumeric = useMemo(() => {
     const m = new Map();
@@ -1423,7 +1548,7 @@ function App() {
       m.set(country.ccn3, country);
     });
     
-    if (mapDetailLevel === "minimal") {
+    if (activeMapDetailLevel === "minimal") {
       const base = (countryData as Country[]).filter((c) => c.ccn3 && baseGeographyIds.has(c.ccn3));
       base.forEach((c) => {
         const parentCode = getParentCode(c);
@@ -1437,7 +1562,7 @@ function App() {
     }
     
     return m;
-  }, [countries, mapDetailLevel]);
+  }, [countries, activeMapDetailLevel]);
   const [view, setView] = useState<ViewMode>("practice");
   const [countryBrowserOpen, setCountryBrowserOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -1871,7 +1996,50 @@ function App() {
     });
   }, [countries, query, selectedRegion]);
 
-  const selectedCountry = selectedCode ? countryByCode.get(selectedCode) ?? null : null;
+  const selectedBaseCountry = selectedCode ? countryByCode.get(selectedCode) ?? null : null;
+  const [loadedOverview, setLoadedOverview] = useState<{
+    code: string;
+    overview: CountryWikipedia | null;
+  } | null>(null);
+  const [overviewLoadAttempt, setOverviewLoadAttempt] = useState(0);
+
+  useEffect(() => {
+    if (!selectedBaseCountry || selectedBaseCountry.wikipedia) return;
+    let cancelled = false;
+    void loadCountryOverview(selectedBaseCountry.cca3).then((overview) => {
+      if (!cancelled) setLoadedOverview({ code: selectedBaseCountry.cca3, overview });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedBaseCountry, overviewLoadAttempt]);
+
+  const selectedCountry = useMemo(() => {
+    if (!selectedBaseCountry) return null;
+    if (selectedBaseCountry.wikipedia) return selectedBaseCountry;
+    if (!loadedOverview || loadedOverview.code !== selectedBaseCountry.cca3 || !loadedOverview.overview) {
+      return selectedBaseCountry;
+    }
+    return { ...selectedBaseCountry, wikipedia: loadedOverview.overview };
+  }, [loadedOverview, selectedBaseCountry]);
+
+  const overviewLoading = Boolean(
+    selectedBaseCountry &&
+    !selectedBaseCountry.wikipedia &&
+    loadedOverview?.code !== selectedBaseCountry.cca3,
+  );
+  const overviewError = Boolean(
+    selectedBaseCountry &&
+    !selectedBaseCountry.wikipedia &&
+    loadedOverview?.code === selectedBaseCountry.cca3 &&
+    loadedOverview?.overview === null,
+  );
+
+  function retryCountryOverview() {
+    if (!selectedBaseCountry) return;
+    setLoadedOverview(null);
+    setOverviewLoadAttempt((attempt) => attempt + 1);
+  }
   
   const selectedRelationships = useMemo(() => {
     if (view === "quiz" && quizStatus === "playing") return null;
@@ -2021,6 +2189,7 @@ function App() {
   }
 
   function startQuiz() {
+    if (mapDetailLevel === "detailed" && !subdivisionData) return;
     if (currentQuizPool.length < 4) {
       alert("Selected region must have at least 4 countries to play.");
       return;
@@ -2327,8 +2496,8 @@ function App() {
         countryByNumeric={countryByNumeric}
         projectionType={projectionType}
         repeatMap={repeatMap}
-        mapDetailLevel={mapDetailLevel}
-        mapPerformance={mapPerformance}
+        mapDetailLevel={activeMapDetailLevel}
+        subdivisionsGeographies={subdivisionData?.geographies ?? null}
         filteredCountries={filteredCountries}
         selectedCountry={selectedCountry}
         selectedRelationships={selectedRelationships}
@@ -2354,6 +2523,27 @@ function App() {
         smallCountryMarkerMaxScreenArea={smallCountryMarkerMaxScreenArea}
         smallCountryMarkerRadiusMultiplier={smallCountryMarkerRadiusMultiplier}
       />
+
+      {mapDetailLevel === "detailed" && subdivisionLoadState !== "ready" && (
+        <div className="map-data-status" role="status" aria-live="polite">
+          {subdivisionLoadState === "error" ? (
+            <>
+              <span>Detailed boundaries could not be loaded.</span>
+              <button
+                type="button"
+                onClick={() => {
+                  setSubdivisionLoadState("idle");
+                  setSubdivisionLoadAttempt((attempt) => attempt + 1);
+                }}
+              >
+                Retry
+              </button>
+            </>
+          ) : (
+            <span>Loading detailed boundaries…</span>
+          )}
+        </div>
+      )}
 
       {isMobile && !(view === "quiz" && quizStatus === "playing") && (
         <section className="floating-controls" aria-label="Map and country controls">
@@ -2404,8 +2594,6 @@ function App() {
         setMapView={setMapView}
         mapDetailLevel={mapDetailLevel}
         setMapDetailLevel={setMapDetailLevel}
-        mapPerformance={mapPerformance}
-        setMapPerformance={setMapPerformance}
         detailLevel={detailLevel}
         setDetailLevel={setDetailLevel}
         projectionType={projectionType}
@@ -2452,6 +2640,9 @@ function App() {
           relationships={selectedRelationships}
           countries={countries}
           detailLevel={detailLevel}
+          overviewLoading={overviewLoading}
+          overviewError={overviewError}
+          onOverviewRetry={retryCountryOverview}
           isMobile={isMobile}
           onSelectCountry={(country) => setSelectedCode(country.cca3)}
         />
@@ -2491,7 +2682,6 @@ function App() {
                     setQuizRegion(v);
                     if (isSubdivisionRegion(v)) {
                       setMapDetailLevel("detailed");
-                      setMapPerformance("high");
                     }
                   }}
                 />
@@ -2519,9 +2709,13 @@ function App() {
                 </span>
               </div>
 
-              <button className="start-quiz-btn" onClick={startQuiz}>
+              <button
+                className="start-quiz-btn"
+                onClick={startQuiz}
+                disabled={mapDetailLevel === "detailed" && !subdivisionData}
+              >
                 <Play size={18} fill="currentColor" />
-                Start Quiz
+                {mapDetailLevel === "detailed" && !subdivisionData ? "Loading map…" : "Start Quiz"}
               </button>
             </div>
 
@@ -2762,7 +2956,7 @@ function WorldMap({
   projectionType,
   repeatMap,
   mapDetailLevel,
-  mapPerformance,
+  subdivisionsGeographies,
   filteredCountries,
   selectedCountry,
   selectedRelationships,
@@ -2793,7 +2987,7 @@ function WorldMap({
   projectionType: ProjectionType;
   repeatMap: boolean;
   mapDetailLevel: MapDetailLevel;
-  mapPerformance: MapPerformance;
+  subdivisionsGeographies: Geography[] | null;
   filteredCountries: Country[];
   selectedCountry: Country | null;
   selectedRelationships: ReturnType<typeof relationshipSummary> | null;
@@ -2823,11 +3017,56 @@ function WorldMap({
   const mapPanelRef = useRef<HTMLElement | null>(null);
   const mapGroupRef = useRef<SVGGElement | null>(null);
   
-  const [globeRotation, setGlobeRotation] = useState<[number, number]>([0, 0]);
+  const [mapRenderVersion, setMapRenderVersion] = useState(0);
 
   const liveMapTransformRef = useRef({ scale: 1, x: 0, y: 0 });
   const liveGlobeRotationRef = useRef<[number, number]>([0, 0]);
+  const committedGlobeRotationRef = useRef<[number, number]>([0, 0]);
   const geographyFeatureMapRef = useRef<Map<string, Geography>>(new Map());
+  const geographyByRenderKeyRef = useRef<Map<string, Geography>>(new Map());
+  const liveProjectionRef = useRef<ReturnType<typeof geoOrthographic> | null>(null);
+  const globeFrameRef = useRef<number | null>(null);
+  const flatFrameRef = useRef<number | null>(null);
+  const pendingGlobeRotationRef = useRef<[number, number]>([0, 0]);
+  const pendingFlatTransformRef = useRef({ scale: 1, x: 0, y: 0 });
+  const orthographicWorkerPoolRef = useRef<OrthographicPathWorkerPool | null>(null);
+  const orthographicWorkerFailedRef = useRef(false);
+  const showFlagFillsRef = useRef(false);
+  const orthographicModeGenerationRef = useRef(0);
+  const globeDomMountedRef = useRef(false);
+  const projectionTypeRef = useRef<ProjectionType>(projectionType);
+  const applyWorkerFrameRef = useRef<(frame: OrthographicPathFrame) => void>(() => undefined);
+  const renderSequentialGlobeRef = useRef<(rotation: [number, number]) => void>(() => undefined);
+  const globeDomCacheRef = useRef<{
+    countries: Array<{
+      id: string;
+      renderKey: string;
+      geo: Geography;
+      path: SVGPathElement;
+      clip?: SVGPathElement;
+      flag?: SVGImageElement;
+      label?: SVGTextElement;
+      hitbox?: SVGCircleElement;
+      countryAnchor?: [number, number];
+      geographicCentroid?: [number, number];
+      area: number;
+    }>;
+    countryByRenderKey: Map<string, {
+      id: string;
+      renderKey: string;
+      geo: Geography;
+      path: SVGPathElement;
+      clip?: SVGPathElement;
+      flag?: SVGImageElement;
+      label?: SVGTextElement;
+      hitbox?: SVGCircleElement;
+      countryAnchor?: [number, number];
+      geographicCentroid?: [number, number];
+      area: number;
+    }>;
+    quizTarget?: SVGGElement;
+    selectedMarker?: SVGGElement;
+  } | null>(null);
 
   const allDetailedGeographies = useMemo(() => {
     const baseFiltered = baseGeographies.filter(
@@ -2847,8 +3086,8 @@ function WorldMap({
         );
       }
     );
-    return [...baseFiltered, ...subdivisionsGeographies];
-  }, []);
+    return [...baseFiltered, ...(subdivisionsGeographies ?? [])];
+  }, [subdivisionsGeographies]);
 
   const activeGeographies = useMemo(() => {
     if (mapDetailLevel === "detailed") {
@@ -2857,22 +3096,29 @@ function WorldMap({
     return baseGeographies;
   }, [mapDetailLevel, allDetailedGeographies]);
 
-  useEffect(() => {
-    const m = new Map<string, Geography>();
-    activeGeographies.forEach((geo) => {
-      const isSub = geo.properties && ("id" in geo.properties);
-      const id = isSub ? String(geo.properties.id) : geoId(geo);
-      m.set(id, geo);
+  useLayoutEffect(() => {
+    const byLogicalId = new Map<string, Geography>();
+    const byRenderKey = new Map<string, Geography>();
+    activeGeographies.forEach((geo, index) => {
+      const logicalId = mapGeographyId(geo);
+      // Keep a stable representative for country-level marker fallbacks while
+      // every physical feature is still addressed by its unique render key.
+      if (!byLogicalId.has(logicalId)) byLogicalId.set(logicalId, geo);
+      byRenderKey.set(mapGeographyRenderKey(geo, index), geo);
     });
-    geographyFeatureMapRef.current = m;
+    geographyFeatureMapRef.current = byLogicalId;
+    geographyByRenderKeyRef.current = byRenderKey;
   }, [activeGeographies]);
 
+  const orthographicProjectionVersion =
+    projectionType === "orthographic" ? mapRenderVersion : 0;
   const projection = useMemo(() => {
     let proj;
     if (projectionType === "mercator") {
       proj = geoMercator();
     } else if (projectionType === "orthographic") {
-      proj = geoOrthographic().rotate([globeRotation[0], globeRotation[1], 0]);
+      const rotation = committedGlobeRotationRef.current;
+      proj = geoOrthographic().rotate([rotation[0], rotation[1], 0]);
     } else {
       proj = geoEqualEarth();
     }
@@ -2888,43 +3134,67 @@ function WorldMap({
     proj.precision(1.8);
     
     return proj;
-  }, [projectionType, globeRotation]);
+  }, [projectionType, orthographicProjectionVersion]);
+
+  useEffect(() => {
+    liveProjectionRef.current = projectionType === "orthographic" ? projection : null;
+  }, [projection, projectionType]);
 
   const path = useMemo(() => geoPath(projection), [projection]);
+  const shouldMeasureFlagBounds =
+    mapView === "flagFills" && projectionType !== "orthographic";
 
   const mapGeographies = useMemo((): MapGeometry[] => {
-    return activeGeographies.map((geo): MapGeometry => {
+    return activeGeographies.map((geo, index): MapGeometry => {
       const isSub = geo.properties && ("id" in geo.properties);
-      const id = isSub ? String(geo.properties.id) : geoId(geo);
+      const id = mapGeographyId(geo);
       const d = path(geo) ?? undefined;
-      
+      const country = countryByNumeric.get(id);
+      const needsGeometryMeasurement = !country?.latlng || !(country.area > 0);
+      const measurements = needsGeometryMeasurement ? getGeographyMeasurements(geo) : null;
+      const geographicCentroid: [number, number] = country?.latlng
+        ? [country.latlng[1], country.latlng[0]]
+        : measurements!.centroid;
+      const sphericalArea = country && country.area > 0
+        ? country.area / (EARTH_RADIUS_KM ** 2)
+        : measurements!.area;
       let centroid: [number, number] | null = null;
-      let area = 0;
       let bounds: [[number, number], [number, number]] = [[0, 0], [0, 0]];
-      
-      // Calculate geometric attributes only if the shape is on the visible side of the globe/map
+
       if (d) {
-        const [x, y] = path.centroid(geo);
-        centroid = Number.isFinite(x) && Number.isFinite(y) ? [x, y] : null;
-        area = path.area(geo);
-        bounds = path.bounds(geo);
+        const point = projection(geographicCentroid);
+        centroid = point && Number.isFinite(point[0]) && Number.isFinite(point[1])
+          ? [point[0], point[1]]
+          : null;
+        if (shouldMeasureFlagBounds) bounds = path.bounds(geo);
       }
-      
+
       return {
         id,
+        renderKey: mapGeographyRenderKey(geo, index),
         clipId: clipId(id),
         name: geo.properties?.name ?? "Unknown",
         d,
-        area,
+        // Equal Earth is mathematically exact here; for the other projections
+        // this stable spherical estimate is used only for marker/label sizing.
+        area: sphericalArea * projection.scale() ** 2,
         bounds,
         centroid,
         isSubdivision: !!isSub,
       };
     });
-  }, [activeGeographies, path]);
+  }, [activeGeographies, countryByNumeric, path, projection, shouldMeasureFlagBounds]);
 
   const geographyByNumeric = useMemo(() => {
-    return new Map(mapGeographies.map((geo) => [geo.id, geo]));
+    const byLogicalId = new Map<string, MapGeometry>();
+    for (const geo of mapGeographies) {
+      if (!byLogicalId.has(geo.id)) byLogicalId.set(geo.id, geo);
+    }
+    return byLogicalId;
+  }, [mapGeographies]);
+
+  const geographyByRenderKey = useMemo(() => {
+    return new Map(mapGeographies.map((geo) => [geo.renderKey, geo]));
   }, [mapGeographies]);
 
   const worldWidth = useMemo(() => {
@@ -2944,30 +3214,65 @@ function WorldMap({
     originY: number;
     originLon?: number;
     originLat?: number;
+    clientToMapScale: number;
   } | null>(null);
   
   const wasDraggingRef = useRef(false);
   const zoomRefreshTimeoutRef = useRef<number | null>(null);
   const [mapTransform, setMapTransform] = useState({ scale: 1, x: 0, y: 0 });
-  const [mapRenderVersion, setMapRenderVersion] = useState(0);
   const filteredCodes = useMemo(() => new Set(filteredCountries.map((country) => country.cca3)), [filteredCountries]);
   const showFlagFills = mapView === "flagFills";
+  showFlagFillsRef.current = showFlagFills;
+  projectionTypeRef.current = projectionType;
 
   useEffect(() => {
     liveMapTransformRef.current = mapTransform;
   }, [mapTransform]);
 
-  useEffect(() => {
-    liveGlobeRotationRef.current = globeRotation;
-  }, [globeRotation]);
+  useLayoutEffect(() => {
+    orthographicModeGenerationRef.current += 1;
+  }, [showFlagFills]);
 
   useEffect(() => {
+    globeDomMountedRef.current = true;
     return () => {
+      globeDomMountedRef.current = false;
       if (zoomRefreshTimeoutRef.current !== null) {
         window.clearTimeout(zoomRefreshTimeoutRef.current);
       }
+      if (globeFrameRef.current !== null) {
+        cancelAnimationFrame(globeFrameRef.current);
+      }
+      if (flatFrameRef.current !== null) {
+        cancelAnimationFrame(flatFrameRef.current);
+      }
     };
   }, []);
+
+  useLayoutEffect(() => {
+    globeDomCacheRef.current = null;
+    if (
+      globeDomMountedRef.current &&
+      projectionType === "orthographic"
+    ) {
+      scheduleGlobeRotation([...liveGlobeRotationRef.current]);
+    }
+  }, [
+    mapGeographies,
+    mapRenderVersion,
+    mapView,
+    projectionType,
+    showFlagFills,
+    showCountryNames,
+    selectedCountry,
+    quizCountry,
+    filteredCodes,
+    quizPoolCodes,
+    quizStatus,
+    showSmallCountryMarkersPractice,
+    smallCountryMarkerZoomLimit,
+    smallCountryMarkerMaxScreenArea,
+  ]);
 
   const targetCodes = useMemo(() => {
     return isQuizMode && (quizStatus === "playing" || quizStatus === "summary")
@@ -2998,12 +3303,12 @@ function WorldMap({
             return (
               item.totalArea > 0 &&
               item.totalArea < SMALL_COUNTRY_HIT_AREA &&
-              Boolean(item.geo.centroid)
+              (projectionType === "orthographic" || Boolean(item.geo.centroid))
             );
           }
         );
     },
-    [mapGeographies, countryByNumeric, targetCodes],
+    [mapGeographies, countryByNumeric, projectionType, targetCodes],
   );
 
   const selectedCountryMarker = useMemo(() => {
@@ -3018,13 +3323,13 @@ function WorldMap({
     const totalArea = selectedGeographies.reduce((sum, geo) => sum + geo.area, 0);
     const largestGeo = selectedGeographies.reduce((largest, geo) => (geo.area > largest.area ? geo : largest), selectedGeographies[0]);
     const markerPoint = getMarkerPoint(selectedCountry) ?? largestGeo.centroid;
-    if (!markerPoint) return null;
+    if (!markerPoint && projectionType !== "orthographic") return null;
 
     return {
       point: markerPoint,
       screenArea: totalArea * mapTransform.scale * mapTransform.scale,
     };
-  }, [countryByNumeric, isQuizMode, mapGeographies, mapTransform.scale, selectedCountry, targetCodes]);
+  }, [countryByNumeric, isQuizMode, mapGeographies, mapTransform.scale, projectionType, selectedCountry, targetCodes]);
 
   const showSelectedCountryMarker = Boolean(
     selectedCountryMarker &&
@@ -3053,30 +3358,467 @@ function WorldMap({
 
     zoomRefreshTimeoutRef.current = window.setTimeout(() => {
       zoomRefreshTimeoutRef.current = null;
+      setMapTransform({ ...liveMapTransformRef.current });
+      if (projectionType === "orthographic") {
+        committedGlobeRotationRef.current = [...liveGlobeRotationRef.current];
+      }
       setMapRenderVersion((version) => version + 1);
     }, 120);
   }
 
-  function zoomAt(nextScale: number, center = { x: WIDTH / 2, y: HEIGHT / 2 }) {
-    setMapTransform((current) => {
-      const scale = clampZoom(nextScale);
-      const ratio = scale / current.scale;
-      return {
-        scale,
-        x: center.x - (center.x - current.x) * ratio,
-        y: center.y - (center.y - current.y) * ratio,
-      };
-    });
+  function zoomAt(
+    nextScale: number,
+    center = { x: WIDTH / 2, y: HEIGHT / 2 },
+    commitImmediately = true,
+  ) {
+    const current = liveMapTransformRef.current;
+    const scale = clampZoom(nextScale);
+    const ratio = scale / current.scale;
+    const nextTransform = {
+      scale,
+      x: center.x - (center.x - current.x) * ratio,
+      y: center.y - (center.y - current.y) * ratio,
+    };
+    liveMapTransformRef.current = nextTransform;
+    scheduleFlatTransform(nextTransform);
+    if (commitImmediately) setMapTransform(nextTransform);
     scheduleZoomRenderRefresh();
   }
 
   function handleWheel(event: WheelEvent<SVGSVGElement>) {
     event.preventDefault();
-    const zoomFactor = event.deltaY < 0 ? 1.18 : 1 / 1.18;
-    zoomAt(mapTransform.scale * zoomFactor, clientPointToSvg(event));
+    const deltaPixels = event.deltaY * (
+      event.deltaMode === globalThis.WheelEvent.DOM_DELTA_LINE
+        ? 16
+        : event.deltaMode === globalThis.WheelEvent.DOM_DELTA_PAGE
+          ? event.currentTarget.clientHeight
+          : 1
+    );
+    const zoomFactor = Math.exp(-deltaPixels * 0.00165);
+    zoomAt(liveMapTransformRef.current.scale * zoomFactor, clientPointToSvg(event), false);
+  }
+
+  function getGlobeDomCache() {
+    if (globeDomCacheRef.current) return globeDomCacheRef.current;
+    const svg = svgRef.current;
+    if (!svg) return null;
+
+    function elementsByRenderKey<T extends Element>(selector: string) {
+      const result = new Map<string, T>();
+      svg!.querySelectorAll<T>(selector).forEach((element) => {
+        const renderKey = element.getAttribute("data-render-key");
+        if (renderKey) result.set(renderKey, element);
+      });
+      return result;
+    }
+
+    const clips = elementsByRenderKey<SVGPathElement>("path[data-clip-id][data-render-key]");
+    const flags = elementsByRenderKey<SVGImageElement>("image[data-flag-id][data-render-key]");
+    const labels = elementsByRenderKey<SVGTextElement>("text[data-label-id][data-render-key]");
+    const hitboxes = elementsByRenderKey<SVGCircleElement>("circle[data-hitbox-id][data-render-key]");
+    const countries: Array<{
+      id: string;
+      renderKey: string;
+      geo: Geography;
+      path: SVGPathElement;
+      clip?: SVGPathElement;
+      flag?: SVGImageElement;
+      label?: SVGTextElement;
+      hitbox?: SVGCircleElement;
+      countryAnchor?: [number, number];
+      geographicCentroid?: [number, number];
+      area: number;
+    }> = [];
+
+    svg.querySelectorAll<SVGPathElement>("path.country[data-geo-id][data-render-key]").forEach((pathElement) => {
+      const id = pathElement.getAttribute("data-geo-id");
+      const renderKey = pathElement.getAttribute("data-render-key");
+      const geo = renderKey ? geographyByRenderKeyRef.current.get(renderKey) : undefined;
+      if (!id || !renderKey || !geo) return;
+      const country = countryByNumeric.get(id);
+      const mapGeo = geographyByRenderKey.get(renderKey);
+      countries.push({
+        id,
+        renderKey,
+        geo,
+        path: pathElement,
+        clip: clips.get(renderKey),
+        flag: flags.get(renderKey),
+        label: labels.get(renderKey),
+        hitbox: hitboxes.get(renderKey),
+        countryAnchor: country?.latlng
+          ? [country.latlng[1], country.latlng[0]]
+          : undefined,
+        area: mapGeo?.area ?? 0,
+      });
+    });
+
+    globeDomCacheRef.current = {
+      countries,
+      countryByRenderKey: new Map(countries.map((entry) => [entry.renderKey, entry])),
+      quizTarget: svg.querySelector<SVGGElement>(".quiz-target-marker") ?? undefined,
+      selectedMarker: svg.querySelector<SVGGElement>(".selected-country-marker") ?? undefined,
+    };
+    return globeDomCacheRef.current;
+  }
+
+  function setSvgVisible(element: SVGElement, visible: boolean) {
+    if (visible) element.removeAttribute("display");
+    else element.setAttribute("display", "none");
+  }
+
+  function activateFlagImage(image: SVGImageElement, pathElement: SVGPathElement) {
+    const markLoaded = () => {
+      image.setAttribute("data-flag-loaded", "true");
+      pathElement.setAttribute("data-flag-loaded", "true");
+    };
+    if (image.getAttribute("data-flag-loaded") === "true") {
+      markLoaded();
+      return;
+    }
+    if (image.getAttribute("href")) return;
+    const source = image.getAttribute("data-flag-src");
+    if (!source) return;
+    image.addEventListener("load", markLoaded, { once: true });
+    image.setAttribute("href", source);
+  }
+
+  function getCountryGeographicAnchor(country: Country): [number, number] | null {
+    if (country.latlng) return [country.latlng[1], country.latlng[0]];
+    const geography = geographyFeatureMapRef.current.get(country.ccn3);
+    return geography ? getGeographyMeasurements(geography).centroid : null;
+  }
+
+  function updateSolidGlobeSpecialMarkers(
+    dom: NonNullable<typeof globeDomCacheRef.current>,
+    rotation: [number, number],
+  ) {
+    if (dom.quizTarget && quizCountry) {
+      const anchor = getCountryGeographicAnchor(quizCountry);
+      const point = anchor
+        ? projectOrthographicPoint(anchor[0], anchor[1], rotation)
+        : null;
+      setSvgVisible(dom.quizTarget, Boolean(point));
+      if (point) dom.quizTarget.setAttribute("transform", `translate(${point[0]} ${point[1]})`);
+    }
+
+    if (dom.selectedMarker && selectedCountry) {
+      const anchor = getCountryGeographicAnchor(selectedCountry);
+      const point = anchor
+        ? projectOrthographicPoint(anchor[0], anchor[1], rotation)
+        : null;
+      setSvgVisible(dom.selectedMarker, Boolean(point));
+      if (point) dom.selectedMarker.setAttribute("transform", `translate(${point[0]} ${point[1]})`);
+    }
+  }
+
+  function applySolidGlobeFrame(
+    paths: Array<[id: string, path: string]>,
+    rotation: [number, number],
+    geographicCentroids?: ReadonlyMap<string, [number, number]>,
+  ) {
+    const dom = getGlobeDomCache();
+    if (!dom) return;
+
+    // Keep the main-thread projection current for React renders, projection
+    // switches, and the flag-fill fallback without doing any main-thread path
+    // generation in the worker-backed solid-color modes.
+    liveProjectionRef.current?.rotate([rotation[0], rotation[1], 0]);
+
+    for (const [renderKey, d] of paths) {
+      const entry = dom.countryByRenderKey.get(renderKey);
+      if (!entry) continue;
+      entry.geographicCentroid ??=
+        geographicCentroids?.get(renderKey) ?? getGeographyMeasurements(entry.geo).centroid;
+      entry.path.setAttribute("d", d);
+      const pathVisible = d.length > 0;
+      const markerAnchor = entry.countryAnchor ?? entry.geographicCentroid;
+      const markerPoint = pathVisible && markerAnchor
+        ? projectOrthographicPoint(markerAnchor[0], markerAnchor[1], rotation)
+        : null;
+
+      if (entry.label) {
+        const isSmall = entry.area < 18;
+        const labelAnchor = isSmall ? markerAnchor : entry.geographicCentroid;
+        const labelPoint = pathVisible && labelAnchor
+          ? projectOrthographicPoint(labelAnchor[0], labelAnchor[1], rotation)
+          : null;
+        const screenArea = entry.area * liveMapTransformRef.current.scale ** 2;
+        const largeEnough = isSmall
+          ? liveMapTransformRef.current.scale >= 2.2
+          : screenArea >= 120;
+        const labelVisible = Boolean(labelPoint && largeEnough);
+        setSvgVisible(entry.label, labelVisible);
+        if (labelPoint && labelVisible) {
+          const offsetX = isSmall ? 11 / liveMapTransformRef.current.scale : 0;
+          const offsetY = isSmall ? 3 / liveMapTransformRef.current.scale : -3 / liveMapTransformRef.current.scale;
+          entry.label.setAttribute("x", String(labelPoint[0] + offsetX));
+          entry.label.setAttribute("y", String(labelPoint[1] + offsetY));
+          entry.label.setAttribute("font-size", String(10 / liveMapTransformRef.current.scale));
+          entry.label.setAttribute("stroke-width", String(2.5 / liveMapTransformRef.current.scale));
+        }
+      }
+
+      if (entry.hitbox) {
+        setSvgVisible(entry.hitbox, Boolean(markerPoint));
+        if (markerPoint) {
+          entry.hitbox.setAttribute("cx", String(markerPoint[0]));
+          entry.hitbox.setAttribute("cy", String(markerPoint[1]));
+        }
+      }
+    }
+
+    updateSolidGlobeSpecialMarkers(dom, rotation);
+  }
+
+  function applyFlagGlobeFrame(
+    metrics: OrthographicFlagMetric[],
+    rotation: [number, number],
+  ) {
+    const dom = getGlobeDomCache();
+    if (!dom) return;
+
+    liveProjectionRef.current?.rotate([rotation[0], rotation[1], 0]);
+
+    for (const metric of metrics) {
+      const entry = dom.countryByRenderKey.get(metric.renderKey);
+      if (!entry) continue;
+
+      const { path: d, bounds } = metric;
+      const pathVisible = d.length > 0;
+      const centroid = metric.centroid.every(Number.isFinite)
+        ? metric.centroid
+        : null;
+      const [[x0, y0], [x1, y1]] = bounds;
+      const boundsValid = [x0, y0, x1, y1].every(Number.isFinite);
+
+      entry.path.setAttribute("d", d);
+      if (entry.clip) {
+        entry.clip.setAttribute("d", d);
+        setSvgVisible(entry.clip, pathVisible);
+      }
+
+      if (entry.flag) {
+        const flagVisible = pathVisible && boundsValid;
+        setSvgVisible(entry.flag, flagVisible);
+        if (flagVisible) {
+          activateFlagImage(entry.flag, entry.path);
+          const center = centroid ?? [(x0 + x1) / 2, (y0 + y1) / 2];
+          const size = Math.max(1, x1 - x0, y1 - y0) * 1.5;
+          entry.flag.setAttribute("x", String(center[0] - size / 2));
+          entry.flag.setAttribute("y", String(center[1] - size / 2));
+          entry.flag.setAttribute("width", String(size));
+          entry.flag.setAttribute("height", String(size));
+        }
+      }
+
+      const isSmall = entry.area < 18;
+      let anchorPoint: [number, number] | null = null;
+      if (pathVisible && isSmall && entry.countryAnchor) {
+        anchorPoint = projectOrthographicPoint(
+          entry.countryAnchor[0],
+          entry.countryAnchor[1],
+          rotation,
+        );
+      }
+
+      if (entry.label) {
+        const labelPoint = anchorPoint ?? (pathVisible ? centroid : null);
+        const screenArea = entry.area * liveMapTransformRef.current.scale ** 2;
+        const largeEnough = isSmall
+          ? liveMapTransformRef.current.scale >= 2.2
+          : screenArea >= 120;
+        const labelVisible = Boolean(labelPoint && largeEnough);
+        setSvgVisible(entry.label, labelVisible);
+        if (labelPoint && labelVisible) {
+          const offsetX = isSmall ? 11 / liveMapTransformRef.current.scale : 0;
+          const offsetY = isSmall
+            ? 3 / liveMapTransformRef.current.scale
+            : -3 / liveMapTransformRef.current.scale;
+          entry.label.setAttribute("x", String(labelPoint[0] + offsetX));
+          entry.label.setAttribute("y", String(labelPoint[1] + offsetY));
+          entry.label.setAttribute("font-size", String(10 / liveMapTransformRef.current.scale));
+          entry.label.setAttribute("stroke-width", String(2.5 / liveMapTransformRef.current.scale));
+        }
+      }
+
+      if (entry.hitbox) {
+        const markerPoint = anchorPoint ?? (pathVisible ? centroid : null);
+        setSvgVisible(entry.hitbox, Boolean(markerPoint));
+        if (markerPoint) {
+          entry.hitbox.setAttribute("cx", String(markerPoint[0]));
+          entry.hitbox.setAttribute("cy", String(markerPoint[1]));
+        }
+      }
+    }
+
+    updateSolidGlobeSpecialMarkers(dom, rotation);
+  }
+
+  applyWorkerFrameRef.current = (frame) => {
+    if (
+      projectionTypeRef.current !== "orthographic" ||
+      frame.modeGeneration !== orthographicModeGenerationRef.current ||
+      frame.includeFlagMetrics !== showFlagFillsRef.current
+    ) {
+      return;
+    }
+    if (frame.includeFlagMetrics) {
+      applyFlagGlobeFrame(frame.flagMetrics, frame.rotation);
+    } else {
+      applySolidGlobeFrame(frame.paths, frame.rotation, frame.geographicCentroids);
+    }
+  };
+
+  function renderGlobeRotation(rotation: [number, number]) {
+    let localProjection = liveProjectionRef.current;
+    if (!localProjection) {
+      localProjection = geoOrthographic().fitExtent(
+        [[20, 20], [WIDTH - 20, HEIGHT - 20]],
+        { type: "Sphere" },
+      );
+      localProjection.precision(1.8);
+      liveProjectionRef.current = localProjection;
+    }
+    localProjection.rotate([rotation[0], rotation[1], 0]);
+    const localPath = geoPath(localProjection);
+    const dom = getGlobeDomCache();
+    if (!dom) return;
+
+    if (!showFlagFillsRef.current) {
+      const paths: Array<[id: string, path: string]> = new Array(dom.countries.length);
+      for (let index = 0; index < dom.countries.length; index += 1) {
+        const entry = dom.countries[index];
+        paths[index] = [entry.renderKey, localPath(entry.geo) ?? ""];
+      }
+      applySolidGlobeFrame(paths, rotation);
+      return;
+    }
+
+    const flagMetrics: OrthographicFlagMetric[] = new Array(dom.countries.length);
+    for (let index = 0; index < dom.countries.length; index += 1) {
+      const entry = dom.countries[index];
+      flagMetrics[index] = {
+        renderKey: entry.renderKey,
+        path: localPath(entry.geo) ?? "",
+        bounds: localPath.bounds(entry.geo),
+        centroid: localPath.centroid(entry.geo),
+      };
+    }
+    applyFlagGlobeFrame(flagMetrics, rotation);
+  }
+
+  renderSequentialGlobeRef.current = renderGlobeRotation;
+
+  useEffect(() => {
+    orthographicWorkerPoolRef.current?.dispose();
+    orthographicWorkerPoolRef.current = null;
+    orthographicWorkerFailedRef.current = false;
+
+    if (projectionType !== "orthographic") {
+      orthographicWorkerFailedRef.current = true;
+      return;
+    }
+    if (typeof Worker === "undefined") {
+      orthographicWorkerFailedRef.current = true;
+      const rotation: [number, number] = [...liveGlobeRotationRef.current];
+      requestAnimationFrame(() => {
+        if (projectionTypeRef.current === "orthographic") {
+          renderSequentialGlobeRef.current(rotation);
+        }
+      });
+      return;
+    }
+
+    let pool: OrthographicPathWorkerPool | null = null;
+    try {
+      pool = new OrthographicPathWorkerPool({
+        features: activeGeographies.map((geography, index) => {
+          return {
+            renderKey: mapGeographyRenderKey(geography, index),
+            geography,
+          };
+        }),
+        onFrame: (frame) => {
+          if (orthographicWorkerPoolRef.current !== pool) return;
+          applyWorkerFrameRef.current(frame);
+        },
+        onError: (error) => {
+          if (orthographicWorkerPoolRef.current !== pool) return;
+          console.warn("Parallel orthographic rendering unavailable; using main thread.", error);
+          orthographicWorkerPoolRef.current = null;
+          orthographicWorkerFailedRef.current = true;
+          const rotation = pendingGlobeRotationRef.current;
+          requestAnimationFrame(() => {
+            if (projectionTypeRef.current === "orthographic") {
+              renderSequentialGlobeRef.current(rotation);
+            }
+          });
+        },
+      });
+      orthographicWorkerPoolRef.current = pool;
+      pool.request(
+        [...liveGlobeRotationRef.current],
+        orthographicModeGenerationRef.current,
+        showFlagFillsRef.current,
+      );
+    } catch (error) {
+      orthographicWorkerFailedRef.current = true;
+      console.warn("Unable to start parallel orthographic rendering; using main thread.", error);
+      const rotation: [number, number] = [...liveGlobeRotationRef.current];
+      requestAnimationFrame(() => {
+        if (projectionTypeRef.current === "orthographic") {
+          renderSequentialGlobeRef.current(rotation);
+        }
+      });
+    }
+
+    return () => {
+      pool?.dispose();
+      if (orthographicWorkerPoolRef.current === pool) {
+        orthographicWorkerPoolRef.current = null;
+      }
+    };
+  }, [activeGeographies, projectionType]);
+
+  function scheduleGlobeRotation(rotation: [number, number]) {
+    pendingGlobeRotationRef.current = rotation;
+    if (globeFrameRef.current !== null) return;
+    globeFrameRef.current = requestAnimationFrame(() => {
+      globeFrameRef.current = null;
+      const latestRotation = pendingGlobeRotationRef.current;
+      const workerPool = orthographicWorkerPoolRef.current;
+      if (workerPool && !orthographicWorkerFailedRef.current) {
+        workerPool.request(
+          latestRotation,
+          orthographicModeGenerationRef.current,
+          showFlagFillsRef.current,
+        );
+      } else {
+        renderSequentialGlobeRef.current(latestRotation);
+      }
+    });
+  }
+
+  function scheduleFlatTransform(transform: { scale: number; x: number; y: number }) {
+    pendingFlatTransformRef.current = transform;
+    if (flatFrameRef.current !== null) return;
+    flatFrameRef.current = requestAnimationFrame(() => {
+      flatFrameRef.current = null;
+      const next = pendingFlatTransformRef.current;
+      let x = next.x;
+      if (isFlatRepeat) {
+        const scaledWidth = worldWidth * next.scale;
+        x = ((x + scaledWidth / 2) % scaledWidth + scaledWidth) % scaledWidth - scaledWidth / 2;
+      }
+      if (mapGroupRef.current) {
+        mapGroupRef.current.setAttribute("transform", `translate(${x} ${next.y}) scale(${next.scale})`);
+      }
+    });
   }
 
   function handlePointerDown(event: PointerEvent<SVGSVGElement>) {
+    const rect = event.currentTarget.getBoundingClientRect();
     dragRef.current = {
       pointerId: event.pointerId,
       startX: event.clientX,
@@ -3085,6 +3827,7 @@ function WorldMap({
       originY: liveMapTransformRef.current.y,
       originLon: liveGlobeRotationRef.current[0],
       originLat: liveGlobeRotationRef.current[1],
+      clientToMapScale: Math.max(rect.width / WIDTH, rect.height / HEIGHT),
     };
     wasDraggingRef.current = false;
   }
@@ -3093,246 +3836,37 @@ function WorldMap({
     const drag = dragRef.current;
     const svg = svgRef.current;
     if (!drag || !svg || drag.pointerId !== event.pointerId) return;
-    const rect = svg.getBoundingClientRect();
-    const dx = ((event.clientX - drag.startX) * WIDTH) / rect.width;
-    const dy = ((event.clientY - drag.startY) * HEIGHT) / rect.height;
-    
-    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
-      if (!wasDraggingRef.current) {
-        wasDraggingRef.current = true;
-        // Apply is-dragging and adaptive-dragging class directly to the DOM for immediate response
-        if (mapPanelRef.current) {
-          mapPanelRef.current.classList.add("is-dragging");
-          if (mapPerformance !== "high") {
-            mapPanelRef.current.classList.add("adaptive-dragging");
-          }
-        }
-      }
+
+    const dx = (event.clientX - drag.startX) / drag.clientToMapScale;
+    const dy = (event.clientY - drag.startY) / drag.clientToMapScale;
+
+    if ((Math.abs(dx) > 3 || Math.abs(dy) > 3) && !wasDraggingRef.current) {
+      wasDraggingRef.current = true;
+      mapPanelRef.current?.classList.add("is-dragging");
+      // Capture only once this is genuinely a drag. Capturing on pointerdown
+      // makes the SVG root the click target and prevents country paths from
+      // receiving ordinary click events.
+      event.currentTarget.setPointerCapture(drag.pointerId);
     }
 
     if (projectionType === "orthographic") {
-      const sensitivity = 0.45;
       const scale = liveMapTransformRef.current.scale;
-      const newLon = (drag.originLon ?? 0) + (dx / scale) * sensitivity;
-      const newLat = Math.max(-80, Math.min(80, (drag.originLat ?? 0) - (dy / scale) * sensitivity));
-      
-      liveGlobeRotationRef.current = [newLon, newLat];
-      
-      // Update DOM directly in animation frame
-      requestAnimationFrame(() => {
-        if (!dragRef.current) return;
-        
-        const localProjection = geoOrthographic()
-          .rotate([newLon, newLat, 0])
-          .fitExtent(
-            [
-              [20, 20],
-              [WIDTH - 20, HEIGHT - 20],
-            ],
-            { type: "Sphere" }
-          );
-        localProjection.precision(mapPerformance !== "high" ? 4.0 : 1.8);
-        const localPath = geoPath(localProjection);
-        
-        const targetSelector = mapPerformance === "high" ? "path.country" : "path.country:not(.subdivision)";
-        const pathElements = svgRef.current?.querySelectorAll(targetSelector);
-        if (pathElements) {
-          pathElements.forEach((pathEl) => {
-            const geoIdAttr = pathEl.getAttribute("data-geo-id");
-            if (!geoIdAttr) return;
-            
-            const geo = geographyFeatureMapRef.current.get(geoIdAttr);
-            if (!geo) return;
-            
-            const d = localPath(geo) ?? "";
-            pathEl.setAttribute("d", d);
-            
-            // If the country is on the backside, hide it and accessories
-            const visible = d !== "";
-            
-            // Update the clipPath path if it exists
-            const clipPathEl = svgRef.current?.querySelector(`path[data-clip-id="${geoIdAttr}"]`);
-            if (clipPathEl) {
-              clipPathEl.setAttribute("d", d);
-              if (!visible) {
-                clipPathEl.setAttribute("display", "none");
-              } else {
-                clipPathEl.removeAttribute("display");
-              }
-            }
-            
-            // Update flag image if it exists
-            const flagEl = svgRef.current?.querySelector(`image[data-flag-id="${geoIdAttr}"]`);
-            if (flagEl) {
-              if (!visible) {
-                flagEl.setAttribute("display", "none");
-              } else {
-                flagEl.removeAttribute("display");
-                // Recalculate center/bounds for the flag position
-                const bounds = localPath.bounds(geo);
-                if (bounds && bounds[0] && bounds[1] && bounds[0].every(Number.isFinite) && bounds[1].every(Number.isFinite)) {
-                  const [[x0, y0], [x1, y1]] = bounds;
-                  const maxDim = Math.max(1, Math.max(x1 - x0, y1 - y0));
-                  const centroid = localPath.centroid(geo);
-                  const cx = centroid && Number.isFinite(centroid[0]) ? centroid[0] : (x0 + x1) / 2;
-                  const cy = centroid && Number.isFinite(centroid[1]) ? centroid[1] : (y0 + y1) / 2;
-                  const imgW = maxDim * 1.5;
-                  const imgH = maxDim * 1.5;
-                  flagEl.setAttribute("x", String(cx - imgW / 2));
-                  flagEl.setAttribute("y", String(cy - imgH / 2));
-                  flagEl.setAttribute("width", String(imgW));
-                  flagEl.setAttribute("height", String(imgH));
-                }
-              }
-            }
-            
-            // Update text label if it exists
-            const labelEl = svgRef.current?.querySelector(`text[data-label-id="${geoIdAttr}"]`);
-            if (labelEl) {
-              if (!visible) {
-                labelEl.setAttribute("display", "none");
-              } else {
-                const country = countryByNumeric.get(geoIdAttr);
-                const mapGeoObj = geographyByNumeric.get(geoIdAttr);
-                if (country && mapGeoObj) {
-                  const isSmall = mapGeoObj.area < 18;
-                  const centroid = localPath.centroid(geo);
-                  let labelPt: [number, number] | null = null;
-                  if (isSmall && country.latlng) {
-                    const [lat, lon] = country.latlng;
-                    const pt = localProjection([lon, lat]);
-                    labelPt = pt && Number.isFinite(pt[0]) && Number.isFinite(pt[1]) ? pt : null;
-                  }
-                  if (!labelPt) {
-                    labelPt = centroid;
-                  }
-                  
-                  if (labelPt && Number.isFinite(labelPt[0]) && Number.isFinite(labelPt[1])) {
-                    let textX = labelPt[0];
-                    let textY = labelPt[1];
-                    if (isSmall) {
-                      textX += 11 / liveMapTransformRef.current.scale;
-                      textY += 3 / liveMapTransformRef.current.scale;
-                    } else {
-                      textY -= 3 / liveMapTransformRef.current.scale;
-                    }
-                    labelEl.setAttribute("x", String(textX));
-                    labelEl.setAttribute("y", String(textY));
-                    labelEl.setAttribute("font-size", String(10 / liveMapTransformRef.current.scale));
-                    labelEl.setAttribute("stroke-width", String(2.5 / liveMapTransformRef.current.scale));
-                    
-                    const screenArea = mapGeoObj.area * liveMapTransformRef.current.scale * liveMapTransformRef.current.scale;
-                    let labelVisible = true;
-                    if (isSmall) {
-                      if (liveMapTransformRef.current.scale < 2.2) labelVisible = false;
-                    } else {
-                      if (screenArea < 120) labelVisible = false;
-                    }
-                    
-                    if (labelVisible) {
-                      labelEl.removeAttribute("display");
-                    } else {
-                      labelEl.setAttribute("display", "none");
-                    }
-                  } else {
-                    labelEl.setAttribute("display", "none");
-                  }
-                } else {
-                  labelEl.setAttribute("display", "none");
-                }
-              }
-            }
-            
-            // Update island hitbox if it exists
-            const hitboxEl = svgRef.current?.querySelector(`circle[data-hitbox-id="${geoIdAttr}"]`);
-            if (hitboxEl) {
-              if (!visible) {
-                hitboxEl.setAttribute("display", "none");
-              } else {
-                hitboxEl.removeAttribute("display");
-                const country = countryByNumeric.get(geoIdAttr);
-                if (country) {
-                  let markerPoint: [number, number] | null = null;
-                  if (country.latlng) {
-                    const [lat, lon] = country.latlng;
-                    const pt = localProjection([lon, lat]);
-                    markerPoint = pt && Number.isFinite(pt[0]) && Number.isFinite(pt[1]) ? pt : null;
-                  }
-                  const centroid = localPath.centroid(geo);
-                  const finalPt = markerPoint ?? (centroid && Number.isFinite(centroid[0]) ? centroid : null);
-                  if (finalPt) {
-                    hitboxEl.setAttribute("cx", String(finalPt[0]));
-                    hitboxEl.setAttribute("cy", String(finalPt[1]));
-                  } else {
-                    hitboxEl.setAttribute("display", "none");
-                  }
-                }
-              }
-            }
-          });
-        }
-        
-        // Update quiz target marker
-        const quizTargetEl = svgRef.current?.querySelector(".quiz-target-marker");
-        if (quizTargetEl && quizCountry) {
-          let markerPoint: [number, number] | null = null;
-          if (quizCountry.latlng) {
-            const [lat, lon] = quizCountry.latlng;
-            const pt = localProjection([lon, lat]);
-            markerPoint = pt && Number.isFinite(pt[0]) && Number.isFinite(pt[1]) ? pt : null;
-          }
-          if (markerPoint) {
-            quizTargetEl.removeAttribute("display");
-            quizTargetEl.setAttribute("transform", `translate(${markerPoint[0]} ${markerPoint[1]})`);
-          } else {
-            quizTargetEl.setAttribute("display", "none");
-          }
-        }
-        
-        // Update selected country marker
-        const selectedMarkerEl = svgRef.current?.querySelector(".selected-country-marker");
-        if (selectedMarkerEl && selectedCountry) {
-          let markerPoint: [number, number] | null = null;
-          if (selectedCountry.latlng) {
-            const [lat, lon] = selectedCountry.latlng;
-            const pt = localProjection([lon, lat]);
-            markerPoint = pt && Number.isFinite(pt[0]) && Number.isFinite(pt[1]) ? pt : null;
-          }
-          if (markerPoint) {
-            selectedMarkerEl.removeAttribute("display");
-            selectedMarkerEl.setAttribute("transform", `translate(${markerPoint[0]} ${markerPoint[1]})`);
-          } else {
-            selectedMarkerEl.setAttribute("display", "none");
-          }
-        }
-      });
-    } else {
-      const nextX = drag.originX + dx;
-      const nextY = drag.originY + dy;
-      
-      liveMapTransformRef.current = {
-        ...liveMapTransformRef.current,
-        x: nextX,
-        y: nextY,
-      };
-
-      // Direct DOM update of group translation
-      requestAnimationFrame(() => {
-        if (!dragRef.current) return;
-        
-        let rX = nextX;
-        if (isFlatRepeat) {
-          const scaledWidth = worldWidth * liveMapTransformRef.current.scale;
-          rX = ((nextX + scaledWidth / 2) % scaledWidth);
-          if (rX < 0) rX += scaledWidth;
-          rX -= scaledWidth / 2;
-        }
-        
-        if (mapGroupRef.current) {
-          mapGroupRef.current.style.transform = `translate(${rX}px, ${nextY}px) scale(${liveMapTransformRef.current.scale})`;
-        }
-      });
+      const rotation: [number, number] = [
+        (drag.originLon ?? 0) + (dx / scale) * 0.45,
+        Math.max(-80, Math.min(80, (drag.originLat ?? 0) - (dy / scale) * 0.45)),
+      ];
+      liveGlobeRotationRef.current = rotation;
+      scheduleGlobeRotation(rotation);
+      return;
     }
+
+    const transform = {
+      ...liveMapTransformRef.current,
+      x: drag.originX + dx,
+      y: drag.originY + dy,
+    };
+    liveMapTransformRef.current = transform;
+    scheduleFlatTransform(transform);
   }
 
   function handlePointerUp(event: PointerEvent<SVGSVGElement>) {
@@ -3340,6 +3874,9 @@ function WorldMap({
     
     if (dragRef.current?.pointerId === event.pointerId) {
       dragRef.current = null;
+      if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      }
       window.setTimeout(() => {
         wasDraggingRef.current = false;
       }, 0);
@@ -3348,13 +3885,12 @@ function WorldMap({
     // Direct DOM: remove dragging classes
     if (mapPanelRef.current) {
       mapPanelRef.current.classList.remove("is-dragging");
-      mapPanelRef.current.classList.remove("adaptive-dragging");
     }
     
     // Single React sync at the end of the dragging interaction (only if we actually dragged)
     if (wasDragging) {
       if (projectionType === "orthographic") {
-        setGlobeRotation(liveGlobeRotationRef.current);
+        committedGlobeRotationRef.current = [...liveGlobeRotationRef.current];
       } else {
         setMapTransform(liveMapTransformRef.current);
       }
@@ -3374,6 +3910,12 @@ function WorldMap({
   function getMarkerPoint(country: Country) {
     if (country.latlng) {
       const [lat, lon] = country.latlng;
+      if (
+        projectionType === "orthographic" &&
+        !isPointOnVisibleHemisphere(lon, lat, liveGlobeRotationRef.current)
+      ) {
+        return null;
+      }
       const pt = projection([lon, lat]);
       return pt && Number.isFinite(pt[0]) && Number.isFinite(pt[1]) ? pt : null;
     }
@@ -3426,21 +3968,25 @@ function WorldMap({
     if (!isVisible) return null;
     const offsetKey = keySuffix !== "center" ? `-${keySuffix}` : "";
     
-    // Use CSS classes to hide flags during adaptive dragging
-    const showFlagsLOD = showFlagFills;
-    const showLabelsLOD = showCountryNames || mapView === "internetTld" || mapView === "callingCodes";
+    const showFlagImages = showFlagFills;
+    const workerFlagFill = showFlagImages && projectionType === "orthographic";
+    const showLabels = showCountryNames || mapView === "internetTld" || mapView === "callingCodes";
 
     return (
       <g key={`map-elements${offsetKey}`} transform={`translate(${xOffset}, 0)`}>
-        {showFlagsLOD && (
+        {showFlagImages && (
           <>
             <defs>
               {mapGeographies.map((geo, idx) => {
                 const country = countryByNumeric.get(geo.id);
                 if (!country?.alpha2 || !targetCodes.has(country.cca3)) return null;
                 return (
-                  <clipPath key={`clip-${geo.id}-${idx}${offsetKey}`} id={`${geo.clipId}-${idx}${offsetKey}`}>
-                    <path d={geo.d ?? ""} data-clip-id={geo.id} />
+                  <clipPath key={`clip-${geo.renderKey}${offsetKey}`} id={`${geo.clipId}-${idx}${offsetKey}`}>
+                    <path
+                      d={workerFlagFill ? "" : (geo.d ?? "")}
+                      data-clip-id={geo.id}
+                      data-render-key={`${geo.renderKey}${offsetKey}`}
+                    />
                   </clipPath>
                 );
               })}
@@ -3449,26 +3995,30 @@ function WorldMap({
               const country = countryByNumeric.get(geo.id);
               if (!country?.alpha2 || !targetCodes.has(country.cca3)) return null;
               const [[x0, y0], [x1, y1]] = geo.bounds;
-              if (![x0, y0, x1, y1].every(Number.isFinite)) return null;
-              
-              const maxDim = Math.max(1, Math.max(x1 - x0, y1 - y0));
-              const cx = geo.centroid ? geo.centroid[0] : (x0 + x1) / 2;
-              const cy = geo.centroid ? geo.centroid[1] : (y0 + y1) / 2;
+              if (!workerFlagFill && ![x0, y0, x1, y1].every(Number.isFinite)) return null;
+
+              const maxDim = workerFlagFill ? 0 : Math.max(1, Math.max(x1 - x0, y1 - y0));
+              const cx = workerFlagFill ? 0 : (geo.centroid ? geo.centroid[0] : (x0 + x1) / 2);
+              const cy = workerFlagFill ? 0 : (geo.centroid ? geo.centroid[1] : (y0 + y1) / 2);
               
               // We want a stable square aspect ratio to prevent the SVG from squishing near orthographic edges.
               const imgW = maxDim * 1.5;
               const imgH = maxDim * 1.5;
+              const flagSource = flagAssetUrl(country);
 
               return (
                 <image
-                  key={`flag-${geo.id}-${idx}${offsetKey}`}
+                  key={`flag-${geo.renderKey}${offsetKey}`}
                   className="country-flag-fill"
                   data-flag-id={geo.id}
+                  data-render-key={`${geo.renderKey}${offsetKey}`}
+                  data-flag-src={flagSource}
                   x={cx - imgW / 2}
                   y={cy - imgH / 2}
                   width={imgW}
                   height={imgH}
-                  href={country.cca3.includes("-") || country.cca3 === "SOL" ? `/flags/${country.cca3.toLowerCase()}.svg` : `/flags/${country.alpha2.toLowerCase()}.svg`}
+                  display={workerFlagFill ? "none" : undefined}
+                  href={workerFlagFill ? undefined : flagSource}
                   preserveAspectRatio="xMidYMid slice"
                   clipPath={`url(#${geo.clipId}-${idx}${offsetKey})`}
                 />
@@ -3494,7 +4044,7 @@ function WorldMap({
             "country",
             geo.isSubdivision ? "subdivision" : "",
             !hasSaneHitArea ? "no-hit" : "",
-            showFlagsLOD && country?.alpha2 && visible ? "flagged" : "",
+            showFlagImages && projectionType !== "orthographic" && country?.alpha2 && visible ? "flagged" : "",
             visible ? "visible" : "muted",
             relation ? `relationship-${relation}` : "",
             isSelected ? "selected" : "",
@@ -3513,9 +4063,11 @@ function WorldMap({
 
           return (
             <path
-              key={`path-${geo.id}-${idx}${offsetKey}`}
+              key={`path-${geo.renderKey}${offsetKey}`}
               className={className}
               data-geo-id={geo.id}
+              data-render-key={`${geo.renderKey}${offsetKey}`}
+              data-flag-loaded={workerFlagFill && visible ? "false" : undefined}
               d={geo.d}
               style={inlineStyle}
               onClick={() =>
@@ -3549,7 +4101,7 @@ function WorldMap({
           if (!visible) return null;
 
           const markerPoint = getMarkerPoint(country) ?? geo.centroid;
-          if (!markerPoint) return null;
+          if (!markerPoint && projectionType !== "orthographic") return null;
           const quizColor = isQuizMode ? quizHistory[country.cca3] : undefined;
           const isWrongGuess = isQuizMode ? wrongGuesses.includes(country.cca3) : false;
           const isRevealed = isQuizMode && revealingTarget && country.cca3 === quizCountry?.cca3;
@@ -3576,11 +4128,13 @@ function WorldMap({
 
           return (
             <circle
-              key={`hit-${country.cca3}${offsetKey}`}
+              key={`hit-${geo.renderKey}${offsetKey}`}
               className={className}
               data-hitbox-id={geo.id}
-              cx={markerPoint[0]}
-              cy={markerPoint[1]}
+              data-render-key={`${geo.renderKey}${offsetKey}`}
+              cx={markerPoint?.[0] ?? 0}
+              cy={markerPoint?.[1] ?? 0}
+              display={markerPoint ? undefined : "none"}
               r={smallCountryHitRadius()}
               style={circleStyle}
               onClick={() => (!isQuizPlayingActive || quizPoolCodes.has(country.cca3)) && selectCountry(country)}
@@ -3589,10 +4143,13 @@ function WorldMap({
             </circle>
           );
         })}
-        {isQuizMode && quizCountry && quizMarkerPoint && (!isQuizPlayingActive || revealingTarget) && (
+        {isQuizMode && quizCountry && needsQuizMarker(quizCountry) &&
+          (quizMarkerPoint || projectionType === "orthographic") &&
+          (!isQuizPlayingActive || revealingTarget) && (
           <g
             className="quiz-target-marker"
-            transform={`translate(${quizMarkerPoint[0]} ${quizMarkerPoint[1]})`}
+            transform={`translate(${quizMarkerPoint?.[0] ?? 0} ${quizMarkerPoint?.[1] ?? 0})`}
+            display={quizMarkerPoint ? undefined : "none"}
             onClick={() => (!isQuizPlayingActive || quizPoolCodes.has(quizCountry.cca3)) && selectCountry(quizCountry)}
           >
             <circle r={Math.max(1.5, 18 / mapTransform.scale)} />
@@ -3603,7 +4160,8 @@ function WorldMap({
         {!isQuizPlayingActive && selectedCountry && selectedCountryMarker && showSelectedCountryMarker && (
           <g
             className="selected-country-marker"
-            transform={`translate(${selectedCountryMarker.point[0]} ${selectedCountryMarker.point[1]})`}
+            transform={`translate(${selectedCountryMarker.point?.[0] ?? 0} ${selectedCountryMarker.point?.[1] ?? 0})`}
+            display={selectedCountryMarker.point ? undefined : "none"}
             onClick={() => selectCountry(selectedCountry)}
           >
             <circle r={Math.max(1.8, 3.2 / mapTransform.scale)} />
@@ -3628,7 +4186,7 @@ function WorldMap({
             <title>{selectedCountry.name}</title>
           </g>
         )}
-        {showLabelsLOD && !(isQuizMode && quizStatus === "playing") && (() => {
+        {showLabels && !(isQuizMode && quizStatus === "playing") && (() => {
           const renderedLabels = new Set<string>();
           return mapGeographies.map((geo, idx) => {
             const country = countryByNumeric.get(geo.id);
@@ -3646,7 +4204,7 @@ function WorldMap({
             if (!labelPt) {
               labelPt = geo.centroid;
             }
-            if (!labelPt) return null;
+            if (!labelPt && projectionType !== "orthographic") return null;
             
             const screenArea = geo.area * mapTransform.scale * mapTransform.scale;
             
@@ -3668,8 +4226,8 @@ function WorldMap({
               displayName = CALLING_CODES[parent] || country.name;
             }
             
-            let textX = labelPt[0];
-            let textY = labelPt[1];
+            let textX = labelPt?.[0] ?? 0;
+            let textY = labelPt?.[1] ?? 0;
             let textAnchor: "middle" | "start" = "middle";
             
             if (isSmall) {
@@ -3682,10 +4240,12 @@ function WorldMap({
             
             return (
               <text
-                key={`label-${country.cca3}-${idx}${offsetKey}`}
+                key={`label-${geo.renderKey}${offsetKey}`}
                 x={textX}
                 y={textY}
+                display={labelPt ? undefined : "none"}
                 data-label-id={geo.id}
+                data-render-key={`${geo.renderKey}${offsetKey}`}
                 fontSize={10 / mapTransform.scale}
                 strokeWidth={2.5 / mapTransform.scale}
                 style={{ textAnchor }}
@@ -3718,7 +4278,6 @@ function WorldMap({
     isFlatRepeat,
     mapView,
     showFlagFills,
-    mapPerformance,
     targetCodes,
     selectedCountry,
     selectedRelationships,
@@ -3744,21 +4303,25 @@ function WorldMap({
   return (
     <section
       ref={mapPanelRef}
-      className={`map-panel ${isQuizPlayingActive ? "quiz-playing-mode" : ""} projection-${projectionType}`}
+      className={`map-panel ${isQuizPlayingActive ? "quiz-playing-mode" : ""} projection-${projectionType} map-view-${mapView}`}
       aria-label="World map"
     >
       <div className="map-tools" aria-label="Map zoom controls">
-        <button type="button" onClick={() => zoomAt(mapTransform.scale * 1.45)} aria-label="Zoom in">
+        <button type="button" onClick={() => zoomAt(liveMapTransformRef.current.scale * 1.45)} aria-label="Zoom in">
           <ZoomIn size={18} />
         </button>
-        <button type="button" onClick={() => zoomAt(mapTransform.scale / 1.45)} aria-label="Zoom out">
+        <button type="button" onClick={() => zoomAt(liveMapTransformRef.current.scale / 1.45)} aria-label="Zoom out">
           <ZoomOut size={18} />
         </button>
         <button
           type="button"
           onClick={() => {
-            setMapTransform({ scale: 1, x: 0, y: 0 });
-            setGlobeRotation([0, 0]);
+            const resetTransform = { scale: 1, x: 0, y: 0 };
+            liveMapTransformRef.current = resetTransform;
+            liveGlobeRotationRef.current = [0, 0];
+            committedGlobeRotationRef.current = [0, 0];
+            setMapTransform(resetTransform);
+            if (projectionType === "orthographic") scheduleGlobeRotation([0, 0]);
             scheduleZoomRenderRefresh();
           }}
           aria-label="Reset map zoom"
@@ -3798,7 +4361,7 @@ function WorldMap({
         <g
           ref={mapGroupRef}
           key={`map-render-${mapRenderVersion}`}
-          style={{ transform: `translate(${renderX}px, ${mapTransform.y}px) scale(${mapTransform.scale})`, transformOrigin: "0 0" }}
+          transform={`translate(${renderX} ${mapTransform.y}) scale(${mapTransform.scale})`}
         >
           {projectionType === "orthographic" && (
             <circle
@@ -4018,11 +4581,24 @@ function renderLabelWithLinks(
   return <>{parts.map((p, idx) => <span key={idx}>{p}</span>)}</>;
 }
 
+function OverviewLoadError({ onRetry }: { onRetry: () => void }) {
+  return (
+    <section className="info-section country-summary overview-error" role="alert">
+      <h3>Overview</h3>
+      <p>The overview could not be loaded.</p>
+      <button type="button" onClick={onRetry}>Retry</button>
+    </section>
+  );
+}
+
 function PracticePanel({
   selectedCountry,
   relationships,
   countries,
   detailLevel,
+  overviewLoading,
+  overviewError,
+  onOverviewRetry,
   isMobile,
   onSelectCountry,
 }: {
@@ -4030,6 +4606,9 @@ function PracticePanel({
   relationships: ReturnType<typeof relationshipSummary> | null;
   countries: Country[];
   detailLevel: DetailLevel;
+  overviewLoading: boolean;
+  overviewError: boolean;
+  onOverviewRetry: () => void;
   isMobile: boolean;
   onSelectCountry: (country: Country) => void;
 }) {
@@ -4059,6 +4638,7 @@ function PracticePanel({
                   alt={`${selectedCountry.name} coat of arms`}
                   title={`${selectedCountry.name} coat of arms`}
                   className="emblem-img"
+                  decoding="async"
                 />
               </div>
             </div>
@@ -4204,6 +4784,15 @@ function PracticePanel({
               </a>
             </section>
           )}
+          {detailLevel !== "minimal" && overviewLoading && (
+            <section className="info-section country-summary overview-loading" aria-live="polite">
+              <h3>Overview</h3>
+              <p>Loading overview…</p>
+            </section>
+          )}
+          {detailLevel !== "minimal" && overviewError && (
+            <OverviewLoadError onRetry={onOverviewRetry} />
+          )}
         </div>
       </aside>
     );
@@ -4226,6 +4815,7 @@ function PracticePanel({
                   alt={`${selectedCountry.name} coat of arms`}
                   title={`${selectedCountry.name} coat of arms`}
                   className="emblem-img"
+                  decoding="async"
                 />
               </div>
             </div>
@@ -4342,19 +4932,29 @@ function PracticePanel({
       </aside>
 
       {/* Right Panel - Wikipedia Summary */}
-      {detailLevel !== "minimal" && selectedCountry.wikipedia && (
+      {detailLevel !== "minimal" && (selectedCountry.wikipedia || overviewLoading || overviewError) && (
         <aside className="right-wikipedia-panel side-panel">
           <div className="country-card">
-            <section className="country-summary">
-              <h3>Overview</h3>
-              {selectedCountry.wikipedia.summary.split("\n\n").map((para, index) => (
-                <p key={index}>{para}</p>
-              ))}
-              <a href={selectedCountry.wikipedia.sourceUrl} target="_blank" rel="noreferrer">
-                Source: Wikipedia, {selectedCountry.wikipedia.title}
-                <ExternalLink size={14} aria-hidden="true" />
-              </a>
-            </section>
+            {overviewError ? (
+              <OverviewLoadError onRetry={onOverviewRetry} />
+            ) : (
+              <section className="country-summary">
+                <h3>Overview</h3>
+                {selectedCountry.wikipedia ? (
+                <>
+                  {selectedCountry.wikipedia.summary.split("\n\n").map((para, index) => (
+                    <p key={index}>{para}</p>
+                  ))}
+                  <a href={selectedCountry.wikipedia.sourceUrl} target="_blank" rel="noreferrer">
+                    Source: Wikipedia, {selectedCountry.wikipedia.title}
+                    <ExternalLink size={14} aria-hidden="true" />
+                  </a>
+                </>
+                ) : (
+                  <p className="overview-loading" aria-live="polite">Loading overview…</p>
+                )}
+              </section>
+            )}
           </div>
         </aside>
       )}
@@ -4461,6 +5061,12 @@ function CountryBrowser({
               <button
                 key={country.cca3}
                 className={country.cca3 === selectedCountry?.cca3 ? "country-row active" : "country-row"}
+                onPointerEnter={() => {
+                  if (!country.wikipedia) void loadCountryOverview(country.cca3);
+                }}
+                onFocus={() => {
+                  if (!country.wikipedia) void loadCountryOverview(country.cca3);
+                }}
                 onClick={() => onSelect(country)}
               >
                 <span className="row-flag">{country.emoji}</span>
@@ -4484,8 +5090,6 @@ function SettingsDialog({
   setMapView,
   mapDetailLevel,
   setMapDetailLevel,
-  mapPerformance,
-  setMapPerformance,
   detailLevel,
   setDetailLevel,
   projectionType,
@@ -4531,8 +5135,6 @@ function SettingsDialog({
   setMapView: (view: MapView) => void;
   mapDetailLevel: MapDetailLevel;
   setMapDetailLevel: (level: MapDetailLevel) => void;
-  mapPerformance: MapPerformance;
-  setMapPerformance: (perf: MapPerformance) => void;
   detailLevel: DetailLevel;
   setDetailLevel: (level: DetailLevel) => void;
   projectionType: ProjectionType;
@@ -4662,24 +5264,6 @@ function SettingsDialog({
                 />
               </div>
 
-              <div className="settings-field">
-                <div className="field-info">
-                  <label>Map Rendering Performance</label>
-                  <span>Controls how the map handles complex SVG features during movement.</span>
-                </div>
-                <AppSelect
-                  ariaLabel="Map performance"
-                  icon={<Settings size={18} aria-hidden="true" />}
-                  value={mapPerformance}
-                  options={[
-                    { value: "eco", label: "Eco (Solid colors, no SVG flags)" },
-                    { value: "adaptive", label: "Adaptive (Hides complex SVG during map drag)" },
-                    { value: "high", label: "High Quality (Always render everything)" },
-                  ]}
-                  onChange={(value) => setMapPerformance(value as MapPerformance)}
-                  stretch
-                />
-              </div>
             </div>
 
             <div className="settings-section">
@@ -5053,24 +5637,8 @@ function LanguageList({ country }: { country: Country }) {
 }
 
 function FlagIcon({ country }: { country: Country }) {
-  if (country.cca3.includes("-") || country.cca3 === "SOL") {
-    const flagUrl = `/flags/${country.cca3.toLowerCase()}.svg`;
-    return (
-      <img
-        src={flagUrl}
-        alt={`${country.name} flag`}
-        title={`${country.name} flag`}
-        style={{ width: "100%", height: "100%", objectFit: "contain" }}
-        onError={(e) => {
-          if (country.alpha2) {
-            e.currentTarget.src = `/flags/${country.alpha2.toLowerCase()}.svg`;
-          }
-        }}
-      />
-    );
-  }
-
-  if (!country.alpha2) {
+  const isSubdivision = country.cca3.includes("-") || country.cca3 === "SOL";
+  if (!country.alpha2 && !isSubdivision) {
     return (
       <span
         className="flag-placeholder"
@@ -5083,12 +5651,22 @@ function FlagIcon({ country }: { country: Country }) {
     );
   }
 
+  const primaryUrl = flagAssetUrl(country);
+
   return (
-    <span
-      className={`fi fi-${country.alpha2.toLowerCase()}`}
-      role="img"
-      aria-label={`${country.name} flag`}
+    <img
+      src={primaryUrl}
+      alt={`${country.name} flag`}
       title={`${country.name} flag`}
+      loading="lazy"
+      decoding="async"
+      draggable={false}
+      onError={(event) => {
+        if (isSubdivision && country.alpha2 && !event.currentTarget.dataset.fallback) {
+          event.currentTarget.dataset.fallback = "true";
+          event.currentTarget.src = `/flags/${country.alpha2.toLowerCase()}.svg`;
+        }
+      }}
     />
   );
 }

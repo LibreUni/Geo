@@ -61,9 +61,8 @@ button {
 .side-panel,
 .country-drawer {
   border: 1px solid rgb(255 255 255 / 66%);
-  background: rgb(255 255 255 / 78%);
+  background: linear-gradient(145deg, rgb(255 255 255 / 97%), rgb(244 249 251 / 95%));
   box-shadow: 0 20px 60px rgb(22 38 52 / 18%);
-  backdrop-filter: blur(18px) saturate(145%);
 }
 
 .brand,
@@ -144,6 +143,8 @@ button {
   inset: 0;
   overflow: hidden;
   background: #d7e9ef;
+  contain: layout paint style;
+  isolation: isolate;
 }
 
 .map-tools {
@@ -190,6 +191,32 @@ button {
   background: #eaf1f3;
 }
 
+.map-data-status {
+  position: fixed;
+  z-index: 26;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  border: 1px solid rgb(21 53 63 / 14%);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #263746;
+  background: rgb(255 255 255 / 96%);
+  box-shadow: 0 12px 32px rgb(22 38 52 / 16%);
+}
+
+.map-data-status button {
+  border: 0;
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: #ffffff;
+  background: #15353f;
+}
+
 .map-panel > svg {
   display: block;
   width: 100vw;
@@ -213,7 +240,7 @@ button {
   stroke: var(--color-border, #ffffff);
   vector-effect: non-scaling-stroke;
   stroke-width: 0.65px;
-  transition: fill 140ms ease, opacity 140ms ease, stroke 140ms ease, stroke-width 140ms ease;
+  transition: fill 140ms ease, opacity 140ms ease, stroke 140ms ease;
 }
 
 .country:not(.no-hit) {
@@ -244,6 +271,10 @@ button {
 }
 
 .country.flagged.visible {
+  fill: transparent;
+}
+
+.map-view-flagFills .country[data-flag-loaded="true"].visible {
   fill: transparent;
 }
 
@@ -373,14 +404,6 @@ button {
   overflow: hidden;
 }
 
-.country-flag-fill .fi {
-  display: block;
-  width: 100%;
-  height: 100%;
-  background-position: center;
-  background-size: cover;
-}
-
 .floating-controls {
   position: fixed;
   z-index: 18;
@@ -412,9 +435,8 @@ button {
   padding: 7px;
   border: 1px solid rgb(255 255 255 / 66%);
   border-radius: 8px;
-  background: rgb(255 255 255 / 84%);
+  background: linear-gradient(145deg, rgb(255 255 255 / 97%), rgb(244 249 251 / 95%));
   box-shadow: 0 18px 44px rgb(22 38 52 / 18%);
-  backdrop-filter: blur(18px) saturate(145%);
 }
 
 .map-legend span {
@@ -792,6 +814,18 @@ dd {
   text-decoration: underline;
 }
 
+.overview-loading {
+  color: #65737e;
+}
+
+.overview-error button {
+  border: 0;
+  border-radius: 6px;
+  padding: 7px 11px;
+  color: #ffffff;
+  background: #15353f;
+}
+
 .drawer-overlay {
   position: fixed;
   inset: 0;
@@ -875,6 +909,9 @@ dd {
   gap: 10px;
   align-items: center;
   text-align: left;
+  content-visibility: auto;
+  contain: layout paint style;
+  contain-intrinsic-size: auto 60px;
 }
 
 .country-row.active {
@@ -1175,15 +1212,16 @@ dd {
 
 /* Hide hover labels and style hover action during active quiz */
 .quiz-playing-mode .country:hover {
-  filter: brightness(1.15);
   stroke: #102d3a !important;
+  stroke-width: 1.15px !important;
 }
 
 .quiz-playing-mode .country.quiz-first-try:hover,
 .quiz-playing-mode .country.quiz-second-try:hover,
 .quiz-playing-mode .country.quiz-third-try:hover,
 .quiz-playing-mode .country.quiz-failed:hover {
-  filter: brightness(1.08);
+  stroke: #102d3a !important;
+  stroke-width: 1.15px !important;
 }
 
 .quiz-playing-mode .island-hitbox:hover {
@@ -1297,6 +1335,12 @@ dd {
   transform: translateY(0);
 }
 
+.start-quiz-btn:disabled {
+  cursor: wait;
+  opacity: 0.72;
+  transform: none;
+}
+
 .quiz-scores-section {
   border-left: 1px solid rgba(21, 53, 63, 0.12);
   padding-left: 32px;
@@ -1398,9 +1442,8 @@ dd {
   padding: 14px 24px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.88);
+  background: linear-gradient(145deg, rgb(255 255 255 / 97%), rgb(244 249 251 / 95%));
   box-shadow: 0 15px 35px rgba(22, 38, 52, 0.15);
-  backdrop-filter: blur(12px) saturate(145%);
 }
 
 @media (max-width: 768px) {
@@ -1783,10 +1826,9 @@ dd {
 }
 
 .quiz-layout-sidebar.glass {
-  background: rgba(255, 255, 255, 0.85);
+  background: linear-gradient(145deg, rgb(255 255 255 / 97%), rgb(244 249 251 / 95%));
   border: 1px solid rgba(255, 255, 255, 0.6);
   box-shadow: 0 20px 45px rgba(22, 38, 52, 0.15);
-  backdrop-filter: blur(14px) saturate(145%);
 }
 
 .quiz-layout-sidebar h2 {
@@ -1836,9 +1878,8 @@ dd {
   gap: 16px;
   padding: 8px 20px;
   border: 1px solid rgb(255 255 255 / 66%);
-  background: rgb(255 255 255 / 78%);
+  background: linear-gradient(145deg, rgb(255 255 255 / 97%), rgb(244 249 251 / 95%));
   box-shadow: 0 20px 60px rgb(22 38 52 / 18%);
-  backdrop-filter: blur(18px) saturate(145%);
   border-radius: 999px;
   max-width: calc(100vw - 36px);
   overflow-x: auto;
@@ -2010,6 +2051,14 @@ dd {
 /* Disable transitions during drag interaction to maintain high frame rate */
 .map-panel.is-dragging .country {
   transition: none !important;
+}
+
+.map-panel.is-dragging .country,
+.map-panel.is-dragging .country-label,
+.map-panel.is-dragging .island-hitbox,
+.map-panel.is-dragging .quiz-target-marker,
+.map-panel.is-dragging .selected-country-marker {
+  pointer-events: none;
 }
 
 /* Subdivision flag and emblem banner styles */
@@ -2295,9 +2344,4 @@ dd {
 
 .reset-colors-button:hover {
   background-color: rgb(211 84 0 / 8%) !important;
-}
-
-/* Performance LOD during dragging (Only for 3D orthographic projection) */
-.map-panel.adaptive-dragging.projection-orthographic .subdivision {
-  display: none !important;
 }
