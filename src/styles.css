@@ -16,7 +16,12 @@ html,
 body,
 #root {
   height: 100%;
+  min-height: 100%;
+}
+
+html {
   overflow: hidden;
+  background: #dbe8ef;
 }
 
 body {
@@ -36,7 +41,8 @@ button {
 
 .shell {
   position: relative;
-  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
   overflow: hidden;
   background: #cfe0e8;
 }
@@ -538,6 +544,7 @@ button {
 .select-content {
   z-index: 50;
   min-width: var(--radix-select-trigger-width);
+  max-height: min(360px, var(--radix-select-content-available-height, 360px));
   overflow: hidden;
   border: 1px solid rgb(255 255 255 / 70%);
   border-radius: 8px;
@@ -547,7 +554,24 @@ button {
 }
 
 .select-viewport {
+  max-height: inherit;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #8ba3ad transparent;
   padding: 5px;
+}
+
+.select-viewport::-webkit-scrollbar {
+  width: 8px;
+}
+
+.select-viewport::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: #8ba3ad;
+  background-clip: padding-box;
 }
 
 .select-item {
@@ -585,6 +609,8 @@ button {
   width: min(380px, calc(100vw - 36px));
   max-height: calc(100vh - 110px);
   overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   border-radius: 8px;
 }
 
@@ -844,6 +870,7 @@ dd {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  overscroll-behavior: contain;
   border-radius: 8px;
 }
 
@@ -894,6 +921,9 @@ dd {
 
 .country-list {
   overflow: auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   padding: 0 8px 10px;
 }
 
@@ -1061,15 +1091,35 @@ dd {
     right: 12px;
     bottom: 12px;
     width: auto;
-    max-height: 46vh;
+    max-height: min(62dvh, 620px);
+    -webkit-overflow-scrolling: touch;
   }
 
   .floating-controls {
     top: 86px;
+    right: 12px;
+    max-width: calc(100vw - 24px);
   }
 
   .map-legend {
     display: none;
+  }
+
+  .quiz-layout-sidebar {
+    top: auto;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    width: auto;
+    max-height: min(60dvh, 560px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .bottom-relationships-panel {
+    bottom: 12px;
+    max-width: calc(100vw - 24px);
   }
 }
 
@@ -1078,12 +1128,15 @@ dd {
     top: 10px;
     left: 10px;
     right: 10px;
-    gap: 8px;
+    gap: 6px;
+    align-items: stretch;
   }
 
   .brand {
     min-height: 48px;
     padding: 8px 10px;
+    min-width: 0;
+    flex: 1;
   }
 
   .brand h1 {
@@ -1109,6 +1162,13 @@ dd {
     top: 68px;
     max-width: calc(100vw - 20px);
     overflow-x: auto;
+    right: 10px;
+    padding: 4px;
+  }
+
+  .floating-controls .control-button {
+    min-height: 40px;
+    padding: 0 10px;
   }
 
   .map-tools {
@@ -1120,7 +1180,24 @@ dd {
     left: 10px;
     right: 10px;
     bottom: 10px;
-    max-height: 42vh;
+    max-height: min(62dvh, 620px);
+    border-radius: 14px;
+  }
+
+  .mobile-info-panel .country-card,
+  .quiz-layout-sidebar {
+    padding: 12px;
+  }
+
+  .mobile-info-panel .country-card h2 {
+    font-size: 1.15rem;
+  }
+
+  .phrases-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
   }
 
   dl div {
@@ -1138,6 +1215,40 @@ dd {
 
   .result button {
     grid-column: 1 / -1;
+  }
+
+  .quiz-dashboard-overlay {
+    align-items: flex-start;
+    padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
+  }
+
+  .quiz-dashboard-card,
+  .quiz-summary-card {
+    max-height: none;
+    min-height: min-content;
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .quiz-summary-title {
+    font-size: 1.8rem;
+  }
+
+  .quiz-summary-btns {
+    flex-direction: column;
+  }
+
+  .settings-dialog,
+  .country-drawer {
+    top: max(8px, env(safe-area-inset-top));
+    bottom: max(8px, env(safe-area-inset-bottom));
+    max-height: none;
+  }
+
+  .drawer-header,
+  .drawer-controls {
+    padding-left: 12px;
+    padding-right: 12px;
   }
 }
 
