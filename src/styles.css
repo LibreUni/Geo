@@ -16,7 +16,12 @@ html,
 body,
 #root {
   height: 100%;
+  min-height: 100%;
+}
+
+html {
   overflow: hidden;
+  background: #dbe8ef;
 }
 
 body {
@@ -36,7 +41,8 @@ button {
 
 .shell {
   position: relative;
-  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
   overflow: hidden;
   background: #cfe0e8;
 }
@@ -61,9 +67,8 @@ button {
 .side-panel,
 .country-drawer {
   border: 1px solid rgb(255 255 255 / 66%);
-  background: rgb(255 255 255 / 78%);
+  background: linear-gradient(145deg, rgb(255 255 255 / 97%), rgb(244 249 251 / 95%));
   box-shadow: 0 20px 60px rgb(22 38 52 / 18%);
-  backdrop-filter: blur(18px) saturate(145%);
 }
 
 .brand,
@@ -144,6 +149,8 @@ button {
   inset: 0;
   overflow: hidden;
   background: #d7e9ef;
+  contain: layout paint style;
+  isolation: isolate;
 }
 
 .map-tools {
@@ -190,6 +197,32 @@ button {
   background: #eaf1f3;
 }
 
+.map-data-status {
+  position: fixed;
+  z-index: 26;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  border: 1px solid rgb(21 53 63 / 14%);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #263746;
+  background: rgb(255 255 255 / 96%);
+  box-shadow: 0 12px 32px rgb(22 38 52 / 16%);
+}
+
+.map-data-status button {
+  border: 0;
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: #ffffff;
+  background: #15353f;
+}
+
 .map-panel > svg {
   display: block;
   width: 100vw;
@@ -213,7 +246,7 @@ button {
   stroke: var(--color-border, #ffffff);
   vector-effect: non-scaling-stroke;
   stroke-width: 0.65px;
-  transition: fill 140ms ease, opacity 140ms ease, stroke 140ms ease, stroke-width 140ms ease;
+  transition: fill 140ms ease, opacity 140ms ease, stroke 140ms ease;
 }
 
 .country:not(.no-hit) {
@@ -244,6 +277,10 @@ button {
 }
 
 .country.flagged.visible {
+  fill: transparent;
+}
+
+.map-view-flagFills .country[data-flag-loaded="true"].visible {
   fill: transparent;
 }
 
@@ -373,14 +410,6 @@ button {
   overflow: hidden;
 }
 
-.country-flag-fill .fi {
-  display: block;
-  width: 100%;
-  height: 100%;
-  background-position: center;
-  background-size: cover;
-}
-
 .floating-controls {
   position: fixed;
   z-index: 18;
@@ -412,9 +441,8 @@ button {
   padding: 7px;
   border: 1px solid rgb(255 255 255 / 66%);
   border-radius: 8px;
-  background: rgb(255 255 255 / 84%);
+  background: linear-gradient(145deg, rgb(255 255 255 / 97%), rgb(244 249 251 / 95%));
   box-shadow: 0 18px 44px rgb(22 38 52 / 18%);
-  backdrop-filter: blur(18px) saturate(145%);
 }
 
 .map-legend span {
@@ -516,6 +544,7 @@ button {
 .select-content {
   z-index: 50;
   min-width: var(--radix-select-trigger-width);
+  max-height: min(360px, var(--radix-select-content-available-height, 360px));
   overflow: hidden;
   border: 1px solid rgb(255 255 255 / 70%);
   border-radius: 8px;
@@ -525,6 +554,12 @@ button {
 }
 
 .select-viewport {
+  max-height: inherit;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #8ba3ad transparent;
   padding: 5px;
   max-height: min(var(--radix-select-content-available-height, 90vh), 300px);
   overflow-y: auto !important;
@@ -550,6 +585,17 @@ button {
 
 .select-viewport::-webkit-scrollbar-thumb:hover {
   background: rgba(21, 53, 63, 0.65) !important;
+}
+
+.select-viewport::-webkit-scrollbar {
+  width: 8px;
+}
+
+.select-viewport::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: #8ba3ad;
+  background-clip: padding-box;
 }
 
 .select-item {
@@ -587,6 +633,8 @@ button {
   width: min(380px, calc(100vw - 36px));
   max-height: calc(100vh - 110px);
   overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   border-radius: 8px;
 }
 
@@ -816,6 +864,18 @@ dd {
   text-decoration: underline;
 }
 
+.overview-loading {
+  color: #65737e;
+}
+
+.overview-error button {
+  border: 0;
+  border-radius: 6px;
+  padding: 7px 11px;
+  color: #ffffff;
+  background: #15353f;
+}
+
 .drawer-overlay {
   position: fixed;
   inset: 0;
@@ -834,6 +894,7 @@ dd {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  overscroll-behavior: contain;
   border-radius: 8px;
 }
 
@@ -884,6 +945,9 @@ dd {
 
 .country-list {
   overflow: auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   padding: 0 8px 10px;
 }
 
@@ -899,6 +963,9 @@ dd {
   gap: 10px;
   align-items: center;
   text-align: left;
+  content-visibility: auto;
+  contain: layout paint style;
+  contain-intrinsic-size: auto 60px;
 }
 
 .country-row.active {
@@ -1048,15 +1115,35 @@ dd {
     right: 12px;
     bottom: 12px;
     width: auto;
-    max-height: 46vh;
+    max-height: min(62dvh, 620px);
+    -webkit-overflow-scrolling: touch;
   }
 
   .floating-controls {
     top: 86px;
+    right: 12px;
+    max-width: calc(100vw - 24px);
   }
 
   .map-legend {
     display: none;
+  }
+
+  .quiz-layout-sidebar {
+    top: auto;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    width: auto;
+    max-height: min(60dvh, 560px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .bottom-relationships-panel {
+    bottom: 12px;
+    max-width: calc(100vw - 24px);
   }
 }
 
@@ -1065,12 +1152,15 @@ dd {
     top: 10px;
     left: 10px;
     right: 10px;
-    gap: 8px;
+    gap: 6px;
+    align-items: stretch;
   }
 
   .brand {
     min-height: 48px;
     padding: 8px 10px;
+    min-width: 0;
+    flex: 1;
   }
 
   .brand h1 {
@@ -1096,6 +1186,13 @@ dd {
     top: 68px;
     max-width: calc(100vw - 20px);
     overflow-x: auto;
+    right: 10px;
+    padding: 4px;
+  }
+
+  .floating-controls .control-button {
+    min-height: 40px;
+    padding: 0 10px;
   }
 
   .map-tools {
@@ -1107,7 +1204,24 @@ dd {
     left: 10px;
     right: 10px;
     bottom: 10px;
-    max-height: 42vh;
+    max-height: min(62dvh, 620px);
+    border-radius: 14px;
+  }
+
+  .mobile-info-panel .country-card,
+  .quiz-layout-sidebar {
+    padding: 12px;
+  }
+
+  .mobile-info-panel .country-card h2 {
+    font-size: 1.15rem;
+  }
+
+  .phrases-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
   }
 
   dl div {
@@ -1125,6 +1239,40 @@ dd {
 
   .result button {
     grid-column: 1 / -1;
+  }
+
+  .quiz-dashboard-overlay {
+    align-items: flex-start;
+    padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
+  }
+
+  .quiz-dashboard-card,
+  .quiz-summary-card {
+    max-height: none;
+    min-height: min-content;
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .quiz-summary-title {
+    font-size: 1.8rem;
+  }
+
+  .quiz-summary-btns {
+    flex-direction: column;
+  }
+
+  .settings-dialog,
+  .country-drawer {
+    top: max(8px, env(safe-area-inset-top));
+    bottom: max(8px, env(safe-area-inset-bottom));
+    max-height: none;
+  }
+
+  .drawer-header,
+  .drawer-controls {
+    padding-left: 12px;
+    padding-right: 12px;
   }
 }
 
@@ -1199,15 +1347,16 @@ dd {
 
 /* Hide hover labels and style hover action during active quiz */
 .quiz-playing-mode .country:hover {
-  filter: brightness(1.15);
   stroke: #102d3a !important;
+  stroke-width: 1.15px !important;
 }
 
 .quiz-playing-mode .country.quiz-first-try:hover,
 .quiz-playing-mode .country.quiz-second-try:hover,
 .quiz-playing-mode .country.quiz-third-try:hover,
 .quiz-playing-mode .country.quiz-failed:hover {
-  filter: brightness(1.08);
+  stroke: #102d3a !important;
+  stroke-width: 1.15px !important;
 }
 
 .quiz-playing-mode .island-hitbox:hover {
@@ -1321,6 +1470,12 @@ dd {
   transform: translateY(0);
 }
 
+.start-quiz-btn:disabled {
+  cursor: wait;
+  opacity: 0.72;
+  transform: none;
+}
+
 .quiz-scores-section {
   border-left: 1px solid rgba(21, 53, 63, 0.12);
   padding-left: 32px;
@@ -1422,9 +1577,8 @@ dd {
   padding: 14px 24px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.88);
+  background: linear-gradient(145deg, rgb(255 255 255 / 97%), rgb(244 249 251 / 95%));
   box-shadow: 0 15px 35px rgba(22, 38, 52, 0.15);
-  backdrop-filter: blur(12px) saturate(145%);
 }
 
 @media (max-width: 768px) {
@@ -1807,10 +1961,9 @@ dd {
 }
 
 .quiz-layout-sidebar.glass {
-  background: rgba(255, 255, 255, 0.85);
+  background: linear-gradient(145deg, rgb(255 255 255 / 97%), rgb(244 249 251 / 95%));
   border: 1px solid rgba(255, 255, 255, 0.6);
   box-shadow: 0 20px 45px rgba(22, 38, 52, 0.15);
-  backdrop-filter: blur(14px) saturate(145%);
 }
 
 .quiz-layout-sidebar h2 {
@@ -1860,9 +2013,8 @@ dd {
   gap: 16px;
   padding: 8px 20px;
   border: 1px solid rgb(255 255 255 / 66%);
-  background: rgb(255 255 255 / 78%);
+  background: linear-gradient(145deg, rgb(255 255 255 / 97%), rgb(244 249 251 / 95%));
   box-shadow: 0 20px 60px rgb(22 38 52 / 18%);
-  backdrop-filter: blur(18px) saturate(145%);
   border-radius: 999px;
   max-width: calc(100vw - 36px);
   overflow-x: auto;
@@ -2034,6 +2186,14 @@ dd {
 /* Disable transitions during drag interaction to maintain high frame rate */
 .map-panel.is-dragging .country {
   transition: none !important;
+}
+
+.map-panel.is-dragging .country,
+.map-panel.is-dragging .country-label,
+.map-panel.is-dragging .island-hitbox,
+.map-panel.is-dragging .quiz-target-marker,
+.map-panel.is-dragging .selected-country-marker {
+  pointer-events: none;
 }
 
 /* Subdivision flag and emblem banner styles */
@@ -2319,9 +2479,4 @@ dd {
 
 .reset-colors-button:hover {
   background-color: rgb(211 84 0 / 8%) !important;
-}
-
-/* Performance LOD during dragging (Only for 3D orthographic projection) */
-.map-panel.adaptive-dragging.projection-orthographic .subdivision {
-  display: none !important;
 }

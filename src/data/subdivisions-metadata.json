@@ -149,7 +149,7 @@
     "emblemUrl": "/emblems/au-wa.svg",
     "established": "1901",
     "highestPoint": "Mount Meharry (1,251 m)",
-    "namedAfter": "Australia"
+    "namedAfter": "west"
   },
   {
     "wikiId": "Q40780",
@@ -700,7 +700,7 @@
     "emblemUrl": "/emblems/ca-bc.svg",
     "established": "1871",
     "highestPoint": "Mount Fairweather (4,671 m)",
-    "namedAfter": "Columbia District"
+    "namedAfter": "British Isles"
   },
   {
     "wikiId": "Q1948",
@@ -865,7 +865,7 @@
     "parent": "CAN",
     "wikipedia": {
       "title": "Quebec",
-      "summary": "Quebec is Canada's largest province by area. Located in Central Canada, it is the only Francophone-majority province in the country, being home to Québécois French. It shares borders with the provinces of Ontario to the west, Newfoundland and Labrador to the northeast, New Brunswick to the southeast and a coastal border with the territory of Nunavut. In the south, it shares a border with the United States. Quebec has a population of around eight million, making it Canada's second-most populous province only behind Ontario.",
+      "summary": "Quebec is Canada's largest province by area. Located in Central Canada, it is the only Francophone-majority province in the country, being home to Québécois French. It shares borders with the provinces of Ontario to the west, Newfoundland and Labrador to the northeast, New Brunswick to the southeast and a coastal border with the territory of Nunavut. In the south, it shares a border with the United States. Quebec has a population of around eight million, making it Canada's second-most populous province behind Ontario.",
       "sourceUrl": "https://en.wikipedia.org/wiki/Quebec"
     },
     "emblemUrl": "/emblems/ca-qc.svg",
@@ -910,6 +910,2685 @@
     "established": "1898",
     "highestPoint": "Mount Logan (5,959 m)",
     "namedAfter": "Yukon River"
+  },
+  {
+    "wikiId": "Q40956",
+    "name": "Anhui",
+    "iso": "CN-AH",
+    "capital": "Hefei",
+    "population": 61027171,
+    "area": 139000,
+    "wikipediaTitle": "Anhui",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Anhui",
+      "summary": "Anhui is an inland province located in East China. Its provincial capital and largest city is Hefei. The province is located across the basins of the Yangtze and Huai rivers, bordering Jiangsu and Zhejiang to the east, Jiangxi to the south, Hubei and Henan to the west, and Shandong to the north. With a population of 61 million, Anhui is the 9th most populous province in China. It is the 22nd largest Chinese province based on area, and the 12th most densely populated region of all 34 Chinese provincial regions. Anhui's population is mostly composed of Han Chinese. Languages spoken within the province include Lower Yangtze Mandarin, Wu, Hui, Gan and small portion of Central Plains Mandarin.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Anhui"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Lianhua Peak",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q956",
+    "name": "Beijing",
+    "iso": "CN-BJ",
+    "capital": "Tongzhou District",
+    "population": 21893095,
+    "area": 16411,
+    "wikipediaTitle": "Beijing",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Beijing",
+      "summary": "Beijing, previously romanized as Peking, is the capital city of China. With more than 22 million residents, it is the world's most populous national capital city, as well as China's second-largest city by urban area, after Shanghai. It is located in Northern China, and is governed as a provincial-level direct-administered municipality with 16 municipal districts. Beijing is mostly surrounded by Hebei Province and neighbors Tianjin Municipality to the southeast; together, the three divisions form the Jing-Jin-Ji cluster.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Beijing"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Mount Dongling",
+    "namedAfter": "capital city"
+  },
+  {
+    "wikiId": "Q11725",
+    "name": "Chongqing",
+    "iso": "CN-CQ",
+    "capital": "Yuzhong District",
+    "population": 32054159,
+    "area": 82403,
+    "wikipediaTitle": "Chongqing",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Chongqing",
+      "summary": "Chongqing is a provincial-level direct-administered municipality in Southwestern China. It is one of the four direct-administered municipalities of China and the only one located inland.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Chongqing"
+    },
+    "emblemUrl": null,
+    "established": "1929",
+    "highestPoint": "Yintiaoling (2,797 m)",
+    "namedAfter": "Emperor Guangzong of Song"
+  },
+  {
+    "wikiId": "Q41705",
+    "name": "Fujian",
+    "iso": "CN-FJ",
+    "capital": "Fuzhou",
+    "population": 41540086,
+    "area": 121400,
+    "wikipediaTitle": "Fujian",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Fujian",
+      "summary": "Fujian is a province in southeastern China. Fujian is bordered by Zhejiang to the north, Jiangxi to the west, Guangdong to the south, and the Taiwan Strait to the east. Its capital is Fuzhou and its largest prefecture city by population is Quanzhou, with other notable cities including the port city of Xiamen and Zhangzhou. Fujian is located on the west coast of the Taiwan Strait as the closest province geographically and culturally to Taiwan. Additionally, a small portion of historical Fujian is administered by the government of the Republic of China (Taiwan), romanized as Fuchien, resulted by the Chinese Civil War.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Fujian"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Mount Huanggang (2,158 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q15175",
+    "name": "Guangdong",
+    "iso": "CN-GD",
+    "capital": "Guangzhou",
+    "population": 126012510,
+    "area": 179800,
+    "wikipediaTitle": "Guangdong",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Guangdong",
+      "summary": "Guangdong is a coastal province in South China, on the north shore of the South China Sea with Guangzhou as the capital. With a population of 127.06 million across a total area of about 179,800 km2 (69,400 sq mi), Guangdong is the Chinese province with the largest GDP, the largest population and the 15th-largest by area, as well as the third-most populous country subdivision and the 5th largest country subdivision by GDP in the world.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Guangdong"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Shikengkong (1,902 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q42392",
+    "name": "Gansu",
+    "iso": "CN-GS",
+    "capital": "Lanzhou",
+    "population": 25575254,
+    "area": 454000,
+    "wikipediaTitle": "Gansu",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Gansu",
+      "summary": "Gansu is a province in Northwestern China. Its capital and largest city is Lanzhou, in the southeastern part of the province. The seventh-largest administrative district by area at 453,700 square kilometres (175,200 sq mi), Gansu lies between the Tibetan and Loess plateaus and borders Xinjiang and Qinghai to the west, Sichuan to the south, Shaanxi to the east, and Inner Mongolia, Ningxia and Mongolia's Govi-Altai Province to the north. The Yellow River passes through the southern part of the province. Part of Gansu's territory is located in the Gobi Desert. The Qilian mountains are located in the south of the Province.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Gansu"
+    },
+    "emblemUrl": null,
+    "established": "1929",
+    "highestPoint": "Altun Shan (5,830 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q15176",
+    "name": "Guangxi",
+    "iso": "CN-GX",
+    "capital": "Nanning",
+    "population": 50126804,
+    "area": 235001,
+    "wikipediaTitle": "Guangxi",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Guangxi",
+      "summary": "Guangxi, officially the Guangxi Zhuang Autonomous Region (GZAR), is an autonomous region of the People's Republic of China, located in South China and bordering Vietnam and the Gulf of Tonkin. Formerly a province, Guangxi became an autonomous region in 1958. Its current capital is Nanning.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Guangxi"
+    },
+    "emblemUrl": null,
+    "established": "1958",
+    "highestPoint": "Mount Kitten (2,142 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q47097",
+    "name": "Guizhou",
+    "iso": "CN-GZ",
+    "capital": "Guiyang",
+    "population": 38562148,
+    "area": 176167,
+    "wikipediaTitle": "Guizhou",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Guizhou",
+      "summary": "Guizhou is an inland province in Southwestern China with its capital and largest city as Guiyang, located in the center of the province. Guizhou borders the Guangxi Zhuang Autonomous Region to the south, Yunnan to the west, Sichuan to the northwest, the municipality of Chongqing to the north, and Hunan to the east. Guizhou has a humid subtropical climate. It covers a total area of 176,200 square kilometers and consists of six prefecture-level cities and three autonomous prefectures. The population of Guizhou stands at 38.5 million, ranking 18th among the provinces in China.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Guizhou"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Jiucaiping",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q43684",
+    "name": "Henan",
+    "iso": "CN-HA",
+    "capital": "Zhengzhou",
+    "population": 99365519,
+    "area": 167000,
+    "wikipediaTitle": "Henan",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Henan",
+      "summary": "Henan is a province in Central China. Four of the historical capitals of China, Luoyang, Anyang, Kaifeng and Zhengzhou, are in Henan. Henan is China's third-most populous province and the most populous among inland provinces, with a population of over 99 million as of 2020. It is the world's seventh-most populous administrative division. People from Henan sometimes underwent discrimination within China.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Henan"
+    },
+    "emblemUrl": null,
+    "established": "1949",
+    "highestPoint": "Laoyachan'ao (2,414 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q46862",
+    "name": "Hubei",
+    "iso": "CN-HB",
+    "capital": "Wuhan",
+    "population": 57752557,
+    "area": 185900,
+    "wikipediaTitle": "Hubei",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Hubei",
+      "summary": "Hubei is a province in Central China. It has the seventh-largest economy among Chinese provinces, the second-largest within Central China, and the third-largest among inland provinces. Its provincial capital at Wuhan serves as a major political, cultural, and economic hub for the region.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Hubei"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Shennong Peak (3,105 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q21208",
+    "name": "Hebei",
+    "iso": "CN-HE",
+    "capital": "Shijiazhuang",
+    "population": 74610235,
+    "area": 187240,
+    "wikipediaTitle": "Hebei",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Hebei",
+      "summary": "Hebei is a province in North China. It is China's sixth-most populous province, with a population of over 75 million people. Shijiazhuang is the capital city. It borders Shanxi to the west, Henan to the south, Shandong and Liaoning to the east, and Inner Mongolia to the north; in addition, Hebei entirely surrounds the direct-administered municipalities of Beijing and Tianjin on land. Its population is 96% Han Chinese, 3% Manchu, 0.8% Hui, and 0.3% Mongol. Varieties of Chinese spoken include Jilu Mandarin, the Beijing dialect of Mandarin, and Jin Chinese.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Hebei"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Mount Xiaowutai (2,882 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q42200",
+    "name": "Hainan",
+    "iso": "CN-HI",
+    "capital": "Haikou",
+    "population": 10081232,
+    "area": 33920,
+    "wikipediaTitle": "Hainan",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Hainan",
+      "summary": "Hainan is an island and the southern-most province of China consisting of the eponymous Hainan Island and various smaller islands in the South China Sea under the province's administration. The name means \"South of the Sea\".",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Hainan"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Wuzhi Mountain (1,840 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q8646",
+    "name": "Hong Kong",
+    "iso": "CN-HK",
+    "capital": "",
+    "population": 7413070,
+    "area": 2755,
+    "wikipediaTitle": "Hong Kong",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Hong Kong",
+      "summary": "Hong Kong is a special administrative region of China. Situated on China's southern coast just south of Shenzhen, it consists of Hong Kong Island, Kowloon, and the New Territories. With 7.5 million residents in a 1,114-square-kilometre (430 sq mi) territory, Hong Kong is the fourth-most densely populated region in the world.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Hong_Kong"
+    },
+    "emblemUrl": "/emblems/cn-hk.svg",
+    "established": "1997",
+    "highestPoint": "Tai Mo Shan (957 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q19206",
+    "name": "Heilongjiang",
+    "iso": "CN-HL",
+    "capital": "Harbin",
+    "population": 38312224,
+    "area": 454800,
+    "wikipediaTitle": "Heilongjiang",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Heilongjiang",
+      "summary": "Heilongjiang is an inland province in northeast China. It is the northernmost and easternmost province of the country and contains China's northernmost point and easternmost point.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Heilongjiang"
+    },
+    "emblemUrl": null,
+    "established": "1954",
+    "highestPoint": "Datudingzi Mountain (1,690 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q45761",
+    "name": "Hunan",
+    "iso": "CN-HN",
+    "capital": "Changsha",
+    "population": 66444864,
+    "area": 211836,
+    "wikipediaTitle": "Hunan",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Hunan",
+      "summary": "Hunan is an inland province in Central China. Located in the middle reaches of the Yangtze watershed, it borders the province-level divisions of Hubei to the north, Jiangxi to the east, Guangdong and Guangxi to the south, and Guizhou and Chongqing to the northwest. Its capital and largest city is Changsha, which abuts the Xiang River. Hengyang, Zhuzhou, and Yueyang are among its most populous urban cities.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Hunan"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Ling Peak (2,115 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q45208",
+    "name": "Jilin",
+    "iso": "CN-JL",
+    "capital": "Changchun",
+    "population": 27462297,
+    "area": 187400,
+    "wikipediaTitle": "Jilin",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Jilin",
+      "summary": "Jilin is one of the three provinces of Northeast China. Its capital and largest city is Changchun. Jilin borders North Korea to the south, Russia to the east, Heilongjiang to the north, and Liaoning and Inner Mongolia to the west.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Jilin"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Baekdu Mountain (2,744 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q16963",
+    "name": "Jiangsu",
+    "iso": "CN-JS",
+    "capital": "Nanjing",
+    "population": 84748016,
+    "area": 98285,
+    "wikipediaTitle": "Jiangsu",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Jiangsu",
+      "summary": "Jiangsu is a coastal province in East China. It is one of the leading provinces in finance, education, technology, and tourism, with its capital in Nanjing. Jiangsu is the third smallest, but the fourth most populous, with a population of 84.75 million, and the most densely populated of the 22 provinces of the People's Republic of China. Jiangsu has the highest GDP per capita and second-highest GDP of Chinese provinces, after Guangdong. Jiangsu borders Shandong in the north, Anhui to the west, and Zhejiang and Shanghai to the south. Jiangsu has a coastline of over 1,000 kilometers (620 mi) along the Yellow Sea, and the Yangtze flows through the southern part of the province.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Jiangsu"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Mounts Yuntai (625 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q57052",
+    "name": "Jiangxi",
+    "iso": "CN-JX",
+    "capital": "Nanchang",
+    "population": 45188635,
+    "area": 166900,
+    "wikipediaTitle": "Jiangxi",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Jiangxi",
+      "summary": "Jiangxi is an inland province in east China. Spanning from the banks of the Yangtze river in the north into hillier areas in the south and east, it borders Anhui to the north, Zhejiang to the northeast, Fujian to the east, Guangdong to the south, Hunan to the west, and Hubei to the northwest. Major prefecture cities include its capital Nanchang, Ganzhou, and Jiujiang.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Jiangxi"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Mount Huanggang (2,158 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q43934",
+    "name": "Liaoning",
+    "iso": "CN-LN",
+    "capital": "Shenyang",
+    "population": 43746323,
+    "area": 145900,
+    "wikipediaTitle": "Liaoning",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Liaoning",
+      "summary": "Liaoning is a coastal province in Northeastern China that is the smallest, southernmost, and most populous province in the region. With its capital at Shenyang, it is located on the northern shore of the Yellow Sea, and is the northernmost coastal province of the People's Republic of China.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Liaoning"
+    },
+    "emblemUrl": null,
+    "established": "1907",
+    "highestPoint": "Mount Huabozi (1,336 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q14773",
+    "name": "Macau",
+    "iso": "CN-MO",
+    "capital": "",
+    "population": 682100,
+    "area": 115,
+    "wikipediaTitle": "Macau",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Macau",
+      "summary": "Macau or Macao is a special administrative region of China. It consists of the Macau Peninsula, the islands of Taipa and Coloane, the Cotai reclamation zone between Taipa and Coloane, and several smaller islets. It borders Zhuhai to the north and west, and it lies west of Hong Kong, separated by the Pearl River estuary. With a population of about 720,000 people and a land area of 32.9 square kilometres (12.7 sq mi), it is the most densely populated region in the world.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Macau"
+    },
+    "emblemUrl": "/emblems/cn-mo.svg",
+    "established": "1999",
+    "highestPoint": "Alto de Coloane (1,706 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q41079",
+    "name": "Inner Mongolia",
+    "iso": "CN-NM",
+    "capital": "Hohhot",
+    "population": 24706321,
+    "area": 1181104,
+    "wikipediaTitle": "Inner Mongolia",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Inner Mongolia",
+      "summary": "Inner Mongolia, officially the Inner Mongolia Autonomous Region (IMAR), is an autonomous region of China. Its border includes two-thirds of the length of China's border with the country of Mongolia, as well as a small section with Russia. Its capital is Hohhot; other major cities include Baotou, Chifeng, Tongliao and Ordos.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Inner_Mongolia"
+    },
+    "emblemUrl": null,
+    "established": "1947",
+    "highestPoint": "Helan Mountains (3,556 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q57448",
+    "name": "Ningxia",
+    "iso": "CN-NX",
+    "capital": "Yinchuan",
+    "population": 7202654,
+    "area": 52188,
+    "wikipediaTitle": "Ningxia",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Ningxia",
+      "summary": "Ningxia, officially the Ningxia Hui Autonomous Region (NHAR), is an autonomous region in Northwestern China. Formerly a province, Ningxia was incorporated into Gansu in 1954 but was later separated from Gansu in 1958 and reconstituted as an autonomous region for the Hui people, one of the 56 officially recognised nationalities of China. Twenty percent of China's Hui population lives in Ningxia.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Ningxia"
+    },
+    "emblemUrl": null,
+    "established": "1958",
+    "highestPoint": "Helan Mountains (3,556 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q45833",
+    "name": "Qinghai",
+    "iso": "CN-QH",
+    "capital": "Xining",
+    "population": 5930000,
+    "area": 696700,
+    "wikipediaTitle": "Qinghai",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Qinghai",
+      "summary": "Qinghai is an inland province in Northwestern China. It is the largest province of China by area and has the third-smallest population, with its capital and largest city being Xining.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Qinghai"
+    },
+    "emblemUrl": null,
+    "established": "1928",
+    "highestPoint": "Bukadaban Feng (6,860 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q19770",
+    "name": "Sichuan",
+    "iso": "CN-SC",
+    "capital": "Chengdu",
+    "population": 83674866,
+    "area": 485000,
+    "wikipediaTitle": "Sichuan",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Sichuan",
+      "summary": "Sichuan is an inland province in Southwestern China. It is located in the Sichuan Basin and Tibetan Plateau—between the Jinsha River to the west, the Daba Mountains to the north, and the Yunnan–Guizhou Plateau to the south. Its capital city is Chengdu, and the province's population stands at 83 million. Sichuan neighbors Qinghai and Gansu to the north, Shaanxi and Chongqing to the east, Guizhou and Yunnan to the south, and Tibet to the west.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Sichuan"
+    },
+    "emblemUrl": null,
+    "established": "1952",
+    "highestPoint": "Mount Gongga (7,556 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q43407",
+    "name": "Shandong",
+    "iso": "CN-SD",
+    "capital": "Jinan",
+    "population": 101527453,
+    "area": 156700,
+    "wikipediaTitle": "Shandong",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Shandong",
+      "summary": "Shandong is a coastal province in East China which has played a major role in the development of the Chinese civilization and culture as it has served as a pivotal cultural and religious center for Taoism, Chinese Buddhism and Confucianism. Shandong's Mount Tai is the most revered mountain of Taoism and a site with one of the longest histories of continuous religious worship in the world. The Buddhist temples in the mountains south of the provincial capital of Jinan were once among the foremost Buddhist sites in China. The city of Qufu was the birthplace of Confucius, and later became the center of Confucianism.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Shandong"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Mount Tai (1,545 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q8686",
+    "name": "Shanghai",
+    "iso": "CN-SH",
+    "capital": "Huangpu District",
+    "population": 24870895,
+    "area": 6341,
+    "wikipediaTitle": "Shanghai",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Shanghai",
+      "summary": "Shanghai is a provincial-level direct-administered municipality in China. It has a population of 29,558,908 in the urban area as of 2025, thus making it China's most populous city and, more broadly, the fifth-largest city in the world by population. The city is located on the Chinese shoreline on the southern estuary of the Yangtze River, with the Huangpu River bisecting the city.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Shanghai"
+    },
+    "emblemUrl": null,
+    "established": "1292",
+    "highestPoint": "Mount Dajin (103 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q47974",
+    "name": "Shaanxi",
+    "iso": "CN-SN",
+    "capital": "Xi'an",
+    "population": 39528999,
+    "area": 205800,
+    "wikipediaTitle": "Shaanxi",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Shaanxi",
+      "summary": "Shaanxi is a province in Northwestern China. It borders the province-level divisions of Inner Mongolia to the north; Shanxi and Henan to the east; Hubei, Chongqing, and Sichuan to the south; and Gansu and Ningxia to the west.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Shaanxi"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Mount Taibai (3,750 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q46913",
+    "name": "Shanxi",
+    "iso": "CN-SX",
+    "capital": "Taiyuan",
+    "population": 36500000,
+    "area": 156000,
+    "wikipediaTitle": "Shanxi",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Shanxi",
+      "summary": "Shanxi is a province in North China. Its capital and largest city is Taiyuan, and its next most populated prefecture-level cities are Changzhi and Datong.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Shanxi"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Mount Wutai (3,061 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q11736",
+    "name": "Tianjin",
+    "iso": "CN-TJ",
+    "capital": "Hexi District",
+    "population": 13866009,
+    "area": 11920,
+    "wikipediaTitle": "Tianjin",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Tianjin",
+      "summary": "Tianjin is a provincial-level direct-administered municipality in China. It is located on the shore of the Bohai Sea. It has a total population of 13,866,009 inhabitants at the 2020 census.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Tianjin"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Jiushan Peak (1,078 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q57251",
+    "name": "Taiwan",
+    "iso": "CN-TW",
+    "capital": "",
+    "population": 23140000,
+    "area": 35581,
+    "wikipediaTitle": "Taiwan (People's Republic of China province)",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Taiwan (People's Republic of China province)",
+      "summary": "Taiwan Province is a de jure administrative division of the People's Republic of China. Its claimed jurisdiction includes Taiwan and its affiliated islands, the Penghu Islands, and the Diaoyu Islands and their affiliated islands; the islands of Kinmen and Matsu are claimed as part of Fujian Province. The territory of the claimed province, including the entire island of Taiwan, is in actuality administered by the Republic of China (ROC), but is not coextensive with the smaller Taiwan Province of the ROC.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Taiwan_(People's_Republic_of_China_province)"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Yushan Main Peak (3,952 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q34800",
+    "name": "Xinjiang",
+    "iso": "CN-XJ",
+    "capital": "Ürümqi",
+    "population": 25852345,
+    "area": 1664897,
+    "wikipediaTitle": "Xinjiang",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Xinjiang",
+      "summary": "Xinjiang, officially the Xinjiang Uygur Autonomous Region (XUAR), is an autonomous region of the People's Republic of China (PRC), in the northwest of the country at the crossroads of Central Asia and East Asia. The largest province-level division of China by area and the 8th-largest country subdivision in the world, Xinjiang spans over 1.6 million square kilometers (620,000 sq mi) and has about 25 million inhabitants. Xinjiang borders the countries of Afghanistan, India, Kazakhstan, Kyrgyzstan, Mongolia, Pakistan, Russia, and Tajikistan. The rugged Karakoram, Kunlun, and Tian Shan mountain ranges occupy much of Xinjiang's borders, as well as its western and southern regions. The Aksai Chin and Trans-Karakoram Tract regions are claimed by India but administered by China. Xinjiang also borders the Tibet Autonomous Region and the provinces of Gansu and Qinghai. The best-known route of the historic Silk Road ran through the territory from the east to its northwestern border.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Xinjiang"
+    },
+    "emblemUrl": null,
+    "established": "1955",
+    "highestPoint": "K2 (8,611 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q17269",
+    "name": "Tibet Autonomous Region",
+    "iso": "CN-XZ",
+    "capital": "Lhasa",
+    "population": 3648100,
+    "area": 1228400,
+    "wikipediaTitle": "Tibet Autonomous Region",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Tibet Autonomous Region",
+      "summary": "The Tibet Autonomous Region (TAR), often shortened to Tibet, or referred to in Chinese as the Xizang Autonomous Region, and in Tibetan as Bod is an autonomous region of the People's Republic of China. It was established in 1965 to replace the Tibet Area, a former administrative division of the Republic of China.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Tibet_Autonomous_Region"
+    },
+    "emblemUrl": null,
+    "established": "1965",
+    "highestPoint": "Mount Everest (8,849 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q43194",
+    "name": "Yunnan",
+    "iso": "CN-YN",
+    "capital": "Kunming",
+    "population": 47420000,
+    "area": 394100,
+    "wikipediaTitle": "Yunnan",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Yunnan",
+      "summary": "Yunnan is an inland province in Southwestern China, spanning approximately 394,000 km2 (152,000 sq mi) and has a population of 47.2 million. The capital of the province is Kunming. The province borders the Chinese provinces of Guizhou, Sichuan, autonomous regions of Guangxi and Tibet, as well as Southeast Asian countries Myanmar (Burma), Vietnam, and Laos. Yunnan is China's fourth least developed province based on disposable income per capita in 2014.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Yunnan"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Kawagarbo (6,740 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q16967",
+    "name": "Zhejiang",
+    "iso": "CN-ZJ",
+    "capital": "Hangzhou",
+    "population": 64567588,
+    "area": 101800,
+    "wikipediaTitle": "Zhejiang",
+    "parent": "CHN",
+    "wikipedia": {
+      "title": "Zhejiang",
+      "summary": "Zhejiang is a coastal province in East China. Its capital and largest city is Hangzhou, with other notable cities including Ningbo and Wenzhou. Zhejiang is bordered by Jiangsu and Shanghai to the north, Anhui to the northwest, Jiangxi to the west and Fujian to the south. To the east is the East China Sea, beyond which lies the Ryukyu Islands. The population of Zhejiang stands at 64.6 million, the 8th largest in China. It is a major driving force in the Chinese economy and the birthplace of several notable people, including the Chinese Nationalist leader Chiang Kai-shek and entrepreneur Jack Ma. Zhejiang consists of 90 counties.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Zhejiang"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": "Huangmaojian Peak (1,930 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q40888",
+    "name": "Andaman and Nicobar Islands",
+    "iso": "IN-AN",
+    "capital": "Srivijayapuram",
+    "population": 356152,
+    "area": 8249,
+    "wikipediaTitle": "Andaman and Nicobar Islands",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Andaman and Nicobar Islands",
+      "summary": "The Andaman and Nicobar Islands is a union territory of India comprising 836 islands, of which only 31 are inhabited. The islands are grouped into two main clusters: the northern Andaman Islands and the southern Nicobar Islands, separated by the 150 km (93 mi)-wide Ten Degree Channel. The capital and largest city of the territory, Port Blair, is located approximately 1,190 km (740 mi) from Chennai and 1,255 km (780 mi) from Kolkata in mainland India. The islands are situated between the Bay of Bengal to the west and the Andaman Sea to the east. The northernmost point is 901 km (560 mi) from the mouth of the Hooghly River. Indira Point, located at 6°45'10″N and 93°49'36″E on the southern tip of Great Nicobar, is the southernmost point of India.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Andaman_and_Nicobar_Islands"
+    },
+    "emblemUrl": "/emblems/in-an.svg",
+    "established": "1956",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1159",
+    "name": "Andhra Pradesh",
+    "iso": "IN-AP",
+    "capital": "Amaravati",
+    "population": 53586000,
+    "area": 162970,
+    "wikipediaTitle": "Andhra Pradesh",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Andhra Pradesh",
+      "summary": "Andhra Pradesh is a state on the east coast of southern India. It is the seventh-largest state and the tenth-most populous in the country. Telugu, one of the classical languages of India, is the most widely spoken language in the state and serves as its official language. Amaravati is the state capital, and Visakhapatnam is the largest city. Andhra Pradesh shares borders with Odisha to the northeast, Chhattisgarh to the north, Karnataka to the west, Tamil Nadu to the south, Telangana to northwest and the Bay of Bengal to the east.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Andhra_Pradesh"
+    },
+    "emblemUrl": null,
+    "established": "1956",
+    "highestPoint": null,
+    "namedAfter": "Telugu people"
+  },
+  {
+    "wikiId": "Q1162",
+    "name": "Arunachal Pradesh",
+    "iso": "IN-AR",
+    "capital": "Itanagar",
+    "population": 1382611,
+    "area": 83743,
+    "wikipediaTitle": "Arunachal Pradesh",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Arunachal Pradesh",
+      "summary": "Arunachal Pradesh is a state in northeast India. It was known as the North-East Frontier Agency until 1972, after which it became a union territory under the name Arunachal Pradesh. It became a state on 20 February 1987. Itanagar is its capital and largest town.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Arunachal_Pradesh"
+    },
+    "emblemUrl": null,
+    "established": "1987",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1164",
+    "name": "Assam",
+    "iso": "IN-AS",
+    "capital": "Dispur",
+    "population": 31205576,
+    "area": 78438,
+    "wikipediaTitle": "Assam",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Assam",
+      "summary": "Assam is a state in Northeast India, located south of the Eastern Himalayas along the Brahmaputra Valley and Barak River valleys. It covers an area of 78,438 km2 (30,285 sq mi), and is the second largest state in northeastern India by area. As per the 2011 census, the state had a population of 31.2 million, and is the largest by population in the region. It shares international borders with Bhutan to the north and with Bangladesh to the southwest. It borders the Indian states of Arunachal Pradesh to the north; Nagaland and Manipur to the east; Meghalaya, Tripura, and Mizoram to the south; and West Bengal to the west. It is connected to the rest of the India to the west via the Siliguri Corridor, a 22 km (14 mi) wide strip of land. Dispur is the capital of Assam while Dibrugarh is the second capital. Guwahati is the largest city and urban area in the state.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Assam"
+    },
+    "emblemUrl": "/emblems/in-as.svg",
+    "established": "1950",
+    "highestPoint": null,
+    "namedAfter": "Ahom Kingdom"
+  },
+  {
+    "wikiId": "Q1165",
+    "name": "Bihar",
+    "iso": "IN-BR",
+    "capital": "Patna",
+    "population": 103804637,
+    "area": 94163,
+    "wikipediaTitle": "Bihar",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Bihar",
+      "summary": "Bihar is a state in eastern India. It borders Uttar Pradesh to its west, Nepal to the north, the northern part of West Bengal to the east, and Jharkhand to the south. Bihar is split by the river Ganges, which flows from west to east. It is the second largest state by population, the 12th largest by area, and the 14th largest by GDP in 2024. The official language on Bihar is Hindi, which shares official status alongside that of Urdu. The main native languages are Maithili, Magahi and Bhojpuri, but there are several other languages being spoken at smaller levels.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Bihar"
+    },
+    "emblemUrl": "/emblems/in-br.svg",
+    "established": "1912",
+    "highestPoint": null,
+    "namedAfter": "vihara"
+  },
+  {
+    "wikiId": "Q1168",
+    "name": "Chhattisgarh",
+    "iso": "IN-CG",
+    "capital": "Raipur",
+    "population": 29436231,
+    "area": 135194,
+    "wikipediaTitle": "Chhattisgarh",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Chhattisgarh",
+      "summary": "Chhattisgarh is a landlocked state in central India. It is the ninth largest state by area, and with a population of roughly 30 million, the seventeenth most populous. It borders seven states – Uttar Pradesh to the north, Madhya Pradesh to the northwest, Maharashtra to the southwest, Jharkhand to the northeast, Odisha to the east, Andhra Pradesh and Telangana to the south. Formerly a part of Madhya Pradesh, it was granted statehood on 1 November 2000 with Raipur as the designated state capital.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Chhattisgarh"
+    },
+    "emblemUrl": null,
+    "established": "2000",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q120971341",
+    "name": "Chandigarh",
+    "iso": "IN-CH",
+    "capital": "Chandigarh",
+    "population": 0,
+    "area": 0,
+    "wikipediaTitle": "Union Territory of Chandigarh",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Chandigarh",
+      "summary": "Chandigarh is a city and union territory in northwestern India, serving as a shared capital for the states of Punjab and Haryana. Situated near the foothills of the Shivalik range of Himalayas, it borders Haryana to the east and Punjab in the remaining directions. Chandigarh constitutes the bulk of the Chandigarh Capital Region or Greater Chandigarh, which also includes the adjacent satellite cities of Panchkula in Haryana and Mohali in Punjab. It is located 260 km northwest of New Delhi and 229 km southeast of Amritsar and 104 km southwest of Shimla.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Chandigarh"
+    },
+    "emblemUrl": null,
+    "established": null,
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q66710",
+    "name": "Daman and Diu",
+    "iso": "IN-DD",
+    "capital": "Daman",
+    "population": 243247,
+    "area": 122,
+    "wikipediaTitle": "Daman and Diu",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Daman and Diu",
+      "summary": "Daman and Diu was a union territory in northwestern India. With an area of 112 km2 (43 sq mi), it was the smallest administrative subdivision of India on the mainland. The territory comprised two districts, Daman and Diu Island, geographically separated by the Gulf of Khambat. The state of Gujarat and the Arabian Sea bordered the territory. A Portuguese colony since the 1500s, these territories were taken over by India with the Annexation of Goa in 1961. Daman and Diu were administered as part of the union territory of Goa, Daman and Diu between 1961 and 1987. After the Goa Opinion Poll, they became separate union territories. In 2019, a legislation was passed to merge the union territories of Daman and Diu with its neighbouring union territory, Dadra and Nagar Haveli, to form the new union territory of Dadra and Nagar Haveli and Daman and Diu with effect from 26 January 2020.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Daman_and_Diu"
+    },
+    "emblemUrl": "/emblems/in-dd.svg",
+    "established": "1987",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q77997266",
+    "name": "Dadra and Nagar Haveli and Daman and Diu",
+    "iso": "IN-DH",
+    "capital": "Daman",
+    "population": 585764,
+    "area": 603,
+    "wikipediaTitle": "Dadra and Nagar Haveli and Daman and Diu",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Dadra and Nagar Haveli and Daman and Diu",
+      "summary": "Dadra and Nagar Haveli and Daman and Diu is a union territory in India. The territory was constituted through the merger of the former territories of Dadra and Nagar Haveli and Daman and Diu. Plans for the proposed merger were announced by the Government of India in July 2019; the necessary legislation was passed in the Parliament of India in December 2019 and came into effect on 26 January 2020. The territory is made up of four separate geographical entities: Dadra, Nagar Haveli, Daman, and the island of Diu. All four areas were formerly part of Portuguese India, with a joint capital at Panjim, Goa. They came under Indian rule in the mid-20th century after the Annexation of Goa and of the Free Dadra and Nagar Haveli. Goa, Daman and Diu were jointly administered until 1987, when Goa was granted statehood after the Konkani language agitation. The current capital is Daman and Silvassa is the largest city.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Dadra_and_Nagar_Haveli_and_Daman_and_Diu"
+    },
+    "emblemUrl": "/emblems/in-dh.svg",
+    "established": "2020",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q9357528",
+    "name": "National Capital Territory of Delhi",
+    "iso": "IN-DL",
+    "capital": "New Delhi",
+    "population": 0,
+    "area": 1484,
+    "wikipediaTitle": "National Capital Territory of Delhi",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Delhi",
+      "summary": "Delhi, officially the National Capital Territory (NCT) of Delhi, is a megacity and a union territory of India containing New Delhi, the capital of India. Straddling the Yamuna river, but spread chiefly to the west, or beyond its right bank, Delhi shares borders with the state of Uttar Pradesh in the east and with the state of Haryana in the remaining directions. Delhi became a union territory on 1 November 1956 and the NCT in 1995. The NCT covers an area of 1,484 square kilometres (573 sq mi). According to the 2011 census, Delhi's city proper population was over 11 million, while the NCT's population was about 16.8 million.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Delhi"
+    },
+    "emblemUrl": "/emblems/in-dl.svg",
+    "established": "1956",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q46107",
+    "name": "Dadra and Nagar Haveli district",
+    "iso": "IN-DN",
+    "capital": "Silvassa",
+    "population": 343709,
+    "area": 491,
+    "wikipediaTitle": "Dadra and Nagar Haveli district",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Dadra and Nagar Haveli district",
+      "summary": "Dadra and Nagar Haveli district is a district of the union territory of Dadra and Nagar Haveli and Daman and Diu in western India. It is composed of two separate geographical entities: Nagar Haveli, wedged in between Maharashtra and Gujarat states; and, 1 kilometre (0.62 mi) to the north-west, the smaller enclave of Dadra, which is surrounded by Gujarat. Silvassa is the administrative headquarters of Dadra and Nagar Haveli.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Dadra_and_Nagar_Haveli_district"
+    },
+    "emblemUrl": null,
+    "established": "1961",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1171",
+    "name": "Goa",
+    "iso": "IN-GA",
+    "capital": "Panaji",
+    "population": 1458545,
+    "area": 3702,
+    "wikipediaTitle": "Goa",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Goa",
+      "summary": "Goa is a state on the southwestern coast of India within the Konkan region. It is geographically separated from the Deccan highlands by the Western Ghats. It is bordered by the Indian states of Maharashtra to the north and Karnataka to the east and south, with the Arabian Sea forming its western coastline. It was the capital of the eastern Portuguese empire until 1961. It is India's smallest state by area and fourth-smallest by population. Panaji (Panjim) is the state's capital, while Vasco da Gama is its largest city by population. The state's official language is Konkani, spoken by the majority of its inhabitants.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Goa"
+    },
+    "emblemUrl": null,
+    "established": "1987",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1061",
+    "name": "Gujarat",
+    "iso": "IN-GJ",
+    "capital": "Gandhinagar",
+    "population": 60383628,
+    "area": 196024,
+    "wikipediaTitle": "Gujarat",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Gujarat",
+      "summary": "Gujarat is a state along the western coast of India. Its coastline of about 2,340 km (1,450 mi) is the longest in the country, most of which lies on the Kathiawar peninsula. Gujarat is the fifth-largest Indian state by area, covering some 196,024 km2 (75,685 mi2); and the ninth-most populous state, with a population of 60.4 million in 2011. It is bordered by Rajasthan to the northeast, Dadra and Nagar Haveli and Daman and Diu to the south, Maharashtra to the southeast, Madhya Pradesh to the east, and the Arabian Sea and the Pakistani province of Sindh to the west. Gujarat's capital city is Gandhinagar, while its largest city is Ahmedabad. The Gujaratis are indigenous to the state, and their language, Gujarati, is the state's official language.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Gujarat"
+    },
+    "emblemUrl": "/emblems/in-gj.svg",
+    "established": "1960",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1177",
+    "name": "Himachal Pradesh",
+    "iso": "IN-HP",
+    "capital": "Shimla",
+    "population": 6864602,
+    "area": 55780,
+    "wikipediaTitle": "Himachal Pradesh",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Himachal Pradesh",
+      "summary": "Himachal Pradesh is a state in the northern part of India. Situated in the Western Himalayas, it is one of the 13 mountain states and is characterised by an extreme landscape featuring several peaks and extensive river systems. Himachal Pradesh is the northernmost state of India and shares borders with the union territories of Jammu and Kashmir and Ladakh to the north, and the states of Punjab to the west, Haryana to the southwest, Uttarakhand to the southeast and a very narrow border with Uttar Pradesh to the south. The state also shares an international border to the east with the Tibet Autonomous Region of China. Himachal Pradesh is also known as Dev Bhoomi, meaning 'Land of Gods' and Veer Bhoomi which means 'Land of the Brave'.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Himachal_Pradesh"
+    },
+    "emblemUrl": null,
+    "established": "1971",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1174",
+    "name": "Haryana",
+    "iso": "IN-HR",
+    "capital": "Chandigarh",
+    "population": 27761063,
+    "area": 44212,
+    "wikipediaTitle": "Haryana",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Haryana",
+      "summary": "Haryana is a state located in the northwestern part of India, with a rich history since the Indus Valley civilisation, and includes ancient towns such as Kurukshetra. The modern state of Haryana was formed on 1 November 1966 after the Punjab Reorganisation Act was passed by the Indian Parliament. The state capital is Chandigarh, which it shares with the neighbouring state of Punjab. The city of Gurgaon is among India's largest financial and technology hubs. The most populous city is Faridabad, a part of the National Capital Region. In terms of area, it ranks 21st in India, with around 1.5% of India's land area.. Haryana has 6 administrative divisions, 22 districts, 72 sub-divisions, 93 revenue tehsils, 50 sub-tehsils, 140 blocks, 154 cities and towns, 7,356 villages, and 6,222 villages panchayats.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Haryana"
+    },
+    "emblemUrl": null,
+    "established": "1966",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1184",
+    "name": "Jharkhand",
+    "iso": "IN-JH",
+    "capital": "Ranchi",
+    "population": 32988134,
+    "area": 79714,
+    "wikipediaTitle": "Jharkhand",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Jharkhand",
+      "summary": "Jharkhand is a landlocked state in eastern India. The state shares borders with the states of West Bengal to the east, Chhattisgarh to the west, Uttar Pradesh to the northwest, Bihar to the north and Odisha to the south. It is the 15th largest state by area, and the 14th largest by population. Hindi is the official language of the state. The city of Ranchi is its capital, and Dumka its sub-capital. The state is known for its waterfalls, hills and holy places; Baidyanath Dham, Parasnath, Dewri and Rajrappa are major religious sites. As per the 2011 census, Jharkhand is primarily rural, with about 24% of its population living in cities.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Jharkhand"
+    },
+    "emblemUrl": null,
+    "established": "2000",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q66278313",
+    "name": "Jammu and Kashmir",
+    "iso": "IN-JK",
+    "capital": "Jammu",
+    "population": 12258433,
+    "area": 42241,
+    "wikipediaTitle": "Jammu and Kashmir (union territory)",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Jammu and Kashmir (union territory)",
+      "summary": "Jammu and Kashmir is a region administered by India as a union territory consisting of the southern portion of the larger Kashmir region, which has been the subject of a border dispute between India and Pakistan since 1947 and between India and China since 1959.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Jammu_and_Kashmir_(union_territory)"
+    },
+    "emblemUrl": "/emblems/in-jk.svg",
+    "established": "2019",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1185",
+    "name": "Karnataka",
+    "iso": "IN-KA",
+    "capital": "Belgaum",
+    "population": 61130704,
+    "area": 191791,
+    "wikipediaTitle": "Karnataka",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Karnataka",
+      "summary": "Karnataka is a state in the southwestern coast of India. It was formed as Mysore State on 1 November 1956, with the passage of the States Reorganisation Act, and renamed Karnataka in 1973. The state is bordered by the Lakshadweep Sea to the west, Goa to the northwest, Maharashtra to the north, Telangana to the northeast, Andhra Pradesh to the east, Tamil Nadu to the southeast, and Kerala to the southwest. With 61,130,704 inhabitants at the 2011 census, Karnataka is the eighth-largest state by population, comprising 31 districts. With 15,257,000 residents, the state capital Bengaluru is the largest city of Karnataka.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Karnataka"
+    },
+    "emblemUrl": "/emblems/in-ka.svg",
+    "established": "1956",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1186",
+    "name": "Kerala",
+    "iso": "IN-KL",
+    "capital": "Thiruvananthapuram",
+    "population": 34523726,
+    "area": 38863,
+    "wikipediaTitle": "Kerala",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Kerala",
+      "summary": "Kerala is a state on the Malabar Coast of southern India. It was formed on 1 November 1956 under the States Reorganisation Act, which unified the country's Malayalam-speaking regions into a single state. Covering 38,863 km2 (15,005 sq mi), Kerala is primarily a strip of coastal plains sandwiched by the Western Ghats and the Laccadive Sea, bound by Karnataka to the north-east, Tamil Nadu to the south-west, and the Lakshadweep islands in the eastern vicinity. With 33 million inhabitants according to the 2011 census, Kerala is the 13th-most populous state in India. Thiruvananthapuram is the capital city while the Kochi metropolitan area is the state's most populated region. Malayalam is the most widely spoken language and, alongside English, serves as an official language of the state.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kerala"
+    },
+    "emblemUrl": null,
+    "established": "1956",
+    "highestPoint": "Anamudi (2,695 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q200667",
+    "name": "Ladakh",
+    "iso": "IN-LA",
+    "capital": "Kargil",
+    "population": 274289,
+    "area": 59196,
+    "wikipediaTitle": "Ladakh",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Ladakh",
+      "summary": "Ladakh is a region administered by India as a union territory and constitutes an eastern portion of the larger Kashmir region that has been the subject of a dispute between India and Pakistan since 1947 and India and China since 1959. Ladakh is bordered by the Tibet Autonomous Region of China to the east, the Indian state of Himachal Pradesh to the south, both the Indian-administered union territory of Jammu and Kashmir and the Pakistan-administered Gilgit-Baltistan to the west, and the southwest corner of Xinjiang across the Karakoram Pass in the far north. It extends from the Siachen Glacier in the Karakoram range to the north to the main Great Himalayas to the south. The eastern end, consisting of the uninhabited Aksai Chin plains, is claimed by the Indian Government as part of Ladakh, but has been under Chinese control since 1962.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Ladakh"
+    },
+    "emblemUrl": "/emblems/in-la.png",
+    "established": "2019",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q26927",
+    "name": "Lakshadweep",
+    "iso": "IN-LD",
+    "capital": "Kavaratti",
+    "population": 64429,
+    "area": 32,
+    "wikipediaTitle": "Lakshadweep",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Lakshadweep",
+      "summary": "Lakshadweep is a union territory of India. It is an archipelago of 36 islands divided into three island subgroups: the Amindivi Islands in the north, the Laccadive Islands, and the atoll of Minicoy to the south of the Nine Degree Channel. The islands are located between the Arabian Sea to the west and the Laccadive Sea to the east, about 220–440 km (140–270 mi) off the Malabar Coast of mainland India.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Lakshadweep"
+    },
+    "emblemUrl": null,
+    "established": "1956",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1191",
+    "name": "Maharashtra",
+    "iso": "IN-MH",
+    "capital": "Nagpur",
+    "population": 112372972,
+    "area": 307713,
+    "wikipediaTitle": "Maharashtra",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Maharashtra",
+      "summary": "Maharashtra is a state in the western peninsular region of India occupying a substantial portion of the Deccan Plateau. It is bordered by the Arabian Sea to the west, the Indian states of Karnataka and Goa to the south, Telangana to the southeast and Chhattisgarh to the east, Gujarat and Madhya Pradesh to the north, and the Indian union territory of Dadra and Nagar Haveli and Daman and Diu to the northwest. Maharashtra is the second-most populous state in India, the third-most populous country subdivision in South Asia, and the fourth-most populous in the world.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Maharashtra"
+    },
+    "emblemUrl": "/emblems/in-mh.svg",
+    "established": "1960",
+    "highestPoint": "Kalsubai (1,646 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1195",
+    "name": "Meghalaya",
+    "iso": "IN-ML",
+    "capital": "Shillong",
+    "population": 3211000,
+    "area": 22429,
+    "wikipediaTitle": "Meghalaya",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Meghalaya",
+      "summary": "Meghalaya is a state in northeast India, with Shillong as its capital city. Meghalaya was formed on 21 January 1972 by carving out two districts from the state of Assam: the united Khasi Hills and Jaintia Hills, and the Garo Hills. The estimated population of Meghalaya in 2014 was 3,211,474. Meghalaya covers an area of approximately 22,429 square kilometres, with a length-to-breadth ratio of about 3:1. The state is bound to the south by the Bangladeshi divisions of Mymensingh and Sylhet, to the west by the Bangladeshi division of Rangpur, and to the north and east by India's Assam.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Meghalaya"
+    },
+    "emblemUrl": "/emblems/in-ml.svg",
+    "established": "1972",
+    "highestPoint": null,
+    "namedAfter": "cloud"
+  },
+  {
+    "wikiId": "Q1193",
+    "name": "Manipur",
+    "iso": "IN-MN",
+    "capital": "Imphal",
+    "population": 2855794,
+    "area": 22327,
+    "wikipediaTitle": "Manipur",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Manipur",
+      "summary": "Manipur is a state in northeastern India, with Imphal as its capital city. It borders the Indian states of Assam to the west, Mizoram to the south, and Nagaland to the north and shares the international border with Myanmar, specifically the Sagaing Region to the east and Chin State to the southeast. Covering an area of 22,330 square kilometers (8,621 mi²), the state consists mostly of hilly terrain with the 1813-square-kilometre (700 mi²) Imphal Valley inhabited by the Meitei (Manipuri) community, historically a kingdom. Surrounding hills are home to Naga and Kuki-Zo communities, who speak Tibeto-Burman languages. The official language and lingua franca, Meitei (Manipuri), also belongs to the Tibeto-Burman family.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Manipur"
+    },
+    "emblemUrl": null,
+    "established": "1972",
+    "highestPoint": null,
+    "namedAfter": "pearl"
+  },
+  {
+    "wikiId": "Q1188",
+    "name": "Madhya Pradesh",
+    "iso": "IN-MP",
+    "capital": "Bhopal",
+    "population": 72597565,
+    "area": 308245,
+    "wikipediaTitle": "Madhya Pradesh",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Madhya Pradesh",
+      "summary": "Madhya Pradesh is a state in central India. Its capital is Bhopal. Other major cities include Indore, Gwalior, Jabalpur, Chhindwara, and Sagar. Madhya Pradesh is the second largest Indian state by area and the fifth largest state by population with over 72 million residents. It borders the states of Rajasthan to the northwest, Uttar Pradesh to the northeast, Chhattisgarh to the east, Maharashtra to the south, Gujarat to the west.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Madhya_Pradesh"
+    },
+    "emblemUrl": null,
+    "established": "1950",
+    "highestPoint": "Dhupgarh (1,352 m)",
+    "namedAfter": "center"
+  },
+  {
+    "wikiId": "Q1502",
+    "name": "Mizoram",
+    "iso": "IN-MZ",
+    "capital": "Aizawl",
+    "population": 1097206,
+    "area": 21081,
+    "wikipediaTitle": "Mizoram",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Mizoram",
+      "summary": "Mizoram is a state in northeastern India, with Aizawl as its capital and largest city. It shares 722-kilometres of international borders with Bangladesh to the west, and Myanmar to the east and south, with domestic borders with the Indian states of Assam, Manipur, and Tripura. It covers an area of 21,081 square kilometres. Via satellite data forests cover 84.53% of Mizoram's area, making it the fourth most heavily forested state in India. With an estimated population of 1.26 million in 2023, it is the second least populated state in India. With an urbanisation rate of 51.5% it is the most urbanised state in northeast India, ranking fifth in urbanisation nationwide. One of the two official languages and most widely spoken tongue is Mizo, which serves as a lingua franca among various ethnic communities who speak a variety of other Tibeto-Burman or Indo-Aryan languages. Mizoram is home to the highest percentage of scheduled tribes in India, with the Mizo people forming the majority.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Mizoram"
+    },
+    "emblemUrl": "/emblems/in-mz.svg",
+    "established": "1987",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1599",
+    "name": "Nagaland",
+    "iso": "IN-NL",
+    "capital": "Kohima",
+    "population": 1978502,
+    "area": 16579,
+    "wikipediaTitle": "Nagaland",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Nagaland",
+      "summary": "Nagaland is a state in the north-eastern region of India. It is bordered by the Indian states of Arunachal Pradesh to the north, Assam to the west, Manipur to the south, and the Naga Self-Administered Zone of the Sagaing Region of Myanmar (Burma) to the east. Its capital city is Kohima and its largest city is the twin Chümoukedima–Dimapur. The state has an area of 16,579 square kilometres (6,401 sq mi) with a population of 1,980,602 as per the 2011 Census of India, making it one of the least populated states in India.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Nagaland"
+    },
+    "emblemUrl": null,
+    "established": "1963",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q22048",
+    "name": "Odisha",
+    "iso": "IN-OD",
+    "capital": "Bhubaneswar",
+    "population": 41974218,
+    "area": 155707,
+    "wikipediaTitle": "Odisha",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Odisha",
+      "summary": "Odisha, spelled Orissa until 2011, is a state located in eastern India. It is the eighth-largest state by area, and the eleventh-largest by population, with over 41 million inhabitants. The state also has the third-largest population of Scheduled Tribes in India. It neighbours the states of Jharkhand and West Bengal to the north, Chhattisgarh to the west, and Andhra Pradesh to the south. Odisha has a coastline of 485 kilometres (301 mi) along the Bay of Bengal in the Indian Ocean. The region is also known as Utkaḷa and is mentioned by this name in India's national anthem, Jana Gana Mana.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Odisha"
+    },
+    "emblemUrl": null,
+    "established": "1936",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q22424",
+    "name": "Punjab",
+    "iso": "IN-PB",
+    "capital": "Chandigarh",
+    "population": 27743338,
+    "area": 50362,
+    "wikipediaTitle": "Punjab, India",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Punjab, India",
+      "summary": "Punjab is a state in northwestern India. Forming part of the larger Punjab region of the Indian subcontinent, the state is bordered by the Indian states and union territories of Himachal Pradesh to the north and northeast, Haryana to the south and southeast, Rajasthan to the southwest, Jammu and Kashmir to the north. To the west, it shares an international border with the identically named Pakistani province of Punjab. Chandigarh serves as a shared captial for Punjab as well as Haryana. The state covers an area of 50,362 square kilometres, which is 1.53% of India's total geographical area, making it the 19th-largest Indian state by area out of 28 Indian states. With over 27 million inhabitants, Punjab is the 16th-largest Indian state by population, comprising 23 districts. Punjabi, written in the Gurmukhi script, is the most widely spoken and the official language of the state. The main ethnic group are the Punjabis, with Sikhs (57.7%) and Hindus (38.5%) forming the dominant religious groups. Three of the five traditional Punjab rivers — the Sutlej, Beas, and Ravi — flow through the state.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Punjab%2C_India"
+    },
+    "emblemUrl": null,
+    "established": "1956",
+    "highestPoint": null,
+    "namedAfter": "Punjab"
+  },
+  {
+    "wikiId": "Q66743",
+    "name": "Puducherry",
+    "iso": "IN-PY",
+    "capital": "Pondicherry",
+    "population": 1394467,
+    "area": 492,
+    "wikipediaTitle": "Puducherry (union territory)",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Puducherry (union territory)",
+      "summary": "Puducherry, also known as Poudouchéry or Pondicherry, is a union territory of India, consisting of four small geographically unconnected districts. It was formed out of four territories of former French India, namely Pondichéry, Karikal (Karaikal), Mahé and Yanaon, excluding Chandannagar (Chandernagore), and it is named after the largest district, Puducherry, which was also the capital of French India. Historically known as Pondicherry, the territory changed its official name to Puducherry on 1 October 2006.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Puducherry_(union_territory)"
+    },
+    "emblemUrl": "/emblems/in-py.png",
+    "established": "1954",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1437",
+    "name": "Rajasthan",
+    "iso": "IN-RJ",
+    "capital": "Jaipur",
+    "population": 68548437,
+    "area": 342269,
+    "wikipediaTitle": "Rajasthan",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Rajasthan",
+      "summary": "Rajasthan is a state in northwestern India. It is the largest Indian state by area and the seventh largest by population. It covers 342,239 square kilometres (132,139 mi2) or 10.4 per cent of India's total geographical area. It is on India's northwestern side, where it comprises most of the wide and inhospitable Thar Desert and shares a border with the Pakistani provinces of Punjab to the northwest and Sindh to the west, along the Sutlej-Indus River valley. It is bordered by five other Indian states: Punjab to the north; Haryana and Uttar Pradesh to the northeast; Madhya Pradesh to the southeast; and Gujarat to the southwest. Its geographical location is 23°3' to 30°12' North latitude and 69°30' to 78°17' East longitude, with the Tropic of Cancer passing through its southernmost tip.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Rajasthan"
+    },
+    "emblemUrl": "/emblems/in-rj.png",
+    "established": "1950",
+    "highestPoint": null,
+    "namedAfter": "king"
+  },
+  {
+    "wikiId": "Q1505",
+    "name": "Sikkim",
+    "iso": "IN-SK",
+    "capital": "Gangtok",
+    "population": 657876,
+    "area": 7096,
+    "wikipediaTitle": "Sikkim",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Sikkim",
+      "summary": "Sikkim is a state in northeast India. It borders Bhutan in the east, the Tibet Autonomous Region of China in the north and northeast, Koshi Province of Nepal in the west, and West Bengal in the south. Sikkim is the only Indian state that shares its border with just one other Indian state — West Bengal. Sikkim is also close to the Siliguri Corridor, which borders Bangladesh. Sikkim is the least populous and second-smallest among the Indian states. Situated in the Eastern Himalaya, Sikkim is notable for its biodiversity, including alpine and subtropical climates, as well as being a host to Kangchenjunga, the highest peak in India and third-highest on Earth. Sikkim's capital and largest city is Gangtok. Almost 35% of the state is covered by Khangchendzonga National Park – a UNESCO World Heritage Site.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Sikkim"
+    },
+    "emblemUrl": "/emblems/in-sk.png",
+    "established": "1975",
+    "highestPoint": "Kanchenjunga (8,586 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1445",
+    "name": "Tamil Nadu",
+    "iso": "IN-TN",
+    "capital": "Chennai",
+    "population": 72147030,
+    "area": 130058,
+    "wikipediaTitle": "Tamil Nadu",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Tamil Nadu",
+      "summary": "Tamil Nadu is the southernmost state of India. The tenth largest Indian state by area and the sixth largest by population, it is the home of the Tamils, who speak the Tamil language, the state's official language and the first to be recognised as a classical language in India. Chennai is the state's largest city and capital.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Tamil_Nadu"
+    },
+    "emblemUrl": "/emblems/in-tn.svg",
+    "established": "1950",
+    "highestPoint": null,
+    "namedAfter": "country"
+  },
+  {
+    "wikiId": "Q1363",
+    "name": "Tripura",
+    "iso": "IN-TR",
+    "capital": "Agartala",
+    "population": 3673917,
+    "area": 10486,
+    "wikipediaTitle": "Tripura",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Tripura",
+      "summary": "Tripura is a state in northeastern India. The third-smallest state in the country, it covers 10,491 km2 (4,051 sq mi); and the seventh-least populous state with a population of 3.67 million. It is bordered by Assam and Mizoram to the east, and by Bangladesh to the north, south and west. Tripura is divided into eight districts and 23 sub-divisions, where Agartala is the capital and the largest city in the state. Tripura has 19 different tribal communities with a majority Bengali population. Bengali, Kokborok, and English are the state's official languages.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Tripura"
+    },
+    "emblemUrl": null,
+    "established": "1972",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q677037",
+    "name": "Telangana",
+    "iso": "IN-TS",
+    "capital": "Hyderabad",
+    "population": 35193978,
+    "area": 112077,
+    "wikipediaTitle": "Telangana",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Telangana",
+      "summary": "Telangana is a state in southern India on the Deccan Plateau bordering Maharashtra and Chhattisgarh to the north and Andhra Pradesh and Karnataka to the south. It is the eleventh largest and the twelfth most populated state of India. According to the Rigveda's Aitareya Brahmana, the region corresponding to Telangana has been inhabited by the Andhras since at least the 9th century BCE with the later Satavahana dynasty, who ruled over the entire Deccan Plateau, establishing trade relations as far as the Roman Empire. Subsequent major dynasties include the Vishnukundinas, Eastern Chalukyas, Kakatiyas, the Vijayanagara Empire, and Qutb Shahis, followed by the British Raj. Following the Independence of India, the Telugu speaking regions of India were gradually regrouped within the state of Andhra Pradesh but after decades of protests and agitations, the Telangana movement obtained its bifurcation with the creation, in 2014, of the state of Telangana corresponding to the Telugu speaking regions of the Princely State of Hyderabad.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Telangana"
+    },
+    "emblemUrl": null,
+    "established": "2014",
+    "highestPoint": null,
+    "namedAfter": "linga"
+  },
+  {
+    "wikiId": "Q1499",
+    "name": "Uttarakhand",
+    "iso": "IN-UK",
+    "capital": "Dehradun",
+    "population": 10086292,
+    "area": 53566,
+    "wikipediaTitle": "Uttarakhand",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Uttarakhand",
+      "summary": "Uttarakhand, also known as Uttaranchal, is a state in northern India. The state is bordered by Himachal Pradesh to the northwest, Tibet to the north, Nepal to the east and Uttar Pradesh to the south. Uttarakhand has a total area of 53,483 km2 (20,650 sq mi), equal to 1.6% of the total area of India. Dehradun serves as the state winter capital, with Bhararisain being the summer capital and Nainital being the judicial capital. The state is divided into two divisions, Garhwal and Kumaon, with a total of 13 districts. The forest cover in the state is 45.4% of the state's geographical area. The cultivable area is 16% of the total geographical area. The two major rivers of the state, the Ganges and its tributary Yamuna, originate from the Gangotri and Yamunotri glaciers respectively. Ranked 6th among the Top 10 Greenest States in India with Best AQI.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Uttarakhand"
+    },
+    "emblemUrl": "/emblems/in-uk.svg",
+    "established": "2000",
+    "highestPoint": "Nanda Devi (7,816 m)",
+    "namedAfter": "north"
+  },
+  {
+    "wikiId": "Q1498",
+    "name": "Uttar Pradesh",
+    "iso": "IN-UP",
+    "capital": "Lucknow",
+    "population": 246270000,
+    "area": 243290,
+    "wikipediaTitle": "Uttar Pradesh",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "Uttar Pradesh",
+      "summary": "Uttar Pradesh is a state in northern India. With over 241 million inhabitants, it is India's most populated state. The state is bordered by Rajasthan to the west, Haryana, Himachal Pradesh and Delhi to the northwest, Uttarakhand and Nepal to the north, Bihar to the east, Madhya Pradesh, Chhattisgarh and Jharkhand to the south. It is the fourth-largest Indian state by area covering 243,286 km2 (93,933 sq mi), accounting for 7.3 per cent of the total area of India. Lucknow serves as the state capital, with Prayagraj being the judicial capital. It is divided into 18 divisions and 75 districts. Uttar Pradesh is the Indian state with the highest number of bordering states, sharing its boundaries with nine other states and one union territory.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Uttar_Pradesh"
+    },
+    "emblemUrl": "/emblems/in-up.svg",
+    "established": "1950",
+    "highestPoint": null,
+    "namedAfter": "north"
+  },
+  {
+    "wikiId": "Q1356",
+    "name": "West Bengal",
+    "iso": "IN-WB",
+    "capital": "Kolkata",
+    "population": 91276115,
+    "area": 88752,
+    "wikipediaTitle": "West Bengal",
+    "parent": "IND",
+    "wikipedia": {
+      "title": "West Bengal",
+      "summary": "West Bengal is a state in the eastern part of India. It is situated along the Bay of Bengal. In 2011, its population was around 91 million in an area of 88,752 km2 (34,267 sq mi), while the population estimate as of 2026 is 100.6 million. West Bengal is the fourth-most populous and thirteenth-largest state by area in India, as well as the eighth-most populous country subdivision of the world. As a part of the Bengal region of the Indian subcontinent, it borders Bangladesh in the east, and Nepal and Bhutan in the north. It also borders the Indian states of Jharkhand, Odisha, Bihar, Sikkim and Assam. The state capital is Kolkata, the third-largest metropolis, and seventh largest city by population in India. West Bengal includes the Darjeeling Himalayan hill region, the Ganges delta, the Rarh region, the coastal Sundarbans and the Bay of Bengal. The state's main ethnic group are the Bengalis.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/West_Bengal"
+    },
+    "emblemUrl": "/emblems/in-wb.png",
+    "established": "1947",
+    "highestPoint": "Sandakpu (3,636 m)",
+    "namedAfter": "Bengal"
+  },
+  {
+    "wikiId": "Q79952",
+    "name": "Aguascalientes",
+    "iso": "MX-AGU",
+    "capital": "Aguascalientes City",
+    "population": 1312544,
+    "area": 5618,
+    "wikipediaTitle": "Aguascalientes",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Aguascalientes",
+      "summary": "Aguascalientes, officially the Free and Sovereign State of Aguascalientes, is one of the 32 states which comprise the federated entities of Mexico. At 22°N and with an average altitude of 1,950 m (6,400 ft) above sea level it is predominantly of semi-arid climate. The state is located in the northern part of the Bajío region, which is in the north-central part of the country, bordered by Zacatecas to the north, east and west, and by Jalisco to the south.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Aguascalientes"
+    },
+    "emblemUrl": "/emblems/mx-agu.svg",
+    "established": "1835",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q58731",
+    "name": "Baja California",
+    "iso": "MX-BCN",
+    "capital": "Mexicali",
+    "population": 3315766,
+    "area": 71450,
+    "wikipediaTitle": "Baja California",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Baja California",
+      "summary": "Baja California, officially the Free and Sovereign State of Baja California, is a state in Mexico. It is the northwesternmost of the 32 federal entities of Mexico. Before becoming a state in 1952, the area was known as the North Territory of Baja California. It has an area of 70,113 km2 (27,071 sq mi) and comprises the northern half of the Baja California peninsula, north of the 28th parallel, plus oceanic Guadalupe Island. The mainland portion of the state is bordered on the west by the Pacific Ocean, on the east by Sonora and the northern Gulf of California, on the north by the United States and on the south by Baja California Sur.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Baja_California"
+    },
+    "emblemUrl": "/emblems/mx-bcn.svg",
+    "established": "1804",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q46508",
+    "name": "Baja California Sur",
+    "iso": "MX-BCS",
+    "capital": "La Paz",
+    "population": 637026,
+    "area": 73909,
+    "wikipediaTitle": "Baja California Sur",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Baja California Sur",
+      "summary": "Baja California Sur, officially the Free and Sovereign State of Baja California Sur, is a state in Mexico. It is the 31st and last state to be admitted, in 1974. It is also the least densely populated Mexican state, the second least populous, and the ninth-largest state by area.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Baja_California_Sur"
+    },
+    "emblemUrl": "/emblems/mx-bcs.svg",
+    "established": "1974",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q80908",
+    "name": "Campeche",
+    "iso": "MX-CAM",
+    "capital": "San Francisco de Campeche",
+    "population": 928363,
+    "area": 57485,
+    "wikipediaTitle": "Campeche",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Campeche",
+      "summary": "Campeche, officially the Free and Sovereign State of Campeche, is one of the 31 states which, with Mexico City, make up the 32 federal entities of Mexico. Located in southeast Mexico, it is bordered by the states of Tabasco to the southwest, Yucatán to the northeast, Quintana Roo to the east, by the Petén department of Guatemala to the south, and by the Orange Walk District of Belize to the southeast. It has a coastline to the west with the Gulf of Mexico. The state capital, also called Campeche, was declared a World Heritage Site in 1997. The formation of the state began with the city, which was founded in 1540 as the Spanish began the conquest of the Yucatán Peninsula. The city was a rich and important port during the colonial period, but declined after Mexico's independence. Campeche was part of the province of Yucatán, but split off in the mid-19th century, mostly due to political friction with the city of Mérida. Much of the state's recent economic revival is due to the discovery of petroleum offshore in the 1970s, which has made the coastal cities of Campeche and Ciudad del Carmen important economic centers. The state has important Mayan and colonial sites; however, these are not as well-known or visited as much as others in the Yucatán.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Campeche"
+    },
+    "emblemUrl": "/emblems/mx-cam.svg",
+    "established": "1858",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q655",
+    "name": "Chihuahua",
+    "iso": "MX-CHH",
+    "capital": "Chihuahua City",
+    "population": 3556574,
+    "area": 247455,
+    "wikipediaTitle": "Chihuahua (state)",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Chihuahua (state)",
+      "summary": "Chihuahua, officially the Estado Libre y Soberano de Chihuahua is one of the 31 states which, along with Mexico City, are the 32 federal entities of Mexico. It is located in the northwestern part of Mexico and is bordered by the states of Sonora to the west, Sinaloa to the southwest, Durango to the south, and Coahuila to the east. To the north and northeast, it shares an extensive border with the U.S. adjacent to the U.S. states of New Mexico and Texas. The state was named after its capital city, Chihuahua City; the largest city is Ciudad Juárez. In 1864 the city of Chihuahua was declared capital of Mexico by Benito Juárez during the Reform War and French intervention, until 1867. The city of Parral was the largest producer of silver in the world in 1640. During the Mexican War of Independence, Miguel Hidalgo was executed on July 30, 1811, in Chihuahua city.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Chihuahua_(state)"
+    },
+    "emblemUrl": "/emblems/mx-chh.svg",
+    "established": "1824",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q60123",
+    "name": "Chiapas",
+    "iso": "MX-CHP",
+    "capital": "Tuxtla Gutiérrez",
+    "population": 5217908,
+    "area": 73311,
+    "wikipediaTitle": "Chiapas",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Chiapas",
+      "summary": "Chiapas, officially the Free and Sovereign State of Chiapas, is one of the states that make up the 32 federal entities of Mexico. It comprises 124 municipalities as of September 2017 and its capital and largest city is Tuxtla Gutiérrez. Other important population centers in Chiapas include Ocosingo, Tapachula, San Cristóbal de las Casas, Comitán, and Arriaga. Chiapas is the southernmost state in Mexico, and it borders the states of Oaxaca to the west, Veracruz to the northwest, and Tabasco to the north, and the Petén, Quiché, Huehuetenango, and San Marcos departments of Guatemala to the east and southeast. Chiapas has a significant coastline on the Pacific Ocean to the southwest.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Chiapas"
+    },
+    "emblemUrl": "/emblems/mx-chp.svg",
+    "established": "1824",
+    "highestPoint": "Volcán Tacaná (4,064 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q1489",
+    "name": "Mexico City",
+    "iso": "MX-CMX",
+    "capital": "",
+    "population": 9209944,
+    "area": 1485,
+    "wikipediaTitle": "Mexico City",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Mexico City",
+      "summary": "Mexico City is the capital and most populous city of Mexico, as well as the most populous city in North America. It is one of the world's leading cultural and financial centers and, according to the Globalization and World Cities Research Network's 2024 ranking, is classified as an Alpha world city. Located in the Valley of Mexico on the high Mexican Central Plateau, the city sits at an altitude of 2,240 meters. It is divided into 16 boroughs, or demarcaciones territoriales, which are further subdivided into neighborhoods, or colonias.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Mexico_City"
+    },
+    "emblemUrl": "/emblems/mx-cmx.svg",
+    "established": "1521",
+    "highestPoint": null,
+    "namedAfter": "Tenochtitlan"
+  },
+  {
+    "wikiId": "Q53079",
+    "name": "Coahuila",
+    "iso": "MX-COA",
+    "capital": "Saltillo",
+    "population": 2954915,
+    "area": 151595,
+    "wikipediaTitle": "Coahuila",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Coahuila",
+      "summary": "Coahuila, formally Coahuila de Zaragoza, officially the Free and Sovereign State of Coahuila de Zaragoza, is one of the 31 states of Mexico. The largest city and state capital is the city of Saltillo; the second largest is Torreón and the third largest is Monclova ; the fourth largest is Piedras Negras; and the fifth largest is Ciudad Acuña.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Coahuila"
+    },
+    "emblemUrl": "/emblems/mx-coa.svg",
+    "established": "1824",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q61309",
+    "name": "Colima",
+    "iso": "MX-COL",
+    "capital": "Colima",
+    "population": 731391,
+    "area": 5627,
+    "wikipediaTitle": "Colima",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Colima",
+      "summary": "Colima, officially the Free and Sovereign State of Colima, is among the 31 states that make up the 32 federated entities of Mexico. It shares its name with its capital and main city, Colima.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Colima"
+    },
+    "emblemUrl": "/emblems/mx-col.svg",
+    "established": "1856",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q79918",
+    "name": "Durango",
+    "iso": "MX-DUR",
+    "capital": "Victoria de Durango",
+    "population": 1754754,
+    "area": 123317,
+    "wikipediaTitle": "Durango",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Durango",
+      "summary": "Durango, officially the Free and Sovereign State of Durango, is one of the states which make up the 32 federal entities of Mexico, situated in the northwest portion of the country. With a population of 1,832,650, the eighth lowest of Mexico's states, Durango has Mexico's second-lowest population density, after Baja California Sur. The capital city, Victoria de Durango, is named after the first President of Mexico, Guadalupe Victoria.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Durango"
+    },
+    "emblemUrl": "/emblems/mx-dur.svg",
+    "established": "1824",
+    "highestPoint": null,
+    "namedAfter": "Durango"
+  },
+  {
+    "wikiId": "Q60158",
+    "name": "Guerrero",
+    "iso": "MX-GRO",
+    "capital": "Chilpancingo de los Bravo",
+    "population": 3533251,
+    "area": 63596,
+    "wikipediaTitle": "Guerrero",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Guerrero",
+      "summary": "Guerrero, officially the Free and Sovereign State of Guerrero, is one of the 31 states that compose the 32 Federal Entities of Mexico. It is divided into 85 municipalities. The state has a population of about 3.5 million people. It is located in southwest Mexico and is bordered by the states of Michoacán to the north and west, the State of Mexico and Morelos to the north, Puebla to the northeast and Oaxaca to the east. In addition to the capital city, Chilpancingo and the largest city Acapulco, other cities in Guerrero include Petatlán, Ciudad Altamirano, Taxco, Iguala, Ixtapa, and Zihuatanejo. Today, it is home to a number of indigenous communities, including the Nahuas, Mixtecs, Tlapanecs, Amuzgos, and formerly Cuitlatecs. It is also home to communities of Afro-Mexicans in the Costa Chica region.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Guerrero"
+    },
+    "emblemUrl": "/emblems/mx-gro.svg",
+    "established": "1858",
+    "highestPoint": null,
+    "namedAfter": "Vicente Guerrero"
+  },
+  {
+    "wikiId": "Q46475",
+    "name": "Guanajuato",
+    "iso": "MX-GUA",
+    "capital": "Guanajuato",
+    "population": 5853677,
+    "area": 30607,
+    "wikipediaTitle": "Guanajuato",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Guanajuato",
+      "summary": "Guanajuato, officially the Free and Sovereign State of Guanajuato, is one of the 32 states that make up the Federal Entities of Mexico. It is divided into 46 municipalities and its capital city is Guanajuato.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Guanajuato"
+    },
+    "emblemUrl": "/emblems/mx-gua.svg",
+    "established": "1823",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q80903",
+    "name": "Hidalgo",
+    "iso": "MX-HID",
+    "capital": "Pachuca",
+    "population": 3082841,
+    "area": 20821,
+    "wikipediaTitle": "Hidalgo (state)",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Hidalgo (state)",
+      "summary": "Hidalgo, officially the Free and Sovereign State of Hidalgo, is one of the 31 states which, along with Mexico City, constitute the 32 federal entities of Mexico. It is divided into 84 municipalities and its capital city is Pachuca de Soto. It is located in east-central Mexico and is bordered by San Luis Potosí and Veracruz on the north, Puebla on the east, Tlaxcala and State of Mexico on the south and Querétaro on the west.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Hidalgo_(state)"
+    },
+    "emblemUrl": "/emblems/mx-hid.png",
+    "established": "1869",
+    "highestPoint": "Cerro La Peñuela (3,380 m)",
+    "namedAfter": "Miguel Hidalgo Y Costilla"
+  },
+  {
+    "wikiId": "Q13160",
+    "name": "Jalisco",
+    "iso": "MX-JAL",
+    "capital": "Guadalajara",
+    "population": 7844830,
+    "area": 78588,
+    "wikipediaTitle": "Jalisco",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Jalisco",
+      "summary": "Jalisco, officially the Free and Sovereign State of Jalisco, is one of the 31 states which, along with Mexico City, comprise the 32 Federal Entities of Mexico. It is located in western Mexico and is bordered by six states, Nayarit, Zacatecas, Aguascalientes, Guanajuato, Michoacán, and Colima. Jalisco is divided into 125 municipalities, and its capital and largest city is Guadalajara.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Jalisco"
+    },
+    "emblemUrl": "/emblems/mx-jal.svg",
+    "established": "1823",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q82112",
+    "name": "State of Mexico",
+    "iso": "MX-MEX",
+    "capital": "Toluca de Lerdo",
+    "population": 16187608,
+    "area": 22351,
+    "wikipediaTitle": "State of Mexico",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "State of Mexico",
+      "summary": "The State of Mexico, officially just Mexico, is one of the 32 federal entities of the United Mexican States. Sharing its name with both the country and the national capital, Mexico City, the state is colloquially distinguished as Edomex. It is the most populous and second most densely populated state in Mexico.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/State_of_Mexico"
+    },
+    "emblemUrl": "/emblems/mx-mex.svg",
+    "established": "1823",
+    "highestPoint": "Popocatépetl (5,452 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q79861",
+    "name": "Michoacán",
+    "iso": "MX-MIC",
+    "capital": "Morelia",
+    "population": 4584471,
+    "area": 58599,
+    "wikipediaTitle": "Michoacán",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Michoacán",
+      "summary": "Michoacán, formally Michoacán de Ocampo, officially the Free and Sovereign State of Michoacán de Ocampo, is one of the 31 states which, together with Mexico City, compose the Federal Entities of Mexico. The state is divided into 113 municipalities and its capital city is Morelia. The city was named after José María Morelos, a native of the city and one of the main heroes of the Mexican War of Independence.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Michoac%C3%A1n"
+    },
+    "emblemUrl": "/emblems/mx-mic.svg",
+    "established": "1823",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q66117",
+    "name": "Morelos",
+    "iso": "MX-MOR",
+    "capital": "Cuernavaca",
+    "population": 1777227,
+    "area": 4879,
+    "wikipediaTitle": "Morelos",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Morelos",
+      "summary": "Morelos, officially the Free and Sovereign State of Morelos, is a landlocked state located in south-central Mexico. It is one of the 32 states which comprise the Federal Entities of Mexico. It is divided into 36 municipalities and its capital city is Cuernavaca.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Morelos"
+    },
+    "emblemUrl": "/emblems/mx-mor.svg",
+    "established": "1869",
+    "highestPoint": "Popocatépetl (5,452 m)",
+    "namedAfter": "José María Morelos"
+  },
+  {
+    "wikiId": "Q79920",
+    "name": "Nayarit",
+    "iso": "MX-NAY",
+    "capital": "Tepic",
+    "population": 1223797,
+    "area": 27857,
+    "wikipediaTitle": "Nayarit",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Nayarit",
+      "summary": "Nayarit, officially the Free and Sovereign State of Nayarit, is one of the 31 states that, along with Mexico City, comprise the Federal Entities of Mexico. It is divided in 20 municipalities and its capital city is Tepic.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Nayarit"
+    },
+    "emblemUrl": "/emblems/mx-nay.svg",
+    "established": "1917",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q15282",
+    "name": "Nuevo León",
+    "iso": "MX-NLE",
+    "capital": "Monterrey",
+    "population": 5189970,
+    "area": 64156,
+    "wikipediaTitle": "Nuevo León",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Nuevo León",
+      "summary": "Nuevo León, officially the Free and Sovereign State of Nuevo León, is a state in northeastern Mexico. The state borders the Mexican states of Tamaulipas, Coahuila, Zacatecas, and San Luis Potosi, and has an extremely narrow international border with the U.S. state of Texas. Covering 64,156 square kilometers and with a population of 5.78 million people, Nuevo León is the thirteenth-largest federal entity by area and the seventh-most populous as of 2020.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Nuevo_Le%C3%B3n"
+    },
+    "emblemUrl": "/emblems/mx-nle.svg",
+    "established": "1824",
+    "highestPoint": "Cerro El Potosí (3,721 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q34110",
+    "name": "Oaxaca",
+    "iso": "MX-OAX",
+    "capital": "Oaxaca de Juárez",
+    "population": 3967889,
+    "area": 93793,
+    "wikipediaTitle": "Oaxaca",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Oaxaca",
+      "summary": "Oaxaca, officially the Free and Sovereign State of Oaxaca, is one of the 32 states that compose the Federative Entities of the United Mexican States. It is divided into 570 municipalities, of which 418 are governed by the system of usos y costumbres with recognized local forms of self-governance. Its capital city is Oaxaca de Juárez.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Oaxaca"
+    },
+    "emblemUrl": "/emblems/mx-oax.svg",
+    "established": "1824",
+    "highestPoint": null,
+    "namedAfter": "Oaxaca de Juárez"
+  },
+  {
+    "wikiId": "Q79923",
+    "name": "Puebla",
+    "iso": "MX-PUE",
+    "capital": "Heroica Puebla de Zaragoza",
+    "population": 6168883,
+    "area": 34306,
+    "wikipediaTitle": "Puebla",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Puebla",
+      "summary": "Puebla, officially the Free and Sovereign State of Puebla, is one of the 31 states that, along with Mexico City, comprise the Federal Entities of Mexico. It is divided into 217 municipalities and its capital is Puebla City. Part of east-central Mexico, it is bordered by the states of Veracruz to the north and east, Hidalgo, México, Tlaxcala and Morelos to the west, and Guerrero and Oaxaca to the south. The origins of the state lie in the city of Puebla, which was founded by the Spanish in this valley in 1531 to secure the trade route between Mexico City and the port of Veracruz. By the end of the 18th century, the area had become a colonial province with its own governor, which would become the State of Puebla, after the Mexican War of Independence in the early 19th century. Since that time the area, especially around the capital city, has continued to grow economically, mostly through industry, despite being the scene of a number of battles, the most notable of which being the Battle of Puebla. Today, the state is one of the most industrialized in the country, but since most of its development is concentrated in Puebla and other cities, many of its rural areas are undeveloped.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Puebla"
+    },
+    "emblemUrl": "/emblems/mx-pue.svg",
+    "established": "1824",
+    "highestPoint": "Citlaltepetl (5,636 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q79754",
+    "name": "Querétaro",
+    "iso": "MX-QUE",
+    "capital": "Santiago de Querétaro",
+    "population": 2038372,
+    "area": 11699,
+    "wikipediaTitle": "Querétaro",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Querétaro",
+      "summary": "Querétaro, officially the Free and Sovereign State of Querétaro, is one of the 32 federal entities of Mexico. It is divided into 18 municipalities. Its capital city is Santiago de Querétaro. It is located in north-central Mexico, in a region known as Bajío. It is bordered by the states of San Luis Potosí to the north, Guanajuato to the west, Hidalgo to the east, México to the southeast and Michoacán to the southwest.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Quer%C3%A9taro"
+    },
+    "emblemUrl": "/emblems/mx-que.svg",
+    "established": "1823",
+    "highestPoint": null,
+    "namedAfter": "Santiago de Querétaro"
+  },
+  {
+    "wikiId": "Q80245",
+    "name": "Quintana Roo",
+    "iso": "MX-ROO",
+    "capital": "Chetumal",
+    "population": 1857985,
+    "area": 44705,
+    "wikipediaTitle": "Quintana Roo",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Quintana Roo",
+      "summary": "Quintana Roo, officially the Free and Sovereign State of Quintana Roo, is one of the 31 states which, along with Mexico City, constitute the 32 federal entities of Mexico. It is divided into 11 municipalities, and its capital city is Chetumal.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Quintana_Roo"
+    },
+    "emblemUrl": "/emblems/mx-roo.svg",
+    "established": "1974",
+    "highestPoint": null,
+    "namedAfter": "Andrés Quintana Roo"
+  },
+  {
+    "wikiId": "Q80252",
+    "name": "Sinaloa",
+    "iso": "MX-SIN",
+    "capital": "Culiacán",
+    "population": 2966700,
+    "area": 57377,
+    "wikipediaTitle": "Sinaloa",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Sinaloa",
+      "summary": "Sinaloa, officially the Estado Libre y Soberano de Sinaloa, is one of the 31 states which, along with Mexico City, compose the Federal Entities of Mexico. It is divided into 20 municipalities, and its capital and largest city is Culiacán Rosales. Other large cities include Mazatlán, Los Mochis, Guamúchil, and Guasave.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Sinaloa"
+    },
+    "emblemUrl": "/emblems/mx-sin.svg",
+    "established": "1831",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q78980",
+    "name": "San Luis Potosí",
+    "iso": "MX-SLP",
+    "capital": "San Luis Potosí",
+    "population": 2717820,
+    "area": 60983,
+    "wikipediaTitle": "San Luis Potosí",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "San Luis Potosí",
+      "summary": "San Luis Potosí, officially the Free and Sovereign State of San Luis Potosí, is one of the 32 states which compose the Federal Entities of Mexico. It is divided in 59 municipalities and is named after its capital city, San Luis Potosí.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/San_Luis_Potos%C3%AD"
+    },
+    "emblemUrl": "/emblems/mx-slp.svg",
+    "established": "1823",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q46422",
+    "name": "Sonora",
+    "iso": "MX-SON",
+    "capital": "Hermosillo",
+    "population": 2850330,
+    "area": 179503,
+    "wikipediaTitle": "Sonora",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Sonora",
+      "summary": "Sonora, officially Estado Libre y Soberano de Sonora, is one of the 31 states which, along with Mexico City, comprise the Federal Entities of Mexico. The state is divided into 72 municipalities; the capital city of which is Hermosillo, located in the center of the state. Other large cities include Ciudad Obregón, Nogales, San Luis Río Colorado and Navojoa.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Sonora"
+    },
+    "emblemUrl": "/emblems/mx-son.svg",
+    "established": "1831",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q80914",
+    "name": "Tabasco",
+    "iso": "MX-TAB",
+    "capital": "Villahermosa",
+    "population": 2402598,
+    "area": 24738,
+    "wikipediaTitle": "Tabasco",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Tabasco",
+      "summary": "Tabasco, officially the Free and Sovereign State of Tabasco, is one of the 32 federal entities of Mexico. It is divided into 17 municipalities and its capital city is Villahermosa.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Tabasco"
+    },
+    "emblemUrl": "/emblems/mx-tab.svg",
+    "established": "1824",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q80007",
+    "name": "Tamaulipas",
+    "iso": "MX-TAM",
+    "capital": "Ciudad Victoria",
+    "population": 3441698,
+    "area": 80175,
+    "wikipediaTitle": "Tamaulipas",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Tamaulipas",
+      "summary": "Tamaulipas, officially the Free and Sovereign State of Tamaulipas, is a state in Mexico; it is one of the 31 states which, along with Mexico City, comprise the 32 federated entities of Mexico. It is divided into 43 municipalities.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Tamaulipas"
+    },
+    "emblemUrl": "/emblems/mx-tam.svg",
+    "established": "1824",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q82681",
+    "name": "Tlaxcala",
+    "iso": "MX-TLA",
+    "capital": "Tlaxcala de Xicoténcatl",
+    "population": 1272847,
+    "area": 3991,
+    "wikipediaTitle": "Tlaxcala",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Tlaxcala",
+      "summary": "Tlaxcala, officially the Free and Sovereign State of Tlaxcala, is one of the 32 federal entities that comprise the Federal Entities of Mexico. It is divided into 60 municipalities and the capital city and the largest city is Tlaxcala de Xicohténcatl.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Tlaxcala"
+    },
+    "emblemUrl": "/emblems/mx-tla.svg",
+    "established": "1857",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q60130",
+    "name": "Veracruz",
+    "iso": "MX-VER",
+    "capital": "Xalapa",
+    "population": 8112505,
+    "area": 71820,
+    "wikipediaTitle": "Veracruz",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Veracruz",
+      "summary": "Veracruz, officially the Free and Sovereign State of Veracruz de Ignacio de la Llave, is one of the 31 states which, along with Mexico City, comprise the 32 Federal Entities of Mexico. Located in eastern Mexico, Veracruz is bordered by seven states: Tamaulipas, San Luis Potosí, Hidalgo, Puebla, Oaxaca, Chiapas, and Tabasco. Veracruz is divided into 212 municipalities, and its capital city is Xalapa-Enríquez.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Veracruz"
+    },
+    "emblemUrl": "/emblems/mx-ver.svg",
+    "established": "1823",
+    "highestPoint": "Citlaltepetl (5,636 m)",
+    "namedAfter": "Ignacio de la Llave"
+  },
+  {
+    "wikiId": "Q60176",
+    "name": "Yucatán",
+    "iso": "MX-YUC",
+    "capital": "Mérida",
+    "population": 2320898,
+    "area": 39612,
+    "wikipediaTitle": "Yucatán",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Yucatán",
+      "summary": "Yucatán, officially the Free and Sovereign State of Yucatán, is one of the 31 states which, along with Mexico City, constitute the 32 federal entities of Mexico. It comprises 106 separate municipalities, and its capital city is Mérida.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Yucat%C3%A1n"
+    },
+    "emblemUrl": "/emblems/mx-yuc.svg",
+    "established": "1823",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q80269",
+    "name": "Zacatecas",
+    "iso": "MX-ZAC",
+    "capital": "Zacatecas",
+    "population": 1690868,
+    "area": 75539,
+    "wikipediaTitle": "Zacatecas",
+    "parent": "MEX",
+    "wikipedia": {
+      "title": "Zacatecas",
+      "summary": "Zacatecas, officially the Free and Sovereign State of Zacatecas, is one of the 31 states of Mexico. It is divided into 58 municipalities and its capital city is Zacatecas.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Zacatecas"
+    },
+    "emblemUrl": "/emblems/mx-zac.svg",
+    "established": "1823",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q320852",
+    "name": "Abia State",
+    "iso": "NG-AB",
+    "capital": "Umuahia",
+    "population": 3727347,
+    "area": 6320,
+    "wikipediaTitle": "Abia State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Abia State",
+      "summary": "Abia is a state in the Southeastern region of Nigeria. The state's capital is Umuahia and its most populous city is Aba. The legislature is the Abia State House of Assembly.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Abia_State"
+    },
+    "emblemUrl": "/emblems/ng-ab.jpg",
+    "established": "1991",
+    "highestPoint": null,
+    "namedAfter": "Aba River"
+  },
+  {
+    "wikiId": "Q337514",
+    "name": "Adamawa State",
+    "iso": "NG-AD",
+    "capital": "Yola",
+    "population": 4248436,
+    "area": 36917,
+    "wikipediaTitle": "Adamawa State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Adamawa State",
+      "summary": "Adamawa is a state in the North-East geopolitical zone of Nigeria, bordered by Borno to the northwest, Gombe to the west, and Taraba to the southwest while its eastern border forms part of the national border with Cameroon. It takes its name from the historic emirate of Adamawa, with the emirate's old capital of Yola serving as the capital city of Adamawa State. The state was formed in 1991 when the former Gongola State was broken up into Adamawa and Taraba states. The state is one of the most heterogeneous in Nigeria, having over 100 indigenous ethnic groups.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Adamawa_State"
+    },
+    "emblemUrl": null,
+    "established": "1991",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q424388",
+    "name": "Akwa Ibom State",
+    "iso": "NG-AK",
+    "capital": "Uyo",
+    "population": 5482177,
+    "area": 7081,
+    "wikipediaTitle": "Akwa Ibom State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Akwa Ibom State",
+      "summary": "Akwa Ibom is a state in the South-South geopolitical zone of Nigeria. It borders Cross River State to the east, Rivers State and Abia State to the west and north-west, and the Atlantic Ocean to the south. The state takes its name from the Qua Iboe River which bisects the state before flowing into the Bight of Bonny. Akwa Ibom was split from Cross River State in 1987. The state has 31 local government areas, and its capital is Uyo.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Akwa_Ibom_State"
+    },
+    "emblemUrl": "/emblems/ng-ak.jpg",
+    "established": "1987",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q117714",
+    "name": "Anambra State",
+    "iso": "NG-AN",
+    "capital": "Awka",
+    "population": 5527809,
+    "area": 4844,
+    "wikipediaTitle": "Anambra State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Anambra State",
+      "summary": "Anambra is a state in the Southeastern region of Nigeria bordered by Delta to the west, Imo and Rivers to the south, Abia to the southeast, Enugu to the east and Kogi to the north. Awka is the state's capital while Onitsha is its most populous city.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Anambra_State"
+    },
+    "emblemUrl": null,
+    "established": "1976",
+    "highestPoint": null,
+    "namedAfter": "Anambra River"
+  },
+  {
+    "wikiId": "Q503936",
+    "name": "Bauchi State",
+    "iso": "NG-BA",
+    "capital": "Bauchi",
+    "population": 6834314,
+    "area": 45837,
+    "wikipediaTitle": "Bauchi State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Bauchi State",
+      "summary": "Bauchi is a state located in northeastern Nigeria. It is bordered by Jigawa to the north, Yobe to the north-east, Gombe to the east, Taraba and Plateau to the south, Kaduna to the west and Kano to the northwest respectfully. It takes its name from the historic city of Bauchi, which also serves as its capital. The state was formed in the year 1976, when the former North-Eastern State was broken up. It originally included the area that is now Gombe State, which became a distinct state in 1996.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Bauchi_State"
+    },
+    "emblemUrl": "/emblems/ng-ba.png",
+    "established": "1976",
+    "highestPoint": null,
+    "namedAfter": "Bauchi"
+  },
+  {
+    "wikiId": "Q429908",
+    "name": "Benue State",
+    "iso": "NG-BE",
+    "capital": "Makurdi",
+    "population": 5741815,
+    "area": 34059,
+    "wikipediaTitle": "Benue State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Benue State",
+      "summary": "Benue is a state in the North Central region of Nigeria. It is popularly referred to as part of the Middle Belt. It has an estimated population of about 4,253,641 in the 2006 census. The state was created in 1976 and was among the seven states created at that time. The state derives its name from the Benue River initially called Ber-nor, a compound word in Tiv language which means river or lake of hippopotamus the name Ber-nor was corrupted to BENUE by colonial masters, the river is the second largest river in Nigeria after the River Niger. The state borders Nasarawa State to the north; Taraba State to the east; Kogi State to the west; Enugu State to the south-west; Ebonyi and Cross River State to the south; and has an international border with Cameroon to the south-east. It is inhabited predominantly by the Tiv, Idoma and Igede people. Minority ethnic groups in Benue are Etulo, Hausa and Jukun people etc. Its capital is Makurdi. Benue is a rich agricultural region; common crops cultivated in the state include oranges, yams, mangoes, sweet potatoes, cassava, soya bean, guinea corn, flax, sesame, rice, groundnuts and palm trees.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Benue_State"
+    },
+    "emblemUrl": null,
+    "established": "1976",
+    "highestPoint": null,
+    "namedAfter": "Benue River"
+  },
+  {
+    "wikiId": "Q130626",
+    "name": "Borno State",
+    "iso": "NG-BO",
+    "capital": "Maiduguri",
+    "population": 5860183,
+    "area": 70898,
+    "wikipediaTitle": "Borno State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Borno State",
+      "summary": "Borno is a state in the North-East geopolitical zone of Nigeria. It is bordered by Yobe to the west, Gombe to the southwest, and Adamawa to the south while its eastern border forms part of the national border with Cameroon. Its northern border forms part of the national border with Niger and its northeastern border forms all of the national border with Chad. It is the only Nigerian state to border up to three countries. It takes its name from the historic emirate of Borno, with the emirate's old capital of Maiduguri serving as the capital city of Borno State. The state was formed in 1976 when the former North-Eastern State was broken up. It originally included the area that is now Yobe State, which became a distinct state in 1991.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Borno_State"
+    },
+    "emblemUrl": null,
+    "established": "1976",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q532153",
+    "name": "Bayelsa State",
+    "iso": "NG-BY",
+    "capital": "Yenegoa",
+    "population": 2277961,
+    "area": 21110,
+    "wikipediaTitle": "Bayelsa State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Bayelsa State",
+      "summary": "Bayelsa is a state in the South South region of Nigeria, located in the core of the Niger Delta. Bayelsa State was created in 1996 and was carved out from Rivers State, making it one of the newest states in the federation. The capital, Yenagoa, is susceptible to high risk of annual flooding. It shares a boundary with Rivers State to the east and Delta State to the north across the Niger River for 17 km and the Forçados River for 198 km, with the waters of the Atlantic Ocean dominating its southern borders. It has a total area of 10,773 square kilometres (4,159 sq mi). The state comprises eight local government areas: Ekeremor, Kolokuma/Opokuma, Yenagoa, Nembe, Ogbia, Sagbama, Brass and Southern Ijaw. Bayelsa state is regarded as the least populous state in Nigeria with an estimated population of over 3,700,000 as of 2024. Being in the Niger Delta, Bayelsa State has a riverine and estuarine setting, with bodies of water within the state making the development of significant road infrastructure, quite difficult.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Bayelsa_State"
+    },
+    "emblemUrl": null,
+    "established": "1996",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q739676",
+    "name": "Cross River State",
+    "iso": "NG-CR",
+    "capital": "Calabar",
+    "population": 3866269,
+    "area": 20156,
+    "wikipediaTitle": "Cross River State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Cross River State",
+      "summary": "Cross River State is a state in the South-South geopolitical zone of Nigeria. Named for the Cross River, the state was formed from the eastern part of the Eastern Region on 27 May 1967. The state has its capital as Calabar and is bordered to the north by Benue State, to the west by Ebonyi State and Abia State, and to the southwest by Akwa Ibom State while its eastern border forms part of the national border with Cameroon. Originally known as the South-Eastern State before being renamed in 1976, Cross River state formerly included the area that is now Akwa Ibom State, which became a distinct state in 1987.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Cross_River_State"
+    },
+    "emblemUrl": null,
+    "established": "1976",
+    "highestPoint": null,
+    "namedAfter": "Cross River"
+  },
+  {
+    "wikiId": "Q503910",
+    "name": "Delta State",
+    "iso": "NG-DE",
+    "capital": "Asaba",
+    "population": 5663362,
+    "area": 17698,
+    "wikipediaTitle": "Delta State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Delta State",
+      "summary": "Delta is a state in the South-South geopolitical zone of Nigeria. Named after the Niger Delta—a large part of which is in the state—the state was formed from the former Bendel State, on 27 August 1991. It is bordered on the north by Edo State, the east by Anambra and Rivers states, and the south by Bayelsa State while to the west by Ondo State, and the Bight of Benin which covers about 160 kilometres of the state's coastline. The state was initially created with 12 local government areas in 1991, but was later expanded to 19 and now has 25 local government areas. Its capital city is Asaba which is located along the River Niger on the northeastern end of the state, while the state's economic center is the city of Warri on the southwestern coastline.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Delta_State"
+    },
+    "emblemUrl": null,
+    "established": "1991",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q506808",
+    "name": "Ebonyi State",
+    "iso": "NG-EB",
+    "capital": "Abakaliki",
+    "population": 3490383,
+    "area": 5533,
+    "wikipediaTitle": "Ebonyi State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Ebonyi State",
+      "summary": "Ebonyi is a state in the South-East geopolitical zone of Nigeria, bordered to the north and northeast by Benue State, Enugu State to the west, Cross River State to the east and southeast, and Abia State to the southwest. Named after the Abonyi (Aboine) River—a large part of which is in the state's south—Ebonyi State was formed from parts of Abia and Enugu state in 1996 and has its capital in Abakaliki.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Ebonyi_State"
+    },
+    "emblemUrl": null,
+    "established": "1996",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q682704",
+    "name": "Edo State",
+    "iso": "NG-ED",
+    "capital": "Benin City",
+    "population": 4235595,
+    "area": 17802,
+    "wikipediaTitle": "Edo State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Edo State",
+      "summary": "Edo is a state in Nigeria. Located in the South-South geopolitical zone of Nigeria. As of 2024, the state was ranked as the 20th most populous state (5,250,000) in Nigeria. In 2021, the projected population was approximately 4,777,000. Edo State is the 21st largest state by landmass in Nigeria. The state's capital, Benin City, is the fourth largest city in Nigeria and the centre of the country's rubber industry. Created in 1991 from the former Bendel State, it is also known as the heartbeat of the nation. Edo State borders Kogi State to the north for 133 km and across the Niger River for 81 km to the northeast, Anambra State to the east for about four km across the Niger River, Delta State to the southeast and south for 350 km, and Ondo State to the west.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Edo_State"
+    },
+    "emblemUrl": null,
+    "established": "1991",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q534917",
+    "name": "Ekiti State",
+    "iso": "NG-EK",
+    "capital": "Ado Ekiti",
+    "population": 3270798,
+    "area": 6353,
+    "wikipediaTitle": "Ekiti State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Ekiti State",
+      "summary": "Ekiti is a state in southwestern Nigeria, bordered to the North by Kwara State for 61 km, to the Northeast by Kogi State for 92 km, to the South and Southeast by Ondo State, and to the West by Osun State for 84 km. Named for the Ekiti people—the Yoruba subgroup that makes up the majority of the state's population—Ekiti State was carved out from a part of Ondo State in 1996 and has its capital as the city of Ado-Ekiti.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Ekiti_State"
+    },
+    "emblemUrl": null,
+    "established": "1996",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q3817714",
+    "name": "Enugu State",
+    "iso": "NG-EN",
+    "capital": "Enugu",
+    "population": 4411119,
+    "area": 7161,
+    "wikipediaTitle": "Enugu State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Enugu State",
+      "summary": "Enugu (Igbo: Alaọha Enugwu is a state in the South-East geopolitical zone of Nigeria, bordered to the north by the states of Benue and Kogi, Ebonyi to the east and southeast, Abia to the south, and Anambra to the west. The state takes its name from its capital and largest city, Enugu. The city acquired township status in 1917 and was called Enugwu-Ngwo. Due to the rapid expansion towards areas owned by other indigenous communities, it was renamed Enugu in 1928.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Enugu_State"
+    },
+    "emblemUrl": null,
+    "established": "1991",
+    "highestPoint": null,
+    "namedAfter": "Enugu"
+  },
+  {
+    "wikiId": "Q509300",
+    "name": "Federal Capital Territory",
+    "iso": "NG-FC",
+    "capital": "Abuja",
+    "population": 3564126,
+    "area": 7315,
+    "wikipediaTitle": "Federal Capital Territory (Nigeria)",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Federal Capital Territory (Nigeria)",
+      "summary": "The Federal Capital Territory (FCT) is a federal territory in central Nigeria. Abuja, the capital city of Nigeria, is located in this territory. The FCT was formed in 1976 from parts of the states of old Kaduna, Kwara, Niger, and Plateau states, with the bulk of land mass carved out of Niger state. The Federal Capital Territory is within the North Central region of the country. Unlike other states of Nigeria, which are headed by elected Governors, it is administered by the Federal Capital Territory Administration, headed by a minister, who is appointed by the president.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Federal_Capital_Territory_(Nigeria)"
+    },
+    "emblemUrl": null,
+    "established": "1976",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q376241",
+    "name": "Gombe State",
+    "iso": "NG-GO",
+    "capital": "Gombe",
+    "population": 3256962,
+    "area": 18768,
+    "wikipediaTitle": "Gombe State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Gombe State",
+      "summary": "Gombe State is a state in northeastern Nigeria, bordered to the north and northeast by the states of Borno in the vicinity of Gongola River and Lake Dadin Kowa and Yobe in the vicinity of Gongola River, to the south by Taraba State, to the southeast by Adamawa State, and to the west by Bauchi State. Gombe is the state capital of Gombe state and it was formed from a part of Bauchi State on 1 October 1996. Of the 36 states in Nigeria, Gombe is the 22nd largest in area and the 32nd most populous, with an estimated population of about 3.25 million as of 2016. The state bears a slogan \"Jewel in the Savannah\".",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Gombe_State"
+    },
+    "emblemUrl": null,
+    "established": "1996",
+    "highestPoint": null,
+    "namedAfter": "Gombe"
+  },
+  {
+    "wikiId": "Q842939",
+    "name": "Imo State",
+    "iso": "NG-IM",
+    "capital": "Owerri",
+    "population": 5408756,
+    "area": 5530,
+    "wikipediaTitle": "Imo State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Imo State",
+      "summary": "Imo is a state in the South-East geopolitical zone of Nigeria, bordered to the north by Anambra State, Rivers State to the west and south, and Abia State to the east. It takes its name from the Imo River which flows along the state's eastern border. The state capital is Owerri and the State's slogan is the \"Eastern Heartland.\"",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Imo_State"
+    },
+    "emblemUrl": null,
+    "established": "1976",
+    "highestPoint": null,
+    "namedAfter": "Imo River"
+  },
+  {
+    "wikiId": "Q682691",
+    "name": "Jigawa State",
+    "iso": "NG-JI",
+    "capital": "Dutse",
+    "population": 6000163,
+    "area": 23154,
+    "wikipediaTitle": "Jigawa State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Jigawa State",
+      "summary": "Jigawa is a state in Nigeria, located in the North-west region of the country. Jigawa was created on 27 August 1991, under the General Ibrahim Babangida military administration. Jigawa State was formerly part of Kano State and was located in its northeastern-most region. It forms part of Nigeria's national border with the Republic of Niger. The state capital and largest city is Dutse. Jigawa state has 27 local governments.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Jigawa_State"
+    },
+    "emblemUrl": null,
+    "established": "1991",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q878284",
+    "name": "Kaduna State",
+    "iso": "NG-KD",
+    "capital": "Kaduna",
+    "population": 8252366,
+    "area": 46053,
+    "wikipediaTitle": "Kaduna State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Kaduna State",
+      "summary": "Kaduna is a state in the northwest geopolitical zone of Nigeria. The state capital is its namesake, the city of Kaduna, which was the 8th largest city in the country as of 2006. Created in 1967 as North-Central State, which also encompassed the modern Katsina State, Kaduna State achieved its current borders in 1987. Kaduna State is the fourth largest and third most populous state in the country, Kaduna State is nicknamed the Centre of Learning, owing to the presence of numerous educational institutions of importance within the state such as Ahmadu Bello University, Nigerian Defence Academy, Air Force Institute of Technology (AFIT), Kaduna Polytechnic, etc.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kaduna_State"
+    },
+    "emblemUrl": null,
+    "established": "1976",
+    "highestPoint": null,
+    "namedAfter": "Kaduna River"
+  },
+  {
+    "wikiId": "Q748523",
+    "name": "Kebbi State",
+    "iso": "NG-KE",
+    "capital": "Birnin Kebbi",
+    "population": 4440050,
+    "area": 36800,
+    "wikipediaTitle": "Kebbi State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Kebbi State",
+      "summary": "Kebbi State is a state in northwestern Nigeria, bordered to the east and north by the states of Sokoto and Zamfara, and to the south by Niger State while its western border forms part of the national borders with Benin Republic and Niger. Named for the city of Birnin Kebbi—the state's capital and largest city—Kebbi State was formed from a part of Sokoto State on 27 August 1991. Of the 36 states of Nigeria, Kebbi is the tenth largest in area and 17th most populous with an estimated population of about 6 million as of 2023.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kebbi_State"
+    },
+    "emblemUrl": null,
+    "established": "1991",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q682571",
+    "name": "Kano State",
+    "iso": "NG-KN",
+    "capital": "Kano",
+    "population": 16076892,
+    "area": 20131,
+    "wikipediaTitle": "Kano State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Kano State",
+      "summary": "Kano State \n(Hausa: Jihar Kano جِهَرْ كَنُوَ) is one of the 36 states of Nigeria, located in the northern region of the country. According to the 2006 national census, Kano State was the most populous state in Nigeria. As of November 2025, its population is rivalled only by Lagos State, which does not have clear reporting due to the rate of growth of Lagos, its largest city. Created in 1967 out of the former Northern Region, Kano State borders Katsina State to the northwest for about 210 km, Jigawa State to the northeast for 355 km, Bauchi State to the southeast for 131 km, and Kaduna State to the southwest for 255 km. The state's capital and largest city is Kano, the second most populous city in Nigeria after Lagos. The incumbent governor of the state is Abba Kabir Yusuf. He was sworn in on 29 May 2023.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kano_State"
+    },
+    "emblemUrl": "/emblems/ng-kn.png",
+    "established": "1967",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q387745",
+    "name": "Kogi State",
+    "iso": "NG-KO",
+    "capital": "Lokoja",
+    "population": 4473490,
+    "area": 29833,
+    "wikipediaTitle": "Kogi State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Kogi State",
+      "summary": "Kogi State is a state in the North Central region of Nigeria, bordered to the west by the states of Ekiti and Kwara, to the north by the Federal Capital Territory, to the northeast by Nasarawa State, to the northwest by Niger State, to the southwest by the states of Edo and Ondo, to the southeast by the states of Anambra and Enugu, and to the east by Benue State. It is the only state in Nigeria to border ten other states. Named for the Hausa word for river, the state was formed from parts of Benue State, Niger State, and Kwara State on 27 August 1991. The state is nicknamed the \"Confluence State\" as the confluence of the River Niger and the River Benue occurs next to its capital, Lokoja.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kogi_State"
+    },
+    "emblemUrl": null,
+    "established": "1991",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q657821",
+    "name": "Katsina State",
+    "iso": "NG-KT",
+    "capital": "Katsina",
+    "population": 7831319,
+    "area": 24192,
+    "wikipediaTitle": "Katsina State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Katsina State",
+      "summary": "Katsina State \n(Hausa: Jihar Katsina; Hausa Ajami: جِىهَرْ کَڟِࢽَ) is a state in the northwestern geopolitical zone of Nigeria. It is bordered to the west by Zamfara State, to the east by Kano and Jigawa states, and to the south by Kaduna State, while its northern border forms part of the national border with Niger. The state capital is the city of Katsina, and the state is divided into 34 local government areas. The state is nicknamed the \"Home of Hospitality\".",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Katsina_State"
+    },
+    "emblemUrl": null,
+    "established": "1987",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q464953",
+    "name": "Kwara State",
+    "iso": "NG-KW",
+    "capital": "Ilorin",
+    "population": 3192893,
+    "area": 36825,
+    "wikipediaTitle": "Kwara State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Kwara State",
+      "summary": "Kwara is a state in Western Nigeria, bordered to the east by Kogi State, to the north by Niger State, and to the south by Ekiti, Osun, and Oyo states, while its western border makes up part of the international border with Benin. Its capital is the city of Ilorin and the state has 16 local government areas.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kwara_State"
+    },
+    "emblemUrl": null,
+    "established": "1967",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q815913",
+    "name": "Lagos State",
+    "iso": "NG-LA",
+    "capital": "Ikeja",
+    "population": 11000598,
+    "area": 3577,
+    "wikipediaTitle": "Lagos State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Lagos State",
+      "summary": "Lagos State is a state in southwestern Nigeria. Of the 36 states, Lagos is the 1st or 2nd most populous state but is the smallest by area. Bounded to the south by the Bight of Benin and to the west by the international border with the Republic of Benin, Lagos State borders Ogun State to the north and east, making it the only Nigerian state to border only one other state. Named for the city of Lagos — the most populous city in Africa — the state was formed from the Western Region and the former Federal Capital Territory on 27 May 1967.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Lagos_State"
+    },
+    "emblemUrl": null,
+    "established": "1967",
+    "highestPoint": null,
+    "namedAfter": "Lagos"
+  },
+  {
+    "wikiId": "Q836645",
+    "name": "Nasarawa State",
+    "iso": "NG-NA",
+    "capital": "Lafia",
+    "population": 2523395,
+    "area": 27117,
+    "wikipediaTitle": "Nasarawa State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Nasarawa State",
+      "summary": "Nasarawa is a state in the North Central region of Nigeria, bordered to the east by the states of Taraba and Plateau, to the north by Kaduna State, to the south by the states of Benue and Kogi, and to the west by the Federal Capital Territory. Named for the historic Nassarawa Emirate, the state was formed from the west of Plateau State on 1 October 1996. The state has thirteen local government areas namely, Nasarawa, Toto, Keffi, Karu, Kokona, Akwanga, Wamba, Nasarawa Eggon, Lafia, Obi, Awe, Doma and Keana with its capital in Lafia, located in the east of the state, while a key economic centre of the state is the Karu Urban Area—suburbs of Abuja—along the western border with the FCT.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Nasarawa_State"
+    },
+    "emblemUrl": null,
+    "established": "1996",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q503932",
+    "name": "Niger State",
+    "iso": "NG-NI",
+    "capital": "Minna",
+    "population": 5556247,
+    "area": 76363,
+    "wikipediaTitle": "Niger State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Niger State",
+      "summary": "Niger State is a state in the North Central region of Nigeria, bordered to the east by Kaduna State and the Federal Capital Territory, to the north by Kebbi State and Zamfara State, and to the south by Kogi and Kwara states, while its western border makes up part of the international border with Benin. It is the largest state in the country by area. The state capital is Minna, and the state is divided into 25 local government areas. Other major cities include Bida, Kontagora, and Suleja.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Niger_State"
+    },
+    "emblemUrl": null,
+    "established": "1976",
+    "highestPoint": null,
+    "namedAfter": "Niger River"
+  },
+  {
+    "wikiId": "Q836657",
+    "name": "Ogun State",
+    "iso": "NG-OG",
+    "capital": "Abeokuta",
+    "population": 5217716,
+    "area": 16981,
+    "wikipediaTitle": "Ogun State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Ogun State",
+      "summary": "Ogun State is a state in southwestern Nigeria founded by a Benin Warrior (Ogun) from Benin Kingdom. It is bordered to the south by Lagos State and the Bight of Benin, to the east by Ondo State, and to the north by Oyo and Osun states while its western border forms part of the national border with the Republic of Benin. The capital and largest city is Abeokuta, and the state is divided into 20 local government areas.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Ogun_State"
+    },
+    "emblemUrl": null,
+    "established": "1976",
+    "highestPoint": null,
+    "namedAfter": "Ogun River"
+  },
+  {
+    "wikiId": "Q836654",
+    "name": "Ondo State",
+    "iso": "NG-ON",
+    "capital": "Akure",
+    "population": 4671695,
+    "area": 15500,
+    "wikipediaTitle": "Ondo State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Ondo State",
+      "summary": "Ondo is a state in southwestern Nigeria. It was created on 3 February 1976 from the former Western State. Ondo borders Ekiti State to the north, Kogi State to the northeast for 45 km, Edo State to the east, Delta State to the southeast for 36 km, Ogun State to the southwest for 179 km, Osun State to the northwest for 77 km, and the Atlantic Ocean to the south. The state's capital is Akure, the former capital of the ancient Akure Kingdom. The State includes mangrove-swamp forest near the Bight of Benin.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Ondo_State"
+    },
+    "emblemUrl": null,
+    "established": "1976",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q682721",
+    "name": "Osun State",
+    "iso": "NG-OS",
+    "capital": "Osogbo",
+    "population": 4705589,
+    "area": 9251,
+    "wikipediaTitle": "Osun State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Osun State",
+      "summary": "Osun, is a state in southwestern Nigeria; bounded to the east by Ekiti and Ondo states for 84 km and for 78 km respectively, to the north by Kwara State for 73 km, to the south by Ogun State for 84 km and to the west by Oyo State, mostly across the River Osun. Named after the River Osun—a vital river which flows through the state—the state was formed from the southeast of Oyo State on 27 August 1991 and has its capital as the city of Osogbo.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Osun_State"
+    },
+    "emblemUrl": null,
+    "established": "1991",
+    "highestPoint": null,
+    "namedAfter": "Osun River"
+  },
+  {
+    "wikiId": "Q503905",
+    "name": "Oyo State",
+    "iso": "NG-OY",
+    "capital": "Ibadan",
+    "population": 7667318,
+    "area": 28454,
+    "wikipediaTitle": "Oyo State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Oyo State",
+      "summary": "Oyo (Yoruba: Ìpínlẹ̀ Ọ̀yọ́ [ìk͡pĩ́lɛ̀ ɔ̀jɔ́]) is a state in southwestern Nigeria. Its capital is Ibadan, the third most populous city in the country and formerly the second most populous city in Africa. Oyo State is bordered to the north by Kwara State for 337 km, to the southeast by Osun State for 187 km, partly across the River Osun, and to the south by Ogun State, and to the west by the Republic of Benin for 98 km. With a projected population of 7,976,100 in 2022, Oyo State is the sixth most populous in Nigeria.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Oyo_State"
+    },
+    "emblemUrl": null,
+    "established": "1976",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q503928",
+    "name": "Plateau State",
+    "iso": "NG-PL",
+    "capital": "Jos",
+    "population": 4200442,
+    "area": 30913,
+    "wikipediaTitle": "Plateau State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Plateau State",
+      "summary": "Plateau is a Nigerian state located in the North Central geopolitical zone. Its capital city is Jos. Officially nicknamed the \"Home of Peace and Tourism\", the state has a population of around 4.7 million people.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Plateau_State"
+    },
+    "emblemUrl": null,
+    "established": "1976",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q503923",
+    "name": "Rivers State",
+    "iso": "NG-RI",
+    "capital": "Port Harcourt",
+    "population": 7000924,
+    "area": 11077,
+    "wikipediaTitle": "Rivers State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Rivers State",
+      "summary": "Rivers is a state in the Niger Delta region of southern Nigeria. Formed on 27 May 1967. Rivers State borders Imo and Anambra to the north, Abia and Akwa Ibom to the east, and Bayelsa and Delta to the west. The State capital, Port Harcourt, is a metropolis that is considered to be the commercial center of the Nigerian oil industry.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Rivers_State"
+    },
+    "emblemUrl": null,
+    "established": "1967",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q503941",
+    "name": "Sokoto State",
+    "iso": "NG-SO",
+    "capital": "Sokoto",
+    "population": 4998090,
+    "area": 25973,
+    "wikipediaTitle": "Sokoto State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Sokoto State",
+      "summary": "Sokoto is one of the 36 states of Nigeria, located in the extreme northwest of the country. It is bounded by Republic of the Niger to the north and west for 363 km, and the states of Zamfara to the east, and Kebbi to the south and west, partly across the Ka River. Its capital and largest city is the city of Sokoto. Sokoto is located near to the confluence of the Sokoto River and the Rima River. As of 2022 it has an estimated population of more than 6.3 million.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Sokoto_State"
+    },
+    "emblemUrl": null,
+    "established": "1976",
+    "highestPoint": null,
+    "namedAfter": "Sokoto River"
+  },
+  {
+    "wikiId": "Q463959",
+    "name": "Taraba State",
+    "iso": "NG-TA",
+    "capital": "Jalingo",
+    "population": 3066834,
+    "area": 54473,
+    "wikipediaTitle": "Taraba State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Taraba State",
+      "summary": "Taraba is a state in north-eastern Nigeria, named after the Taraba River, which traverses the southern part of the state. It is nicknamed \"Nature's Gift to the Nation\". The state capital is Jalingo. It is home to a diverse population including about 80 distinct ethnicities and their languages.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Taraba_State"
+    },
+    "emblemUrl": null,
+    "established": "1991",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q682777",
+    "name": "Yobe State",
+    "iso": "NG-YO",
+    "capital": "Damaturu",
+    "population": 3649600,
+    "area": 45750,
+    "wikipediaTitle": "Yobe State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Yobe State",
+      "summary": "Yobe is a state located in northeastern Nigeria. A mainly agricultural state, it was created on 27 August 1991. Yobe State was carved out of Borno State. The capital of Yobe State is Damaturu, and its largest city by population is Potiskum, while the largest by land area is Fune. The Potiskum local government area is a place of farmers and marketers; one of the largest cattle market in Africa is located in Potiskum.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Yobe_State"
+    },
+    "emblemUrl": "/emblems/ng-yo.png",
+    "established": "1991",
+    "highestPoint": null,
+    "namedAfter": "Yobe River"
+  },
+  {
+    "wikiId": "Q145793",
+    "name": "Zamfara State",
+    "iso": "NG-ZA",
+    "capital": "Gusau",
+    "population": 5482423,
+    "area": 39762,
+    "wikipediaTitle": "Zamfara State",
+    "parent": "NGA",
+    "wikipedia": {
+      "title": "Zamfara State",
+      "summary": "Zamfara is a state in northwestern Nigeria. The capital of Zamfara state is Gusau and its current governor is Dauda Lawal. Until 1996, the area was part of Sokoto State.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Zamfara_State"
+    },
+    "emblemUrl": "/emblems/ng-za.jpg",
+    "established": "1996",
+    "highestPoint": null,
+    "namedAfter": null
   },
   {
     "wikiId": "Q3734",
@@ -966,8 +3645,7 @@
     "emblemUrl": "/emblems/ru-alt.svg",
     "established": "1937",
     "highestPoint": "Mayak Shangina (2,490 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q6886",
@@ -986,8 +3664,7 @@
     "emblemUrl": "/emblems/ru-amu.svg",
     "established": "1932",
     "highestPoint": "Gorod-Makit (2,290 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q1875",
@@ -1006,8 +3683,7 @@
     "emblemUrl": "/emblems/ru-ark.svg",
     "established": "1937",
     "highestPoint": "Mount Kruzenshtern (1,547 m)",
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q3941",
@@ -1026,8 +3702,7 @@
     "emblemUrl": "/emblems/ru-ast.svg",
     "established": "1943",
     "highestPoint": "Bolshoye Bogdo (151 m)",
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q5710",
@@ -1065,8 +3740,7 @@
     "emblemUrl": "/emblems/ru-bel.svg",
     "established": "1954",
     "highestPoint": "Prokhorovsky District (277 m)",
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2810",
@@ -1085,8 +3759,7 @@
     "emblemUrl": "/emblems/ru-bry.svg",
     "established": "1944",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q6809",
@@ -1143,8 +3816,7 @@
     "emblemUrl": "/emblems/ru-che.svg",
     "established": "1934",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q7984",
@@ -1163,8 +3835,7 @@
     "emblemUrl": "/emblems/ru-chu.svg",
     "established": "1930",
     "highestPoint": "Iskhodnaya (1,843 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q144709",
@@ -1259,8 +3930,7 @@
     "emblemUrl": "/emblems/ru-irk.svg",
     "established": "1937",
     "highestPoint": "Pik Martena (2,988 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2654",
@@ -1279,8 +3949,7 @@
     "emblemUrl": "/emblems/ru-iva.svg",
     "established": "1936",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q7948",
@@ -1299,8 +3968,7 @@
     "emblemUrl": "/emblems/ru-kam.svg",
     "established": "2007",
     "highestPoint": "Klyuchevskaya Sopka (4,800 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q5267",
@@ -1357,8 +4025,7 @@
     "emblemUrl": "/emblems/ru-kda.svg",
     "established": "1937",
     "highestPoint": "Tsakhvoa (3,346 m)",
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q6076",
@@ -1377,8 +4044,7 @@
     "emblemUrl": "/emblems/ru-kem.svg",
     "established": "1943",
     "highestPoint": "Verkhny Zub (2,178 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q1749",
@@ -1397,8 +4063,7 @@
     "emblemUrl": "/emblems/ru-kgd.svg",
     "established": "1946",
     "highestPoint": "Gora Dozor (231 m)",
-    "namedAfter": "Mikhail Ivanovich Kalinin",
-    "inferredRegion": "Europe"
+    "namedAfter": "Mikhail Ivanovich Kalinin"
   },
   {
     "wikiId": "Q5741",
@@ -1417,8 +4082,7 @@
     "emblemUrl": "/emblems/ru-kgn.svg",
     "established": "1943",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q7788",
@@ -1437,8 +4101,7 @@
     "emblemUrl": "/emblems/ru-kha.svg",
     "established": "1938",
     "highestPoint": "Berill Mountain (2,933 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q6320",
@@ -1457,8 +4120,7 @@
     "emblemUrl": "/emblems/ru-khm.svg",
     "established": "1930",
     "highestPoint": "Mount Narodnaya (1,894 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q5387",
@@ -1477,8 +4139,7 @@
     "emblemUrl": "/emblems/ru-kir.svg",
     "established": "1936",
     "highestPoint": null,
-    "namedAfter": "Sergei Kirov",
-    "inferredRegion": "Europe"
+    "namedAfter": "Sergei Kirov"
   },
   {
     "wikiId": "Q6543",
@@ -1535,12 +4196,11 @@
     "emblemUrl": "/emblems/ru-klu.svg",
     "established": "1944",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2073",
-    "name": "Komi Republic",
+    "name": "Komi",
     "iso": "RU-KO",
     "capital": "Syktyvkar",
     "population": 714785,
@@ -1574,8 +4234,7 @@
     "emblemUrl": "/emblems/ru-kos.svg",
     "established": "1944",
     "highestPoint": "Sondoba (293 m)",
-    "namedAfter": "Kostroma",
-    "inferredRegion": "Europe"
+    "namedAfter": "Kostroma"
   },
   {
     "wikiId": "Q1914",
@@ -1613,8 +4272,7 @@
     "emblemUrl": "/emblems/ru-krs.svg",
     "established": "1934",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q6563",
@@ -1633,8 +4291,7 @@
     "emblemUrl": "/emblems/ru-kya.svg",
     "established": "1934",
     "highestPoint": "Grandiozny Peak (2,922 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2191",
@@ -1653,8 +4310,7 @@
     "emblemUrl": "/emblems/ru-len.svg",
     "established": "1927",
     "highestPoint": "Gapselga (291 m)",
-    "namedAfter": "Leningrad",
-    "inferredRegion": "Europe"
+    "namedAfter": "Leningrad"
   },
   {
     "wikiId": "Q3510",
@@ -1673,8 +4329,7 @@
     "emblemUrl": "/emblems/ru-lip.svg",
     "established": "1954",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q7971",
@@ -1693,8 +4348,7 @@
     "emblemUrl": "/emblems/ru-mag.svg",
     "established": "1953",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q5446",
@@ -1751,8 +4405,7 @@
     "emblemUrl": "/emblems/ru-mos.svg",
     "established": "1929",
     "highestPoint": "Zamri-Gora (310 m)",
-    "namedAfter": "Moscow",
-    "inferredRegion": "Europe"
+    "namedAfter": "Moscow"
   },
   {
     "wikiId": "Q649",
@@ -1769,10 +4422,9 @@
       "sourceUrl": "https://en.wikipedia.org/wiki/Moscow"
     },
     "emblemUrl": "/emblems/ru-mow.svg",
-    "established": "NaN",
+    "established": null,
     "highestPoint": null,
-    "namedAfter": "Moskva River",
-    "inferredRegion": "Europe"
+    "namedAfter": "Moskva River"
   },
   {
     "wikiId": "Q1759",
@@ -1791,8 +4443,7 @@
     "emblemUrl": "/emblems/ru-mur.svg",
     "established": "1938",
     "highestPoint": "Yudychvumchorr (1,201 m)",
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2164",
@@ -1811,8 +4462,7 @@
     "emblemUrl": "/emblems/ru-nen.svg",
     "established": "1929",
     "highestPoint": "Gora Moreiz (423 m)",
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2240",
@@ -1831,8 +4481,7 @@
     "emblemUrl": "/emblems/ru-ngr.svg",
     "established": "1944",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2246",
@@ -1851,8 +4500,7 @@
     "emblemUrl": "/emblems/ru-niz.svg",
     "established": "1929",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q5851",
@@ -1871,8 +4519,7 @@
     "emblemUrl": "/emblems/ru-nvs.svg",
     "established": "1937",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q5835",
@@ -1891,8 +4538,7 @@
     "emblemUrl": "/emblems/ru-oms.svg",
     "established": "1934",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q5338",
@@ -1911,8 +4557,7 @@
     "emblemUrl": "/emblems/ru-ore.svg",
     "established": "1934",
     "highestPoint": null,
-    "namedAfter": "Valery Chkalov",
-    "inferredRegion": "Europe"
+    "namedAfter": "Valery Chkalov"
   },
   {
     "wikiId": "Q3129",
@@ -1931,8 +4576,7 @@
     "emblemUrl": "/emblems/ru-orl.svg",
     "established": "1937",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q5400",
@@ -1951,8 +4595,7 @@
     "emblemUrl": "/emblems/ru-per.svg",
     "established": "2005",
     "highestPoint": "Tulymsky Kamen (1,496 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q5545",
@@ -1971,8 +4614,7 @@
     "emblemUrl": "/emblems/ru-pnz.svg",
     "established": "1939",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q4341",
@@ -1991,12 +4633,11 @@
     "emblemUrl": "/emblems/ru-pri.svg",
     "established": "1938",
     "highestPoint": "Anik Mountain (1,933 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2218",
-    "name": "Pskov Region",
+    "name": "Pskov Oblast",
     "iso": "RU-PSK",
     "capital": "Pskov",
     "population": 574480,
@@ -2011,8 +4652,7 @@
     "emblemUrl": "/emblems/ru-psk.svg",
     "established": "1944",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q3573",
@@ -2031,8 +4671,7 @@
     "emblemUrl": "/emblems/ru-ros.svg",
     "established": "1937",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2753",
@@ -2051,8 +4690,7 @@
     "emblemUrl": "/emblems/ru-rya.svg",
     "established": "1937",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q6605",
@@ -2070,7 +4708,7 @@
     },
     "emblemUrl": "/emblems/ru-sa.svg",
     "established": "1990",
-    "highestPoint": "Peak Pobeda, Sakha (3,003 m)",
+    "highestPoint": "Mus-Khaya (2,959 m)",
     "namedAfter": null
   },
   {
@@ -2090,8 +4728,7 @@
     "emblemUrl": "/emblems/ru-sak.svg",
     "established": "1932",
     "highestPoint": "Alaid (2,285 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q1727",
@@ -2110,8 +4747,7 @@
     "emblemUrl": "/emblems/ru-sam.svg",
     "established": "1936",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q5334",
@@ -2130,8 +4766,7 @@
     "emblemUrl": "/emblems/ru-sar.svg",
     "established": "1936",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q5237",
@@ -2169,8 +4804,7 @@
     "emblemUrl": "/emblems/ru-sev.svg",
     "established": null,
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2347",
@@ -2189,8 +4823,7 @@
     "emblemUrl": "/emblems/ru-smo.svg",
     "established": "1937",
     "highestPoint": "Maryino (320 m)",
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q656",
@@ -2209,8 +4842,7 @@
     "emblemUrl": "/emblems/ru-spe.svg",
     "established": "1703",
     "highestPoint": "Orekhovaya Mountain (176 m)",
-    "namedAfter": "Saint Peter",
-    "inferredRegion": "Europe"
+    "namedAfter": "Saint Peter"
   },
   {
     "wikiId": "Q5207",
@@ -2229,8 +4861,7 @@
     "emblemUrl": "/emblems/ru-sta.svg",
     "established": "1924",
     "highestPoint": null,
-    "namedAfter": "Sergo Ordzhonikidze",
-    "inferredRegion": "Europe"
+    "namedAfter": "Sergo Ordzhonikidze"
   },
   {
     "wikiId": "Q5462",
@@ -2249,8 +4880,7 @@
     "emblemUrl": "/emblems/ru-sve.svg",
     "established": "1934",
     "highestPoint": "Konzhakovsky Kamen (1,569 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q5481",
@@ -2288,8 +4918,7 @@
     "emblemUrl": "/emblems/ru-tam.svg",
     "established": "1937",
     "highestPoint": null,
-    "namedAfter": "Tambov",
-    "inferredRegion": "Europe"
+    "namedAfter": "Tambov"
   },
   {
     "wikiId": "Q5884",
@@ -2308,8 +4937,7 @@
     "emblemUrl": "/emblems/ru-tom.svg",
     "established": "1944",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2792",
@@ -2328,8 +4956,7 @@
     "emblemUrl": "/emblems/ru-tul.svg",
     "established": "1937",
     "highestPoint": "Raevo (293 m)",
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2292",
@@ -2348,8 +4975,7 @@
     "emblemUrl": "/emblems/ru-tve.svg",
     "established": "1935",
     "highestPoint": "Makushka Valdaya (347 m)",
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q960",
@@ -2387,8 +5013,7 @@
     "emblemUrl": "/emblems/ru-tyu.svg",
     "established": "1944",
     "highestPoint": "Mount Narodnaya (1,894 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q5422",
@@ -2426,8 +5051,7 @@
     "emblemUrl": "/emblems/ru-uly.svg",
     "established": "1943",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q3819",
@@ -2446,8 +5070,7 @@
     "emblemUrl": "/emblems/ru-vgg.svg",
     "established": "1936",
     "highestPoint": "Serpokrylovskaya (359 m)",
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2702",
@@ -2466,8 +5089,7 @@
     "emblemUrl": "/emblems/ru-vla.svg",
     "established": "1944",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2015",
@@ -2486,8 +5108,7 @@
     "emblemUrl": "/emblems/ru-vlg.svg",
     "established": "1937",
     "highestPoint": "Malgora (304 m)",
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q3447",
@@ -2506,8 +5127,7 @@
     "emblemUrl": "/emblems/ru-vor.svg",
     "established": "1934",
     "highestPoint": null,
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q6407",
@@ -2526,8 +5146,7 @@
     "emblemUrl": "/emblems/ru-yan.svg",
     "established": "1930",
     "highestPoint": "Gora Payer (1,472 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q2448",
@@ -2546,8 +5165,7 @@
     "emblemUrl": "/emblems/ru-yar.svg",
     "established": "1936",
     "highestPoint": "Tarkhov Kholm (292 m)",
-    "namedAfter": null,
-    "inferredRegion": "Europe"
+    "namedAfter": null
   },
   {
     "wikiId": "Q7730",
@@ -2566,8 +5184,7 @@
     "emblemUrl": "/emblems/ru-yev.svg",
     "established": "1934",
     "highestPoint": null,
-    "namedAfter": "autonomous oblast",
-    "inferredRegion": "Asia"
+    "namedAfter": "autonomous oblast"
   },
   {
     "wikiId": "Q6838",
@@ -2586,8 +5203,7 @@
     "emblemUrl": "/emblems/ru-zab.svg",
     "established": "2008",
     "highestPoint": "Pik BAM (3,073 m)",
-    "namedAfter": null,
-    "inferredRegion": "Asia"
+    "namedAfter": null
   },
   {
     "wikiId": "Q797",
@@ -2910,7 +5526,7 @@
     "emblemUrl": null,
     "established": "1792",
     "highestPoint": "Black Mountain (1,263 m)",
-    "namedAfter": "Kentucky River"
+    "namedAfter": "commonwealth"
   },
   {
     "wikiId": "Q1588",
@@ -3538,5 +6154,176 @@
     "established": "1890",
     "highestPoint": "Gannett Peak (4,207 m)",
     "namedAfter": "Wyoming Valley"
+  },
+  {
+    "wikiId": "Q130840",
+    "name": "Eastern Cape",
+    "iso": "ZA-EC",
+    "capital": "Bhisho",
+    "population": 7230204,
+    "area": 168966,
+    "wikipediaTitle": "Eastern Cape",
+    "parent": "ZAF",
+    "wikipedia": {
+      "title": "Eastern Cape",
+      "summary": "The Eastern Cape is one of the nine provinces of South Africa. Its capital is Bhisho, and its largest city is Gqeberha. Due to its temperate climate and Victorian towns, it is a common location for tourists. It is also known for having been home to many anti-apartheid activists, including Nelson Mandela, Steve Biko and Chris Hani.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Eastern_Cape"
+    },
+    "emblemUrl": null,
+    "established": "1994",
+    "highestPoint": "KwaDuma (3,019 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q160284",
+    "name": "Free State",
+    "iso": "ZA-FS",
+    "capital": "Bloemfontein",
+    "population": 2964412,
+    "area": 129825,
+    "wikipediaTitle": "Free State (province)",
+    "parent": "ZAF",
+    "wikipedia": {
+      "title": "Free State (province)",
+      "summary": "The Free State is a province of South Africa. Its capital is Bloemfontein, which is also South Africa's judicial capital. Its historical origins lie in the Boer republic called the Orange Free State and later the Orange Free State Province.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Free_State_(province)"
+    },
+    "emblemUrl": null,
+    "established": "1994",
+    "highestPoint": "Namahadi Peak (3,274 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q133083",
+    "name": "Gauteng",
+    "iso": "ZA-GP",
+    "capital": "Johannesburg",
+    "population": 15099422,
+    "area": 18178,
+    "wikipediaTitle": "Gauteng",
+    "parent": "ZAF",
+    "wikipedia": {
+      "title": "Gauteng",
+      "summary": "Gauteng is one of the nine provinces of South Africa.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Gauteng"
+    },
+    "emblemUrl": "/emblems/za-gp.jpg",
+    "established": "1994",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q81725",
+    "name": "KwaZulu-Natal",
+    "iso": "ZA-KZN",
+    "capital": "Pietermaritzburg",
+    "population": 12423907,
+    "area": 94361,
+    "wikipediaTitle": "KwaZulu-Natal",
+    "parent": "ZAF",
+    "wikipedia": {
+      "title": "KwaZulu-Natal",
+      "summary": "KwaZulu-Natal is a province of South Africa that was created in 1994 when the government merged the Zulu bantustan of KwaZulu and Natal Province.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/KwaZulu-Natal"
+    },
+    "emblemUrl": null,
+    "established": "1994",
+    "highestPoint": "Mafadi (3,450 m)",
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q134907",
+    "name": "Limpopo",
+    "iso": "ZA-LP",
+    "capital": "Polokwane",
+    "population": 6572720,
+    "area": 125754,
+    "wikipediaTitle": "Limpopo",
+    "parent": "ZAF",
+    "wikipedia": {
+      "title": "Limpopo",
+      "summary": "Limpopo is the northernmost province of South Africa. It is named after the Limpopo River, which forms the province's western and northern borders. The capital and largest city in the province is Polokwane, while the provincial legislature is situated in Lebowakgomo.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Limpopo"
+    },
+    "emblemUrl": null,
+    "established": "1994",
+    "highestPoint": null,
+    "namedAfter": "Limpopo River"
+  },
+  {
+    "wikiId": "Q132410",
+    "name": "Mpumalanga",
+    "iso": "ZA-MP",
+    "capital": "Mbombela",
+    "population": 5143324,
+    "area": 76495,
+    "wikipediaTitle": "Mpumalanga",
+    "parent": "ZAF",
+    "wikipedia": {
+      "title": "Mpumalanga",
+      "summary": "Mpumalanga is one of the nine provinces of South Africa. The name means \"East\", or literally \"The Place Where the Sun Rises\" in the Nguni languages. Mpumalanga lies in eastern South Africa, bordering Eswatini and Mozambique. It shares borders with the South African provinces of Limpopo to the north, Gauteng to the west, the Free State to the southwest, and KwaZulu-Natal to the south. The capital is Mbombela.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Mpumalanga"
+    },
+    "emblemUrl": null,
+    "established": "1994",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q132418",
+    "name": "Northern Cape",
+    "iso": "ZA-NC",
+    "capital": "Kimberley",
+    "population": 1355946,
+    "area": 372889,
+    "wikipediaTitle": "Northern Cape",
+    "parent": "ZAF",
+    "wikipedia": {
+      "title": "Northern Cape",
+      "summary": "The Northern Cape is the largest and most sparsely populated province of South Africa. It was created in 1994 when the Cape Province was split up. Its capital is Kimberley. It includes the Kalahari Gemsbok National Park, part of the Kgalagadi Transfrontier Park and an international park shared with Botswana. It also includes the Augrabies Falls and the diamond mining regions in Kimberley and Alexander Bay.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Northern_Cape"
+    },
+    "emblemUrl": null,
+    "established": "1994",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q165956",
+    "name": "North West",
+    "iso": "ZA-NW",
+    "capital": "Mahikeng",
+    "population": 3804548,
+    "area": 104882,
+    "wikipediaTitle": "North West (South African province)",
+    "parent": "ZAF",
+    "wikipedia": {
+      "title": "North West (South African province)",
+      "summary": "North West is a province of South Africa. Its capital is Mahikeng. The province is located to the west of the major population centre and province of Gauteng, to the south of the country of Botswana, and southwest of the northernmost province of Limpopo.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/North_West_(South_African_province)"
+    },
+    "emblemUrl": null,
+    "established": "1994",
+    "highestPoint": null,
+    "namedAfter": null
+  },
+  {
+    "wikiId": "Q127167",
+    "name": "Western Cape",
+    "iso": "ZA-WC",
+    "capital": "Cape Town",
+    "population": 7113776,
+    "area": 129462,
+    "wikipediaTitle": "Western Cape",
+    "parent": "ZAF",
+    "wikipedia": {
+      "title": "Western Cape",
+      "summary": "The Western Cape is a province of South Africa, situated on the south-western coast of the country. It is geographically the fourth largest of the country's nine provinces, with an area of 129,449 square kilometres (49,981 sq mi), and the third most populous, with an estimated 7.43 million inhabitants in 2022.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Western_Cape"
+    },
+    "emblemUrl": null,
+    "established": "1994",
+    "highestPoint": "Seweweekspoortpiek (2,325 m)",
+    "namedAfter": null
   }
 ]
