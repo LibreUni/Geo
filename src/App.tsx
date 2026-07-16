@@ -10,6 +10,7 @@ import {
   type OrthographicFlagMetric,
   type OrthographicPathFrame,
 } from "./map/OrthographicPathWorkerPool";
+import { FastOrthographicRenderer } from "./map/fast-orthographic";
 import {
   LEFT_DRIVING_COUNTRIES,
   CALLING_CODES,
@@ -3037,6 +3038,11 @@ function WorldMap({
   const projectionTypeRef = useRef<ProjectionType>(projectionType);
   const applyWorkerFrameRef = useRef<(frame: OrthographicPathFrame) => void>(() => undefined);
   const renderSequentialGlobeRef = useRef<(rotation: [number, number]) => void>(() => undefined);
+  const fastFallbackRendererRef = useRef<{
+    source: Geography[];
+    renderer: FastOrthographicRenderer;
+    indexByRenderKey: Map<string, number>;
+  } | null>(null);
   const globeDomCacheRef = useRef<{
     countries: Array<{
       id: string;
@@ -3671,25 +3677,32 @@ function WorldMap({
   };
 
   function renderGlobeRotation(rotation: [number, number]) {
-    let localProjection = liveProjectionRef.current;
-    if (!localProjection) {
-      localProjection = geoOrthographic().fitExtent(
-        [[20, 20], [WIDTH - 20, HEIGHT - 20]],
-        { type: "Sphere" },
-      );
-      localProjection.precision(1.8);
-      liveProjectionRef.current = localProjection;
-    }
-    localProjection.rotate([rotation[0], rotation[1], 0]);
-    const localPath = geoPath(localProjection);
     const dom = getGlobeDomCache();
     if (!dom) return;
+
+    let fallback = fastFallbackRendererRef.current;
+    if (!fallback || fallback.source !== activeGeographies) {
+      fallback = {
+        source: activeGeographies,
+        renderer: new FastOrthographicRenderer(activeGeographies),
+        indexByRenderKey: new Map(
+          activeGeographies.map((geo, index) => [mapGeographyRenderKey(geo, index), index]),
+        ),
+      };
+      fastFallbackRendererRef.current = fallback;
+    }
+    const { renderer, indexByRenderKey } = fallback;
+    renderer.setRotation(rotation[0], rotation[1]);
 
     if (!showFlagFillsRef.current) {
       const paths: Array<[id: string, path: string]> = new Array(dom.countries.length);
       for (let index = 0; index < dom.countries.length; index += 1) {
         const entry = dom.countries[index];
-        paths[index] = [entry.renderKey, localPath(entry.geo) ?? ""];
+        const featureIndex = indexByRenderKey.get(entry.renderKey);
+        paths[index] = [
+          entry.renderKey,
+          featureIndex === undefined ? "" : renderer.path(featureIndex),
+        ];
       }
       applySolidGlobeFrame(paths, rotation);
       return;
@@ -3698,12 +3711,19 @@ function WorldMap({
     const flagMetrics: OrthographicFlagMetric[] = new Array(dom.countries.length);
     for (let index = 0; index < dom.countries.length; index += 1) {
       const entry = dom.countries[index];
-      flagMetrics[index] = {
-        renderKey: entry.renderKey,
-        path: localPath(entry.geo) ?? "",
-        bounds: localPath.bounds(entry.geo),
-        centroid: localPath.centroid(entry.geo),
-      };
+      const featureIndex = indexByRenderKey.get(entry.renderKey);
+      flagMetrics[index] =
+        featureIndex === undefined
+          ? {
+              renderKey: entry.renderKey,
+              path: "",
+              bounds: [
+                [Infinity, Infinity],
+                [-Infinity, -Infinity],
+              ],
+              centroid: [NaN, NaN],
+            }
+          : { renderKey: entry.renderKey, ...renderer.metrics(featureIndex) };
     }
     applyFlagGlobeFrame(flagMetrics, rotation);
   }
@@ -3783,13 +3803,26 @@ function WorldMap({
 
   function scheduleGlobeRotation(rotation: [number, number]) {
     pendingGlobeRotationRef.current = rotation;
+    const workerPool = orthographicWorkerPoolRef.current;
+    if (workerPool && !orthographicWorkerFailedRef.current) {
+      // The pool keeps a single frame in flight and always renders the newest
+      // requested rotation, so forwarding pointer input immediately (instead
+      // of waiting for the next animation frame) removes up to one frame of
+      // input latency without ever queuing extra work.
+      workerPool.request(
+        rotation,
+        orthographicModeGenerationRef.current,
+        showFlagFillsRef.current,
+      );
+      return;
+    }
     if (globeFrameRef.current !== null) return;
     globeFrameRef.current = requestAnimationFrame(() => {
       globeFrameRef.current = null;
       const latestRotation = pendingGlobeRotationRef.current;
-      const workerPool = orthographicWorkerPoolRef.current;
-      if (workerPool && !orthographicWorkerFailedRef.current) {
-        workerPool.request(
+      const pool = orthographicWorkerPoolRef.current;
+      if (pool && !orthographicWorkerFailedRef.current) {
+        pool.request(
           latestRotation,
           orthographicModeGenerationRef.current,
           showFlagFillsRef.current,
