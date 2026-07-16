@@ -10,7 +10,7 @@ import {
   type OrthographicFlagMetric,
   type OrthographicPathFrame,
 } from "./map/OrthographicPathWorkerPool";
-import { FastOrthographicRenderer } from "./map/fast-orthographic";
+import { FastOrthographicRenderer, MAP_WIDTH, MAP_HEIGHT } from "./map/fast-orthographic";
 import {
   LEFT_DRIVING_COUNTRIES,
   CALLING_CODES,
@@ -241,8 +241,8 @@ function getGeographyMeasurements(geo: Geography) {
   return measurements;
 }
 
-const WIDTH = 1100;
-const HEIGHT = 620;
+const WIDTH = MAP_WIDTH;
+const HEIGHT = MAP_HEIGHT;
 const MIN_MAP_ZOOM = 0.82;
 const MAX_MAP_ZOOM = 120;
 const MAX_COUNTRY_HIT_AREA = WIDTH * HEIGHT * 0.6;
@@ -3610,7 +3610,10 @@ function WorldMap({
         if (flagVisible) {
           activateFlagImage(entry.flag, entry.path);
           const center = centroid ?? [(x0 + x1) / 2, (y0 + y1) / 2];
-          const size = Math.max(1, x1 - x0, y1 - y0) * 1.5;
+          // Whole-pixel size keeps the image raster dimensions stable across
+          // drag frames so the browser can reuse the scaled bitmap; the flag
+          // is 1.5x oversized and clipped, so ±1px is invisible.
+          const size = Math.ceil(Math.max(1, x1 - x0, y1 - y0) * 1.5);
           entry.flag.setAttribute("x", String(center[0] - size / 2));
           entry.flag.setAttribute("y", String(center[1] - size / 2));
           entry.flag.setAttribute("width", String(size));

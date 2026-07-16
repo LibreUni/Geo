@@ -2,12 +2,14 @@ import { geoArea, geoOrthographic, geoPath } from "d3-geo";
 
 type Geography = GeoJSON.Feature<GeoJSON.Geometry, { id?: string; name?: string }>;
 
-// Mirrors the app-wide orthographic fit: App.tsx fits the sphere with
-// geoOrthographic().fitExtent([[20, 20], [WIDTH - 20, HEIGHT - 20]]), which
-// resolves to radius (HEIGHT - 40) / 2 centered in the viewBox. Keep these in
-// sync with WIDTH/HEIGHT in App.tsx.
-const WIDTH = 1100;
-const HEIGHT = 620;
+// Single source of truth for the map viewBox. App.tsx consumes these, and the
+// orthographic fit below — geoOrthographic().fitExtent([[20, 20],
+// [WIDTH - 20, HEIGHT - 20]], sphere) — resolves to radius (HEIGHT - 40) / 2
+// centered in the viewBox.
+export const MAP_WIDTH = 1100;
+export const MAP_HEIGHT = 620;
+const WIDTH = MAP_WIDTH;
+const HEIGHT = MAP_HEIGHT;
 const CX = WIDTH / 2;
 const CY = HEIGHT / 2;
 const R = (HEIGHT - 40) / 2;
@@ -108,8 +110,18 @@ function prepareGeometry(geometry: GeoJSON.Geometry): PreparedRing[] | null {
   return rings;
 }
 
-function fmt(value: number) {
-  return Math.round(value * 1000) / 1000;
+// ".xyz" suffixes for thousandths with trailing zeros trimmed, so the output
+// is byte-identical to String(Math.round(v * 1000) / 1000).
+const DOT_FRAC = Array.from({ length: 1000 }, (_, f) =>
+  f === 0 ? "" : `.${String(f).padStart(3, "0")}`.replace(/0+$/, ""),
+);
+
+// All on-canvas coordinates are non-negative, which allows an integer fast
+// path instead of float toString — this is the hottest call in the renderer.
+function fmt(value: number): string {
+  const q = Math.round(value * 1000);
+  if (q < 0) return String(q / 1000);
+  return ((q / 1000) | 0) + DOT_FRAC[q % 1000];
 }
 
 export type FastOrthographicMetrics = {
@@ -278,22 +290,20 @@ export class FastOrthographicRenderer {
   private emitFullRing(points: Float64Array, n: number): string {
     const p = this.scratchPoint;
     this.project(points[0], points[1], points[2], p);
-    let firstX = fmt(p[0]);
-    let firstY = fmt(p[1]);
-    let d = `M${firstX},${firstY}`;
+    const firstX = p[0];
+    const firstY = p[1];
+    let d = "M" + fmt(p[0]) + "," + fmt(p[1]);
     let prevX = firstX;
     let prevY = firstY;
     if (this.measuring) this.measurePoint(firstX, firstY);
     for (let i = 1; i < n; i += 1) {
       this.project(points[i * 3], points[i * 3 + 1], points[i * 3 + 2], p);
-      const x = fmt(p[0]);
-      const y = fmt(p[1]);
-      d += `L${x},${y}`;
+      d += "L" + fmt(p[0]) + "," + fmt(p[1]);
       if (this.measuring) {
-        this.measurePoint(x, y);
-        this.measureEdge(prevX, prevY, x, y);
-        prevX = x;
-        prevY = y;
+        this.measurePoint(p[0], p[1]);
+        this.measureEdge(prevX, prevY, p[0], p[1]);
+        prevX = p[0];
+        prevY = p[1];
       }
     }
     if (this.measuring) this.measureEdge(prevX, prevY, firstX, firstY);
@@ -378,15 +388,15 @@ export class FastOrthographicRenderer {
         visited.add(run);
         const pts = run.points;
         for (let i = 0; i < pts.length; i += 2) {
-          const x = fmt(pts[i]);
-          const y = fmt(pts[i + 1]);
+          const x = pts[i];
+          const y = pts[i + 1];
           if (!opened) {
-            d += `M${x},${y}`;
+            d += "M" + fmt(x) + "," + fmt(y);
             firstX = x;
             firstY = y;
             opened = true;
           } else {
-            d += `L${x},${y}`;
+            d += "L" + fmt(x) + "," + fmt(y);
             if (this.measuring) this.measureEdge(prevX, prevY, x, y);
           }
           if (this.measuring) this.measurePoint(x, y);
@@ -416,9 +426,9 @@ export class FastOrthographicRenderer {
           const steps = Math.floor(best / MAX_SEGMENT_ANGLE);
           for (let s = 1; s <= steps; s += 1) {
             const angle = run.exitAngle + direction * s * MAX_SEGMENT_ANGLE;
-            const x = fmt(CX + R * Math.cos(angle));
-            const y = fmt(CY - R * Math.sin(angle));
-            d += `L${x},${y}`;
+            const x = CX + R * Math.cos(angle);
+            const y = CY - R * Math.sin(angle);
+            d += "L" + fmt(x) + "," + fmt(y);
             if (this.measuring) {
               this.measurePoint(x, y);
               this.measureEdge(prevX, prevY, x, y);
