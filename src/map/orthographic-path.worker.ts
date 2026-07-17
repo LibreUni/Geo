@@ -1,6 +1,7 @@
 /// <reference lib="webworker" />
 
-import { geoCentroid, geoOrthographic, geoPath } from "d3-geo";
+import { geoCentroid } from "d3-geo";
+import { FastOrthographicRenderer } from "./fast-orthographic";
 
 type Geography = GeoJSON.Feature<GeoJSON.Geometry, { id?: string; name?: string }>;
 
@@ -48,18 +49,8 @@ type ErrorMessage = {
 };
 
 const workerScope = self as unknown as DedicatedWorkerGlobalScope;
-let features: InitMessage["features"] = [];
-
-const projection = geoOrthographic()
-  .fitExtent(
-    [
-      [20, 20],
-      [1080, 600],
-    ],
-    { type: "Sphere" },
-  )
-  .precision(1.8);
-const path = geoPath(projection);
+let renderKeys: string[] = [];
+let renderer: FastOrthographicRenderer | null = null;
 
 function reportError(error: unknown, frameId?: number) {
   const response: ErrorMessage = {
@@ -74,27 +65,36 @@ workerScope.onmessage = (event: MessageEvent<WorkerRequest>) => {
   const message = event.data;
 
   if (message.type === "init") {
-    features = message.features;
-    const geographicCentroids: ReadyMessage["geographicCentroids"] = features.map((entry) => {
-      const centroid = geoCentroid(entry.geography);
-      return [entry.renderKey, [centroid[0], centroid[1]]];
-    });
-    const response: ReadyMessage = { type: "ready", geographicCentroids };
-    workerScope.postMessage(response);
+    try {
+      renderKeys = message.features.map((entry) => entry.renderKey);
+      renderer = new FastOrthographicRenderer(
+        message.features.map((entry) => entry.geography),
+      );
+      const geographicCentroids: ReadyMessage["geographicCentroids"] =
+        message.features.map((entry) => {
+          const centroid = geoCentroid(entry.geography);
+          return [entry.renderKey, [centroid[0], centroid[1]]];
+        });
+      const response: ReadyMessage = { type: "ready", geographicCentroids };
+      workerScope.postMessage(response);
+    } catch (error) {
+      reportError(error);
+    }
     return;
   }
 
   try {
-    projection.rotate([message.rotation[0], message.rotation[1], 0]);
+    if (!renderer) throw new Error("Orthographic worker rendered before init.");
+    renderer.setRotation(message.rotation[0], message.rotation[1]);
     if (message.includeFlagMetrics) {
-      const flagMetrics: FlagMetric[] = new Array(features.length);
-      for (let index = 0; index < features.length; index += 1) {
-        const entry = features[index];
+      const flagMetrics: FlagMetric[] = new Array(renderKeys.length);
+      for (let index = 0; index < renderKeys.length; index += 1) {
+        const metrics = renderer.metrics(index);
         flagMetrics[index] = {
-          renderKey: entry.renderKey,
-          path: path(entry.geography) ?? "",
-          bounds: path.bounds(entry.geography),
-          centroid: path.centroid(entry.geography),
+          renderKey: renderKeys[index],
+          path: metrics.path,
+          bounds: metrics.bounds,
+          centroid: metrics.centroid,
         };
       }
       const response: FrameMessage = {
@@ -107,10 +107,9 @@ workerScope.onmessage = (event: MessageEvent<WorkerRequest>) => {
       return;
     }
 
-    const paths: Array<[id: string, path: string]> = new Array(features.length);
-    for (let index = 0; index < features.length; index += 1) {
-      const entry = features[index];
-      paths[index] = [entry.renderKey, path(entry.geography) ?? ""];
+    const paths: Array<[id: string, path: string]> = new Array(renderKeys.length);
+    for (let index = 0; index < renderKeys.length; index += 1) {
+      paths[index] = [renderKeys[index], renderer.path(index)];
     }
     const response: FrameMessage = {
       type: "frame",

@@ -19,6 +19,25 @@
     "namedAfter": null
   },
   {
+    "wikiId": "Q15577",
+    "name": "Jervis Bay Territory",
+    "iso": "AU-JBT",
+    "capital": "Jervis Bay Village",
+    "population": 391,
+    "area": 73,
+    "wikipediaTitle": "Jervis Bay Territory",
+    "parent": "AUS",
+    "wikipedia": {
+      "title": "Jervis Bay Territory",
+      "summary": "The Jervis Bay Territory is an internal territory of Australia. It was established in 1915 by the transfer of jurisdiction from the state of New South Wales to the federal Commonwealth of Australia, in order to give the federal government control of a port in the vicinity of the landlocked Australian Capital Territory (ACT).",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Jervis_Bay_Territory"
+    },
+    "emblemUrl": null,
+    "established": "1915",
+    "highestPoint": null,
+    "namedAfter": "John Jervis, 1st Earl of St Vincent"
+  },
+  {
     "wikiId": "Q3224",
     "name": "New South Wales",
     "iso": "AU-NSW",
@@ -1140,25 +1159,6 @@
     "namedAfter": null
   },
   {
-    "wikiId": "Q8646",
-    "name": "Hong Kong",
-    "iso": "CN-HK",
-    "capital": "",
-    "population": 7413070,
-    "area": 2755,
-    "wikipediaTitle": "Hong Kong",
-    "parent": "CHN",
-    "wikipedia": {
-      "title": "Hong Kong",
-      "summary": "Hong Kong is a special administrative region of China. Situated on China's southern coast just south of Shenzhen, it consists of Hong Kong Island, Kowloon, and the New Territories. With 7.5 million residents in a 1,114-square-kilometre (430 sq mi) territory, Hong Kong is the fourth-most densely populated region in the world.",
-      "sourceUrl": "https://en.wikipedia.org/wiki/Hong_Kong"
-    },
-    "emblemUrl": "/emblems/cn-hk.svg",
-    "established": "1997",
-    "highestPoint": "Tai Mo Shan (957 m)",
-    "namedAfter": null
-  },
-  {
     "wikiId": "Q19206",
     "name": "Heilongjiang",
     "iso": "CN-HL",
@@ -1270,25 +1270,6 @@
     "emblemUrl": null,
     "established": "1907",
     "highestPoint": "Mount Huabozi (1,336 m)",
-    "namedAfter": null
-  },
-  {
-    "wikiId": "Q14773",
-    "name": "Macau",
-    "iso": "CN-MO",
-    "capital": "",
-    "population": 682100,
-    "area": 115,
-    "wikipediaTitle": "Macau",
-    "parent": "CHN",
-    "wikipedia": {
-      "title": "Macau",
-      "summary": "Macau or Macao is a special administrative region of China. It consists of the Macau Peninsula, the islands of Taipa and Coloane, the Cotai reclamation zone between Taipa and Coloane, and several smaller islets. It borders Zhuhai to the north and west, and it lies west of Hong Kong, separated by the Pearl River estuary. With a population of about 720,000 people and a land area of 32.9 square kilometres (12.7 sq mi), it is the most densely populated region in the world.",
-      "sourceUrl": "https://en.wikipedia.org/wiki/Macau"
-    },
-    "emblemUrl": "/emblems/cn-mo.svg",
-    "established": "1999",
-    "highestPoint": "Alto de Coloane (1,706 m)",
     "namedAfter": null
   },
   {
@@ -1460,25 +1441,6 @@
     "emblemUrl": null,
     "established": null,
     "highestPoint": "Jiushan Peak (1,078 m)",
-    "namedAfter": null
-  },
-  {
-    "wikiId": "Q57251",
-    "name": "Taiwan",
-    "iso": "CN-TW",
-    "capital": "",
-    "population": 23140000,
-    "area": 35581,
-    "wikipediaTitle": "Taiwan (People's Republic of China province)",
-    "parent": "CHN",
-    "wikipedia": {
-      "title": "Taiwan (People's Republic of China province)",
-      "summary": "Taiwan Province is a de jure administrative division of the People's Republic of China. Its claimed jurisdiction includes Taiwan and its affiliated islands, the Penghu Islands, and the Diaoyu Islands and their affiliated islands; the islands of Kinmen and Matsu are claimed as part of Fujian Province. The territory of the claimed province, including the entire island of Taiwan, is in actuality administered by the Republic of China (ROC), but is not coextensive with the smaller Taiwan Province of the ROC.",
-      "sourceUrl": "https://en.wikipedia.org/wiki/Taiwan_(People's_Republic_of_China_province)"
-    },
-    "emblemUrl": null,
-    "established": null,
-    "highestPoint": "Yushan Main Peak (3,952 m)",
     "namedAfter": null
   },
   {
@@ -1691,25 +1653,6 @@
     "namedAfter": null
   },
   {
-    "wikiId": "Q66710",
-    "name": "Daman and Diu",
-    "iso": "IN-DD",
-    "capital": "Daman",
-    "population": 243247,
-    "area": 122,
-    "wikipediaTitle": "Daman and Diu",
-    "parent": "IND",
-    "wikipedia": {
-      "title": "Daman and Diu",
-      "summary": "Daman and Diu was a union territory in northwestern India. With an area of 112 km2 (43 sq mi), it was the smallest administrative subdivision of India on the mainland. The territory comprised two districts, Daman and Diu Island, geographically separated by the Gulf of Khambat. The state of Gujarat and the Arabian Sea bordered the territory. A Portuguese colony since the 1500s, these territories were taken over by India with the Annexation of Goa in 1961. Daman and Diu were administered as part of the union territory of Goa, Daman and Diu between 1961 and 1987. After the Goa Opinion Poll, they became separate union territories. In 2019, a legislation was passed to merge the union territories of Daman and Diu with its neighbouring union territory, Dadra and Nagar Haveli, to form the new union territory of Dadra and Nagar Haveli and Daman and Diu with effect from 26 January 2020.",
-      "sourceUrl": "https://en.wikipedia.org/wiki/Daman_and_Diu"
-    },
-    "emblemUrl": "/emblems/in-dd.svg",
-    "established": "1987",
-    "highestPoint": null,
-    "namedAfter": null
-  },
-  {
     "wikiId": "Q77997266",
     "name": "Dadra and Nagar Haveli and Daman and Diu",
     "iso": "IN-DH",
@@ -1744,25 +1687,6 @@
     },
     "emblemUrl": "/emblems/in-dl.svg",
     "established": "1956",
-    "highestPoint": null,
-    "namedAfter": null
-  },
-  {
-    "wikiId": "Q46107",
-    "name": "Dadra and Nagar Haveli district",
-    "iso": "IN-DN",
-    "capital": "Silvassa",
-    "population": 343709,
-    "area": 491,
-    "wikipediaTitle": "Dadra and Nagar Haveli district",
-    "parent": "IND",
-    "wikipedia": {
-      "title": "Dadra and Nagar Haveli district",
-      "summary": "Dadra and Nagar Haveli district is a district of the union territory of Dadra and Nagar Haveli and Daman and Diu in western India. It is composed of two separate geographical entities: Nagar Haveli, wedged in between Maharashtra and Gujarat states; and, 1 kilometre (0.62 mi) to the north-west, the smaller enclave of Dadra, which is surrounded by Gujarat. Silvassa is the administrative headquarters of Dadra and Nagar Haveli.",
-      "sourceUrl": "https://en.wikipedia.org/wiki/Dadra_and_Nagar_Haveli_district"
-    },
-    "emblemUrl": null,
-    "established": "1961",
     "highestPoint": null,
     "namedAfter": null
   },
@@ -5337,6 +5261,25 @@
     "established": "1788",
     "highestPoint": "Mount Frissell (748 m)",
     "namedAfter": "Connecticut River"
+  },
+  {
+    "wikiId": "Q61",
+    "name": "District of Columbia",
+    "iso": "US-DC",
+    "capital": "Washington",
+    "population": 689545,
+    "area": 177,
+    "wikipediaTitle": "Washington, D.C.",
+    "parent": "USA",
+    "wikipedia": {
+      "title": "Washington, D.C.",
+      "summary": "Washington, D.C., officially the District of Columbia and commonly known as Washington or D.C., is the capital city and federal district of the United States. The city is on the Potomac River across from Virginia and shares land borders with Maryland to its north and east. It was named after George Washington, a Founding Father and the first president of the United States. The district is named for Columbia, the female personification of the nation, through which human form and attributes are applied to the United States.",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Washington%2C_D.C."
+    },
+    "emblemUrl": null,
+    "established": "1790",
+    "highestPoint": "Fort Reno (125 m)",
+    "namedAfter": "Christopher Columbus"
   },
   {
     "wikiId": "Q1393",
