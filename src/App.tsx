@@ -4066,10 +4066,14 @@ function WorldMap({
           const country = countryByNumeric.get(geo.id);
           const visible = country ? targetCodes.has(country.cca3) : false;
           
-          const isSelected = !isQuizPlayingActive && country?.cca3 === selectedCountry?.cca3;
+          // Both guards need `country`: shapes without a country entry (e.g.
+          // subdivision shapes lacking an ISO id) would otherwise compare
+          // undefined === undefined and light up whenever nothing is selected.
+          const isSelected =
+            !isQuizPlayingActive && !!country && country.cca3 === selectedCountry?.cca3;
           const relation = !isQuizPlayingActive && selectedRelationships ? relationshipKind(selectedCountry, country) : null;
-          
-          const isTarget = country?.cca3 === quizCountry?.cca3;
+
+          const isTarget = !!country && country.cca3 === quizCountry?.cca3;
           const quizColor = (isQuizMode && country) ? quizHistory[country.cca3] : undefined;
           const isWrongGuess = (isQuizMode && country) ? wrongGuesses.includes(country.cca3) : false;
           const isRevealed = isQuizMode && revealingTarget && isTarget;
