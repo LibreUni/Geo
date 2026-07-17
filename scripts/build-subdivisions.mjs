@@ -426,6 +426,54 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
       });
     }
 
+    // Drop rows that duplicate top-level countries in the app (Hong Kong,
+    // Macau, Taiwan) or refer to units abolished by India's 2020 merger into
+    // IN-DH; none of them have Natural Earth shapes.
+    for (const iso of ["CN-HK", "CN-MO", "CN-TW", "IN-DD", "IN-DN"]) {
+      uniqueMap.delete(iso);
+    }
+
+    // The Wikidata query misses the District of Columbia.
+    if (!uniqueMap.has("US-DC")) {
+      uniqueMap.set("US-DC", {
+        wikiId: "Q61",
+        name: "District of Columbia",
+        iso: "US-DC",
+        capital: "Washington",
+        population: 689545,
+        area: 177,
+        wikipediaTitle: "Washington, D.C.",
+        parent: "USA",
+        flag: "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20the%20District%20of%20Columbia.svg",
+        coatOfArms: "",
+        inception: "1790-07-16T00:00:00Z",
+        highestPointLabel: "Fort Reno",
+        elevation: 125,
+        namedAfterLabel: "Christopher Columbus"
+      });
+    }
+
+    // Jervis Bay Territory has no ISO 3166-2 code and no own flag (it flies
+    // the Australian flag, which the app's parent-flag fallback covers).
+    if (!uniqueMap.has("AU-JBT")) {
+      uniqueMap.set("AU-JBT", {
+        wikiId: "Q15577",
+        name: "Jervis Bay Territory",
+        iso: "AU-JBT",
+        capital: "Jervis Bay Village",
+        population: 391,
+        area: 73,
+        wikipediaTitle: "Jervis Bay Territory",
+        parent: "AUS",
+        flag: "",
+        coatOfArms: "",
+        inception: "1915-01-01T00:00:00Z",
+        highestPointLabel: "",
+        elevation: null,
+        namedAfterLabel: "John Jervis, 1st Earl of St Vincent"
+      });
+    }
+
     const finalSubdivisions = Array.from(uniqueMap.values());
 
     // Enrich with names from shapefiles if Wikidata returned a QID or empty string
@@ -728,9 +776,28 @@ SELECT DISTINCT ?item ?itemLabel ?isoCode ?capitalLabel ?population ?area ?wikip
       if (["USA", "CAN", "AUS", "BRA", "MEX", "CHN", "IND", "ZAF", "NGA"].includes(adminCode)) {
         let finalId = iso;
         let finalName = props.name || "";
-        
+
         if (!validSubdivisionIsos.has(iso)) {
-          finalId = adminCode;
+          // Natural Earth ships pre-2023 ISO 3166-2 codes for several units
+          // and leaves some territories uncoded, so remap by name before
+          // falling back to the parent code (which renders an inert shape).
+          const NE_SHAPE_ID_FIXES = {
+            "IND:Uttarakhand": "IN-UK",
+            "IND:Odisha": "IN-OD",
+            "IND:Chhattisgarh": "IN-CG",
+            "IND:Telangana": "IN-TS",
+            "ZAF:KwaZulu-Natal": "ZA-KZN",
+            "ZAF:Gauteng": "ZA-GP",
+            "MEX:Distrito Federal": "MX-CMX",
+            "MEX:": "MX-YUC", // Arrecife Alacranes reef, part of Yucatán
+            "USA:District of Columbia": "US-DC",
+            "AUS:Jervis Bay Territory": "AU-JBT",
+            "AUS:Macquarie Island": "AU-TAS", // politically part of Tasmania
+            "CHN:Paracel Islands": "CN-HI" // administered under Hainan
+          };
+          const remapped = NE_SHAPE_ID_FIXES[`${adminCode}:${finalName}`];
+          finalId = remapped && validSubdivisionIsos.has(remapped) ? remapped : adminCode;
+          if (finalId === "MX-YUC" && !finalName) finalName = "Arrecife Alacranes";
         }
         
         combinedFeatures.push({
